@@ -1,0 +1,38 @@
+{
+	"version": "0.2.0",
+	"configurations": [
+		{
+			"name": "Debug with Bun",
+			"type": "bun",
+			"request": "launch",
+
+			// The path to a JavaScript or TypeScript file to run.
+			"program": "${workspaceFolder}/server/src/index.ts",
+			"args": [],
+			"cwd": "${workspaceFolder}/server",
+
+			// The environment variables to pass to the program.
+			"env": {},
+
+			"watchMode": true,
+
+			// The path to the `bun` executable, defaults to your `PATH` environment variable.
+			"runtime": "bun",
+
+			// The arguments to pass to the `bun` executable, if any.
+			// Unlike `args`, these are passed to the executable itself, not the program.
+			"runtimeArgs": []
+
+			// "preLaunchTask": "prelaunch"
+		},
+		{
+			"type": "bun",
+			"request": "attach",
+			"name": "Attach to Bun",
+
+			// The URL of the WebSocket inspector to attach to.
+			// This value can be retrieved by using `bun --inspect`.
+			"url": "ws://localhost:6499/"
+		}
+	]
+}

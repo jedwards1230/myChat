@@ -1,0 +1,20 @@
+{
+	"extends": "expo/tsconfig.base",
+	"compilerOptions": {
+		"module": "es2022",
+		"strict": true,
+		"paths": {
+			"@/*": ["./src/*"],
+			"@db/*": ["../server/src/modules/*"],
+			"@bet/*": ["../server/src/types/*"]
+		}
+	},
+	"include": [
+		"**/*.ts",
+		"**/*.tsx",
+		".expo/types/**/*.ts",
+		"expo-env.d.ts",
+		"../server/src/modules/**/*.ts",
+		"../server/src/types/*.d.ts"
+	]
+}

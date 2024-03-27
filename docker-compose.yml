@@ -1,0 +1,47 @@
+version: "3.8"
+services:
+    postgres:
+        image: postgres:latest
+        container_name: postgres
+        volumes:
+            - ./db/pg:/var/lib/postgresql/data
+        ports:
+            - 5432:5432
+        environment:
+            POSTGRES_USER: admin
+            POSTGRES_PASSWORD: admin
+            POSTGRES_DB: ChatDB
+        restart: unless-stopped
+
+    server:
+        container_name: server
+        build:
+            context: .
+            dockerfile: Dockerfile
+        depends_on:
+            - postgres
+        ports:
+            - 3000:3000
+        # Useful for dev testing
+        # volumes:
+        # - ./server/src:/usr/src/app/src
+        environment:
+            - DB_HOST=postgres
+            # - OPENAI_API_KEY=your_openai_api_key
+            # - DEBUG_DB=false
+            # - EXPO_PUBLIC_API_URL='' # server host used for native clients
+        env_file:
+            - .env
+        restart: unless-stopped
+
+    mindsdb:
+        image: mindsdb/mindsdb
+        container_name: mindsdb
+        depends_on:
+            - postgres
+        ports:
+            - 47334:47334
+            - 47335:47335
+        volumes:
+            - ./db/mindsdb:/root/mdb_storage
+        restart: unless-stopped

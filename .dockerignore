@@ -1,0 +1,7 @@
+/**/db/
+/**/node_modules/
+/**/ios/
+/**/dist/
+/**/tests/
+
+/server/logs/
