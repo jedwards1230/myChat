@@ -17,14 +17,12 @@ export function AgentDialog({
 	className,
 	open,
 	onClose,
-	edit = false,
 }: {
 	existingAgent?: Agent | null;
 	children?: React.ReactNode;
 	className?: string;
 	open?: boolean;
 	onClose?: () => void;
-	edit?: boolean;
 }) {
 	const [agent, setAgent] = useState<Agent | null>(existingAgent || null);
 	useEffect(() => setAgent(existingAgent || null), [existingAgent]);

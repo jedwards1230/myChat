@@ -5,6 +5,7 @@ import {
 	DropdownMenuContent,
 	DropdownMenuGroup,
 	DropdownMenuItem,
+	DropdownMenuShortcut,
 	DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Text } from "@/components/ui/Text";
@@ -13,6 +14,9 @@ import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation
 import { getTokenCount } from "@/lib/tokenizer";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 import { AgentDialog } from "../../agent/AgentDialog.web";
+import { ModelManagerDialog } from "@/components/Dialogs/ModelManager.web";
+import { useModelStore } from "@/lib/stores/modelStore";
+import { Entypo } from "@/components/ui/Icon";
 
 export function Dropdown({
 	children,
@@ -21,9 +25,12 @@ export function Dropdown({
 	children: React.ReactNode;
 	className?: string;
 }) {
+	const { model } = useModelStore();
 	const { threadId } = useConfigStore();
+
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
+	const [modelManagerOpen, setModelManagerOpen] = useState(false);
 
 	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
 	const { data: messages } = useMessagesQuery(threadId);
@@ -40,6 +47,7 @@ export function Dropdown({
 	}, [messages]);
 
 	const openAgentMenu = () => setAgentOpen(true);
+	const openModelManager = () => setModelManagerOpen(true);
 
 	const actions = [
 		{
@@ -48,6 +56,14 @@ export function Dropdown({
 		{
 			label: "View Agent",
 			onPress: openAgentMenu,
+			icon: Entypo,
+			iconLabel: "chevron-right",
+		},
+		{
+			label: model.name,
+			onPress: openModelManager,
+			icon: Entypo,
+			iconLabel: "chevron-right",
 		},
 		{
 			label: "Delete Thread",
@@ -76,12 +92,21 @@ export function Dropdown({
 								}
 							>
 								<Text>{action.label}</Text>
+								{action.icon && (
+									<DropdownMenuShortcut>
+										<action.icon name={action.iconLabel as any} />
+									</DropdownMenuShortcut>
+								)}
 							</DropdownMenuItem>
 						))}
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
 			<AgentDialog open={agentOpen} onClose={() => setAgentOpen(false)} />
+			<ModelManagerDialog
+				open={modelManagerOpen}
+				onClose={() => setModelManagerOpen(false)}
+			/>
 		</>
 	);
 }
