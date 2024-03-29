@@ -9,17 +9,14 @@ const postChatRequest = async (
 	userId: string,
 	stream: boolean = false
 ) =>
-	fetcher<Message>(
-		[`/chat`, userId],
-		{
-			method: "POST",
-			body: JSON.stringify({
-				threadId,
-				stream,
-			}),
-		},
-		stream
-	);
+	fetcher<Message>([`/chat`, userId], {
+		method: "POST",
+		body: JSON.stringify({
+			threadId,
+			stream,
+		}),
+		stream,
+	});
 
 export type PostChatRequest = {
 	threadId: string | null;

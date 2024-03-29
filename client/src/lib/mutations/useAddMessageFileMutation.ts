@@ -18,9 +18,7 @@ const postMessage = async (
 	const formData = await buildFormData(fileList);
 	const message = await fetcher<Message>(
 		[`/threads/${threadId}/messages/${messageId}/files`, userId],
-		{ method: "POST", body: formData },
-		false,
-		true
+		{ method: "POST", body: formData, file: true }
 	);
 	return message;
 };
@@ -52,6 +50,6 @@ export const useAddMessageFileMutation = () => {
 
 const buildFormData = async (fileList: CacheFile[]) => {
 	const formData = new FormData();
-	Array.from(fileList).forEach((f) => formData.append("files", f.file as File));
+	Array.from(fileList).forEach((f) => f.file && formData.append("files", f.file));
 	return formData;
 };

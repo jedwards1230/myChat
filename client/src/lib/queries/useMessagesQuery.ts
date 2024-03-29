@@ -4,7 +4,6 @@ import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "../utils";
 import { Message } from "@/types";
 import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
-import { useState } from "react";
 
 const fetchMessages = (threadId: string | null, userId: string) => () =>
 	fetcher<Message[]>([`/threads/${threadId}/messages`, userId]);

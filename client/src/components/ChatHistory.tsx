@@ -24,7 +24,7 @@ export default function ChatHistory({
 	const activeThreadId = useConfigStore((state) => state.threadId);
 	const threadId = threadIdOverride || activeThreadId;
 
-	const { data: messages, isPending, isError, error } = useMessagesQuery(threadId);
+	const { data: messages, isPending, isError } = useMessagesQuery(threadId);
 	const messageGroups = useMemo(() => groupMessages(messages), [messages]);
 
 	const viewRef = useRef<View>(null);

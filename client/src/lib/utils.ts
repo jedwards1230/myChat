@@ -36,9 +36,10 @@ export class FetchError extends Error {
  * */
 export async function fetcher<T = any>(
 	[url, userId]: AuthParams,
-	init?: FetchRequestInit | undefined,
-	stream = false,
-	file = false
+	{ stream, file, ...init }: FetchRequestInit & { stream?: boolean; file?: boolean } = {
+		stream: false,
+		file: false,
+	}
 ): Promise<T> {
 	try {
 		const res = await fetch(BASE_HOST + "/api" + url, {

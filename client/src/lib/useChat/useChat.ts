@@ -10,7 +10,7 @@ import { useAddMessageFileMutation } from "../mutations/useAddMessageFileMutatio
 
 export type FormSubmission = (input: string) => Promise<true | void>;
 
-type ChatStatus = "idle" | "loading" | "error";
+type ChatStatus = "idle" | "loading";
 type RequestStatus =
 	| "ready"
 	| "no-thread"
@@ -20,11 +20,7 @@ type RequestStatus =
 	| "requesting-chat"
 	| "chat-requested";
 
-export const useChat = (): {
-	loading: boolean;
-	handleSubmit: FormSubmission;
-	abort: () => void;
-} => {
+export function useChat() {
 	const threadId = useConfigStore((state) => state.threadId);
 	const fileList = useFileStore((state) => state.fileList);
 
@@ -36,44 +32,54 @@ export const useChat = (): {
 
 	const { requestChat, abort, loading } = useResponseChat();
 
-	const {
-		mutate: sendMessage,
-		data: message,
-		reset: resetMessage,
-		status: mStatus,
-	} = useAddMessageMutation();
-	const { mutate: createThread, data: thread } = useCreateThreadMutation();
-	const { mutate: addMessageFile } = useAddMessageFileMutation();
+	const addMessageMut = useAddMessageMutation();
+	useEffect(() => {
+		if (addMessageMut.status === "error")
+			console.error({ addMessageMut: addMessageMut.error });
+	}, [addMessageMut.status]);
+
+	const createThreadMut = useCreateThreadMutation();
+	useEffect(() => {
+		if (createThreadMut.status === "error")
+			console.error({ createThreadMut: createThreadMut.error });
+	}, [createThreadMut.status]);
+
+	const addMessageFileMut = useAddMessageFileMutation();
+	useEffect(() => {
+		if (addMessageFileMut.status === "error")
+			console.error({ addMessageFileMut: addMessageFileMut.error });
+	}, [addMessageFileMut.status]);
+
+	const reset = () => {
+		setReqStatus(threadId ? "ready" : "no-thread");
+		setChatStatus("idle");
+		addMessageMut.reset();
+		createThreadMut.reset();
+		addMessageFileMut.reset();
+	};
 
 	useEffect(() => {
-		if (reqStatus === "creating-thread" && thread) {
+		if (reqStatus === "creating-thread" && createThreadMut.data) {
 			setReqStatus("ready");
 		}
-	}, [thread]);
+	}, [createThreadMut.data]);
 
 	useEffect(() => {
-		if (mStatus === "error") {
-			setChatStatus("error");
-			console.error({ mStatus });
-		}
-	}, [mStatus]);
-
-	useEffect(() => {
-		if (chatStatus !== "loading") return;
+		if (chatStatus === "idle") return;
 		if (reqStatus === "creating-thread") return;
 
 		switch (reqStatus) {
 			case "no-thread":
-				createThread();
+				createThreadMut.mutate();
 				setReqStatus("creating-thread");
 				break;
 
 			case "ready":
-				const id = thread?.id || threadId;
+				const id = createThreadMut.data?.id || threadId;
 				if (!id) return setReqStatus("no-thread");
 
-				if (mStatus === "idle") {
-					sendMessage({
+				if (addMessageMut.status === "idle") {
+					addMessageMut.mutate({
 						threadId: id,
 						message: {
 							role: "user",
@@ -86,13 +92,13 @@ export const useChat = (): {
 				break;
 
 			case "message-sent":
-				if (mStatus !== "success") return;
+				if (addMessageMut.status !== "success") return;
 				if (fileList.length > 0) {
-					if (!message) throw new Error("No message");
+					if (!addMessageMut.data) throw new Error("No message");
 					if (!threadId) throw new Error("No threadId");
-					addMessageFile({
+					addMessageFileMut.mutate({
 						threadId,
-						messageId: message?.id,
+						messageId: addMessageMut.data?.id,
 						fileList,
 					});
 					setReqStatus("adding-files");
@@ -101,19 +107,19 @@ export const useChat = (): {
 				}
 
 			case "requesting-chat":
-				if (mStatus === "success") {
+				if (addMessageMut.status === "success") {
 					requestChat();
 					setReqStatus("chat-requested");
 				}
 				break;
 
 			case "chat-requested":
-				resetMessage();
+				reset();
 				setChatStatus("idle");
 				setReqStatus("ready");
 				break;
 		}
-	}, [reqStatus, chatStatus, mStatus, threadId]);
+	}, [reqStatus, chatStatus, addMessageMut.status, threadId]);
 
 	const handleSubmit: FormSubmission = async (input) => {
 		try {
@@ -121,7 +127,6 @@ export const useChat = (): {
 			setInput(input);
 			setChatStatus("loading");
 		} catch (error) {
-			setChatStatus("error");
 			setReqStatus(threadId ? "ready" : "no-thread");
 
 			console.error(error);
@@ -134,9 +139,9 @@ export const useChat = (): {
 		handleSubmit,
 		abort,
 	};
-};
+}
 
-const useResponseChat = () => {
+function useResponseChat() {
 	const stream = useConfigStore((state) => state.stream);
 	return stream ? useStreamChat() : useJSONChat();
-};
+}

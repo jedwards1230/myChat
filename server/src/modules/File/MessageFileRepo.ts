@@ -12,9 +12,9 @@ export const MessageFileRepo = AppDataSource.getTreeRepository(MessageFile).exte
 	async addFileList(
 		fileList: AsyncIterableIterator<MultipartFile>,
 		message: Message
-	): Promise<MessageFile[]> {
+	): Promise<Message> {
 		try {
-			return AppDataSource.manager.transaction(async (manager) => {
+			const newMsg = await AppDataSource.manager.transaction(async (manager) => {
 				const res: MessageFile[] = [];
 				for await (const file of fileList) {
 					const fileData = await manager.save(FileData, {
@@ -29,11 +29,17 @@ export const MessageFileRepo = AppDataSource.getTreeRepository(MessageFile).exte
 						message,
 					});
 
-					const newFile = await manager.save(MessageFile, messageFile);
-					res.push(newFile);
+					res.push(messageFile);
 				}
-				return res;
+
+				const newFiles = await manager.save(MessageFile, res);
+
+				message.files = message.files ? message.files.concat(newFiles) : newFiles;
+				const newMsg = await manager.save(Message, message);
+
+				return newMsg;
 			});
+			return newMsg;
 		} catch (error) {
 			logger.error("Error in MessageFileRepo.addFileList", { error });
 			throw error;

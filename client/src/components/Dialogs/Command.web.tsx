@@ -14,6 +14,7 @@ import { FontAwesome } from "@/components/ui/Icon";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 import { fetcher } from "@/lib/utils";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function CommandDialog({
 	open,
@@ -24,9 +25,12 @@ export function CommandDialog({
 }) {
 	const { threadId, user } = useConfigStore();
 	const deleteThreadMutation = useDeleteThreadMutation(threadId);
+	const queryClient = useQueryClient();
 
-	const resetDb = () =>
-		fetcher(["/reset", user.id]).then(() => console.log("DB Reset"));
+	const resetDb = async () => {
+		await fetcher(["/reset", user.id]);
+		queryClient.invalidateQueries();
+	};
 
 	const items = [
 		{
@@ -56,9 +60,8 @@ export function CommandDialog({
 					{items.map(({ label, Icon, iconName, onClick, hidden }, i) =>
 						!hidden ? (
 							<CommandItem
+								className="flex flex-row items-center gap-2 !cursor-pointer"
 								onSelect={onClick}
-								onClick={onClick}
-								className="flex items-center gap-2"
 								key={i}
 							>
 								<Icon name={iconName} />

@@ -22,14 +22,14 @@ export const MessageGroup = ({
 	isLoading: boolean;
 	messageGroups: ChatMessageGroup[];
 }) => {
-	const isLastMessageGroup = isLoading && index === messageGroups.length - 1;
+	const isLastMessageGroup = index === messageGroups.length - 1;
 	const editGroupId = useGroupStore((s) => s.editGroupId);
 	const editMode = editGroupId === item.id;
 
 	return (
 		<View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
 			<MessageGroupBubble editMode={editMode} group={item} />
-			{isLastMessageGroup && <ActivityIndicator />}
+			{isLoading && isLastMessageGroup && <ActivityIndicator />}
 		</View>
 	);
 };

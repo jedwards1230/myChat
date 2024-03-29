@@ -34,10 +34,7 @@ export class MessageFileController {
 		const message = req.message;
 
 		const filesRaw = req.files();
-		const files = await MessageFileRepo.addFileList(filesRaw, message);
-
-		message.files = files;
-		const newMsg = await MessageRepo.save(message);
+		const newMsg = await MessageFileRepo.addFileList(filesRaw, message);
 
 		res.send(newMsg);
 	}

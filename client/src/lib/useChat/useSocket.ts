@@ -17,6 +17,12 @@ const useSocket = () => {
 	useEffect(() => setSocketUrl(formatUrl(host, user.id)), [host, user.id]);
 
 	const [ws, setWs] = useState<WebSocket | null>(null);
+
+	const resetWs = () => {
+		ws?.close();
+		setWs(null);
+	};
+
 	const sendJsonMessage = (message: SocketClientMessage, keep?: boolean) => {
 		if (ws) {
 			ws.send(JSON.stringify(message));
@@ -63,10 +69,10 @@ const useSocket = () => {
 	const abort = () => {
 		sendJsonMessage({ type: "abort" });
 		setLoading(false);
-		ws?.close();
+		resetWs();
 	};
 
-	useEffect(() => {
+	/* useEffect(() => {
 		switch (readyState) {
 			case ReadyState.CONNECTING:
 				setLoading(true);
@@ -75,16 +81,16 @@ const useSocket = () => {
 				setLoading(false);
 				break;
 			case ReadyState.CLOSING:
-				setLoading(true);
+				setLoading(false);
 				break;
 			case ReadyState.CLOSED:
-				setLoading(true);
+				setLoading(false);
 				break;
 			case ReadyState.UNINSTANTIATED:
 				setLoading(true);
 				break;
 		}
-	}, [readyState]);
+	}, [readyState]); */
 
 	const requestChatResponse = async (threadId: string) => {
 		if (readyState === 1) {
