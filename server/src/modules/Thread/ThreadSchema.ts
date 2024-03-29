@@ -1,13 +1,14 @@
-import { Type, type Static } from "@sinclair/typebox";
-import { AgentObjectSchema } from "../Agent/AgentSchema";
-import { MessageSchema } from "../Message/MessageSchema";
+import { Type, type Static } from "@fastify/type-provider-typebox";
+
+import { AgentObjectSchema } from "../Agent";
+import { MessageObjectSchema } from "../Message";
 
 export const ThreadSchema = Type.Object({
 	id: Type.String(),
 	created: Type.String(),
 	lastModified: Type.String(),
-	activeMessage: Type.Optional(MessageSchema),
-	messages: Type.Optional(Type.Array(MessageSchema)),
+	activeMessage: Type.Optional(MessageObjectSchema),
+	messages: Type.Optional(Type.Array(MessageObjectSchema)),
 	title: Type.Optional(Type.String()),
 	agent: Type.Optional(AgentObjectSchema),
 	version: Type.Optional(Type.Number()),

@@ -2,8 +2,7 @@ import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import type { Message } from "@/modules/Message/MessageModel";
-import { MessageRepo } from "@/modules/Message/MessageRepo";
+import { MessageRepo, type Message } from "@/modules/Message";
 
 export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 	return async function getMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -25,10 +24,9 @@ export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 
 			request.message = message;
 		} catch (error) {
-			// error for missing item in db
-			logger.error("Error in getThread", {
+			logger.error("Error in getMessage", {
 				error,
-				functionName: "getThread",
+				functionName: "getMessage",
 			});
 			reply.status(500).send({
 				error: "An error occurred while processing your request.",

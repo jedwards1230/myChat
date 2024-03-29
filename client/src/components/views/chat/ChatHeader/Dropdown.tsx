@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 
+import { useConfigStore } from "@/lib/stores/configStore";
+import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
+import { getTokenCount } from "@/lib/tokenizer";
+import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -9,14 +14,9 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Text } from "@/components/ui/Text";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import { getTokenCount } from "@/lib/tokenizer";
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
-import { AgentDialog } from "../../agent/AgentDialog.web";
-import { ModelManagerDialog } from "@/components/Dialogs/ModelManager.web";
-import { useModelStore } from "@/lib/stores/modelStore";
+import { AgentDialog } from "@/components/Dialogs/AgentDialog.web";
 import { Entypo } from "@/components/ui/Icon";
+import { useAgentStore } from "@/lib/stores/modelStore";
 
 export function Dropdown({
 	children,
@@ -25,12 +25,11 @@ export function Dropdown({
 	children: React.ReactNode;
 	className?: string;
 }) {
-	const { model } = useModelStore();
 	const { threadId } = useConfigStore();
+	const agent = useAgentStore((state) => state.agent);
 
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
-	const [modelManagerOpen, setModelManagerOpen] = useState(false);
 
 	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
 	const { data: messages } = useMessagesQuery(threadId);
@@ -47,7 +46,6 @@ export function Dropdown({
 	}, [messages]);
 
 	const openAgentMenu = () => setAgentOpen(true);
-	const openModelManager = () => setModelManagerOpen(true);
 
 	const actions = [
 		{
@@ -56,12 +54,6 @@ export function Dropdown({
 		{
 			label: "View Agent",
 			onPress: openAgentMenu,
-			icon: Entypo,
-			iconLabel: "chevron-right",
-		},
-		{
-			label: model.name,
-			onPress: openModelManager,
 			icon: Entypo,
 			iconLabel: "chevron-right",
 		},
@@ -102,10 +94,10 @@ export function Dropdown({
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>
-			<AgentDialog open={agentOpen} onClose={() => setAgentOpen(false)} />
-			<ModelManagerDialog
-				open={modelManagerOpen}
-				onClose={() => setModelManagerOpen(false)}
+			<AgentDialog
+				existingAgent={agent}
+				open={agentOpen}
+				onClose={() => setAgentOpen(false)}
 			/>
 		</>
 	);

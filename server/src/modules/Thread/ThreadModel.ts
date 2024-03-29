@@ -13,9 +13,9 @@ import {
 	VersionColumn,
 } from "typeorm";
 
-import { User } from "../User/UserModel";
-import { Agent } from "../Agent/AgentModel";
-import { Message } from "../Message/MessageModel";
+import { User } from "../User";
+import { Agent } from "../Agent";
+import { Message } from "../Message";
 
 @Entity("Thread")
 export class Thread extends BaseEntity {

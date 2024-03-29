@@ -2,10 +2,9 @@ import { Equal, type FindOneOptions } from "typeorm";
 
 import { AppDataSource } from "@/lib/pg";
 
-import { Thread } from "@/modules/Thread/ThreadModel";
-import { Message } from "@/modules/Message/MessageModel";
-import type { User } from "@/modules/User/UserModel";
-import logger from "@/lib/logs/logger";
+import { Thread } from "@/modules/Thread";
+import { Message } from "@/modules/Message";
+import type { User } from "@/modules/User";
 
 export const ThreadRepo = AppDataSource.getRepository(Thread).extend({
 	getThreadById: async (
@@ -31,12 +30,12 @@ export const ThreadRepo = AppDataSource.getRepository(Thread).extend({
 				throw new Error("No parent message found");
 			}
 
-			const newMsg = await manager.save(Message, message);
+			const newMsg = await manager.save(Message, { ...message, thread });
 
 			thread.activeMessage = newMsg;
-			thread.messages = [...thread.messages, newMsg];
+			const newThread = await manager.save(Thread, thread);
 
-			return manager.save(Thread, thread);
+			return newThread;
 		});
 	},
 

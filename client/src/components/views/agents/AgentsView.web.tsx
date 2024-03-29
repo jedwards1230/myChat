@@ -9,7 +9,7 @@ import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/lib/queries/useAgentsQuery";
 import { Agent } from "@/types";
 import { Button } from "@/components/ui/Button";
-import { AgentDialog } from "../agent/AgentDialog.web";
+import { AgentDialog } from "../../Dialogs/AgentDialog.web";
 
 export function AgentsView() {
 	const { data, isSuccess, error } = useAgentsQuery();

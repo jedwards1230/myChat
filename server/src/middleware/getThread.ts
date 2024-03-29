@@ -1,8 +1,7 @@
 import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
-import type { Thread } from "@/modules/Thread/ThreadModel";
+import { ThreadRepo, type Thread } from "@/modules/Thread";
 import logger from "@/lib/logs/logger";
 
 export function getThread(relations?: FindOneOptions<Thread>["relations"]) {

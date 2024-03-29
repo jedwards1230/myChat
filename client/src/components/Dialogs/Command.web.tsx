@@ -25,7 +25,8 @@ export function CommandDialog({
 	const { threadId, user } = useConfigStore();
 	const deleteThreadMutation = useDeleteThreadMutation(threadId);
 
-	const resetDb = () => fetcher(["/reset", user.id]);
+	const resetDb = () =>
+		fetcher(["/reset", user.id]).then(() => console.log("DB Reset"));
 
 	const items = [
 		{

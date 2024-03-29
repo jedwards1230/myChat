@@ -1,122 +1,37 @@
-import { ChatCompletionStream } from "openai/resources/beta/chat/completions";
-import type { ChatCompletion } from "openai/resources/index";
+import type { FastifyReply, FastifyRequest } from "fastify";
 
-import type { Connection } from "@/lib/ws";
 import logger from "@/lib/logs/logger";
-import { wsHandler } from "@/index";
-import { StreamResponseController } from "./StreamResponseController";
-
-import { MessageRepo } from "@/modules/Message/MessageRepo";
-import type { Message } from "@/modules/Message/MessageModel";
-import type { Role } from "@/modules/Message/RoleModel";
-
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
-import { Thread } from "@/modules/Thread/ThreadModel";
-
-import type { User } from "@/modules/User/UserModel";
-import type { SocketSession } from "@/modules/User/SessionModel";
-
-import { NexusDispatcher } from "@/modules/Models/LLMInterface";
+import { ThreadRepo } from "@/modules/Thread";
 
 export class ThreadController {
-	static async generateTitle(thread: Thread) {
-		if (!thread.activeMessage) throw new Error("No active message in thread");
-		const messages = await MessageRepo.getMessageHistoryList(
-			thread.activeMessage,
-			true
-		);
-		const title = await NexusDispatcher.createTitleFromChatHistory(messages);
-		thread.title = title;
-		await ThreadRepo.update(thread.id, { title });
-		return title;
+	static async createThread(request: FastifyRequest, reply: FastifyReply) {
+		const user = request.user;
+		const thread = await ThreadRepo.createThread(user);
+		reply.send(thread);
 	}
 
-	static async saveResponse(
-		thread: Thread,
-		response: ChatCompletionStream | ChatCompletion,
-		conn?: Connection
-	) {
-		if (response instanceof ChatCompletionStream) {
-			if (!conn) throw new Error("No WebSocket connection");
-			StreamResponseController.processResponse(thread, response, conn);
-		} else {
-			if (!thread.activeMessage) throw new Error("No active message in thread");
-			const responseMsg = response.choices[0].message;
-
-			logger.debug("Adding Message", {
-				functionName: "ThreadController.saveResponse",
-			});
-			ThreadRepo.addMessage(thread, {
-				role: responseMsg.role as Role,
-				content: Array.isArray(responseMsg.content)
-					? responseMsg.content.join(" ")
-					: responseMsg.content?.toString(),
-				parent: thread.activeMessage,
-			});
-		}
+	static async updateThread(request: FastifyRequest, reply: FastifyReply) {
+		return reply.send("TODO");
 	}
 
-	static processResponse = async (
-		{
-			threadId,
-			user,
-			session,
-		}: {
-			threadId?: string | null;
-			user: User;
-			session?: SocketSession;
-		},
-		stream: boolean
-	) => {
+	static async deleteThread(request: FastifyRequest, reply: FastifyReply) {
+		const thread = request.thread;
+
 		try {
-			const thread = await ThreadRepo.getOrCreateThread(user, threadId);
-			if (!thread) {
-				return {
-					success: false,
-					error: {
-						message: "Thread not found",
-						code: 404,
-					},
-				};
+			const deletedThread = await ThreadRepo.deleteThread(request.user, thread.id);
+
+			if (!deletedThread) {
+				return reply.status(500).send({
+					error: "(ThreadController.deleteThread) An error occurred while processing your request.",
+				});
 			}
 
-			if (!thread.activeMessage) {
-				return {
-					success: false,
-					error: {
-						message: "No active message found",
-						code: 404,
-					},
-				};
-			}
-
-			const response = await ThreadController.generateChatResponse(
-				thread.activeMessage,
-				stream
-			);
-			let conn: Connection | undefined;
-			if (stream && session) {
-				conn = wsHandler.get(session.id);
-			}
-			await ThreadController.saveResponse(thread, response, conn);
-
-			return { success: true, thread, response };
+			reply.send(deletedThread);
 		} catch (error) {
-			logger.error("Error processing response", { error });
-			return {
-				success: false,
-				error: {
-					message: `Error processing response ${
-						JSON.stringify(error) || error
-					}`,
-					code: 500,
-				},
-			};
+			logger.error("Error in DELETE /thread/:threadId", error);
+			reply.status(500).send({
+				error: "An error occurred while processing your request.",
+			});
 		}
-	};
-
-	private static async generateChatResponse(activeMessage: Message, stream = false) {
-		const messages = await MessageRepo.getMessageHistoryList(activeMessage, true);
-		return NexusDispatcher.createChatCompletion(messages, stream);
 	}
 }

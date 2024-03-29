@@ -1,11 +1,33 @@
-import { View } from "react-native";
+import { Switch, View } from "react-native";
 
 import type { Agent } from "@/types";
 import { Text } from "@/components/ui/Text";
+import { RowItem, Section } from "@/components/ui/Section";
+import { Textarea } from "@/components/ui/Textarea";
 
 export function AgentView({ agent }: { agent: Agent }) {
 	return (
 		<View className="w-full p-2">
+			<Section title="System Message">
+				<Text>{agent?.systemMessage}</Text>
+				{/* <Textarea
+					className="max-h-64 text-foreground"
+					value={agent?.systemMessage}
+				/> */}
+			</Section>
+
+			<Section title="Tools">
+				<RowItem>
+					<Text>Enabled</Text>
+					<Switch style={{ transform: [{ scaleX: 0.8 }, { scaleY: 0.8 }] }} />
+				</RowItem>
+				{agent?.tools?.map((tool) => (
+					<RowItem key={tool}>
+						<Text>{tool}</Text>
+					</RowItem>
+				))}
+			</Section>
+
 			<Text className="overflow-y-scroll !border max-h-32 !border-input">
 				{agent?.systemMessage}
 			</Text>

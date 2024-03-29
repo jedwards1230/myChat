@@ -23,8 +23,11 @@ export const useJSONChat = () => {
 		}
 	};
 
+	const abort = () => {};
+
 	return {
 		requestChat,
+		abort,
 		loading,
 		messages,
 	};

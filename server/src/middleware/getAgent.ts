@@ -2,8 +2,7 @@ import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import type { Agent } from "@/modules/Agent/AgentModel";
-import { AgentRepo } from "@/modules/Agent/AgentRepo";
+import { AgentRepo, type Agent } from "@/modules/Agent";
 
 export function getAgent(relations?: FindOneOptions<Agent>["relations"]) {
 	return async function getAgent(request: FastifyRequest, reply: FastifyReply) {

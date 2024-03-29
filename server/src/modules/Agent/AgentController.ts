@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { AgentRepo } from "./AgentRepo";
 import type { AgentCreateSchema } from "./AgentSchema";
 
-export default class AgentController {
+export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
 		const agent = request.body as AgentCreateSchema;

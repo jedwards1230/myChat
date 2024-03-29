@@ -37,13 +37,14 @@ export class FetchError extends Error {
 export async function fetcher<T = any>(
 	[url, userId]: AuthParams,
 	init?: FetchRequestInit | undefined,
-	stream = false
+	stream = false,
+	file = false
 ): Promise<T> {
 	try {
 		const res = await fetch(BASE_HOST + "/api" + url, {
 			...init,
 			headers: {
-				"Content-Type": "application/json",
+				...(!file && { "Content-Type": "application/json" }),
 				Authorization: userId,
 				...(init?.headers || {}),
 			},

@@ -9,8 +9,8 @@ import {
 	CreateDateColumn,
 	VersionColumn,
 } from "typeorm";
-import { User } from "../User/UserModel";
-import { Thread } from "../Thread/ThreadModel";
+import { User } from "../User";
+import { Thread } from "../Thread";
 import { cleanedSystemMessage } from "@/modules/Models/Tools/browser/browser";
 
 const defaultAgent: Partial<Agent> = {

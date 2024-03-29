@@ -10,8 +10,8 @@ interface Error {
 interface GetChat {
 	type: "getChat";
 	data: {
-		threadId?: string | null;
-		userId?: string;
+		threadId: string;
+		userId: string;
 	};
 }
 
@@ -35,10 +35,10 @@ interface FinalMessage {
 	data: boolean;
 }
 
-interface TestMessage {
-	type: "test";
+interface AbortMessage {
+	type: "abort";
 }
 
-export type SocketClientMessage = Error | GetChat | TestMessage;
+export type SocketClientMessage = Error | GetChat | AbortMessage;
 
 export type SocketServerMessage = Error | Chunk | Content | Tool | FinalMessage;

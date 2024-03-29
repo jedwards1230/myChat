@@ -11,7 +11,7 @@ export default function ChatInput({
 	setInput: (input: string) => void;
 	handleSubmit: () => void;
 }) {
-	const ref = useRef<(typeof Input)["prototype"] | null>(null);
+	const ref = useRef<any | null>(null);
 	const threadId = useConfigStore((state) => state.threadId);
 
 	useEffect(() => {

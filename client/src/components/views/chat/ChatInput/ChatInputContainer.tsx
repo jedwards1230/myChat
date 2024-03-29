@@ -9,10 +9,14 @@ import ChatInput from "./ChatInput";
 import { FileTray } from "./FileTray";
 import { useConfigStore } from "@/lib/stores/configStore";
 
-export default function ChatInputContainer({
+export function ChatInputContainer({
 	handleSubmit,
+	abort,
+	loading = false,
 }: {
 	handleSubmit: FormSubmission;
+	abort: () => void;
+	loading?: boolean;
 }) {
 	const threadId = useConfigStore((state) => state.threadId);
 	const [input, setInput] = useState("");
@@ -27,8 +31,7 @@ export default function ChatInputContainer({
 
 	const handleSend = async () => {
 		try {
-			const success = await handleSubmit(input);
-			if (!success) throw new Error("Failed to send message");
+			await handleSubmit(input);
 			setInput("");
 		} catch (error) {
 			alert(error);
@@ -46,7 +49,11 @@ export default function ChatInputContainer({
 						handleSubmit={handleSend}
 					/>
 					<FileButton triggerFileInput={triggerFileInput} />
-					<SendButton handleSend={handleSend} />
+					{loading ? (
+						<StopButton abort={abort} />
+					) : (
+						<SendButton handleSend={handleSend} />
+					)}
 				</View>
 			</View>
 		</View>
@@ -78,6 +85,17 @@ function SendButton({ handleSend }: { handleSend: () => void }) {
 				size={22}
 				className="text-foreground"
 			/>
+		</Pressable>
+	);
+}
+
+function StopButton({ abort }: { abort: () => void }) {
+	return (
+		<Pressable
+			onPress={abort}
+			className="absolute right-0 p-1 bg-transparent rounded-full web:right-2"
+		>
+			<MaterialIcons name="stop" size={22} className="text-foreground" />
 		</Pressable>
 	);
 }

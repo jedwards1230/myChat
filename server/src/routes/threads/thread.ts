@@ -2,17 +2,13 @@ import type { FastifyInstance } from "fastify";
 
 import logger from "@/lib/logs/logger";
 import { getThread } from "@/middleware/getThread";
-import { ThreadController } from "@/modules/Thread/ThreadController";
-import { ThreadListSchema } from "@/modules/Thread/ThreadSchema";
+import { AgentRunController } from "@/modules/AgentRun";
+import { ThreadListSchema } from "@/modules/Thread";
 
 export const setupThreadRoute = (app: FastifyInstance) => {
 	// GET Thread History for user
 	app.get("/", {
-		schema: {
-			response: {
-				200: ThreadListSchema,
-			},
-		},
+		schema: { response: { 200: ThreadListSchema } },
 		handler: async (request, reply) => reply.send(request.user.threads),
 	});
 
@@ -28,7 +24,7 @@ export const setupThreadRoute = (app: FastifyInstance) => {
 		handler: async (req, res) => {
 			try {
 				const thread = req.thread;
-				const title = await ThreadController.generateTitle(thread);
+				const title = await AgentRunController.generateTitle(thread);
 				if (!title) {
 					return res.status(500).send({
 						error: "(OpenAIService.createTitleFromChatHistory) An error occurred while processing your request.",

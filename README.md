@@ -8,7 +8,7 @@ ChatGPT clone. Definitely a WIP. This project was mostly to learn React Native a
 
 - Fastify
   - Serve static React files
-  - Route validation with `@sinclair/typebox`
+  - Route validation with `@fastify/type-provider-typebox`
   - Auto-generated OpenAPI docs with `@eropple/fastify-openapi3`
 - TypeORM & Postgres
 - OpenAI API

@@ -9,6 +9,7 @@ import { useUserQuery } from "@/lib/queries/useUserQuery";
 import { FetchError } from "@/lib/utils";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { Text } from "@/components/ui/Text";
+import { useAgentStore } from "@/lib/stores/modelStore";
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
 	const { setThreadId } = useConfigStore();
@@ -21,9 +22,14 @@ export function AppStateProvider({ children }: { children: React.ReactNode }) {
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const setUser = useConfigStore((state) => state.setUser);
+	const setAgent = useAgentStore((state) => state.setAgent);
+
 	const { data, isPending, isError, error, ...rest } = useUserQuery();
 	useEffect(() => {
-		if (data && !isError) setUser(data);
+		if (data && !isError) {
+			setUser(data);
+			setAgent(data.defaultAgent);
+		}
 	}, [data]);
 
 	if (isPending) return null;

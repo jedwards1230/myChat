@@ -6,6 +6,7 @@ import type { Message, SocketServerMessage } from "@/types";
 export const formatUrl = (host: string, userId: string) => {
 	const url = new URL(host);
 	url.protocol = "ws";
+	//return `${url.toString()}api/ws`;
 	return `${url.toString()}/${userId}`;
 };
 

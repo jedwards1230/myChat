@@ -32,7 +32,7 @@ export function AgentView({ agent }: { agent?: Agent | null }) {
 				<SecondaryInfo>
 					{agent?.threads?.length || "N/A"} Active Threads
 				</SecondaryInfo>
-				<SecondaryInfo>Owner: {agent?.owner?.id || "N/A"}</SecondaryInfo>
+				<SecondaryInfo>Owner: {agent?.owner || "N/A"}</SecondaryInfo>
 				<SecondaryInfo>ID: {agent?.id || "N/A"}</SecondaryInfo>
 			</View>
 		</>

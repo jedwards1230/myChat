@@ -15,10 +15,10 @@ import {
 	VersionColumn,
 } from "typeorm";
 
-import { Thread } from "../Thread/ThreadModel";
+import { Thread } from "../Thread/";
 import { type Role, roleList } from "./RoleModel";
 import { ToolCall } from "./ToolCallModel";
-import { MessageFile } from "../File/MessageFileModel";
+import { MessageFile } from "../File/";
 
 @Entity("Message")
 @Tree("closure-table")

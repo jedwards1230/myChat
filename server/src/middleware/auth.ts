@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { UserRepo } from "../modules/User/UserRepo";
+import { UserRepo } from "@/modules/User";
 import logger from "@/lib/logs/logger";
 
 export const authenticate = async (request: FastifyRequest, reply: FastifyReply) => {

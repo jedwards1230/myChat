@@ -10,7 +10,7 @@ import {
 	type Relation,
 } from "typeorm";
 
-import { Message } from "../Message/MessageModel";
+import { Message } from "@/modules/Message/";
 
 @Entity("FileData")
 export class FileData extends BaseEntity {
@@ -60,7 +60,7 @@ export class MessageFile extends BaseEntity {
 	@Column({ type: "boolean", default: false })
 	parsable: boolean;
 
-	// relation to Message. message can have multiple files in an array message.files
-	@ManyToOne(() => Message, (message) => message.files)
+	// relation to Message.
+	@ManyToOne(() => Message, (message) => message.files, { onDelete: "CASCADE" })
 	message: Relation<Message>;
 }

@@ -1,12 +1,11 @@
-import "reflect-metadata";
-
 import path from "path";
 import WebSocket from "ws";
 import Fastify from "fastify";
-import cors from "@fastify/cors";
-import fastifyStatic from "@fastify/static";
-import multipart from "@fastify/multipart";
-import OAS3Plugin, { type OAS3PluginOptions } from "@eropple/fastify-openapi3";
+import fastifyCors from "@fastify/cors";
+import fastifyMultipart from "@fastify/multipart";
+import fastifyOpenApi from "@eropple/fastify-openapi3";
+
+import type { OAS3PluginOptions } from "@eropple/fastify-openapi3";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
 import { initDb, resetDatabase } from "./lib/pg";
@@ -52,11 +51,9 @@ const app = Fastify({
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 // Middleware
-await app.register(cors, {
-	origin: "*",
-	exposedHeaders: ["X-Thread-Id"],
-});
-await app.register(multipart);
+await app.register(fastifyCors, { origin: "*" });
+//await app.register(fastifySocket);
+await app.register(fastifyMultipart);
 
 const pluginOpts: OAS3PluginOptions = {
 	openapiInfo: {
@@ -69,7 +66,7 @@ const pluginOpts: OAS3PluginOptions = {
 	},
 };
 
-await app.register(OAS3Plugin, { ...pluginOpts });
+await app.register(fastifyOpenApi, { ...pluginOpts });
 
 // Access Logger
 app.addHook("onRequest", (request, reply, done) => {
@@ -81,13 +78,20 @@ app.addHook("onRequest", (request, reply, done) => {
 });
 
 app.setErrorHandler(function (error, request, reply) {
-	logger.error(error);
+	logger.error("Fastify error", {
+		error,
+		params: request.params,
+		method: request.method,
+		url: request.url,
+		body: request.body,
+		headers: request.headers,
+	});
 	reply.status(409).send({ ok: false });
 });
 
 // Static Files
 if (process.env.NODE_ENV === "production") {
-	await app.register(fastifyStatic, {
+	await app.register(require("@fastify/static"), {
 		root: CLIENT_BUILD_DIR,
 		prefix: "/",
 		decorateReply: false,
@@ -96,19 +100,20 @@ if (process.env.NODE_ENV === "production") {
 
 // Api Routes
 await app.register(
-	async (fastify, opts) => {
+	async (app, opts) => {
 		// User Route
-		await fastify.register(async (fastify, opts) => setupUserRoute(fastify));
+		await app.register(async (app, opts) => setupUserRoute(app));
+
+		// Socket Route
+		//await app.register(async (app, opts) => setupWsRoute(app));
 
 		// Authenticated Routes
-		await fastify.register(async (fastify, opts) => {
-			fastify.addHook("preHandler", authenticate);
+		await app.register(async (app, opts) => {
+			app.addHook("preHandler", authenticate);
 
-			fastify.get(
+			app.get(
 				"/reset",
-				{
-					oas: { description: "Reset the database" },
-				},
+				{ oas: { description: "Reset the database" } },
 				async (req, res) => {
 					await resetDatabase();
 					await initDb();
@@ -118,26 +123,28 @@ await app.register(
 			);
 
 			// Threads Route
-			await fastify.register(
-				async (fastify, opts) => {
-					setupThreadsRoute(fastify);
-					setupThreadRoute(fastify);
-
-					// Messages Route
-					await fastify.register(
-						async (fastify, opts) => setupMessagesRoute(fastify),
-						{ prefix: "/:threadId/messages" }
-					);
+			await app.register(
+				async (app, opts) => {
+					setupThreadsRoute(app);
+					setupThreadRoute(app);
 				},
 				{ prefix: "/threads" }
 			);
 
-			// Agents Route
-			await fastify.register(async (fastify, opts) => setupAgentsRoute(fastify), {
-				prefix: "/agents",
+			// Messages Route
+			await app.register(async (app, opts) => setupMessagesRoute(app), {
+				prefix: "threads/:threadId/messages",
 			});
 
-			setupChatRoute(fastify);
+			// JSON Chat response
+			await app.register(async (app, opts) => setupChatRoute(app), {
+				prefix: "threads/:threadId/chat",
+			});
+
+			// Agents Route
+			await app.register(async (app, opts) => setupAgentsRoute(app), {
+				prefix: "/agents",
+			});
 		});
 	},
 	{ prefix: "/api" }
@@ -154,7 +161,6 @@ app.listen({ port, host: "0.0.0.0" }, (err, address) => {
 });
 
 const wssHttp = new WebSocket.Server({ server: app.server });
-
 const wsHandler = new WebSocketHandler();
 wsHandler.addListener(wssHttp);
 

@@ -5,13 +5,13 @@ import { useRouter } from "expo-router";
 
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 import { useConfigStore } from "@/lib/stores/configStore";
+import { Button } from "@/components/ui/Button";
+import { AntDesign } from "@/components/ui/Icon";
 import {
 	MessageGroup,
 	groupMessages,
 	type ChatMessageGroup,
 } from "@/components/MessageGroups/MessageGroup";
-import { Button } from "@/components/ui/Button";
-import { AntDesign } from "@/components/ui/Icon";
 
 export default function ChatHistory({
 	isLoading,

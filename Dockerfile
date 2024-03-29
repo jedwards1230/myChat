@@ -3,7 +3,6 @@
 FROM oven/bun:1 as base
 WORKDIR /usr/src/app
 RUN mkdir -p /usr/src/app/logs
-RUN mkdir -p /usr/src/app/db/uploads
 RUN chown -R bun:bun /usr/src/app
 
 # install dependencies into temp directory
@@ -41,7 +40,6 @@ COPY server/ .
 
 # relative to server root (/usr/src/app)
 ENV CLIENT_BUILD_DIR=./web
-ENV CLIENT_STORAGE_DIR=./db/uploads
 ENV NODE_ENV=production
 
 # run the app

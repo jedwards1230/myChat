@@ -6,7 +6,7 @@ import { useRouter } from "expo-router";
 import type { Thread } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import ChatHistory from "@/components/views/chat/ChatHistory";
+import ChatHistory from "@/components/ChatHistory";
 
 const menuConfig: MenuConfig = {
 	menuTitle: "",

@@ -10,12 +10,8 @@ import type { SocketServerMessage } from "@/types/wsResponse";
 import logger, { streamLogger } from "@/lib/logs/logger";
 import MessageQueue from "@/lib/queue";
 
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
-import { MessageRepo, ToolCallRepo } from "@/modules/Message/MessageRepo";
-
-import { Thread } from "@/modules/Thread/ThreadModel";
-import { ToolCall } from "@/modules/Message/ToolCallModel";
-import { Message } from "@/modules/Message/MessageModel";
+import { Thread, ThreadRepo } from "@/modules/Thread/";
+import { ToolCall, Message, MessageRepo, ToolCallRepo } from "@/modules/Message/";
 
 export class StreamResponseController {
 	static async processResponse(
@@ -41,11 +37,6 @@ export class StreamResponseController {
 		while (!mq.isEmpty(thread.id)) {
 			const message = mq.dequeue(thread.id);
 			if (!message) throw new Error("No message in queue");
-
-			log("Handling message", {
-				newMsg: message,
-				functionName: "processQueue",
-			});
 
 			let newMsg: Message | undefined;
 			if (message.role === "tool") {

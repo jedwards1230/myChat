@@ -16,7 +16,7 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { QueryClientProvider } from "@/providers/QueryClientProvider";
 import { HotkeyProvider } from "@/providers/HotkeyProvider";
 
-import { withNativeOnly } from "@/components/withNativeOnly";
+import { withNativeOnly } from "@/lib/withNativeOnly";
 import { PortalHost } from "@/components/primitives/portal";
 
 export const unstable_settings = {

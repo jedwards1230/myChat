@@ -1,13 +1,13 @@
 import type WebSocket from "ws";
 
-import { UserRepo } from "@/modules/User/UserRepo";
-import { ThreadController } from "@/modules/Thread/ThreadController";
-import type { SocketSession } from "@/modules/User/SessionModel";
+import logger from "./logs/logger";
+import MessageQueue from "./queue";
 import type { SocketClientMessage } from "@/types/wsResponse";
 import { authenticateWs } from "@/middleware/auth";
 
-import logger from "./logs/logger";
-import MessageQueue from "./queue";
+import { UserRepo, type SocketSession } from "@/modules/User";
+import { AgentRunController } from "@/modules/AgentRun";
+import { ThreadRepo } from "@/modules/Thread";
 
 export interface Connection {
 	ws: WebSocket;
@@ -73,23 +73,31 @@ export class WebSocketHandler {
 	async handleMessage(session: SocketSession, message: SocketClientMessage) {
 		switch (message.type) {
 			case "getChat":
-				const result = await ThreadController.processResponse(
-					{
-						threadId: message.data.threadId,
-						user: session.user,
-						session,
+				const thread = await ThreadRepo.findOne({
+					where: {
+						id: message.data.threadId,
+						user: { id: session.user.id },
 					},
-					true
-				);
-				if (result.error) logger.error(result.error.message);
+					relations: {
+						activeMessage: true,
+						messages: { files: { fileData: true } },
+					},
+				});
+				if (!thread) throw new Error("Thread not found");
+
+				await AgentRunController.processResponse({
+					thread,
+					session,
+					stream: true,
+				});
 				break;
 
 			case "error":
 				logger.error("Received error message", { error: message.data });
 				break;
 
-			case "test":
-				logger.debug("Received test message", { type: message.type });
+			case "abort":
+				logger.debug("Received abort message", { type: message.type });
 				break;
 			default:
 				logger.error("Unknown message type", { error: message });

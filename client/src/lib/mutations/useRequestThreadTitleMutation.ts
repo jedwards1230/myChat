@@ -4,7 +4,11 @@ import { fetcher } from "../utils";
 import { useConfigStore } from "@/lib/stores/configStore";
 
 const fetchTitle = (threadId: string | null, userId: string) => () =>
-	fetcher<string>([`/threads/title/${threadId}`, userId], { method: "POST" }, true);
+	fetcher<string>(
+		[`/threads/title/${threadId}`, userId],
+		{ method: "POST", headers: { "Content-Type": "text/plain" } },
+		true
+	);
 
 export const useRequestThreadTitleMutation = (threadId: string | null) => {
 	const user = useConfigStore((s) => s.user);

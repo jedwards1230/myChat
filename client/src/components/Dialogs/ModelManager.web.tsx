@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogTitle,
 } from "@/components/ui/Dialog";
-import { useModelStore } from "@/lib/stores/modelStore";
+import { useAgentStore } from "@/lib/stores/modelStore";
 import { Text } from "@/components/ui/Text";
 import {
 	Select,
@@ -20,6 +20,8 @@ import {
 } from "../ui/Select";
 import { modelList } from "@/lib/models/models";
 import { Model } from "@/lib/models/types";
+import { Switch } from "../ui/Switch";
+import { Textarea } from "../ui/Textarea";
 
 export function ModelManagerDialog({
 	open,
@@ -30,13 +32,11 @@ export function ModelManagerDialog({
 }) {
 	const DialogRef = useRef<HTMLElement>(null);
 
-	const { stream, toggleStream } = useModelStore();
-
 	return (
 		<Dialog open={open} onOpenChange={onClose} className="w-full">
 			<DialogContent
 				ref={DialogRef as unknown as React.RefObject<View>}
-				className="flex flex-col justify-center w-full text-foreground"
+				className="flex flex-col justify-center w-[60vw] text-foreground"
 			>
 				<DialogTitle className="text-center">Model Manager</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
@@ -45,8 +45,12 @@ export function ModelManagerDialog({
 						<SelectModel container={DialogRef.current} />
 					</View>
 					<View>
+						<Text>Initial System Message</Text>
+						<InitialSystemMessage />
+					</View>
+					<View>
 						<Text>Stream</Text>
-						<Text>{stream}</Text>
+						<StreamToggle />
 					</View>
 				</DialogDescription>
 			</DialogContent>
@@ -54,8 +58,18 @@ export function ModelManagerDialog({
 	);
 }
 
+function InitialSystemMessage() {
+	const { stream, setStream } = useAgentStore();
+	return <Textarea />;
+}
+
+function StreamToggle() {
+	const { stream, setStream } = useAgentStore();
+	return <Switch checked={stream} onCheckedChange={setStream} />;
+}
+
 function SelectModel({ container }: { container: HTMLElement | null }) {
-	const { model, setModel } = useModelStore();
+	const { model, setModel } = useAgentStore();
 	const models = modelList;
 	return (
 		<Select

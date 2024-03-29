@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
-import { AgentView } from "./AgentView";
+import { AgentView } from "../views/agent/AgentView";
 
 export function AgentDialog({
 	existingAgent,
@@ -35,7 +35,7 @@ export function AgentDialog({
 				</DialogTrigger>
 			)}
 
-			<DialogContent className="flex flex-col justify-center text-foreground">
+			<DialogContent className="flex flex-col min-w-[60vw] justify-center text-foreground">
 				<DialogTitle className="text-center">Agent</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<AgentView agent={agent} />
