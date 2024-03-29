@@ -1,7 +1,8 @@
 import type { FastifyInstance } from "fastify";
 
 import { getThread } from "@/middleware/getThread";
-import { ThreadSchema, ThreadController } from "@/modules/Thread";
+import { ThreadSchema } from "@/modules/Thread/ThreadSchema";
+import { ThreadController } from "@/modules/Thread/ThreadController";
 
 export const setupThreadsRoute = (app: FastifyInstance) => {
 	// GET Thread by ID

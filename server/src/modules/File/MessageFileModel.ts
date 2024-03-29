@@ -10,7 +10,7 @@ import {
 	type Relation,
 } from "typeorm";
 
-import { Message } from "@/modules/Message/";
+import { Message } from "@/modules/Message/MessageModel";
 
 @Entity("FileData")
 export class FileData extends BaseEntity {

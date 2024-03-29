@@ -3,12 +3,14 @@ import { DataSource } from "typeorm";
 import logger from "./logs/logger";
 import { DBLogger } from "./logs/dbLogger";
 
-import { User, SocketSession } from "@/modules/User";
-import { Agent } from "@/modules/Agent";
-import { Thread } from "@/modules/Thread";
-import { Message, ToolCall } from "@/modules/Message";
-import { FileData, MessageFile } from "@/modules/File";
-import { AgentRun } from "@/modules/AgentRun";
+import { User } from "@/modules/User/UserModel";
+import { Agent } from "@/modules/Agent/AgentModel";
+import { Thread } from "@/modules/Thread/ThreadModel";
+import { Message } from "@/modules/Message/MessageModel";
+import { FileData, MessageFile } from "@/modules/File/MessageFileModel";
+import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
+import { SocketSession } from "@/modules/User/SessionModel";
+import { ToolCall } from "@/modules/Message/ToolCallModel";
 
 // TODO: setup env vars
 export const AppDataSource = new DataSource({

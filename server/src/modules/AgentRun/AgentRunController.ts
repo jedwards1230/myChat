@@ -5,11 +5,16 @@ import type { Connection } from "@/lib/ws";
 import logger from "@/lib/logs/logger";
 import { wsHandler } from "@/index";
 
-import { StreamResponseController, ThreadRepo, type Thread } from "@/modules/Thread";
-import { MessageRepo, type Message, type Role } from "@/modules/Message";
-import type { SocketSession } from "@/modules/User";
-import { NexusDispatcher } from "@/modules/Models/LLMInterface";
+import { StreamResponseController } from "../Thread/StreamResponseController";
+import type { Thread } from "../Thread/ThreadModel";
+import { ThreadRepo } from "../Thread/ThreadRepo";
 
+import type { Message } from "../Message/MessageModel";
+import type { Role } from "../Message/RoleModel";
+import { MessageRepo } from "../Message/MessageRepo";
+
+import type { SocketSession } from "@/modules/User/SessionModel";
+import { NexusDispatcher } from "@/modules/Models/LLMInterface";
 import { AgentRunRepo } from "./AgentRunRepo";
 
 export class AgentRunController {

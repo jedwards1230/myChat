@@ -1,7 +1,7 @@
 import logger from "@/lib/logs/logger";
 
-import { UserRepo } from "@/modules/User";
-import { AgentRepo } from "@/modules/Agent";
+import { UserRepo } from "@/modules/User/UserRepo";
+import { AgentRepo } from "@/modules/Agent/AgentRepo";
 
 /** Initialize user-1 and default Agent */
 export async function init() {

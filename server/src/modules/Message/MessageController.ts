@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type OpenAI from "openai";
 
 import logger from "@/lib/logs/logger";
-import { ThreadRepo } from "@/modules/Thread";
+import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Role } from "./RoleModel";
 import { MessageRepo } from "./MessageRepo";
 

@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { MessageFile } from "./MessageFileModel";
 import { MessageFileRepo } from "./MessageFileRepo";
-import { MessageRepo } from "@/modules//Message";
+import { MessageRepo } from "@/modules//Message/MessageRepo";
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, res: FastifyReply) {

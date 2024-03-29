@@ -1,7 +1,7 @@
 import { Type, type Static } from "@fastify/type-provider-typebox";
 
-import { AgentObjectSchema } from "../Agent";
-import { MessageObjectSchema } from "../Message";
+import { AgentObjectSchema } from "../Agent/AgentSchema";
+import { MessageObjectSchema } from "../Message/MessageSchema";
 
 export const ThreadSchema = Type.Object({
 	id: Type.String(),

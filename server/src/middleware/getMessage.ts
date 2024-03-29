@@ -2,7 +2,8 @@ import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import { MessageRepo, type Message } from "@/modules/Message";
+import { MessageRepo } from "@/modules/Message/MessageRepo";
+import type { Message } from "@/modules/Message/MessageModel";
 
 export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 	return async function getMessage(request: FastifyRequest, reply: FastifyReply) {

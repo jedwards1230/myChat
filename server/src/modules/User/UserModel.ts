@@ -8,8 +8,8 @@ import {
 	PrimaryColumn,
 	type Relation,
 } from "typeorm";
-import { Thread } from "../Thread";
-import { Agent } from "../Agent";
+import { Thread } from "../Thread/ThreadModel";
+import { Agent } from "../Agent/AgentModel";
 import { SocketSession } from "./SessionModel";
 
 @Entity("User")

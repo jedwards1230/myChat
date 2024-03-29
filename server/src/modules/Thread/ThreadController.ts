@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import { ThreadRepo } from "@/modules/Thread";
+import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
 
 export class ThreadController {
 	static async createThread(request: FastifyRequest, reply: FastifyReply) {

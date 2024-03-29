@@ -2,9 +2,9 @@ import { Equal, type FindOneOptions } from "typeorm";
 
 import { AppDataSource } from "@/lib/pg";
 
-import { Thread } from "@/modules/Thread";
-import { Message } from "@/modules/Message";
-import type { User } from "@/modules/User";
+import { Thread } from "@/modules/Thread/ThreadModel";
+import { Message } from "@/modules/Message/MessageModel";
+import type { User } from "@/modules/User/UserModel";
 
 export const ThreadRepo = AppDataSource.getRepository(Thread).extend({
 	getThreadById: async (

@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
 import { authenticate } from "@/middleware/auth";
-import { UserSchema } from "@/modules/User";
+import { UserSchema } from "@/modules/User/UserSchema";
 
 export const setupUserRoute = (app: FastifyInstance) => {
 	app.get("/user", {

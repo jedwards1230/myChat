@@ -1,7 +1,7 @@
 import { Type, type Static } from "@fastify/type-provider-typebox";
 
-import { ThreadSchema } from "../Thread";
-import { AgentObjectSchema } from "../Agent";
+import { ThreadSchema } from "../Thread/ThreadSchema";
+import { AgentObjectSchema } from "../Agent/AgentSchema";
 
 export const UserSchema = Type.Object({
 	id: Type.String(),

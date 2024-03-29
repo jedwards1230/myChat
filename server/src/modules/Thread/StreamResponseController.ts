@@ -10,8 +10,11 @@ import type { SocketServerMessage } from "@/types/wsResponse";
 import logger, { streamLogger } from "@/lib/logs/logger";
 import MessageQueue from "@/lib/queue";
 
-import { Thread, ThreadRepo } from "@/modules/Thread/";
-import { ToolCall, Message, MessageRepo, ToolCallRepo } from "@/modules/Message/";
+import { Thread } from "@/modules/Thread/ThreadModel";
+import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import type { Message } from "../Message/MessageModel";
+import { ToolCallRepo, MessageRepo } from "../Message/MessageRepo";
+import type { ToolCall } from "../Message/ToolCallModel";
 
 export class StreamResponseController {
 	static async processResponse(

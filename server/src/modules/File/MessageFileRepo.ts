@@ -2,8 +2,8 @@ import type { MultipartFile } from "@fastify/multipart";
 
 import logger from "@/lib/logs/logger";
 import { AppDataSource } from "@/lib/pg";
-import { MessageFile, FileData } from "@/modules/File";
-import { Message } from "@/modules/Message";
+import { MessageFile, FileData } from "@/modules/File/MessageFileModel";
+import { Message } from "@/modules/Message/MessageModel";
 
 export const FileDataRepo = AppDataSource.getRepository(FileData).extend({});
 

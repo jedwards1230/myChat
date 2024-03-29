@@ -9,9 +9,9 @@ import {
 	MessageObjectSchema,
 	MessageCreateSchema,
 	MessageSchemaWithoutId,
-	MessageController,
-} from "@/modules/Message";
-import { MessageFileController } from "@/modules/File";
+} from "@/modules/Message/MessageSchema";
+import { MessageController } from "@/modules/Message/MessageController";
+import { MessageFileController } from "@/modules/File/MessageFileController";
 
 export const setupMessagesRoute = (app: FastifyInstance) => {
 	// POST Create Message in Thread

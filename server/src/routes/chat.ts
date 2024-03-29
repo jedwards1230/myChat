@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 import { Type, type Static } from "@fastify/type-provider-typebox";
 
-import { AgentRunController } from "@/modules/AgentRun";
+import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
 import { getThread } from "@/middleware/getThread";
 
 const PostChatBody = Type.Object({ stream: Type.Optional(Type.Boolean()) });

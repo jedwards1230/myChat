@@ -5,9 +5,10 @@ import MessageQueue from "./queue";
 import type { SocketClientMessage } from "@/types/wsResponse";
 import { authenticateWs } from "@/middleware/auth";
 
-import { UserRepo, type SocketSession } from "@/modules/User";
-import { AgentRunController } from "@/modules/AgentRun";
-import { ThreadRepo } from "@/modules/Thread";
+import { UserRepo } from "@/modules/User/UserRepo";
+import { type SocketSession } from "@/modules/User/SessionModel";
+import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
+import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
 
 export interface Connection {
 	ws: WebSocket;

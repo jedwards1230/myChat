@@ -2,8 +2,8 @@ import type { FastifyInstance } from "fastify";
 
 import logger from "@/lib/logs/logger";
 import { getThread } from "@/middleware/getThread";
-import { AgentRunController } from "@/modules/AgentRun";
-import { ThreadListSchema } from "@/modules/Thread";
+import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
+import { ThreadListSchema } from "@/modules/Thread/ThreadSchema";
 
 export const setupThreadRoute = (app: FastifyInstance) => {
 	// GET Thread History for user
