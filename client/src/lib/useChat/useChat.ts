@@ -30,7 +30,7 @@ export function useChat() {
 		threadId ? "ready" : "no-thread"
 	);
 
-	const { requestChat, abort, loading } = useJSONChat();
+	const { requestChat, abort, loading } = useResponseChat();
 
 	const addMessageMut = useAddMessageMutation();
 	useEffect(() => {

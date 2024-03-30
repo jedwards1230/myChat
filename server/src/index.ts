@@ -43,6 +43,10 @@ const options = {
 };
 
 // Connect to Postgres and initialize TypeORM
+if (process.env.RESET_DB === "true") {
+	await initDb();
+	await resetDatabase();
+}
 await initDb();
 await init();
 

@@ -7,7 +7,7 @@ import type { SocketSession } from "@/modules/User/SessionModel";
 
 import { getAgentRunRepo } from "./AgentRunRepo";
 import type { RunType } from "./AgentRunModel";
-import type { PostChatBody } from "./AgentRunSchema";
+import type { CreateRunBody } from "./AgentRunSchema";
 
 export class AgentRunController {
 	/** Create an Agent Run and add it to the Queue */
@@ -42,7 +42,7 @@ export class AgentRunController {
 
 	static async createAndRunHandler(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
-		const { stream } = request.body as PostChatBody;
+		const { stream } = request.body as CreateRunBody;
 		await AgentRunController.createAndRun({
 			thread,
 			stream,

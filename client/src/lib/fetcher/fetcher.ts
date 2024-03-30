@@ -1,28 +1,13 @@
-import { Platform } from "react-native";
+// @ts-ignore
+import { polyfill as polyfillFetch } from "react-native-polyfill-globals/src/fetch";
+
+polyfillFetch();
+
+import { AuthParams, FetchError } from "./types";
 
 const IS_DEV = process.env.NODE_ENV === "development";
 
-const BASE_HOST = Platform.select({
-	web: IS_DEV ? "http://localhost:3000" : "",
-	default: process.env.EXPO_PUBLIC_API_URL,
-});
-
-type AuthParams = [url: string, userId: string];
-
-export class FetchError extends Error {
-	constructor(public res: Response | XMLHttpRequest, message?: string) {
-		super(message);
-	}
-
-	get status() {
-		if (this.res instanceof Response) {
-			return this.res.status;
-		} else if (this.res instanceof XMLHttpRequest) {
-			return this.res.status;
-		}
-		return undefined;
-	}
-}
+const BASE_HOST = process.env.EXPO_PUBLIC_API_URL;
 
 /**
  * Fetcher for react-query.
@@ -38,8 +23,6 @@ export async function fetcher<T = any>(
 	try {
 		const res = await fetch(BASE_HOST + "/api" + url, {
 			...init,
-			reactNative: { textStreaming: true },
-
 			headers: {
 				...(!file && { "Content-Type": "application/json" }),
 				Authorization: userId,

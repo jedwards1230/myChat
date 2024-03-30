@@ -1,8 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 
 import type { User } from "@/types";
-import { fetcher, FetchError } from "../utils";
 import { useConfigStore } from "@/lib/stores/configStore";
+import { fetcher, FetchError } from "../fetcher";
 
 const fetchUser = (userId: string, init?: FetchRequestInit) => () =>
 	fetcher<User>(["/user", userId], init);

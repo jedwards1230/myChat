@@ -1,13 +1,13 @@
 import type { FastifyInstance } from "fastify";
 
 import { getThread } from "@/middleware/getThread";
-import { PostChatBody } from "@/modules/AgentRun/AgentRunSchema";
+import { CreateRunBody } from "@/modules/AgentRun/AgentRunSchema";
 import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
 
 export const setupAgentRunsRoute = async (app: FastifyInstance) => {
 	// POST Create Thread and Run
 	app.post("/runs", {
-		schema: { body: PostChatBody },
+		schema: { body: CreateRunBody },
 		oas: { description: "Create Thread and Run.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
@@ -18,7 +18,7 @@ export const setupAgentRunsRoute = async (app: FastifyInstance) => {
 
 	// POST Create Run for Thread
 	app.post("/:threadId/runs", {
-		schema: { body: PostChatBody },
+		schema: { body: CreateRunBody },
 		oas: { description: "Create a run.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
