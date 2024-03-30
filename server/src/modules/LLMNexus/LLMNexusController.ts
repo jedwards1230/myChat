@@ -1,5 +1,6 @@
 import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
+import { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
 
 import type { Connection } from "@/lib/ws";
 import { wsHandler } from "@/index";
@@ -88,18 +89,25 @@ export class LLMNexusController {
 		opts: ChatOptions;
 	}) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
-		const messages = await getMessageRepo().getMessageHistoryList(
-			thread.activeMessage,
-			true
-		);
-		const title = await llmServce.createTitleFromChatHistory(messages, opts);
-		thread.title = title;
-		await getThreadRepo().update(thread.id, { title });
-		return title;
+		try {
+			const messages = await getMessageRepo().getMessageHistoryList(
+				thread.activeMessage,
+				true
+			);
+			const title = await llmServce.createTitleFromChatHistory(messages, opts);
+			thread.title = title;
+			await getThreadRepo().update(thread.id, { title });
+			return title;
+		} catch (error) {
+			logger.error("Error generating title", {
+				error,
+				functionName: "LLMNexusController.generateTitle",
+			});
+		}
 	}
 
 	private static async generateChatResponse({
-		agentRun: { thread, stream },
+		agentRun: { thread },
 		opts,
 		llmServce,
 	}: {
@@ -108,29 +116,55 @@ export class LLMNexusController {
 		llmServce: LLMNexus;
 	}) {
 		if (!thread.activeMessage) throw new Error("No active message found");
-		const messages = await getMessageRepo().getMessageHistoryList(
-			thread.activeMessage,
-			true
-		);
-		return llmServce.createChatCompletion(messages, opts);
+		try {
+			const messages = await getMessageRepo().getMessageHistoryList(
+				thread.activeMessage,
+				true
+			);
+			const completion = await llmServce.createChatCompletion(messages, opts);
+
+			logger.debug("Generated chat response", {
+				completion,
+				functionName: "LLMNexusController.generateChatResponse",
+			});
+
+			return completion;
+		} catch (error) {
+			logger.error("Error generating chat response", {
+				error,
+				functionName: "LLMNexusController.generateChatResponse",
+			});
+			throw error;
+		}
 	}
 
 	private static async saveResponse(
 		thread: Thread,
-		response: ChatCompletionStream | ChatCompletion,
+		response: ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion,
 		conn?: Connection
 	) {
-		if (response instanceof ChatCompletionStream) {
-			if (!conn) throw new Error("No WebSocket connection");
-			// Handle streamed response
-			StreamResponseController.processResponse(thread, response, conn);
-		} else {
-			if (!thread.activeMessage) throw new Error("No active message in thread");
-			const responseMsg = response.choices[0].message;
-			getThreadRepo().addMessage(thread, {
-				role: responseMsg.role as Role,
-				content: responseMsg.content,
-				parent: thread.activeMessage,
+		try {
+			if (
+				response instanceof ChatCompletionStream ||
+				response instanceof ChatCompletionStreamingRunner
+			) {
+				if (!conn) throw new Error("No WebSocket connection");
+				// Handle streamed response
+				StreamResponseController.processResponse(thread, response, conn);
+			} else {
+				if (!thread.activeMessage) throw new Error("No active message in thread");
+				const responseMsg = response.choices[0].message;
+				getThreadRepo().addMessage(thread, {
+					role: responseMsg.role as Role,
+					content: responseMsg.content,
+					parent: thread.activeMessage,
+				});
+			}
+		} catch (error) {
+			logger.error("Error saving response", {
+				error,
+				response,
+				functionName: "LLMNexusController.saveResponse",
 			});
 		}
 	}

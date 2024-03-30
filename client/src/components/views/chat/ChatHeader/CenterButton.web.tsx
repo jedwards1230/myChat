@@ -6,7 +6,7 @@ import { Dropdown } from "./Dropdown";
 
 export default function CenterButton() {
 	return (
-		<View className="flex items-start justify-center w-full">
+		<View className="flex items-center justify-center w-full md:items-start">
 			<Dropdown className="flex flex-row items-center w-auto gap-1 mx-auto md:ml-0">
 				<Text
 					numberOfLines={1}

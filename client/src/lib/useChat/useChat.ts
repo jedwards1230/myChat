@@ -77,34 +77,40 @@ export function useChat() {
 			case "ready":
 				const id = createThreadMut.data?.id || threadId;
 				if (!id) return setReqStatus("no-thread");
+				if (addMessageMut.status !== "idle") return;
 
-				if (addMessageMut.status === "idle") {
-					addMessageMut.mutate({
-						threadId: id,
-						message: {
-							role: "user",
-							content: input ?? "",
-						},
-					});
-					setReqStatus("message-sent");
-					setInput(null);
-				}
+				addMessageMut.mutate({
+					threadId: id,
+					message: {
+						role: "user",
+						content: input ?? "",
+					},
+				});
+				setReqStatus("message-sent");
+				setInput(null);
 				break;
 
 			case "message-sent":
 				if (addMessageMut.status !== "success") return;
+				if (addMessageFileMut.status !== "idle") return;
 				if (fileList.length > 0) {
-					if (!addMessageMut.data) throw new Error("No message");
 					if (!threadId) throw new Error("No threadId");
 					addMessageFileMut.mutate({
 						threadId,
-						messageId: addMessageMut.data?.id,
+						messageId: addMessageMut.data.id,
 						fileList,
 					});
 					setReqStatus("adding-files");
 				} else {
 					setReqStatus("requesting-chat");
 				}
+				break;
+
+			case "adding-files":
+				if (addMessageFileMut.status === "success") {
+					setReqStatus("requesting-chat");
+				}
+				break;
 
 			case "requesting-chat":
 				if (addMessageMut.status === "success") {
@@ -119,7 +125,7 @@ export function useChat() {
 				setReqStatus("ready");
 				break;
 		}
-	}, [reqStatus, chatStatus, addMessageMut.status, threadId]);
+	}, [reqStatus, chatStatus, addMessageMut.status, addMessageFileMut.status, threadId]);
 
 	const handleSubmit: FormSubmission = async (input) => {
 		try {

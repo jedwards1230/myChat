@@ -17,12 +17,14 @@ export const getMessageFileRepo = () =>
 			try {
 				const newMsg = await AppDataSource.manager.transaction(
 					async (manager) => {
-						const res: MessageFile[] = [];
 						for await (const file of fileList) {
-							const fileData = await manager.save(FileData, {
+							// Create and save FileData
+							const fileData = manager.create(FileData, {
 								blob: await file.toBuffer(),
 							});
+							await manager.save(FileData, fileData);
 
+							// Create and save MessageFile with reference to FileData and Message
 							const messageFile = manager.create(MessageFile, {
 								name: file.filename,
 								mimetype: file.mimetype,
@@ -30,18 +32,15 @@ export const getMessageFileRepo = () =>
 								fileData,
 								message,
 							});
-
-							res.push(messageFile);
+							await manager.save(MessageFile, messageFile);
 						}
 
-						const newFiles = await manager.save(MessageFile, res);
+						const updatedMessage = await manager.findOne(Message, {
+							where: { id: message.id },
+							relations: ["files", "files.fileData"],
+						});
 
-						message.files = message.files
-							? message.files.concat(newFiles)
-							: newFiles;
-						const newMsg = await manager.save(Message, message);
-
-						return newMsg;
+						return updatedMessage ?? message;
 					}
 				);
 				return newMsg;

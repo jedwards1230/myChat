@@ -1,19 +1,17 @@
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
+
 import { useFileStore } from "@/lib/stores/fileStore";
-import { FileButton } from "./FileButton";
 import { Feather, FontAwesome } from "@/components/ui/Icon";
 import { CacheFile } from "@/types";
+import { FileRouter } from "./FolderButton.web";
 
 export function FileTray() {
 	const fileList = useFileStore((state) => state.fileList);
-
 	if (!fileList.length) return null;
 	return (
-		<View className="flex flex-row justify-start w-full gap-4 px-2 pt-3 pb-1 overflow-x-scroll">
-			{fileList.map((file, index) => (
-				<FileButton key={index} file={file} />
-			))}
+		<View className="flex flex-row flex-wrap items-start justify-start w-full gap-4 px-2 pt-3 pb-1">
+			<FileRouter files={fileList} />
 		</View>
 	);
 }
@@ -34,13 +32,11 @@ export function FileInputButton() {
 			lastModified: file.lastModified,
 			file: file,
 		}));
-		console.log("web", { assets });
 		addAssets(assets);
 	};
 
 	const triggerDirectoryInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
 		const files = event.target.files;
-		console.log({ event, files });
 		if (!files) return console.error("No files selected");
 		const assets: CacheFile[] = Array.from(files).map((file) => ({
 			name: file.name,
@@ -51,7 +47,6 @@ export function FileInputButton() {
 			relativePath: file.webkitRelativePath,
 			file: file,
 		}));
-		console.log("web", { assets });
 		addAssets(assets);
 	};
 

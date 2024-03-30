@@ -36,7 +36,6 @@ export const AppDataSource = new DataSource({
 	synchronize: true,
 	logging: process.env.DEBUG_DB === "true" ? "all" : ["error", "warn"],
 	logger: new DBLogger(),
-	cache: true,
 });
 
 /** Initialize Database Connection */

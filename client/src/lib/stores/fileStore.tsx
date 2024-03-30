@@ -14,6 +14,7 @@ interface Actions {
 	addAsset: (asset: DocumentPickerAsset) => void;
 	addAssets: (assets: DocumentPickerAsset[]) => void;
 	removeFile: (file: CacheFile) => void;
+	removeFiles: (files: CacheFile[]) => void;
 
 	reset: () => void;
 }
@@ -31,6 +32,8 @@ export const useFileStore = create<State & Actions>()((set, get) => ({
 	addAssets: (assets) => set({ fileList: [...get().fileList, ...assets] }),
 
 	removeFile: (file) => set({ fileList: get().fileList.filter((f) => f !== file) }),
+	removeFiles: (files) =>
+		set({ fileList: get().fileList.filter((f) => !files.includes(f)) }),
 
 	reset: () => set(initial),
 }));

@@ -3,6 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { MessageFile } from "./MessageFileModel";
 import { getMessageFileRepo } from "./MessageFileRepo";
+import logger from "@/lib/logs/logger";
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, res: FastifyReply) {
@@ -18,9 +19,7 @@ export class MessageFileController {
 
 		const file = message.files.find((f) => f.id === fileId);
 		if (!file) {
-			return res.status(404).send({
-				error: "File not found.",
-			});
+			return res.status(404).send({ error: "File not found." });
 		}
 
 		res.send(file);
@@ -31,7 +30,6 @@ export class MessageFileController {
 			return res.status(400).send({ error: "Request must be multipart." });
 		}
 		const message = req.message;
-
 		const filesRaw = req.files();
 		const newMsg = await getMessageFileRepo().addFileList(filesRaw, message);
 
@@ -58,26 +56,34 @@ export class MessageFileController {
         ```
     */
 	static async parseFiles(files: MessageFile[]) {
-		// get fileData for all files
-		const loadedFiles = await getMessageFileRepo().find({
-			where: { id: In(files.map((file) => file.id)) },
-			relations: ["fileData"],
-		});
+		try {
+			// get fileData for all files
+			const loadedFiles = await getMessageFileRepo().find({
+				where: { id: In(files.map((file) => file.id)) },
+				relations: ["fileData"],
+			});
 
-		const parsableFiles: MessageFile[] = [];
+			const parsableFiles: MessageFile[] = [];
 
-		const parsedFiles = loadedFiles
-			.map((file) => {
-				const text = file.fileData.blob.toString("utf-8");
-				if (!text) return;
-				file.parsable = true;
-				parsableFiles.push(file);
-				return `// ${file.name}.${file.extension}\n${text}`;
-			})
-			.filter((file) => file !== undefined);
+			const parsedFiles = loadedFiles
+				.map((file) => {
+					const text = file.fileData.blob.toString("utf-8");
+					if (!text) return;
+					file.parsable = true;
+					parsableFiles.push(file);
+					return `// ${file.name}.${file.extension}\n${text}`;
+				})
+				.filter((file) => file !== undefined);
 
-		await getMessageFileRepo().save(parsableFiles);
+			await getMessageFileRepo().save(parsableFiles);
 
-		return parsedFiles.join("\n\n");
+			return parsedFiles.join("\n\n");
+		} catch (error) {
+			logger.error("Error parsing Files", {
+				error,
+				functionName: "MessageFileController.parseFiles",
+			});
+			throw error;
+		}
 	}
 }

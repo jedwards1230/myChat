@@ -5,7 +5,7 @@ import { FormSubmission } from "@/lib/useChat";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { MaterialIcons } from "@/components/ui/Icon";
 import ChatInput from "./ChatInput";
-import { FileInputButton, FileTray } from "./FileTray";
+import { FileInputButton, FileTray } from "../FileTray";
 
 export function ChatInputContainer({
 	handleSubmit,

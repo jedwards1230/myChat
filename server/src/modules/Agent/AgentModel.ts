@@ -11,15 +11,14 @@ import {
 } from "typeorm";
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
-import { cleanedSystemMessage } from "@/modules/LLMNexus/Tools/browser/browser";
 
 type ToolType = "browser";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
-	tools: ["browser"],
+	tools: [],
 	toolsEnabled: false,
-	systemMessage: "You are a personal assistant." + cleanedSystemMessage,
+	systemMessage: "You are a personal assistant.",
 };
 
 @Entity("Agent")

@@ -8,7 +8,6 @@ export const getUserRepo = () =>
 			return this.findOne({
 				where: { id },
 				relations: ["threads", "agents"],
-				cache: true,
 			});
 		},
 

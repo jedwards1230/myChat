@@ -5,6 +5,7 @@ import {
 } from "openai/resources/index.mjs";
 import { type ChatCompletionCreateParamsBase } from "openai/resources/chat/completions";
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner";
+import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
 import type { Message } from "../../Message/MessageModel";
 import logger from "@/lib/logs/logger";
@@ -18,7 +19,7 @@ export class OpenAIService implements LLMNexus {
 	async createChatCompletion(
 		threadMessages: Message[],
 		opts: ChatOptions
-	): Promise<any> {
+	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion> {
 		return opts.stream
 			? this.createChatCompletionStream(threadMessages, opts)
 			: this.createChatCompletionJSON(threadMessages, opts);
@@ -27,25 +28,25 @@ export class OpenAIService implements LLMNexus {
 	async createChatCompletionStream(
 		threadMessages: Message[],
 		{ tools, stream, ...opts }: ChatOptions
-	): Promise<ChatCompletionStreamingRunner> {
-		if (!stream) throw new Error("Stream option must be true");
+	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream> {
+		if (stream === false) throw new Error("Stream option must be true");
 		const messages = this.formatMessages(threadMessages);
-		return tools.length > 0
-			? openai.beta.chat.completions
-					.runTools({
-						stream: true,
+		return (
+			tools.length > 0
+				? openai.beta.chat.completions.runTools({
+						stream,
 						messages,
 						tools,
 						...opts,
-					})
-					.on("error", (error) => {
-						logger.error("Stream error", { error });
-					})
-			: (openai.chat.completions.create({
-					stream: true,
-					messages,
-					...opts,
-			  }) as unknown as ChatCompletionStreamingRunner);
+				  })
+				: openai.beta.chat.completions.stream({
+						stream,
+						messages,
+						...opts,
+				  })
+		).on("error", (error) => {
+			logger.error("Stream error", { error });
+		});
 	}
 
 	async createChatCompletionJSON(

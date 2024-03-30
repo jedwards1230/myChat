@@ -34,7 +34,7 @@ export default function FileDialog({
 	}, [file]);
 
 	return (
-		<Dialog className="w-full">
+		<Dialog>
 			<DialogTrigger asChild className={className}>
 				{children}
 			</DialogTrigger>

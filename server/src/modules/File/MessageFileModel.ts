@@ -61,6 +61,8 @@ export class MessageFile extends BaseEntity {
 	parsable: boolean;
 
 	// relation to Message.
-	@ManyToOne(() => Message, (message) => message.files, { onDelete: "CASCADE" })
+	@ManyToOne(() => Message, (message) => message.files, {
+		onDelete: "CASCADE",
+	})
 	message: Relation<Message>;
 }

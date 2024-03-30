@@ -1,9 +1,10 @@
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner";
 import type { ChatCompletion } from "openai/resources/index";
+import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
+import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
 import type { Message } from "@/modules/Message/MessageModel";
 import { OpenAIService, type OpenAiModels } from "./Providers/openai";
-import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 
 export type ChatOptions = {
 	tools: RunnableToolFunction<any>[];
@@ -15,11 +16,11 @@ export interface LLMNexus {
 	createChatCompletion(
 		threadMessages: Message[],
 		opts: ChatOptions
-	): Promise<ChatCompletionStreamingRunner | ChatCompletion>;
+	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion>;
 	createChatCompletionStream(
 		threadMessages: Message[],
 		opts: ChatOptions
-	): Promise<ChatCompletionStreamingRunner>;
+	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream>;
 	createChatCompletionJSON(
 		threadMessages: Message[],
 		opts: ChatOptions

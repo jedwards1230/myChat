@@ -29,11 +29,18 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 	app.get("/", {
 		oas: { description: "List Messages for a Thread.", tags: ["Message"] },
 		schema: { response: { 200: MessageListSchema } },
-		preHandler: [getThread(["activeMessage"])],
+		preHandler: [
+			getThread({
+				activeMessage: true,
+				messages: {
+					files: true,
+				},
+			}),
+		],
 		handler: MessageController.getMessageList,
 	});
 
-	// GET message
+	// GET Message
 	app.get("/:messageId", {
 		oas: { description: "Get Message.", tags: ["Message"] },
 		schema: { response: { 200: MessageObjectSchema } },

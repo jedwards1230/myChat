@@ -4,7 +4,6 @@
 	"type": "module",
 	"scripts": {
 		"start": "bun --hot src/index.ts",
-		"start:clean": "RESET_DB=true bun --hot src/index.ts",
 		"dev": "bun --watch src/index.ts",
 		"dev:clean": "RESET_DB=true bun --watch src/index.ts",
 		"test": "export TEST_ENV=true jest"
