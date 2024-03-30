@@ -2,7 +2,7 @@ import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import { AgentRepo } from "@/modules/Agent/AgentRepo";
+import { getAgentRepo } from "@/modules/Agent/AgentRepo";
 import type { Agent } from "@/modules/Agent/AgentModel";
 
 export function getAgent(relations?: FindOneOptions<Agent>["relations"]) {
@@ -10,7 +10,11 @@ export function getAgent(relations?: FindOneOptions<Agent>["relations"]) {
 		try {
 			const { agentId } = request.params as { agentId: string };
 
-			const agent = await AgentRepo.getAgentById(request.user, agentId, relations);
+			const agent = await getAgentRepo().getAgentById(
+				request.user,
+				agentId,
+				relations
+			);
 			if (!agent) {
 				return reply.status(500).send({
 					error: "(AgentRepo.getAgentById) An error occurred while processing your request.",

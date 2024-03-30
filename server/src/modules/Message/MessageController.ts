@@ -2,9 +2,9 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type OpenAI from "openai";
 
 import logger from "@/lib/logs/logger";
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Role } from "./RoleModel";
-import { MessageRepo } from "./MessageRepo";
+import { getMessageRepo } from "./MessageRepo";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -14,7 +14,7 @@ export class MessageController {
 		};
 
 		try {
-			const newThread = await ThreadRepo.addMessage(thread, {
+			const newThread = await getThreadRepo().addMessage(thread, {
 				role: message.role as Role,
 				content: message.content?.toString(),
 			});
@@ -67,7 +67,9 @@ export class MessageController {
 			});
 		}
 
-		const messages = await MessageRepo.getMessageHistoryList(thread.activeMessage);
+		const messages = await getMessageRepo().getMessageHistoryList(
+			thread.activeMessage
+		);
 
 		reply.send(messages);
 	}

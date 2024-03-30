@@ -16,7 +16,7 @@ import { MessageFileController } from "@/modules/File/MessageFileController";
 export const setupMessagesRoute = (app: FastifyInstance) => {
 	// POST Create Message in Thread
 	app.post("/", {
-		oas: { description: "Create Message in Thread." },
+		oas: { description: "Create Message in Thread.", tags: ["Message"] },
 		schema: {
 			body: Type.Object({ message: MessageCreateSchema }),
 			response: { 200: MessageObjectSchema },
@@ -27,7 +27,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// GET list of messages for a thread
 	app.get("/", {
-		oas: { description: "List Messages for a Thread." },
+		oas: { description: "List Messages for a Thread.", tags: ["Message"] },
 		schema: { response: { 200: MessageListSchema } },
 		preHandler: [getThread(["activeMessage"])],
 		handler: MessageController.getMessageList,
@@ -35,7 +35,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// GET message
 	app.get("/:messageId", {
-		oas: { description: "Get Message." },
+		oas: { description: "Get Message.", tags: ["Message"] },
 		schema: { response: { 200: MessageObjectSchema } },
 		preHandler: [getMessage()],
 		handler: async (req, res) => res.send(req.message),
@@ -43,7 +43,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// POST Modify Message
 	app.post("/:messageId", {
-		oas: { description: "Modify Message." },
+		oas: { description: "Modify Message.", tags: ["Message"] },
 		schema: { response: { 200: MessageObjectSchema } },
 		preHandler: [getMessage()],
 		handler: MessageController.modifyMessage,
@@ -51,7 +51,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// DELETE Message
 	app.delete("/:messageId", {
-		oas: { description: "Delete Message." },
+		oas: { description: "Delete Message.", tags: ["Message"] },
 		schema: { response: { 200: MessageSchemaWithoutId } },
 		preHandler: [getMessage(["parent", "children"])],
 		handler: MessageController.deleteMessage,
@@ -59,7 +59,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// POST Create a Message File
 	app.post("/:messageId/files", {
-		oas: { description: "Create a Message File." },
+		oas: { description: "Create a Message File.", tags: ["MessageFile"] },
 		schema: { response: { 200: MessageObjectSchema } },
 		preHandler: [getMessage()],
 		handler: MessageFileController.createMessageFile,
@@ -67,14 +67,14 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 
 	// GET list of files for a message
 	app.get("/:messageId/files", {
-		oas: { description: "List Files for a Message." },
+		oas: { description: "List Files for a Message.", tags: ["MessageFile"] },
 		preHandler: [getMessage(["files"])],
 		handler: MessageFileController.getMessageFiles,
 	});
 
 	// GET file by message ID
 	app.get("/:messageId/files/:fileId", {
-		oas: { description: "Get File by Message ID." },
+		oas: { description: "Get File by Message ID.", tags: ["MessageFile"] },
 		preHandler: [getMessage(["files"])],
 		handler: MessageFileController.getMessageFile,
 	});

@@ -1,16 +1,16 @@
 import logger from "@/lib/logs/logger";
 
-import { UserRepo } from "@/modules/User/UserRepo";
-import { AgentRepo } from "@/modules/Agent/AgentRepo";
+import { getUserRepo } from "@/modules/User/UserRepo";
+import { getAgentRepo } from "@/modules/Agent/AgentRepo";
 
 /** Initialize user-1 and default Agent */
 export async function init() {
 	logger.info("Initializing App Controller");
 	try {
-		const agent = await AgentRepo.save({});
+		const agent = await getAgentRepo().save({});
 		if (!agent) throw new Error("Cannot preload agent");
 
-		const baseUser = await UserRepo.save({
+		const baseUser = await getUserRepo().save({
 			id: "user-1",
 			agents: [agent],
 			defaultAgent: agent,

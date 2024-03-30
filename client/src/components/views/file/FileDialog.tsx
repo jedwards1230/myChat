@@ -16,12 +16,10 @@ import { CacheFile } from "@/types";
 export default function FileDialog({
 	children,
 	className,
-	cache,
 	file,
 }: {
 	children: React.ReactNode;
 	className?: string;
-	cache?: boolean;
 	file: CacheFile;
 }) {
 	const [content, setContent] = useState<string | null>(null);

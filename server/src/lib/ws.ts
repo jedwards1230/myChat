@@ -5,10 +5,10 @@ import MessageQueue from "./queue";
 import type { SocketClientMessage } from "@/types/wsResponse";
 import { authenticateWs } from "@/middleware/auth";
 
-import { UserRepo } from "@/modules/User/UserRepo";
+import { getUserRepo } from "@/modules/User/UserRepo";
 import { type SocketSession } from "@/modules/User/SessionModel";
 import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 
 export interface Connection {
 	ws: WebSocket;
@@ -30,7 +30,7 @@ export class WebSocketHandler {
 			try {
 				const userId = req.url?.split("/")[2];
 				const user = await authenticateWs(userId);
-				const socketSession = await UserRepo.createSocketSession(user);
+				const socketSession = await getUserRepo().createSocketSession(user);
 				if (!socketSession) {
 					ws.close();
 					return;
@@ -74,7 +74,7 @@ export class WebSocketHandler {
 	async handleMessage(session: SocketSession, message: SocketClientMessage) {
 		switch (message.type) {
 			case "getChat":
-				const thread = await ThreadRepo.findOne({
+				const thread = await getThreadRepo().findOne({
 					where: {
 						id: message.data.threadId,
 						user: { id: session.user.id },
@@ -86,10 +86,11 @@ export class WebSocketHandler {
 				});
 				if (!thread) throw new Error("Thread not found");
 
-				await AgentRunController.processResponse({
+				await AgentRunController.createAndRun({
 					thread,
 					session,
 					stream: true,
+					type: "getChat",
 				});
 				break;
 

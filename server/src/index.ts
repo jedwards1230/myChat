@@ -1,4 +1,5 @@
 import path from "path";
+import readline from "readline";
 import WebSocket from "ws";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
@@ -14,12 +15,12 @@ import { WebSocketHandler } from "./lib/ws";
 import { init } from "./lib/utils";
 import { authenticate } from "./middleware/auth";
 
-import { setupChatRoute } from "./routes/chat";
 import { setupUserRoute } from "./routes/user";
 import { setupAgentsRoute } from "./routes/agents";
 import { setupThreadRoute } from "./routes/threads/thread";
 import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
+import { setupAgentRunsRoute } from "./routes/threads/runs";
 
 const _clientBuildDir = process.env.CLIENT_BUILD_DIR || "../client/dist";
 const CLIENT_BUILD_DIR = path.join(process.cwd(), _clientBuildDir);
@@ -113,7 +114,7 @@ await app.register(
 
 			app.get(
 				"/reset",
-				{ oas: { description: "Reset the database" } },
+				{ oas: { description: "Reset the database", tags: ["Admin"] } },
 				async (req, res) => {
 					await resetDatabase();
 					await initDb();
@@ -131,14 +132,14 @@ await app.register(
 				{ prefix: "/threads" }
 			);
 
+			// AgentRun Route
+			await app.register(async (app, opts) => setupAgentRunsRoute(app), {
+				prefix: "/threads",
+			});
+
 			// Messages Route
 			await app.register(async (app, opts) => setupMessagesRoute(app), {
 				prefix: "threads/:threadId/messages",
-			});
-
-			// JSON Chat response
-			await app.register(async (app, opts) => setupChatRoute(app), {
-				prefix: "threads/:threadId/chat",
 			});
 
 			// Agents Route
@@ -163,5 +164,16 @@ app.listen({ port, host: "0.0.0.0" }, (err, address) => {
 const wssHttp = new WebSocket.Server({ server: app.server });
 const wsHandler = new WebSocketHandler();
 wsHandler.addListener(wssHttp);
+
+readline.emitKeypressEvents(process.stdin);
+process.stdin.setRawMode(true);
+
+process.stdin.on("keypress", (str, key) => {
+	if (key.ctrl && key.name === "c") {
+		process.exit(); // Exit the process when Ctrl+C is pressed
+	} else if (key.name === "c") {
+		console.clear(); // Clear the console when 'c' is pressed
+	}
+});
 
 export { app, wsHandler };

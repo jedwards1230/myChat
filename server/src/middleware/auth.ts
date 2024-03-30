@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { UserRepo } from "@/modules/User/UserRepo";
+import { getUserRepo } from "@/modules/User/UserRepo";
 import logger from "@/lib/logs/logger";
 
 export const authenticate = async (request: FastifyRequest, reply: FastifyReply) => {
@@ -9,7 +9,7 @@ export const authenticate = async (request: FastifyRequest, reply: FastifyReply)
 		return reply.code(401).send({ error: "Unauthorized" });
 	}
 
-	const user = await UserRepo.getUserById(token);
+	const user = await getUserRepo().getUserById(token);
 	if (!user) {
 		return reply.code(401).send({ error: "User not found" });
 	}
@@ -18,7 +18,7 @@ export const authenticate = async (request: FastifyRequest, reply: FastifyReply)
 };
 
 export const authenticateWs = async (token: string | undefined) => {
-	const user = await UserRepo.getUserById(token);
+	const user = await getUserRepo().getUserById(token);
 	if (!user) {
 		logger.warn("User not found", {
 			token,

@@ -11,6 +11,7 @@ import { FileData, MessageFile } from "@/modules/File/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
 import { SocketSession } from "@/modules/User/SessionModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
+import { AgentRunSubscriber } from "@/modules/AgentRun/AgentRunSubscriber";
 
 // TODO: setup env vars
 export const AppDataSource = new DataSource({
@@ -31,6 +32,7 @@ export const AppDataSource = new DataSource({
 		Message,
 		AgentRun,
 	],
+	subscribers: [AgentRunSubscriber],
 	synchronize: true,
 	logging: process.env.DEBUG_DB === "true" ? "all" : ["error", "warn"],
 	logger: new DBLogger(),

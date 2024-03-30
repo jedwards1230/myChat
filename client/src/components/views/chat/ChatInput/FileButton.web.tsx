@@ -30,7 +30,7 @@ function CloseButton({ file }: { file: CacheFile }) {
 				e.stopPropagation();
 				removeFile(file);
 			}}
-			className="absolute z-10 flex items-center justify-center w-4 h-4 rounded-full -top-2 -right-2 group bg-background hover:bg-foreground/20"
+			className="absolute z-10 flex items-center justify-center w-4 h-4 border rounded-full border-input -top-2 -right-2 group bg-background hover:bg-foreground/20"
 		>
 			<MaterialIcons
 				name="close"

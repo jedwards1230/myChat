@@ -1,13 +1,11 @@
 import { Platform, Pressable, View } from "react-native";
 import { useEffect, useState } from "react";
-import * as DocumentPicker from "expo-document-picker";
 
 import { FormSubmission } from "@/lib/useChat";
-import { useFileStore } from "@/lib/stores/fileStore";
-import { FontAwesome, MaterialIcons } from "@/components/ui/Icon";
-import ChatInput from "./ChatInput";
-import { FileTray } from "./FileTray";
 import { useConfigStore } from "@/lib/stores/configStore";
+import { MaterialIcons } from "@/components/ui/Icon";
+import ChatInput from "./ChatInput";
+import { FileInputButton, FileTray } from "./FileTray";
 
 export function ChatInputContainer({
 	handleSubmit,
@@ -21,13 +19,6 @@ export function ChatInputContainer({
 	const threadId = useConfigStore((state) => state.threadId);
 	const [input, setInput] = useState("");
 	useEffect(() => setInput(""), [threadId]);
-
-	const addAssets = useFileStore((state) => state.addAssets);
-	const triggerFileInput = async () => {
-		const res = await DocumentPicker.getDocumentAsync({ multiple: true });
-		if (res.assets && res.assets.length > 0) addAssets(res.assets);
-		if (res.canceled) console.log({ res });
-	};
 
 	const handleSend = async () => {
 		try {
@@ -48,7 +39,7 @@ export function ChatInputContainer({
 						setInput={setInput}
 						handleSubmit={handleSend}
 					/>
-					<FileButton triggerFileInput={triggerFileInput} />
+					<FileInputButton />
 					{loading ? (
 						<StopButton abort={abort} />
 					) : (
@@ -57,17 +48,6 @@ export function ChatInputContainer({
 				</View>
 			</View>
 		</View>
-	);
-}
-
-function FileButton({ triggerFileInput }: { triggerFileInput: () => void }) {
-	return (
-		<Pressable
-			onPress={triggerFileInput}
-			className="absolute left-0 p-1 bg-transparent rounded-full web:left-2"
-		>
-			<FontAwesome name="paperclip" size={22} className="text-foreground" />
-		</Pressable>
 	);
 }
 

@@ -1,7 +1,9 @@
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
+import * as DocumentPicker from "expo-document-picker";
 
 import { useFileStore } from "@/lib/stores/fileStore";
 import { FileButton } from "./FileButton";
+import { FontAwesome } from "@/components/ui/Icon";
 
 export function FileTray() {
 	const fileList = useFileStore((state) => state.fileList);
@@ -13,5 +15,23 @@ export function FileTray() {
 				<FileButton key={index} file={file} />
 			))}
 		</View>
+	);
+}
+
+export function FileInputButton() {
+	const addAssets = useFileStore((state) => state.addAssets);
+	const triggerFileInput = async () => {
+		const res = await DocumentPicker.getDocumentAsync({ multiple: true });
+		if (res.assets && res.assets.length > 0) addAssets(res.assets);
+		if (res.canceled) console.log({ res });
+	};
+
+	return (
+		<Pressable
+			onPress={triggerFileInput}
+			className="absolute left-0 p-1 bg-transparent rounded-full web:left-2"
+		>
+			<FontAwesome name="paperclip" size={22} className="text-foreground" />
+		</Pressable>
 	);
 }

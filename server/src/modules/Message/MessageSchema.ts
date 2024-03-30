@@ -23,5 +23,11 @@ export const MessageCreateSchema = Type.Object({
 });
 export type MessageCreateSchema = Static<typeof MessageCreateSchema>;
 
+export const MessageUpdateSchema = Type.Object({
+	id: Type.String(),
+	content: Type.Optional(Type.String()),
+});
+export type MessageUpdateSchema = Static<typeof MessageUpdateSchema>;
+
 export const MessageListSchema = Type.Array(MessageObjectSchema);
 export type MessageListSchema = Static<typeof MessageListSchema>;

@@ -8,6 +8,9 @@ import {
 
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
+import { SocketSession } from "../User/SessionModel";
+
+export type RunType = "getChat" | "getTitle";
 
 export type Status =
 	| "queued"
@@ -44,6 +47,18 @@ export class AgentRun extends BaseEntity {
 	/** Run Status */
 	@Column({ type: "text", default: "queued" })
 	status: Status;
+
+	/** Run Type */
+	@Column({ type: "text" })
+	type: RunType;
+
+	/** Should response be streamed */
+	@Column({ type: "boolean", default: true })
+	stream: boolean;
+
+	/** Socket Session */
+	@Column(() => SocketSession)
+	session?: SocketSession;
 
 	/** Run start time */
 	@CreateDateColumn()

@@ -9,7 +9,7 @@ const postChatRequest = async (
 	userId: string,
 	stream: boolean = false
 ) =>
-	fetcher<Message>([`/chat`, userId], {
+	fetcher<Message>([`/threads/${threadId}/runs`, userId], {
 		method: "POST",
 		body: JSON.stringify({
 			threadId,

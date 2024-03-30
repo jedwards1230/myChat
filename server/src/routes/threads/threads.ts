@@ -7,7 +7,7 @@ import { ThreadController } from "@/modules/Thread/ThreadController";
 export const setupThreadsRoute = (app: FastifyInstance) => {
 	// GET Thread by ID
 	app.get("/:threadId", {
-		oas: { description: "Get Thread by ID." },
+		oas: { description: "Get Thread by ID.", tags: ["Thread"] },
 		schema: { response: { 200: ThreadSchema } },
 		preHandler: [getThread()],
 		handler: async (req, res) => res.send(req.thread),
@@ -15,14 +15,14 @@ export const setupThreadsRoute = (app: FastifyInstance) => {
 
 	// POST Create a new thread
 	app.post("/", {
-		oas: { description: "Create new Thread." },
+		oas: { description: "Create new Thread.", tags: ["Thread"] },
 		schema: { response: { 200: ThreadSchema } },
 		handler: ThreadController.createThread,
 	});
 
 	// POST Update a thread by ID
 	app.post("/:threadId", {
-		oas: { description: "Update Thread by ID." },
+		oas: { description: "Update Thread by ID.", tags: ["Thread"] },
 		schema: { response: { 200: ThreadSchema } },
 		preHandler: [getThread()],
 		handler: ThreadController.updateThread,
@@ -30,7 +30,7 @@ export const setupThreadsRoute = (app: FastifyInstance) => {
 
 	// DELETE Thread by ID
 	app.delete("/:threadId", {
-		oas: { description: "Delete Thread by ID." },
+		oas: { description: "Delete Thread by ID.", tags: ["Thread"] },
 		preHandler: [getThread()],
 		handler: ThreadController.deleteThread,
 	});

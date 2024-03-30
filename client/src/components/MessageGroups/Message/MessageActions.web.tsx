@@ -6,6 +6,9 @@ import { cn } from "@/lib/utils";
 import { FontAwesome6, Octicons } from "@/components/ui/Icon";
 import { Message } from "@/types";
 import { useDeleteMessageMutation } from "@/lib/mutations/useDeleteMessageMutation";
+import { Button } from "@/components/ui/Button";
+import { Text } from "@/components/ui/Text";
+import { useUpdateMessageMutation } from "@/lib/mutations/useUpdateMessageMutation";
 
 export function MessageActions({
 	message,
@@ -16,6 +19,7 @@ export function MessageActions({
 }) {
 	const { setEditId, reset, editMessageId } = useGroupStore();
 	const { mutate: deleteMessage } = useDeleteMessageMutation(message.id);
+	const { mutate: updateMessage } = useUpdateMessageMutation();
 
 	const editMode = editMessageId === message.id;
 
@@ -54,29 +58,41 @@ export function MessageActions({
 	];
 
 	return (
-		<View className="h-3 pl-6">
-			<View
-				className={cn(
-					"flex-row gap-4 group-hover:flex",
-					editMode ? "" : "hidden"
-				)}
-			>
-				{actions.map(({ IconProvider, icon, onPress, hidden }, i) =>
-					!hidden ? (
-						<Pressable
-							className="transition-all active:scale-110"
-							key={i}
-							onPress={onPress}
-						>
-							<IconProvider
-								name={icon}
-								size={14}
-								className="transition-colors text-foreground/30 hover:text-foreground/80"
-							/>
-						</Pressable>
-					) : null
-				)}
+		<>
+			{editMode && (
+				<View className="flex flex-row justify-center gap-4 mt-2">
+					<Button onPress={toggleEditMode} size="sm">
+						<Text>Cancel</Text>
+					</Button>
+					<Button size="sm">
+						<Text>Save</Text>
+					</Button>
+				</View>
+			)}
+			<View className="h-3 pl-6">
+				<View
+					className={cn(
+						"flex-row gap-4 group-hover:flex",
+						editMode ? "" : "hidden"
+					)}
+				>
+					{actions.map(({ IconProvider, icon, onPress, hidden }, i) =>
+						!hidden ? (
+							<Pressable
+								className="transition-all active:scale-110"
+								key={i}
+								onPress={onPress}
+							>
+								<IconProvider
+									name={icon}
+									size={14}
+									className="transition-colors text-foreground/30 hover:text-foreground/80"
+								/>
+							</Pressable>
+						) : null
+					)}
+				</View>
 			</View>
-		</View>
+		</>
 	);
 }

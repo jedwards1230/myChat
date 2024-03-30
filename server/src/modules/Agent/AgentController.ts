@@ -1,13 +1,17 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { AgentRepo } from "./AgentRepo";
+import { getAgentRepo } from "./AgentRepo";
 import type { AgentCreateSchema } from "./AgentSchema";
+import type { Agent } from "./AgentModel";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
 		const agent = request.body as AgentCreateSchema;
-		const savedAgent = await AgentRepo.save({ ...agent, owner: user });
+		const savedAgent = await getAgentRepo().save({
+			...(agent as Agent),
+			owner: user,
+		});
 		reply.send(savedAgent);
 	}
 

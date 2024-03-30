@@ -2,8 +2,7 @@ import { In } from "typeorm";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { MessageFile } from "./MessageFileModel";
-import { MessageFileRepo } from "./MessageFileRepo";
-import { MessageRepo } from "@/modules//Message/MessageRepo";
+import { getMessageFileRepo } from "./MessageFileRepo";
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, res: FastifyReply) {
@@ -34,7 +33,7 @@ export class MessageFileController {
 		const message = req.message;
 
 		const filesRaw = req.files();
-		const newMsg = await MessageFileRepo.addFileList(filesRaw, message);
+		const newMsg = await getMessageFileRepo().addFileList(filesRaw, message);
 
 		res.send(newMsg);
 	}
@@ -60,7 +59,7 @@ export class MessageFileController {
     */
 	static async parseFiles(files: MessageFile[]) {
 		// get fileData for all files
-		const loadedFiles = await MessageFileRepo.find({
+		const loadedFiles = await getMessageFileRepo().find({
 			where: { id: In(files.map((file) => file.id)) },
 			relations: ["fileData"],
 		});
@@ -77,7 +76,7 @@ export class MessageFileController {
 			})
 			.filter((file) => file !== undefined);
 
-		await MessageFileRepo.save(parsableFiles);
+		await getMessageFileRepo().save(parsableFiles);
 
 		return parsedFiles.join("\n\n");
 	}

@@ -11,9 +11,9 @@ import logger, { streamLogger } from "@/lib/logs/logger";
 import MessageQueue from "@/lib/queue";
 
 import { Thread } from "@/modules/Thread/ThreadModel";
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Message } from "../Message/MessageModel";
-import { ToolCallRepo, MessageRepo } from "../Message/MessageRepo";
+import { getToolCallRepo, getMessageRepo } from "../Message/MessageRepo";
 import type { ToolCall } from "../Message/ToolCallModel";
 
 export class StreamResponseController {
@@ -53,7 +53,7 @@ export class StreamResponseController {
 			thread.activeMessage = newMsg;
 			thread.messages = [...thread.messages, newMsg];
 
-			const newThread = await ThreadRepo.save(thread);
+			const newThread = await getThreadRepo().save(thread);
 		}
 	}
 
@@ -64,12 +64,12 @@ export class StreamResponseController {
 	) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 
-		const toolCall = await ToolCallRepo.findOneByOrFail({
+		const toolCall = await getToolCallRepo().findOneByOrFail({
 			id: message.tool_call_id,
 		});
 		toolCall.content = message.content;
 
-		const toolMsg = await MessageRepo.save({
+		const toolMsg = await getMessageRepo().save({
 			role: "tool",
 			content: message.content,
 			parent: thread.activeMessage,
@@ -91,7 +91,7 @@ export class StreamResponseController {
 	) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 
-		const msg = MessageRepo.create({
+		const msg = getMessageRepo().create({
 			role: "assistant",
 			parent: thread.activeMessage,
 		});
@@ -100,18 +100,18 @@ export class StreamResponseController {
 		if (message.name) msg.name = message.name;
 		if (message.tool_calls) {
 			let tool_calls: ToolCall[] | undefined;
-			tool_calls = await ToolCallRepo.find({
+			tool_calls = await getToolCallRepo().find({
 				where: message.tool_calls.map((tc) => ({ id: tc.id })),
 			});
 
 			if (tool_calls.length !== message.tool_calls.length) {
-				tool_calls = await ToolCallRepo.save(message.tool_calls);
+				tool_calls = await getToolCallRepo().save(message.tool_calls);
 			}
 
 			msg.tool_calls = tool_calls;
 		}
 
-		const assistantMsg = await MessageRepo.save(msg);
+		const assistantMsg = await getMessageRepo().save(msg);
 
 		return assistantMsg;
 	}

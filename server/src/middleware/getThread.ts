@@ -1,7 +1,7 @@
 import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Thread } from "@/modules/Thread/ThreadModel";
 import logger from "@/lib/logs/logger";
 
@@ -10,7 +10,7 @@ export function getThread(relations?: FindOneOptions<Thread>["relations"]) {
 		try {
 			const { threadId } = request.params as { threadId: string };
 
-			const thread = await ThreadRepo.getThreadById(
+			const thread = await getThreadRepo().getThreadById(
 				request.user,
 				threadId,
 				relations

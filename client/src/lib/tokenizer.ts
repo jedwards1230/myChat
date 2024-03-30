@@ -1,26 +1,14 @@
-import type GPT4Tokenizer from "gpt4-tokenizer";
+import GPT4Tokenizer from "gpt4-tokenizer";
 import { useEffect, useState } from "react";
 
-let tokenizer: GPT4Tokenizer;
-
-async function getTokenizer() {
-	if (!tokenizer) {
-		const GPT4Tokenizer = (await import("gpt4-tokenizer")).default;
-		tokenizer = new GPT4Tokenizer({ type: "gpt3" });
-	}
-	return tokenizer;
-}
-
-export async function getTokenCount(input: string) {
-	const tokenizer = await getTokenizer();
-	return tokenizer.estimateTokenCount(input);
-}
+const tokenizer = new GPT4Tokenizer({ type: "gpt3" });
 
 export function useTokenCount(input: string) {
 	const [tokenCount, setTokenCount] = useState(0);
 
 	useEffect(() => {
-		getTokenCount(input).then(setTokenCount);
+		const count = tokenizer.estimateTokenCount(input);
+		setTokenCount(count);
 	}, [input]);
 
 	return tokenCount;

@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import { ThreadRepo } from "@/modules/Thread/ThreadRepo";
+import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 
 export class ThreadController {
 	static async createThread(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
-		const thread = await ThreadRepo.createThread(user);
+		const thread = await getThreadRepo().createThread(user);
 		reply.send(thread);
 	}
 
@@ -18,7 +18,10 @@ export class ThreadController {
 		const thread = request.thread;
 
 		try {
-			const deletedThread = await ThreadRepo.deleteThread(request.user, thread.id);
+			const deletedThread = await getThreadRepo().deleteThread(
+				request.user,
+				thread.id
+			);
 
 			if (!deletedThread) {
 				return reply.status(500).send({

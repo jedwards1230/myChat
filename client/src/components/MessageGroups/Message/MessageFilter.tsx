@@ -15,7 +15,7 @@ export function MessageFilter({ message }: { message: Message }) {
 	if (editMode) {
 		return (
 			<Textarea
-				className="bg-transparent web:focus-visible:ring-0"
+				className="px-2 py-1 bg-transparent web:focus-visible:ring-0"
 				value={message.content ?? undefined}
 			/>
 		);

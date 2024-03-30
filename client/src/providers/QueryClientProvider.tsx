@@ -9,7 +9,9 @@ import { AppState, type AppStateStatus, Platform } from "react-native";
 import { useEffect } from "react";
 import { DevToolsBubble } from "react-native-react-query-devtools";
 
-const DEBUG = true && process.env.NODE_ENV === "development";
+const DEBUG =
+	process.env.EXPO_PUBLIC_DEBUG_QUERY === "true" &&
+	process.env.NODE_ENV === "development";
 
 const queryClient = new QueryClient();
 

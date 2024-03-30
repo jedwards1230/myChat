@@ -35,7 +35,7 @@ export function AgentDialog({
 				</DialogTrigger>
 			)}
 
-			<DialogContent className="flex flex-col min-w-[60vw] justify-center text-foreground">
+			<DialogContent className="flex flex-col min-w-[60vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
 				<DialogTitle className="text-center">Agent</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<AgentView agent={agent} />

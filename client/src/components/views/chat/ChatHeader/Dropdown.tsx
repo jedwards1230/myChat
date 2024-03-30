@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import { getTokenCount } from "@/lib/tokenizer";
+import { useTokenCount } from "@/lib/tokenizer";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 
 import {
@@ -34,16 +34,8 @@ export function Dropdown({
 	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
 	const { data: messages } = useMessagesQuery(threadId);
 
-	const [tokens, setTokens] = useState(0);
-	useEffect(() => {
-		const getCount = async () => {
-			const count = await getTokenCount(
-				messages?.map((m) => m.content).join(" ") || ""
-			);
-			setTokens(count);
-		};
-		getCount();
-	}, [messages]);
+	const tokenInput = messages?.map((m) => m.content).join(" ") || "";
+	const tokens = useTokenCount(tokenInput);
 
 	const openAgentMenu = () => setAgentOpen(true);
 

@@ -11,11 +11,13 @@ import {
 } from "typeorm";
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
-import { cleanedSystemMessage } from "@/modules/Models/Tools/browser/browser";
+import { cleanedSystemMessage } from "@/modules/LLMNexus/Tools/browser/browser";
+
+type ToolType = "browser";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
-	tools: [],
+	tools: ["browser"],
 	toolsEnabled: false,
 	systemMessage: "You are a personal assistant." + cleanedSystemMessage,
 };
@@ -34,7 +36,7 @@ export class Agent extends BaseEntity {
 
 	/** Tools available to the Agent */
 	@Column({ type: "text", array: true, default: defaultAgent.tools })
-	tools: string[] = [];
+	tools: ToolType[] = [];
 
 	/** Whether tools are enabled */
 	@Column({ type: "boolean", default: defaultAgent.toolsEnabled })

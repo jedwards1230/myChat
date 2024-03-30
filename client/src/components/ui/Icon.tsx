@@ -1,5 +1,6 @@
 import { cssInterop } from "nativewind";
 import {
+	Feather,
 	FontAwesome,
 	FontAwesome6,
 	MaterialIcons,
@@ -8,6 +9,15 @@ import {
 	Octicons,
 	Ionicons,
 } from "@expo/vector-icons";
+
+cssInterop(Feather, {
+	className: {
+		target: "style",
+		nativeStyleToProp: {
+			color: true,
+		},
+	},
+});
 
 cssInterop(FontAwesome, {
 	className: {
@@ -73,6 +83,7 @@ cssInterop(Ionicons, {
 });
 
 export {
+	Feather,
 	FontAwesome,
 	FontAwesome6,
 	MaterialIcons,
