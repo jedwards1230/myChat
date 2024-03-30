@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import type { Agent } from "@/types";
-import { fetcher } from "../utils";
+import { fetcher } from "@/lib/fetcher";
 
 const fetchAgents = (userId: string) => () => fetcher<Agent[]>(["/agents", userId]);
 

@@ -127,15 +127,9 @@ export class LLMNexusController {
 		} else {
 			if (!thread.activeMessage) throw new Error("No active message in thread");
 			const responseMsg = response.choices[0].message;
-
-			logger.debug("Adding Message", {
-				functionName: "LLMNexusController.saveResponse",
-			});
 			getThreadRepo().addMessage(thread, {
 				role: responseMsg.role as Role,
-				content: Array.isArray(responseMsg.content)
-					? responseMsg.content.join(" ")
-					: responseMsg.content?.toString(),
+				content: responseMsg.content,
 				parent: thread.activeMessage,
 			});
 		}

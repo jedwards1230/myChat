@@ -1,15 +1,16 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Message } from "@/types";
-import { fetcher } from "../utils";
 import { useConfigStore } from "../stores/configStore";
+import { fetcher } from "@/lib/fetcher";
 
 const postChatRequest = async (
 	threadId: string | null,
 	userId: string,
 	stream: boolean = false
-) =>
-	fetcher<Message>([`/threads/${threadId}/runs`, userId], {
+) => {
+	console.log("requesting chat", threadId, userId, stream);
+	const res = await fetcher<Message>([`/threads/${threadId}/runs`, userId], {
 		method: "POST",
 		body: JSON.stringify({
 			threadId,
@@ -17,6 +18,11 @@ const postChatRequest = async (
 		}),
 		stream,
 	});
+
+	console.log("chat requested", res);
+
+	return res;
+};
 
 export type PostChatRequest = {
 	threadId: string | null;
@@ -28,7 +34,7 @@ export type PostChatRequest = {
  * This will return a JSON response.
  * Use WebSocket for real-time chat.
  * */
-export const iseRequestJSONChatMutation = () => {
+export const useRequestJSONChatMutation = () => {
 	const user = useConfigStore((s) => s.user);
 	const queryClient = useQueryClient();
 

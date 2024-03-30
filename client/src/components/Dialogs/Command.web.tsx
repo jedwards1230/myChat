@@ -1,6 +1,7 @@
 "use client";
 
 import * as React from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import {
 	CommandDialog as CommandDialogComponent,
@@ -13,8 +14,7 @@ import {
 import { FontAwesome } from "@/components/ui/Icon";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import { fetcher } from "@/lib/utils";
-import { useQueryClient } from "@tanstack/react-query";
+import { fetcher } from "@/lib/fetcher";
 
 export function CommandDialog({
 	open,

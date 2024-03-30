@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
-import { fetcher } from "../utils";
+import { fetcher } from "@/lib/fetcher";
 import { Message } from "@/types";
 import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
 

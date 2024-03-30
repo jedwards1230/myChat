@@ -5,6 +5,7 @@ import { AppDataSource } from "@/lib/pg";
 import { Thread } from "@/modules/Thread/ThreadModel";
 import { Message } from "@/modules/Message/MessageModel";
 import type { User } from "@/modules/User/UserModel";
+import logger from "@/lib/logs/logger";
 
 export const getThreadRepo = () =>
 	AppDataSource.getRepository(Thread).extend({
@@ -36,7 +37,12 @@ export const getThreadRepo = () =>
 
 				const newMsg = await manager.save(Message, { ...message, thread });
 
+				const threadMsgs = await manager.find(Message, {
+					where: { thread: Equal(thread.id) },
+				});
+
 				thread.activeMessage = newMsg;
+				thread.messages = [...threadMsgs, newMsg];
 				const newThread = await manager.save(Thread, thread);
 
 				return newThread;

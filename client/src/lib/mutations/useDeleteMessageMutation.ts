@@ -1,6 +1,6 @@
 import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 
-import { fetcher } from "../utils";
+import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/lib/stores/configStore";
 
 const deleteMessage = (threadId: string, messageId: string, userId: string) => () =>

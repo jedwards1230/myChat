@@ -2,7 +2,7 @@ import { router } from "expo-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
-import { fetcher } from "../utils";
+import { fetcher } from "@/lib/fetcher";
 import type { Thread } from "@/types";
 
 const createThread = async (userId: string): Promise<Thread> => {
