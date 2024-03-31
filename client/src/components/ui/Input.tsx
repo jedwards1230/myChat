@@ -11,7 +11,7 @@ const inputVariants = cva(
 			variant: {
 				default:
 					"border rounded-md px-3 web:py-2 opacity-50 web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
-				chat: "pt-3 pl-14 pr-6 web:pr-8",
+				chat: "pt-3 pr-6 web:pr-8",
 			},
 			size: {
 				default: "h-10 native:h-12",

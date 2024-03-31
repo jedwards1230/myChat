@@ -1,5 +1,5 @@
 import { Type, type Static } from "@fastify/type-provider-typebox";
-import { MessageFileListSchema } from "../File/MessageFileSchema";
+import { MessageFileListSchema } from "../MessageFile/MessageFileSchema";
 
 export const MessageObjectSchema = Type.Object({
 	id: Type.String(),

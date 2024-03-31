@@ -11,7 +11,7 @@ import {
 	MessageSchemaWithoutId,
 } from "@/modules/Message/MessageSchema";
 import { MessageController } from "@/modules/Message/MessageController";
-import { MessageFileController } from "@/modules/File/MessageFileController";
+import { MessageFileController } from "@/modules/MessageFile/MessageFileController";
 
 export const setupMessagesRoute = (app: FastifyInstance) => {
 	// POST Create Message in Thread
@@ -82,7 +82,7 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 	// GET file by message ID
 	app.get("/:messageId/files/:fileId", {
 		oas: { description: "Get File by Message ID.", tags: ["MessageFile"] },
-		preHandler: [getMessage(["files"])],
+		preHandler: [getMessage({ files: { fileData: true } })],
 		handler: MessageFileController.getMessageFile,
 	});
 };

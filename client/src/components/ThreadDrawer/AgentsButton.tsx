@@ -4,12 +4,7 @@ import { Ionicons } from "@/components/ui/Icon";
 
 export function AgentsButton() {
 	return (
-		<LinkButton
-			className="pr-8"
-			href={{
-				pathname: "/(chat)/agents",
-			}}
-		>
+		<LinkButton href={{ pathname: "/(chat)/agents" }}>
 			<Ionicons
 				name="grid-outline"
 				size={20}

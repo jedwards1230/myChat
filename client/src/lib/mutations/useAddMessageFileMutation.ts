@@ -50,6 +50,7 @@ export const useAddMessageFileMutation = () => {
 
 const buildFormData = async (fileList: CacheFile[]) => {
 	const formData = new FormData();
+	// TODO: Pass the CacheFile metadata to the server
 	Array.from(fileList).forEach((f) => f.file && formData.append("files", f.file));
 	return formData;
 };

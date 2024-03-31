@@ -26,10 +26,12 @@ export function FileInputButton() {
 		if (res.canceled) console.log({ res });
 	};
 
+	// TODO: Fix uploads on native
+	return null;
 	return (
 		<Pressable
 			onPress={triggerFileInput}
-			className="absolute left-0 p-1 bg-transparent rounded-full web:left-2"
+			className="absolute left-0 p-1 bg-transparent rounded-full"
 		>
 			<FontAwesome name="paperclip" size={22} className="text-foreground" />
 		</Pressable>

@@ -26,6 +26,7 @@ export default function ChatInput({
 			autoFocus
 			variant="chat"
 			size="chat"
+			//className="pl-8"
 			value={input}
 			onChangeText={setInput}
 			multiline

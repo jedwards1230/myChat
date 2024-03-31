@@ -38,7 +38,7 @@ export default function ChatInput({
 		<Input
 			ref={ref}
 			autoFocus
-			className="flex-1 pb-2 border-0 bg-background focus:outline-none text-foreground rounded-2xl"
+			className="flex-1 pb-2 border-0 pl-14 bg-background focus:outline-none text-foreground rounded-2xl"
 			variant="chat"
 			size="chat"
 			value={input}

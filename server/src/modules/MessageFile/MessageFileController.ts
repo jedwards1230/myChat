@@ -6,34 +6,42 @@ import { getMessageFileRepo } from "./MessageFileRepo";
 import logger from "@/lib/logs/logger";
 
 export class MessageFileController {
-	static async getMessageFile(req: FastifyRequest, res: FastifyReply) {
+	static async getMessageFile(req: FastifyRequest, reply: FastifyReply) {
 		const { fileId } = req.params as {
 			fileId: string;
 		};
 		const message = req.message;
 		if (!message.files) {
-			return res.status(500).send({
+			return reply.status(500).send({
 				error: "No message files found.",
 			});
 		}
 
 		const file = message.files.find((f) => f.id === fileId);
 		if (!file) {
-			return res.status(404).send({ error: "File not found." });
+			return reply.status(404).send({ error: "File not found." });
 		}
 
-		res.send(file);
+		reply.send(file);
 	}
 
 	static async createMessageFile(req: FastifyRequest, res: FastifyReply) {
 		if (!req.isMultipart()) {
 			return res.status(400).send({ error: "Request must be multipart." });
 		}
-		const message = req.message;
-		const filesRaw = req.files();
-		const newMsg = await getMessageFileRepo().addFileList(filesRaw, message);
+		try {
+			const message = req.message;
+			const filesRaw = req.files();
+			const newMsg = await getMessageFileRepo().addFileList(filesRaw, message);
 
-		res.send(newMsg);
+			res.send(newMsg);
+		} catch (error) {
+			logger.error("Error creating message file", {
+				error,
+				functionName: "MessageFileController.createMessageFile",
+			});
+			throw error;
+		}
 	}
 
 	static async getMessageFiles(req: FastifyRequest, res: FastifyReply) {

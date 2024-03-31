@@ -2,7 +2,7 @@ import { AppDataSource } from "@/lib/pg";
 import logger from "@/lib/logs/logger";
 import { Message } from "@/modules/Message/MessageModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
-import { MessageFileController } from "../File/MessageFileController";
+import { MessageFileController } from "../MessageFile/MessageFileController";
 
 export const getToolCallRepo = () => AppDataSource.getRepository(ToolCall).extend({});
 

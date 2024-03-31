@@ -7,7 +7,7 @@ import { User } from "@/modules/User/UserModel";
 import { Agent } from "@/modules/Agent/AgentModel";
 import { Thread } from "@/modules/Thread/ThreadModel";
 import { Message } from "@/modules/Message/MessageModel";
-import { FileData, MessageFile } from "@/modules/File/MessageFileModel";
+import { FileData, MessageFile } from "@/modules/MessageFile/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
 import { SocketSession } from "@/modules/User/SessionModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";

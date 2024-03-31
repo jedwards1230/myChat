@@ -10,7 +10,7 @@ export type {
 	AgentCreateSchema,
 } from "@db/Agent/AgentSchema";
 
-export type { MessageFile } from "@db/File/MessageFileModel";
+export type { MessageFile } from "@db/MessageFile/MessageFileModel";
 
 export type { SocketClientMessage, SocketServerMessage } from "@bet/wsResponse";
 

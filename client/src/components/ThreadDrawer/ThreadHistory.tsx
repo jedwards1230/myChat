@@ -25,7 +25,7 @@ export default function ThreadHistory() {
 }
 
 function ThreadList() {
-	const { data, status } = useThreadListQuery();
+	const { data, status, refetch } = useThreadListQuery();
 	const threadGroups = groupThreadsByDate(data);
 
 	return (
@@ -33,6 +33,8 @@ function ThreadList() {
 			<FlashList
 				data={threadGroups}
 				keyExtractor={(_, i) => i.toString()}
+				refreshing={status === "pending"}
+				onRefresh={refetch}
 				estimatedItemSize={36}
 				extraData={{ status }}
 				initialScrollIndex={threadGroups.length - 1}

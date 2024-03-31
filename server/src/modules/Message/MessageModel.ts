@@ -18,7 +18,7 @@ import {
 import { Thread } from "../Thread/ThreadModel";
 import { type Role, roleList } from "./RoleModel";
 import { ToolCall } from "./ToolCallModel";
-import { MessageFile } from "../File/MessageFileModel";
+import { MessageFile } from "../MessageFile/MessageFileModel";
 
 @Entity("Message")
 @Tree("closure-table")
