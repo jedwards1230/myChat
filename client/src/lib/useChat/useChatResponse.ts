@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useMessagesQuery, useMessagesQueryHelpers } from "../queries/useMessagesQuery";
-import { useRequestJSONChatMutation } from "../mutations/useRequestJSONChatMutation";
-import { handleStreamResponse } from "@/utils/chat.stream";
+import { useRequestChatMutation } from "../mutations/useRequestChatMutation";
+import { handleStreamResponse } from "./chat.stream";
 
 export const useChatResponse = () => {
 	const [loading, setLoading] = useState(false);
@@ -15,7 +15,7 @@ export const useChatResponse = () => {
 	);
 
 	const { data: messages } = useMessagesQuery(threadId);
-	const { mutate: requestChatJSON, data } = useRequestJSONChatMutation();
+	const { mutate: requestChatJSON, data } = useRequestChatMutation();
 
 	useEffect(() => {
 		if (!data) return;

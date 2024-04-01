@@ -34,7 +34,7 @@ export type PostChatRequest = {
 	userId: string;
 };
 
-export const useRequestJSONChatMutation = () => {
+export const useRequestChatMutation = () => {
 	const { user, stream } = useConfigStore();
 	const queryClient = useQueryClient();
 
