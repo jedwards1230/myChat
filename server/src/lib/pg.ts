@@ -9,9 +9,7 @@ import { Thread } from "@/modules/Thread/ThreadModel";
 import { Message } from "@/modules/Message/MessageModel";
 import { FileData, MessageFile } from "@/modules/MessageFile/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
-import { SocketSession } from "@/modules/User/SessionModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
-import { AgentRunSubscriber } from "@/modules/AgentRun/AgentRunSubscriber";
 
 // TODO: setup env vars
 export const AppDataSource = new DataSource({
@@ -21,18 +19,7 @@ export const AppDataSource = new DataSource({
 	username: "admin",
 	password: "admin",
 	database: "ChatDB",
-	entities: [
-		SocketSession,
-		User,
-		Agent,
-		Thread,
-		ToolCall,
-		FileData,
-		MessageFile,
-		Message,
-		AgentRun,
-	],
-	subscribers: [AgentRunSubscriber],
+	entities: [User, Agent, Thread, ToolCall, FileData, MessageFile, Message, AgentRun],
 	synchronize: true,
 	logging: process.env.DEBUG_DB === "true" ? "all" : ["error", "warn"],
 	logger: new DBLogger(),

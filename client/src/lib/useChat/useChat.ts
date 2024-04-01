@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { useConfigStore } from "@/lib/stores/configStore";
-import { useStreamChat } from "./useStreamChat";
-import { useJSONChat } from "./useJSONChat";
+import { useChatResponse } from "./useChatResponse";
 import { useFileStore } from "../stores/fileStore";
 import { useAddMessageMutation } from "../mutations/useAddMessageMutation";
 import { useCreateThreadMutation } from "../mutations/useCreateThreadMutation";
@@ -30,7 +29,7 @@ export function useChat() {
 		threadId ? "ready" : "no-thread"
 	);
 
-	const { requestChat, abort, loading } = useResponseChat();
+	const { requestChat, abort, loading } = useChatResponse();
 
 	const addMessageMut = useAddMessageMutation();
 	useEffect(() => {
@@ -145,9 +144,4 @@ export function useChat() {
 		handleSubmit,
 		abort,
 	};
-}
-
-function useResponseChat() {
-	const stream = useConfigStore((state) => state.stream);
-	return stream ? useStreamChat() : useJSONChat();
 }

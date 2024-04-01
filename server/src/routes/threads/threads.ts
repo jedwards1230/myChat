@@ -1,16 +1,15 @@
 import type { FastifyInstance } from "fastify";
 
 import { getThread } from "@/middleware/getThread";
-import { ThreadSchema } from "@/modules/Thread/ThreadSchema";
+import { ThreadSchema, ThreadListSchema } from "@/modules/Thread/ThreadSchema";
 import { ThreadController } from "@/modules/Thread/ThreadController";
 
 export const setupThreadsRoute = (app: FastifyInstance) => {
-	// GET Thread by ID
-	app.get("/:threadId", {
-		oas: { description: "Get Thread by ID.", tags: ["Thread"] },
-		schema: { response: { 200: ThreadSchema } },
-		preHandler: [getThread()],
-		handler: async (req, res) => res.send(req.thread),
+	// GET Thread History for user
+	app.get("/", {
+		schema: { response: { 200: ThreadListSchema } },
+		oas: { description: "List Threads for User.", tags: ["Thread"] },
+		handler: async (request, reply) => reply.send(request.user.threads),
 	});
 
 	// POST Create a new thread
@@ -18,6 +17,14 @@ export const setupThreadsRoute = (app: FastifyInstance) => {
 		oas: { description: "Create new Thread.", tags: ["Thread"] },
 		schema: { response: { 200: ThreadSchema } },
 		handler: ThreadController.createThread,
+	});
+
+	// GET Thread by ID
+	app.get("/:threadId", {
+		oas: { description: "Get Thread by ID.", tags: ["Thread"] },
+		schema: { response: { 200: ThreadSchema } },
+		preHandler: [getThread()],
+		handler: async (req, res) => res.send(req.thread),
 	});
 
 	// POST Update a thread by ID

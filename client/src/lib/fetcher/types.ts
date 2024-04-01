@@ -14,3 +14,10 @@ export class FetchError extends Error {
 		return undefined;
 	}
 }
+
+export type FetcherRequestInit = FetchRequestInit & {
+	/** If true, returns raw Response. If false, returns JSON Response. */
+	stream?: boolean;
+	/** If true, removes default "Content-Type" header (Default: false) */
+	file?: boolean;
+};

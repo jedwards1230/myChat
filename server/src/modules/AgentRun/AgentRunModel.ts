@@ -3,12 +3,12 @@ import {
 	Column,
 	CreateDateColumn,
 	Entity,
+	ManyToOne,
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
-import { SocketSession } from "../User/SessionModel";
 
 export type RunType = "getChat" | "getTitle";
 
@@ -38,10 +38,10 @@ export class AgentRun extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@Column(() => Thread)
+	@ManyToOne(() => Thread)
 	thread: Thread;
 
-	@Column(() => Agent)
+	@ManyToOne(() => Agent)
 	agent: Agent;
 
 	/** Run Status */
@@ -55,10 +55,6 @@ export class AgentRun extends BaseEntity {
 	/** Should response be streamed */
 	@Column({ type: "boolean", default: true })
 	stream: boolean;
-
-	/** Socket Session */
-	@Column(() => SocketSession)
-	session?: SocketSession;
 
 	/** Run start time */
 	@CreateDateColumn()

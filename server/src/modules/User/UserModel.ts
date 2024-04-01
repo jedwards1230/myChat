@@ -10,7 +10,6 @@ import {
 } from "typeorm";
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
-import { SocketSession } from "./SessionModel";
 
 @Entity("User")
 export class User extends BaseEntity {
@@ -41,8 +40,4 @@ export class User extends BaseEntity {
 	})
 	@JoinColumn()
 	defaultAgent: Relation<Agent>;
-
-	/** Sessions of the User. */
-	@OneToMany(() => SocketSession, (session) => session.user)
-	sessions: Relation<SocketSession[]>;
 }

@@ -2,9 +2,9 @@ import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
 import { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
 
-import type { Connection } from "@/lib/ws";
-import { wsHandler } from "@/index";
 import logger from "@/lib/logs/logger";
+import { chatResponseEmitter } from "@/lib/events";
+import MessageQueue from "@/lib/queue";
 
 import { getMessageRepo } from "../Message/MessageRepo";
 import type { Role } from "../Message/RoleModel";
@@ -49,13 +49,9 @@ export class LLMNexusController {
 						},
 					});
 
-					const { thread, session, stream } = agentRun;
-					let conn: Connection | undefined;
-					if (stream && session) {
-						conn = wsHandler.get(session.id);
-					}
+					const { thread } = agentRun;
 
-					await this.saveResponse(thread, response, conn);
+					await this.saveResponse(thread, response);
 					break;
 				}
 				case "getTitle": {
@@ -122,12 +118,6 @@ export class LLMNexusController {
 				true
 			);
 			const completion = await llmServce.createChatCompletion(messages, opts);
-
-			logger.debug("Generated chat response", {
-				completion,
-				functionName: "LLMNexusController.generateChatResponse",
-			});
-
 			return completion;
 		} catch (error) {
 			logger.error("Error generating chat response", {
@@ -140,19 +130,29 @@ export class LLMNexusController {
 
 	private static async saveResponse(
 		thread: Thread,
-		response: ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion,
-		conn?: Connection
+		response: ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion
 	) {
 		try {
 			if (
 				response instanceof ChatCompletionStream ||
 				response instanceof ChatCompletionStreamingRunner
 			) {
-				if (!conn) throw new Error("No WebSocket connection");
 				// Handle streamed response
-				StreamResponseController.processResponse(thread, response, conn);
+				chatResponseEmitter.sendResponseStreamReady({
+					threadId: thread.id,
+					response,
+				});
+				StreamResponseController.processResponse(
+					thread,
+					response,
+					new MessageQueue()
+				);
 			} else {
 				if (!thread.activeMessage) throw new Error("No active message in thread");
+				chatResponseEmitter.sendResponseJSONReady({
+					threadId: thread.id,
+					response,
+				});
 				const responseMsg = response.choices[0].message;
 				getThreadRepo().addMessage(thread, {
 					role: responseMsg.role as Role,

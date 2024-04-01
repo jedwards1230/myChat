@@ -1,46 +1,47 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { Platform } from "react-native";
 
 import { Message } from "@/types";
 import { useConfigStore } from "../stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 
-const postChatRequest = async (
+type FetcherResult<T> = T extends true ? Message : Response;
+
+async function postChatRequest(
 	threadId: string | null,
 	userId: string,
-	stream: boolean = false
-) => {
-	console.log("requesting chat", threadId, userId, stream);
-	const res = await fetcher<Message>([`/threads/${threadId}/runs`, userId], {
-		method: "POST",
-		body: JSON.stringify({
-			threadId,
-			stream,
-		}),
-		stream,
-	});
+	stream?: boolean
+): Promise<FetcherResult<typeof stream>> {
+	const res = await fetcher<FetcherResult<typeof stream>>(
+		[`/threads/${threadId}/runs`, userId],
+		{
+			method: "POST",
+			...(Platform.OS !== "web" && { reactNative: { textStreaming: true } }),
 
-	console.log("chat requested", res);
+			body: JSON.stringify({ stream, type: "getChat" }),
+			stream,
+		}
+	);
+
+	if (stream && res instanceof Response && res.body === null)
+		throw new Error("No stream found");
 
 	return res;
-};
+}
 
 export type PostChatRequest = {
 	threadId: string | null;
 	userId: string;
 };
 
-/**
- * Post a chat request to the server.
- * This will return a JSON response.
- * Use WebSocket for real-time chat.
- * */
 export const useRequestJSONChatMutation = () => {
-	const user = useConfigStore((s) => s.user);
+	const { user, stream } = useConfigStore();
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["postChatRequest"],
-		mutationFn: async (threadId: string | null) => postChatRequest(threadId, user.id),
+		mutationFn: async (threadId: string | null) =>
+			postChatRequest(threadId, user.id, stream),
 		onError: (error) => console.error(error),
 		onSettled: (res, err, threadId) =>
 			queryClient.invalidateQueries({

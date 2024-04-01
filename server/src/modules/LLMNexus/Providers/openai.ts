@@ -10,6 +10,7 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { Message } from "../../Message/MessageModel";
 import logger from "@/lib/logs/logger";
 import type { ChatOptions, LLMNexus } from "../LLMInterface";
+import { runnableSaveTitle } from "../Tools/newTitle";
 
 export const openai = new OpenAI();
 
@@ -70,30 +71,25 @@ export class OpenAIService implements LLMNexus {
 			Do not include any other information. 
 			Do not include unnecessary punctuation. 
 			Do not wrap the title in quotes.
-			Ensure the title is as general to the conversation as possible.`;
+			Ensure the title is as general to the conversation as possible.\n\n
+			${JSON.stringify(messages.map((m) => ({ role: m.role, content: m.content })))}`;
 
-		const response = await openai.chat.completions.create({
-			messages: [
-				{
-					role: "system",
-					content: SYSTEM_MESSAGE,
-				},
-				{
-					role: "user",
-					content: JSON.stringify(
-						messages.map((m) => ({
-							role: m.role,
-							content: m.content,
-						}))
-					),
-				},
-			],
+		const response = openai.beta.chat.completions.runTools({
+			stream: false,
+			tools: [runnableSaveTitle],
+			tool_choice: runnableSaveTitle,
+			messages: [{ role: "system", content: SYSTEM_MESSAGE }],
 			...opts,
 		});
 
-		if (!response.choices[0].message.content) throw new Error("No title generated");
+		await response.done();
+		const toolCall = await response.finalFunctionCall();
+		if (!toolCall?.arguments) throw new Error("No title generated");
 
-		return response.choices[0].message.content;
+		const { title } = JSON.parse(toolCall.arguments);
+		if (!title) throw new Error("No title generated");
+
+		return title;
 	}
 
 	private formatMessages(messages: Message[]): ChatCompletionMessageParam[] {

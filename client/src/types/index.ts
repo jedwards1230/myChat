@@ -12,6 +12,4 @@ export type {
 
 export type { MessageFile } from "@db/MessageFile/MessageFileModel";
 
-export type { SocketClientMessage, SocketServerMessage } from "@bet/wsResponse";
-
 export type CacheFile = DocumentPickerAsset & { relativePath?: string };

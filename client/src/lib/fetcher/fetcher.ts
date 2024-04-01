@@ -1,13 +1,5 @@
-// @ts-ignore
-import { polyfill as polyfillFetch } from "react-native-polyfill-globals/src/fetch";
-
-polyfillFetch();
-
-import { AuthParams, FetchError } from "./types";
-
-const IS_DEV = process.env.NODE_ENV === "development";
-
-const BASE_HOST = process.env.EXPO_PUBLIC_API_URL;
+import { AuthParams, FetchError, FetcherRequestInit } from "./types";
+import { BASE_HOST } from "./utils";
 
 /**
  * Fetcher for react-query.
@@ -15,7 +7,7 @@ const BASE_HOST = process.env.EXPO_PUBLIC_API_URL;
  * */
 export async function fetcher<T = any>(
 	[url, userId]: AuthParams,
-	{ stream, file, ...init }: FetchRequestInit & { stream?: boolean; file?: boolean } = {
+	{ stream, file, ...init }: FetcherRequestInit = {
 		stream: false,
 		file: false,
 	}

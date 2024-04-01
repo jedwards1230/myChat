@@ -1,6 +1,5 @@
 import path from "path";
 import readline from "readline";
-import WebSocket from "ws";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
@@ -11,13 +10,11 @@ import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
 import { initDb, resetDatabase } from "./lib/pg";
 import logger, { accessLogger } from "./lib/logs/logger";
-import { WebSocketHandler } from "./lib/ws";
 import { init } from "./lib/utils";
 import { authenticate } from "./middleware/auth";
 
 import { setupUserRoute } from "./routes/user";
 import { setupAgentsRoute } from "./routes/agents";
-import { setupThreadRoute } from "./routes/threads/thread";
 import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
@@ -57,7 +54,6 @@ const app = Fastify({
 
 // Middleware
 await app.register(fastifyCors, { origin: "*" });
-//await app.register(fastifySocket);
 await app.register(fastifyMultipart);
 
 const pluginOpts: OAS3PluginOptions = {
@@ -109,9 +105,6 @@ await app.register(
 		// User Route
 		await app.register(async (app, opts) => setupUserRoute(app));
 
-		// Socket Route
-		//await app.register(async (app, opts) => setupWsRoute(app));
-
 		// Authenticated Routes
 		await app.register(async (app, opts) => {
 			app.addHook("preHandler", authenticate);
@@ -128,13 +121,9 @@ await app.register(
 			);
 
 			// Threads Route
-			await app.register(
-				async (app, opts) => {
-					setupThreadsRoute(app);
-					setupThreadRoute(app);
-				},
-				{ prefix: "/threads" }
-			);
+			await app.register(async (app, opts) => setupThreadsRoute(app), {
+				prefix: "/threads",
+			});
 
 			// AgentRun Route
 			await app.register(async (app, opts) => setupAgentRunsRoute(app), {
@@ -165,10 +154,6 @@ app.listen({ port, host: "0.0.0.0" }, (err, address) => {
 	logger.info(`UI:   ${address}/docs`);
 });
 
-const wssHttp = new WebSocket.Server({ server: app.server });
-const wsHandler = new WebSocketHandler();
-wsHandler.addListener(wssHttp);
-
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 
@@ -180,4 +165,4 @@ process.stdin.on("keypress", (str, key) => {
 	}
 });
 
-export { app, wsHandler };
+export { app };

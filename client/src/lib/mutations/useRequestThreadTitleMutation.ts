@@ -4,10 +4,9 @@ import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/lib/stores/configStore";
 
 const fetchTitle = (threadId: string | null, userId: string) => () =>
-	fetcher<string>([`/threads/title/${threadId}`, userId], {
+	fetcher<string>([`/threads/${threadId}/runs`, userId], {
 		method: "POST",
-		headers: { "Content-Type": "text/plain" },
-		stream: true,
+		body: JSON.stringify({ type: "getTitle" }),
 	});
 
 export const useRequestThreadTitleMutation = (threadId: string | null) => {

@@ -3,37 +3,50 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import logger from "@/lib/logs/logger";
 
 import type { Thread } from "../Thread/ThreadModel";
-import type { SocketSession } from "@/modules/User/SessionModel";
 
+import { AgentRunQueue } from "./AgentRunQueue";
 import { getAgentRunRepo } from "./AgentRunRepo";
 import type { RunType } from "./AgentRunModel";
 import type { CreateRunBody } from "./AgentRunSchema";
+import { chatResponseEmitter, type ChatResponseEmitterEvents } from "@/lib/events";
+import type { ChatCompletion } from "openai/resources/index.mjs";
 
 export class AgentRunController {
 	/** Create an Agent Run and add it to the Queue */
 	static async createAndRun({
 		thread,
-		session,
 		stream = true,
 		type,
 	}: {
 		thread: Thread;
-		session?: SocketSession;
 		stream?: boolean;
 		type: RunType;
 	}) {
 		try {
 			if (!thread?.activeMessage) throw new Error("No active message found");
-			const run = await getAgentRunRepo().insert({
-				thread,
-				agent: thread.agent,
-				stream,
-				session,
-				type,
-			});
+			const run = await getAgentRunRepo()
+				.save({
+					thread: { id: thread.id, activeMessage: thread.activeMessage },
+					agent: thread.agent,
+					stream,
+					type,
+				})
+				.then((run) => run)
+				.catch((error) => {
+					logger.error("Error saving Agent Run", {
+						thread,
+						stream,
+						type,
+						error,
+						functionName: "AgentRunController.createAndRun",
+					});
+					throw error;
+				});
+			AgentRunQueue.addRunToQueue(run);
 			return run;
 		} catch (error) {
 			logger.error("Error creating Agent Run", {
+				type,
 				error,
 				functionName: "AgentRunController.createAndRun",
 			});
@@ -42,12 +55,50 @@ export class AgentRunController {
 
 	static async createAndRunHandler(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
-		const { stream } = request.body as CreateRunBody;
-		await AgentRunController.createAndRun({
+		const { stream, type } = request.body as CreateRunBody;
+		const agentRun = await AgentRunController.createAndRun({
 			thread,
 			stream,
-			type: "getChat",
+			type: type as RunType,
 		});
-		reply.send(request.user.agents);
+
+		const handleResponse = stream
+			? AgentRunController.handleStream
+			: AgentRunController.handleJSON;
+
+		const response = await handleResponse(thread);
+
+		return response;
+	}
+
+	static async handleStream(thread: Thread) {
+		return new Promise<ReadableStream<any>>((resolve, reject) => {
+			const streamHandler = async ({
+				threadId,
+				response,
+			}: ChatResponseEmitterEvents["responseStreamReady"]) => {
+				if (threadId !== thread.id) throw new Error("Thread ID mismatch");
+				chatResponseEmitter.removeListener("responseStreamReady", streamHandler);
+				resolve(response.toReadableStream());
+			};
+
+			chatResponseEmitter.on("responseStreamReady", streamHandler);
+		});
+	}
+
+	static async handleJSON(thread: Thread) {
+		return new Promise<ChatCompletion>((resolve, reject) => {
+			const jsonHandler = ({
+				threadId,
+				response,
+			}: ChatResponseEmitterEvents["responseJSONReady"]) => {
+				if (threadId !== thread.id) throw new Error("Thread ID mismatch");
+				chatResponseEmitter.removeListener("responseJSONReady", jsonHandler);
+
+				resolve(response);
+			};
+
+			chatResponseEmitter.on("responseJSONReady", jsonHandler);
+		});
 	}
 }
