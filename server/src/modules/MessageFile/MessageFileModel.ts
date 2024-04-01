@@ -35,13 +35,21 @@ export class MessageFile extends BaseEntity {
 	@Column({ type: "text" })
 	name: string;
 
+	/** Relative path */
+	@Column({ type: "text", nullable: true })
+	path?: string;
+
 	/** File last modified */
-	@Column({ type: "integer", nullable: true })
+	@Column({ type: "bigint", nullable: true })
 	lastModified?: number;
 
 	/** File upload date */
 	@CreateDateColumn()
 	uploadDate: Date;
+
+	/** File size */
+	@Column({ type: "bigint" })
+	size: bigint;
 
 	/** File mimetype */
 	@Column({ type: "text" })

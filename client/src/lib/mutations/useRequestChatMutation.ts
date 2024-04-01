@@ -17,7 +17,6 @@ async function postChatRequest(
 		{
 			method: "POST",
 			...(Platform.OS !== "web" && { reactNative: { textStreaming: true } }),
-
 			body: JSON.stringify({ stream, type: "getChat" }),
 			stream,
 		}

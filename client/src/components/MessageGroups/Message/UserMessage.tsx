@@ -55,10 +55,20 @@ function FileContent({ file, messageId }: { file: MessageFile; messageId: string
 	useEffect(() => {
 		console.log("data.fileData", data.fileData); // Check the structure of fileData
 		if (data && data.fileData && data.fileData.blob) {
-			const blob = new Blob([data.fileData as any], {
-				type: "text/plain",
-			});
-			console.log("Blob:", blob);
+			const data1 = (data.fileData.blob as any).data;
+			if (data1 instanceof Blob) {
+				console.log("Blob detected");
+			} else if (data1 instanceof ArrayBuffer) {
+				console.log("ArrayBuffer detected");
+			} else if (data1 instanceof Uint8Array) {
+				console.log("Uint8Array detected");
+			} else {
+				console.log("Unknown type detected", typeof data1, data1);
+			}
+
+			const buf = new Blob([data1]);
+			console.log("Blob", buf);
+
 			const reader = new FileReader();
 			reader.onloadend = () => {
 				console.log("Read file:", reader.result);
@@ -68,7 +78,7 @@ function FileContent({ file, messageId }: { file: MessageFile; messageId: string
 			reader.onerror = (error) => {
 				console.error("FileReader error:", error);
 			};
-			reader.readAsText(blob);
+			reader.readAsText(buf);
 		}
 	}, [data]);
 

@@ -6,10 +6,10 @@ import { fetcher } from "@/lib/fetcher";
 
 const fetchFile =
 	(userId: string, threadId: string, messageId: string, fileId: string) => () =>
-		fetcher<MessageFile>(
-			[`/threads/${threadId}/messages/${messageId}/files/${fileId}`, userId],
-			{ file: false }
-		);
+		fetcher<MessageFile>([
+			`/threads/${threadId}/messages/${messageId}/files/${fileId}`,
+			userId,
+		]);
 
 export const useFileQuery = (messageId: string, fileId: string) => {
 	const { user, threadId } = useConfigStore();

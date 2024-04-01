@@ -2,8 +2,13 @@ import { In } from "typeorm";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { MessageFile } from "./MessageFileModel";
-import { getMessageFileRepo } from "./MessageFileRepo";
+import {
+	getMessageFileRepo,
+	type MessageFileMetadata,
+	type PreppedFile,
+} from "./MessageFileRepo";
 import logger from "@/lib/logs/logger";
+import type { MultipartFile } from "@fastify/multipart";
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, reply: FastifyReply) {
@@ -31,8 +36,31 @@ export class MessageFileController {
 		}
 		try {
 			const message = req.message;
-			const filesRaw = req.files();
-			const newMsg = await getMessageFileRepo().addFileList(filesRaw, message);
+			const parts = req.parts();
+			const filesRaw: MultipartFile[] = [];
+			const metadataRaw: MessageFileMetadata[] = [];
+			for await (const part of parts) {
+				if (part.type === "file") {
+					filesRaw.push(part);
+				} else {
+					metadataRaw.push(JSON.parse(part.value as string));
+				}
+			}
+
+			if (filesRaw.length !== metadataRaw.length) {
+				return res.status(400).send({
+					error: "File metadata mismatch.",
+				});
+			}
+
+			const files: PreppedFile[] = [];
+			for (let i = 0; i < filesRaw.length; i++) {
+				const file = filesRaw[i];
+				const metadata = metadataRaw[i];
+				files.push({ file, metadata });
+			}
+
+			const newMsg = await getMessageFileRepo().addFileList(files, message);
 
 			res.send(newMsg);
 		} catch (error) {
@@ -79,7 +107,7 @@ export class MessageFileController {
 					if (!text) return;
 					file.parsable = true;
 					parsableFiles.push(file);
-					return `// ${file.name}.${file.extension}\n${text}`;
+					return `// ${file.path || file.name}\n\`\`\`\n${text}\n\`\`\``;
 				})
 				.filter((file) => file !== undefined);
 

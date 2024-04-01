@@ -4,9 +4,7 @@ import { useGlobalSearchParams } from "expo-router";
 import { View } from "react-native";
 import { useEffect } from "react";
 
-import ConnectHostDialog from "@/components/Dialogs/ConnectHost";
 import { useUserQuery } from "@/lib/queries/useUserQuery";
-import { FetchError } from "@/lib/fetcher";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { Text } from "@/components/ui/Text";
 import { useAgentStore } from "@/lib/stores/modelStore";

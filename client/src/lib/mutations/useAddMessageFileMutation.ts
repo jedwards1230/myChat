@@ -2,8 +2,18 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
-import type { CacheFile, Message } from "@/types";
+import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";
+
+type CacheFile = {
+	name: string;
+	size?: number | undefined;
+	uri: string;
+	mimeType?: string | undefined;
+	lastModified?: number | undefined;
+	file?: File | undefined;
+	relativePath?: string;
+};
 
 export type PostMessageOptions = {
 	messageId: string;
@@ -51,6 +61,18 @@ export const useAddMessageFileMutation = () => {
 const buildFormData = async (fileList: CacheFile[]) => {
 	const formData = new FormData();
 	// TODO: Pass the CacheFile metadata to the server
-	Array.from(fileList).forEach((f) => f.file && formData.append("files", f.file));
+	fileList.forEach((f, index) => {
+		if (f.file) {
+			// Append file buffer
+			formData.append(`file${index}`, f.file, f.name);
+
+			// Clone to avoid mutating original object when deleting file key
+			const metadata = { ...f };
+			delete metadata.file; // Remove the file object
+
+			// Append metadata as a JSON string
+			formData.append(`metadata${index}`, JSON.stringify(metadata));
+		}
+	});
 	return formData;
 };

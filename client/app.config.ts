@@ -60,6 +60,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 				username: "account-username",
 			},
 		],
+		[
+			"expo-build-properties",
+			{
+				ios: {
+					flipper: true,
+				},
+			},
+		],
 	],
 	experiments: {
 		typedRoutes: true,

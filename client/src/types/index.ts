@@ -12,4 +12,13 @@ export type {
 
 export type { MessageFile } from "@db/MessageFile/MessageFileModel";
 
-export type CacheFile = DocumentPickerAsset & { relativePath?: string };
+//export type CacheFile = DocumentPickerAsset & { relativePath?: string };
+export type CacheFile = {
+	name: string;
+	size?: number | undefined;
+	uri: string;
+	mimeType?: string | undefined;
+	lastModified?: number | undefined;
+	file?: File | undefined;
+	relativePath?: string;
+};
