@@ -21,6 +21,8 @@
 		}
 	],
 	"settings": {
-		"prettier.printWidth": 90
+		"prettier.printWidth": 90,
+		"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
+		"tailwindCSS.lint.cssConflict": "ignore"
 	}
 }

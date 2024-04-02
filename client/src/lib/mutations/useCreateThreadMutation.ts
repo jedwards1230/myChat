@@ -30,7 +30,7 @@ export function useCreateThreadMutation() {
 			});
 		},
 		onSettled: () =>
-			queryClient.refetchQueries({
+			queryClient.invalidateQueries({
 				queryKey: [user.id, "threads"],
 			}),
 	});

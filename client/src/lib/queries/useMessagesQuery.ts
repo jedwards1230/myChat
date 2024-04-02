@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
@@ -14,6 +14,17 @@ export const useMessagesQuery = (threadId: string | null) => {
 	return useQuery({
 		queryKey,
 		enabled: !!threadId,
+		queryFn: fetchMessages(threadId, user.id),
+		retry: false,
+	});
+};
+
+export const useMessagesSuspenseQuery = (threadId: string) => {
+	const user = useConfigStore((s) => s.user);
+	const queryKey = [user.id, threadId];
+
+	return useSuspenseQuery({
+		queryKey,
 		queryFn: fetchMessages(threadId, user.id),
 		retry: false,
 	});

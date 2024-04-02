@@ -3,6 +3,7 @@ import { TextInput } from "react-native";
 import { cva, type VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
+import { useColorScheme } from "@/lib/useColorScheme";
 
 const inputVariants = cva(
 	"web:flex web:w-full border-input bg-background text-base lg:text-sm native:text-lg native:leading-[1.25] text-foreground placeholder:text-muted-foreground web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none",
@@ -30,9 +31,11 @@ type InputProps = React.ComponentPropsWithoutRef<typeof TextInput> &
 
 const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
 	({ className, placeholderClassName, variant, size, ...props }, ref) => {
+		const { colorScheme } = useColorScheme();
 		return (
 			<TextInput
 				ref={ref}
+				keyboardAppearance={colorScheme}
 				className={cn(inputVariants({ variant, size }), className)}
 				placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
 				{...props}

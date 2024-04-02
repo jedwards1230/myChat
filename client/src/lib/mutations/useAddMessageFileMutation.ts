@@ -51,9 +51,6 @@ export const useAddMessageFileMutation = () => {
 			queryClient.invalidateQueries({
 				queryKey: [user.id, opts.threadId],
 			});
-			queryClient.refetchQueries({
-				queryKey: [user.id, "threads"],
-			});
 		},
 	});
 };

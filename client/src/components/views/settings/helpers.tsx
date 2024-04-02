@@ -1,9 +1,10 @@
-import { Button } from "../../ui/Button";
 import { useColorScheme } from "@/lib/useColorScheme";
-import { Switch } from "../../ui/Switch";
+import { useConfigStore } from "@/lib/stores/configStore";
+
+import { Button } from "@/components/ui/Button";
+import { Switch } from "@/components/ui/Switch";
 import { Text } from "@/components/ui/Text";
 import { RowItem } from "@/components/ui/Section";
-import { useConfigStore } from "@/lib/stores/configStore";
 
 export function ToggleThemeButton() {
 	const { colorScheme, toggleColorScheme } = useColorScheme();

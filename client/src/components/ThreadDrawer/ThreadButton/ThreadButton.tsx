@@ -41,7 +41,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 			className="flex flex-row items-center justify-start w-full h-10 gap-2 p-2 rounded-md active:bg-primary group bg-secondary hover:bg-secondary-foreground/10 dark:hover:bg-secondary-foreground/50 active:opacity-90"
 			onPress={goToThread}
 			onLongPress={() => null}
-			delayLongPress={66}
+			delayLongPress={125}
 		>
 			<ContextMenuView
 				menuConfig={menuConfig}
@@ -60,15 +60,11 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 
 const ThreadPreview = ({ thread }: { thread: Thread }) => {
 	return (
-		<View className="flex-1 w-[80vw] px-4 pt-2 bg-background">
-			<Text
-				numberOfLines={1}
-				ellipsizeMode="tail"
-				className="my-1 font-semibold text-center"
-			>
+		<View className="absolute flex items-center w-[90vw] justify-start flex-1 px-2 pt-2 bg-background">
+			<Text numberOfLines={1} ellipsizeMode="tail" className="my-1 font-semibold">
 				{thread.title}
 			</Text>
-			<ChatHistory threadIdOverride={thread.id} isLoading={false} />
+			<ChatHistory threadId={thread.id} isLoading={false} />
 		</View>
 	);
 };

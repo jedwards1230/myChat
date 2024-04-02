@@ -14,7 +14,7 @@ export default function ModalWrapper({
 	const isPresented = router.canGoBack();
 
 	return (
-		<SafeAreaView className="flex-1 bg-background">
+		<SafeAreaView className="flex-1 bg-secondary">
 			<ScrollView className="flex flex-col items-center flex-1 w-full gap-8 p-4">
 				<View className="pt-4">
 					{!isPresented && (

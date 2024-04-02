@@ -1,4 +1,3 @@
-import { Aside } from "@expo/html-elements";
 import { FlashList } from "@shopify/flash-list";
 import { View } from "react-native";
 
@@ -11,7 +10,7 @@ import { groupThreadsByDate, ThreadGroup } from "./ThreadGroups";
 
 export default function ThreadHistory() {
 	return (
-		<Aside className="flex flex-col items-center flex-1 w-full gap-6 p-2">
+		<View className="flex flex-col items-center flex-1 w-full gap-6 p-2">
 			<View className="w-full">
 				<NewChatButton />
 				<AgentsButton />
@@ -20,7 +19,7 @@ export default function ThreadHistory() {
 			<ThreadList />
 			<HorizontalLine />
 			<SettingsButton />
-		</Aside>
+		</View>
 	);
 }
 

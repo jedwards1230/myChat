@@ -2,12 +2,13 @@
 
 import { ThemeProvider as BaseProvider, type Theme } from "@react-navigation/native";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { Platform, View } from "react-native";
+import { View } from "react-native";
 import { SplashScreen } from "expo-router";
 
 import { useColorScheme } from "@/lib/useColorScheme";
 import { NAV_THEME } from "@/lib/constants/ReactNavTheme";
 import { useConfigStore } from "@/lib/stores/configStore";
+import { themes } from "@/lib/constants/Theme";
 
 const LIGHT_THEME: Theme = {
 	dark: false,
@@ -32,15 +33,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		(async () => {
 			await useConfigStore.persist.rehydrate();
 			const { theme, setTheme } = useConfigStore.getState();
-			if (Platform.OS === "web") {
-				// Adds the background color to the html element to prevent white background on overscroll.
-				document.body.classList.add("bg-background");
-			}
 			if (!theme) {
 				setTheme(colorScheme);
 				setIsColorSchemeLoaded(true);
 				return;
 			}
+
 			const colorTheme = theme === "dark" ? "dark" : "light";
 			if (colorTheme !== colorScheme) {
 				setColorScheme(colorTheme);
@@ -64,7 +62,12 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 	return (
 		<ThemeContext.Provider value={value}>
 			<BaseProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-				<View className="flex-1 bg-background text-foreground">{children}</View>
+				<View
+					style={themes.default[colorScheme]}
+					className="flex-1 text-base bg-background text-foreground"
+				>
+					{children}
+				</View>
 			</BaseProvider>
 		</ThemeContext.Provider>
 	);

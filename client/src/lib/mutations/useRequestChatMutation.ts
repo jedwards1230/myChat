@@ -43,7 +43,7 @@ export const useRequestChatMutation = () => {
 			postChatRequest(threadId, user.id, stream),
 		onError: (error) => console.error(error),
 		onSettled: (res, err, threadId) =>
-			queryClient.invalidateQueries({
+			queryClient.refetchQueries({
 				queryKey: [user.id, threadId],
 			}),
 	});

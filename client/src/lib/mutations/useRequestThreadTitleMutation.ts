@@ -17,7 +17,6 @@ export const useRequestThreadTitleMutation = (threadId: string | null) => {
 		mutationKey: ["title", threadId],
 		mutationFn: fetchTitle(threadId, user.id),
 		onSettled: () => {
-			queryClient.invalidateQueries({ queryKey: [user.id, threadId] });
 			queryClient.invalidateQueries({ queryKey: [user.id, "threads"] });
 		},
 		onError: (error) => console.error("Failed to fetch thread title: " + error),

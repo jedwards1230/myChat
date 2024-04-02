@@ -1,34 +1,22 @@
-import { NativeScrollEvent, NativeSyntheticEvent, View } from "react-native";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { FlashList, ViewToken } from "@shopify/flash-list";
+import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from "react-native";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useMessagesSuspenseQuery } from "@/lib/queries/useMessagesQuery";
 import { Button } from "@/components/ui/Button";
 import { AntDesign } from "@/components/ui/Icon";
-import {
-	MessageGroup,
-	groupMessages,
-	type ChatMessageGroup,
-} from "@/components/MessageGroups/MessageGroup";
+import { MessageGroup, groupMessages } from "@/components/MessageGroups/MessageGroup";
 
 export default function ChatHistory({
 	isLoading,
-	threadIdOverride,
+	threadId,
 }: {
 	isLoading: boolean;
-	threadIdOverride?: string;
+	threadId: string;
 }) {
 	const router = useRouter();
-	const activeThreadId = useConfigStore((state) => state.threadId);
-	const threadId = threadIdOverride || activeThreadId;
-
-	const { data: messages, isPending, isError } = useMessagesQuery(threadId);
-	const messageGroups = useMemo(() => groupMessages(messages), [messages]);
-
 	const viewRef = useRef<View>(null);
-	const scrollViewRef = useRef<FlashList<ChatMessageGroup>>(null);
+	const scrollViewRef = useRef<ScrollView>(null);
 	const [showScrollButton, setShowScrollButton] = useState(false);
 
 	const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
@@ -38,21 +26,12 @@ export default function ChatHistory({
 		setShowScrollButton(!isCloseToBottom);
 	};
 
+	const { data, isError } = useMessagesSuspenseQuery(threadId!);
+	const messageGroups = useMemo(() => groupMessages(data), [data]);
+
 	const scrollToBottom = () =>
 		messageGroups.length > 0 &&
 		scrollViewRef.current?.scrollToEnd({ animated: true });
-
-	const onViewableItemsChanged = useCallback(
-		({ viewableItems }: { viewableItems: ViewToken[] }) => {
-			const lastItem = viewableItems[viewableItems.length - 1];
-			if (!lastItem || lastItem.index !== messageGroups.length - 1) {
-				setShowScrollButton(true);
-			} else {
-				setShowScrollButton(false);
-			}
-		},
-		[messageGroups]
-	);
 
 	useEffect(() => {
 		if (isError) {
@@ -60,29 +39,36 @@ export default function ChatHistory({
 		}
 	}, [isError]);
 
-	if (isPending || isError) return null;
+	useEffect(() => {
+		if (viewRef.current) {
+			viewRef.current.measure((x, y, width, height) => {
+				if (height > 0) {
+					scrollToBottom();
+				}
+			});
+		}
+	}, []);
+
+	if (isError) return null;
 	return (
 		<View ref={viewRef} className="relative flex flex-1 w-full gap-4">
 			{messageGroups.length > 0 && (
-				<FlashList
+				<ScrollView
 					ref={scrollViewRef}
-					data={messageGroups}
-					keyExtractor={(_, i) => i.toString()}
 					onScroll={onScroll}
-					estimatedItemSize={36}
-					extraData={{ isLoading }}
-					initialScrollIndex={messageGroups.length - 1}
-					onViewableItemsChanged={onViewableItemsChanged}
-					viewabilityConfig={{ minimumViewTime: 1 }}
-					renderItem={({ item, index }) => (
+					scrollEventThrottle={50}
+					className="scroll-smooth"
+				>
+					{messageGroups.map((item, index) => (
 						<MessageGroup
+							key={index.toString()}
 							item={item}
 							index={index}
 							isLoading={isLoading}
 							messageGroups={messageGroups}
 						/>
-					)}
-				/>
+					))}
+				</ScrollView>
 			)}
 			{showScrollButton && (
 				<View className="absolute left-0 right-0 flex items-center bottom-4">
