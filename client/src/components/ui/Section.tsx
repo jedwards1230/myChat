@@ -2,10 +2,17 @@ import { View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
 
-export function Section(props: { title: string; children: React.ReactNode }) {
+export function Section(props: {
+	title: string;
+	children: React.ReactNode;
+	titleComponent?: React.ReactNode;
+}) {
 	return (
 		<View className="w-full">
-			<Text className="pb-2 pl-4 text-secondary-foreground">{props.title}</Text>
+			<View className="flex flex-row items-center justify-between px-4 pb-2">
+				<Text className="text-secondary-foreground">{props.title}</Text>
+				{props.titleComponent}
+			</View>
 			<SectionBlock>{props.children}</SectionBlock>
 		</View>
 	);

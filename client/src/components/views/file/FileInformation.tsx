@@ -1,10 +1,14 @@
+import { ExternalLink } from "@/components/ExternalLink";
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import type { CacheFile } from "@/types";
 
 export function FileInformation({ file }: { file: CacheFile }) {
 	return (
-		<Section title="File Information">
+		<Section
+			title="File Information"
+			titleComponent={<ExternalLink href={file.uri}>Download</ExternalLink>}
+		>
 			<RowItem>
 				<Text>Name</Text>
 				<Text className="text-sm text-secondary-foreground">{file?.name}</Text>

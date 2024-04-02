@@ -14,7 +14,6 @@
 - Better Agent Builder
 - Agent tool options
 - App icon
-- Better Markdown support, include syntax highlighting
 - Better file management
 - @agent calling
 - Thread history search

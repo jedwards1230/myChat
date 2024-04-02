@@ -2,13 +2,12 @@
 
 import { ThemeProvider as BaseProvider, type Theme } from "@react-navigation/native";
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { View } from "react-native";
+import { Platform, View } from "react-native";
 import { SplashScreen } from "expo-router";
 
 import { useColorScheme } from "@/lib/useColorScheme";
 import { NAV_THEME } from "@/lib/constants/ReactNavTheme";
 import { useConfigStore } from "@/lib/stores/configStore";
-import { themes } from "@/lib/constants/Theme";
 
 const LIGHT_THEME: Theme = {
 	dark: false,
@@ -26,11 +25,12 @@ const initialState = {};
 const ThemeContext = createContext<ThemeState>(initialState as ThemeState);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-	const { colorScheme, setColorScheme, isDarkColorScheme, ...rest } = useColorScheme();
+	const { colorScheme, setColorScheme, isDarkColorScheme, themeStyles, ...rest } =
+		useColorScheme();
 	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = useState(false);
 
 	useEffect(() => {
-		(async () => {
+		const loadCachedTheme = async () => {
 			await useConfigStore.persist.rehydrate();
 			const { theme, setTheme } = useConfigStore.getState();
 			if (!theme) {
@@ -46,7 +46,18 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 				return;
 			}
 			setIsColorSchemeLoaded(true);
-		})().finally(() => {
+		};
+		loadCachedTheme().finally(() => {
+			if (Platform.OS === "web") {
+				const body = document.querySelector("body");
+				if (body) {
+					Object.entries(themeStyles).forEach(([key, value]) => {
+						body.style.setProperty(key, value);
+					});
+				} else {
+					console.error("Cannot set Theme Styles: Body not found");
+				}
+			}
 			SplashScreen.hideAsync();
 		});
 	}, []);
@@ -55,6 +66,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		colorScheme,
 		isDarkColorScheme,
 		setColorScheme,
+		themeStyles,
 		...rest,
 	};
 
@@ -63,7 +75,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 		<ThemeContext.Provider value={value}>
 			<BaseProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
 				<View
-					style={themes.default[colorScheme]}
+					style={themeStyles}
 					className="flex-1 text-base bg-background text-foreground"
 				>
 					{children}

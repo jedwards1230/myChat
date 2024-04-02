@@ -2,8 +2,10 @@
 import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
+
 import * as DialogPrimitive from "@/components/primitives/dialog";
 import { cn } from "@/lib/utils";
+import { useColorScheme } from "@/lib/useColorScheme";
 
 const Dialog = DialogPrimitive.Root;
 
@@ -70,11 +72,13 @@ const DialogContent = React.forwardRef<
 	React.ComponentPropsWithoutRef<typeof DialogPrimitive.Content>
 >(({ className, children, ...props }, ref) => {
 	const { open } = DialogPrimitive.useRootContext();
+	const { themeStyles } = useColorScheme();
 	return (
 		<DialogPortal>
 			<DialogOverlay>
 				<DialogPrimitive.Content
 					ref={ref}
+					style={themeStyles}
 					className={cn(
 						"z-50 max-w-lg gap-4 border border-border web:cursor-default bg-background p-6 shadow-lg web:duration-200 rounded-lg",
 						open

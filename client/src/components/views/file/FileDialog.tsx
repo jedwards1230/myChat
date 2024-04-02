@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { View } from "react-native";
 
 import {
 	Dialog,
@@ -8,10 +9,11 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
-import { Section } from "@/components/ui/Section";
+import { CacheFile } from "@/types";
+import { useColorScheme } from "@/lib/useColorScheme";
 import { Text } from "@/components/ui/Text";
 import { FileInformation } from "./FileInformation";
-import { CacheFile } from "@/types";
+import { CodeBlock } from "@/components/Markdown/CodeBlock";
 
 export default function FileDialog({
 	children,
@@ -22,6 +24,10 @@ export default function FileDialog({
 	className?: string;
 	file: CacheFile;
 }) {
+	const { colorScheme } = useColorScheme();
+
+	const fileExt = file.name.split(".").pop();
+
 	const [content, setContent] = useState<string | null>(null);
 	useEffect(() => {
 		const update = async () => {
@@ -38,19 +44,21 @@ export default function FileDialog({
 			<DialogTrigger asChild className={className}>
 				{children}
 			</DialogTrigger>
-
-			<DialogContent className="w-screen max-h-[90vh] max-w-[90vw] overflow-y-scroll">
-				<DialogTitle>{file.name}</DialogTitle>
+			<DialogContent className="w-screen max-h-[90vh] max-w-[90vw] overflow-y-scroll !bg-background text-foreground">
+				<View className="flex flex-row items-center justify-between">
+					<DialogTitle>{file.name}</DialogTitle>
+					<DialogClose>
+						<Text>Close</Text>
+					</DialogClose>
+				</View>
 				<DialogDescription className="flex flex-col gap-4">
-					<a href={file.uri}>Download</a>
 					<FileInformation file={file} />
-					<Section title="File Content">
-						<Text className="w-full overflow-auto">{content}</Text>
-					</Section>
+					{content && (
+						<CodeBlock colorScheme={colorScheme} language={fileExt}>
+							{content}
+						</CodeBlock>
+					)}
 				</DialogDescription>
-				<DialogClose>
-					<Text>Close</Text>
-				</DialogClose>
 			</DialogContent>
 		</Dialog>
 	);

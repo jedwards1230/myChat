@@ -1,16 +1,17 @@
 import { useColorScheme as useNativewindColorScheme } from "nativewind";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+
+import { themes } from "@/lib/constants/Theme";
 import { useConfigStore } from "./stores/configStore";
 
 export function useColorScheme() {
+	const [colorScheme, setColorSchemeState] = useState<"dark" | "light">(checkWeb());
+	const themeStyles = useMemo(() => themes.default[colorScheme], [colorScheme]);
+
 	const setTheme = useConfigStore((state) => state.setTheme);
+	useEffect(() => setTheme(colorScheme ?? "dark"), [colorScheme]);
+
 	const { setColorScheme, toggleColorScheme } = useNativewindColorScheme();
-	const [colorScheme, setColorSchemeState] = useState(checkWeb() ? "dark" : "light");
-
-	useEffect(() => {
-		setTheme(colorScheme ?? "dark");
-	}, [colorScheme]);
-
 	useEffect(() => {
 		const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 		const listener = (event: MediaQueryListEvent) =>
@@ -21,6 +22,7 @@ export function useColorScheme() {
 	}, []);
 
 	return {
+		themeStyles,
 		colorScheme: colorScheme ?? "dark",
 		isDarkColorScheme: colorScheme === "dark",
 		setColorScheme,
@@ -32,7 +34,7 @@ export function useColorScheme() {
 const checkWeb = () => {
 	if (typeof window !== "undefined") {
 		const darkMode = window.matchMedia("(prefers-color-scheme: dark)").matches;
-		return darkMode;
+		return darkMode ? "dark" : "light";
 	}
-	return false;
+	return "dark";
 };
