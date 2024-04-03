@@ -11,20 +11,19 @@ const PACKAGE_BUNDLE = IS_PROD ? "com.project.myChat" : "com.project.myChat.dev"
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
-	name: PACKAGE_NAME,
 	slug: "mychat",
 	version: "1.0.0",
-	runtimeVersion: "0.0.1",
-	orientation: "portrait",
-	icon: "./assets/images/icon.png",
+	name: PACKAGE_NAME,
 	scheme: PACKAGE_NAME,
+	orientation: "portrait",
 	userInterfaceStyle: "automatic",
+	assetBundlePatterns: ["assets/**/*"],
+	icon: "./assets/images/icon.png",
 	splash: {
 		image: "./assets/images/splash.png",
 		resizeMode: "contain",
 		backgroundColor: "#ffffff",
 	},
-	assetBundlePatterns: ["assets/**/*"],
 	ios: {
 		supportsTablet: true,
 		bundleIdentifier: PACKAGE_BUNDLE,
@@ -42,40 +41,11 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		favicon: "./assets/images/favicon.png",
 	},
 	plugins: [
-		[
-			"expo-router",
-			{
-				asyncRoutes: false,
-			},
-		],
-		[
-			"expo-document-picker",
-			{
-				iCloudContainerEnvironment: "Production",
-			},
-		],
-		[
-			"expo-updates",
-			{
-				username: "account-username",
-			},
-		],
-		[
-			"expo-build-properties",
-			{
-				ios: {
-					flipper: true,
-				},
-			},
-		],
+		["expo-router", { asyncRoutes: false }],
+		["expo-document-picker", { iCloudContainerEnvironment: "Production" }],
+		["expo-updates", { username: "account-username" }],
 	],
-	experiments: {
-		typedRoutes: true,
-	},
+	experiments: { typedRoutes: true },
 	owner: OWNER,
-	extra: {
-		eas: {
-			projectId: PROJECT_ID,
-		},
-	},
+	extra: { eas: { projectId: PROJECT_ID } },
 });

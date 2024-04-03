@@ -8,16 +8,10 @@ import { cn } from "@/lib/utils";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
-const textVariants = cva("text-foreground web:select-text", {
+const textVariants = cva("web:select-text", {
 	variants: {
 		variant: {
-			default: "text-base",
-			h1: "text-4xl font-bold",
-			h2: "text-3xl font-bold",
-			h3: "text-2xl font-bold",
-			h4: "text-xl font-semibold",
-			h5: "text-lg font-semibold",
-			h6: "font-semibold",
+			default: "text-base text-foreground",
 			raw: "",
 		},
 	},

@@ -1,17 +1,27 @@
 import { ExternalLink } from "@/components/ExternalLink";
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import type { CacheFile } from "@/types";
 
-export function FileInformation({ file }: { file: CacheFile }) {
+export type FileInformation = {
+	name?: string;
+	href: string;
+	extension?: string;
+	relativePath?: string;
+	type?: string;
+	size: string;
+	buffer?: ArrayBufferLike;
+	parsed?: string;
+};
+
+export function FileInformation({ file }: { file: FileInformation }) {
 	return (
 		<Section
 			title="File Information"
-			titleComponent={<ExternalLink href={file.uri}>Download</ExternalLink>}
+			titleComponent={<ExternalLink href={file.href}>Download</ExternalLink>}
 		>
 			<RowItem>
 				<Text>Name</Text>
-				<Text className="text-sm text-secondary-foreground">{file?.name}</Text>
+				<Text className="text-sm text-secondary-foreground">{file.name}</Text>
 			</RowItem>
 			<RowItem>
 				<Text>Relative Path</Text>
@@ -21,13 +31,11 @@ export function FileInformation({ file }: { file: CacheFile }) {
 			</RowItem>
 			<RowItem>
 				<Text>Type</Text>
-				<Text className="text-sm text-secondary-foreground">
-					{file?.mimeType}
-				</Text>
+				<Text className="text-sm text-secondary-foreground">{file.type}</Text>
 			</RowItem>
 			<RowItem>
 				<Text>Size</Text>
-				<Text className="text-sm text-secondary-foreground">{file?.size}</Text>
+				<Text className="text-sm text-secondary-foreground">{file.size}</Text>
 			</RowItem>
 		</Section>
 	);

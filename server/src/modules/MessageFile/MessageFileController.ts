@@ -27,7 +27,9 @@ export class MessageFileController {
 			return reply.status(404).send({ error: "File not found." });
 		}
 
-		reply.send(file);
+		const fileBuffer = Buffer.from(JSON.stringify(file));
+		reply.type("application/octet-stream");
+		reply.send(fileBuffer);
 	}
 
 	static async createMessageFile(req: FastifyRequest, res: FastifyReply) {

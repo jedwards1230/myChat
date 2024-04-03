@@ -25,7 +25,7 @@ export function MessageGroupBubble({
 		>
 			<View className="flex flex-row items-center gap-2">
 				<Avatar name={name} role={role} />
-				<Text className="text-lg font-bold">{group.name}</Text>
+				<Text className="text-lg font-semibold md:font-bold">{group.name}</Text>
 			</View>
 			<View className={editMode ? "pl-4" : ""}>
 				{group.messages.map((message, idx) => (

@@ -15,8 +15,8 @@ export function CodeBlock({
 	language?: string;
 }) {
 	return (
-		<View>
-			<View className="flex-row items-center justify-between h-8 px-4 py-1 rounded-t-lg bg-foreground/10 native:bg-foreground/20">
+		<View className="relative w-full pr-0 native:pr-2">
+			<View className="flex-row items-center justify-between h-8 px-4 py-1 rounded-t-lg bg-foreground/10 native:bg-foreground/10">
 				<Text className="text-xs text-secondary-foreground">{language}</Text>
 				<Text
 					onPress={() => Clipboard.setStringAsync(children)}

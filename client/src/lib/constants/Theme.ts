@@ -17,7 +17,7 @@ export const themes = {
 			"--card-foreground": "240 10% 3.9%",
 			"--popover": "0 0% 100%",
 			"--popover-foreground": "240 10% 3.9%",
-			"--primary": "240 5.9% 10%",
+			"--primary": "213 61% 45%",
 			"--primary-foreground": "0 0% 98%",
 			"--muted": "240 4.8% 95.9%",
 			"--muted-foreground": "240 3.8% 46.1%",

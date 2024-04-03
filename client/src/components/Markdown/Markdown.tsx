@@ -8,6 +8,8 @@ type MarkdownComponentProps = PropsWithChildren<MarkdownProps>;
 
 const markdownItInstance = MarkdownIt({ typographer: true, linkify: true });
 
+const debug = false;
+
 export default function MarkdownComponent(props: MarkdownComponentProps) {
 	const { colorScheme } = useColorScheme();
 	const markdownRules = getMarkdownRules(colorScheme);
@@ -18,6 +20,7 @@ export default function MarkdownComponent(props: MarkdownComponentProps) {
 			markdownit={markdownItInstance}
 			rules={markdownRules}
 			{...props}
+			{...(debug ? { children: testStr } : {})}
 		/>
 	);
 }

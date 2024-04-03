@@ -53,6 +53,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 					acc.push(
 						<Text
 							key={`${key}.${index}`}
+							className="h-6"
 							style={properties.map((c) => stylesheet[c])}
 						>
 							{renderNode(node.children, `${key}.${index}`)}
@@ -60,7 +61,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 					);
 				} else {
 					acc.push(
-						<Text key={`${key}.${index}`}>
+						<Text className="h-6" key={`${key}.${index}`}>
 							{renderNode(node.children, `${key}.${index}`)}
 						</Text>
 					);
@@ -73,7 +74,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 		}, []);
 
 	const nativeRenderer = ({ rows }: RendererParams) => (
-		<View className="!p-4 rounded-b-md w-full flex-1 !bg-accent native:!bg-foreground/10 overflow-x-auto">
+		<View className="!p-4 flex-shrink rounded-b-md min-w-full !bg-accent overflow-x-auto">
 			{renderNode(rows)}
 		</View>
 	);
@@ -84,7 +85,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 			CodeTag={Text}
 			PreTag={View}
 			codeTagProps={{
-				className: "font-mono leading-4 web:leading-5 w-full flex-1",
+				className: "font-mono leading-4 web:leading-5 w-full",
 			}}
 			customStyle={{ padding: 0 }}
 			renderer={nativeRenderer}

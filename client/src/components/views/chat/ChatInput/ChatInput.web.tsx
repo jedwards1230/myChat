@@ -1,7 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import {
+	NativeSyntheticEvent,
+	TextInputChangeEventData,
+	TextInputContentSizeChangeEventData,
+	TextInputKeyPressEventData,
+} from "react-native";
 
 import { Input } from "@/components/ui/Input";
 import { useConfigStore } from "@/lib/stores/configStore";
+
+const maxRows = 25;
 
 export default function ChatInput({
 	input,
@@ -21,6 +29,7 @@ export default function ChatInput({
 	}, [threadId]);
 
 	useEffect(() => {
+		if (!input) return setBaseHeight(0);
 		const handleKeyDown = (e: KeyboardEvent) => {
 			if (e.key === "Enter" && !e.shiftKey) {
 				e.preventDefault();
@@ -32,40 +41,46 @@ export default function ChatInput({
 		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [input]);
 
-	const maxRows = 25;
+	const onKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+		if (e.nativeEvent.key === "Enter" && !(e.nativeEvent as any).shiftKey) {
+			e.preventDefault();
+			handleSubmit();
+		}
+	};
+
+	const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+		// find all \n in event.text
+		const newLines = e.nativeEvent.text.match(/\n/g);
+		// set height to baseHeight + 20 * number of new lines
+		const newHeight = Math.min(
+			baseHeight + (newLines?.length || 0) * 22,
+			maxRows * 22
+		);
+		// set height to newHeight
+		ref.current?.style.setProperty("height", `${newHeight}px`);
+	};
+
+	const onContentSizeChange = (
+		e: NativeSyntheticEvent<TextInputContentSizeChangeEventData>
+	) => {
+		const h = e.nativeEvent.contentSize.height;
+		if (baseHeight === 0) setBaseHeight(h);
+	};
 
 	return (
 		<Input
 			ref={ref}
-			autoFocus
-			className="flex-1 pb-2 border-0 pl-14 bg-background focus:outline-none text-foreground rounded-2xl"
-			variant="chat"
 			size="chat"
+			variant="chat"
 			value={input}
-			onChangeText={setInput}
-			onKeyPress={(e) => {
-				if (e.nativeEvent.key === "Enter" && !(e.nativeEvent as any).shiftKey) {
-					e.preventDefault();
-					handleSubmit();
-				}
-			}}
-			onChange={(e) => {
-				// find all \n in event.text
-				const newLines = e.nativeEvent.text.match(/\n/g);
-				// set height to baseHeight + 20 * number of new lines
-				const newHeight = Math.min(
-					baseHeight + (newLines?.length || 0) * 22,
-					maxRows * 22
-				);
-				// set height to newHeight
-				ref.current?.style.setProperty("height", `${newHeight}px`);
-			}}
-			onContentSizeChange={(e) => {
-				const h = e.nativeEvent.contentSize.height;
-				if (baseHeight === 0) setBaseHeight(h);
-			}}
-			multiline
 			placeholder="Message..."
+			className="flex-1 pb-2 border-0 pl-14 bg-background focus:outline-none text-foreground rounded-2xl"
+			onContentSizeChange={onContentSizeChange}
+			onChangeText={setInput}
+			onKeyPress={onKeyPress}
+			onChange={onChange}
+			multiline
+			autoFocus
 		/>
 	);
 }

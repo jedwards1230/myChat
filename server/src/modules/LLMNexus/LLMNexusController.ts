@@ -24,54 +24,37 @@ export class LLMNexusController {
 	 * */
 	static processResponse = async (agentRun: AgentRun) => {
 		const llmServce = NexusServiceRegistry.getService("OpenAIService");
+		const tools = LLMNexusController.getTools(agentRun);
 
-		const tools = agentRun.agent.tools
-			.map((tool) => {
-				switch (tool) {
-					case "browser":
-						return Browser.getTools();
-					default:
-						return [];
-				}
-			})
-			.flat();
+		switch (agentRun.type) {
+			case "getChat": {
+				const response = await this.generateChatResponse({
+					agentRun,
+					llmServce,
+					opts: {
+						tools,
+						model: "gpt-4-0125-preview",
+						stream: agentRun.stream,
+					},
+				});
 
-		try {
-			switch (agentRun.type) {
-				case "getChat": {
-					const response = await this.generateChatResponse({
-						agentRun,
-						llmServce,
-						opts: {
-							tools,
-							model: "gpt-4-0125-preview",
-							stream: agentRun.stream,
-						},
-					});
+				const { thread } = agentRun;
 
-					const { thread } = agentRun;
-
-					await this.saveResponse(thread, response);
-					break;
-				}
-				case "getTitle": {
-					await this.generateTitle({
-						llmServce,
-						agentRun,
-						opts: {
-							tools,
-							model: "gpt-4-0125-preview",
-							stream: agentRun.stream,
-						},
-					});
-					break;
-				}
+				await this.saveResponse(thread, response);
+				break;
 			}
-		} catch (error) {
-			logger.error("Error processing response", {
-				error,
-				functionName: "LLMNexusController.processResponse",
-			});
+			case "getTitle": {
+				await this.generateTitle({
+					llmServce,
+					agentRun,
+					opts: {
+						tools,
+						model: "gpt-4-0125-preview",
+						stream: agentRun.stream,
+					},
+				});
+				break;
+			}
 		}
 	};
 
@@ -167,5 +150,18 @@ export class LLMNexusController {
 				functionName: "LLMNexusController.saveResponse",
 			});
 		}
+	}
+
+	private static getTools(agentRun: AgentRun) {
+		return agentRun.agent.tools
+			.map((tool) => {
+				switch (tool) {
+					case "browser":
+						return Browser.getTools();
+					default:
+						return [];
+				}
+			})
+			.flat();
 	}
 }

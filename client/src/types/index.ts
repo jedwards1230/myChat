@@ -1,5 +1,3 @@
-import { DocumentPickerAsset } from "expo-document-picker";
-
 export type { Message } from "@db/Message/MessageModel";
 export type { MessageObjectSchema as MessageSchema } from "@db/Message/MessageSchema";
 export type { ThreadSchema as Thread } from "@db/Thread/ThreadSchema";
@@ -12,7 +10,6 @@ export type {
 
 export type { MessageFile } from "@db/MessageFile/MessageFileModel";
 
-//export type CacheFile = DocumentPickerAsset & { relativePath?: string };
 export type CacheFile = {
 	name: string;
 	size?: number | undefined;
