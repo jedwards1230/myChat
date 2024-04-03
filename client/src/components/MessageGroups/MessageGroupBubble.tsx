@@ -29,11 +29,7 @@ export function MessageGroupBubble({
 			</View>
 			<View className={editMode ? "pl-4" : ""}>
 				{group.messages.map((message, idx) => (
-					<BaseMessage
-						key={message.id + idx}
-						groupId={group.id}
-						message={message}
-					/>
+					<BaseMessage key={message.id + idx} message={message} group={group} />
 				))}
 			</View>
 		</View>

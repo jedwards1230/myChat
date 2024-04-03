@@ -15,7 +15,7 @@ import { Text } from "@/components/ui/Text";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
 
 import { FileInformation } from "./FileInformation";
-import { FileMetadata, useFileInformation } from "./hooks";
+import { FileMetadata, useFileInformation } from "./useFileInformation";
 
 export default function FileDialog({
 	children,

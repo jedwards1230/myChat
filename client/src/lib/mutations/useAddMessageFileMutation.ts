@@ -4,6 +4,7 @@ import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";
+import { threadQueryOptions } from "../queries/useThreadQuery";
 
 type CacheFile = {
 	name: string;
@@ -48,9 +49,7 @@ export const useAddMessageFileMutation = () => {
 			console.error(error);
 		},
 		onSettled: (res, err, opts) => {
-			queryClient.invalidateQueries({
-				queryKey: [user.id, opts.threadId],
-			});
+			queryClient.invalidateQueries(threadQueryOptions(user.id, opts.threadId));
 		},
 	});
 };

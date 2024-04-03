@@ -10,7 +10,7 @@ import { groupThreadsByDate, ThreadGroup } from "./ThreadGroups";
 
 export default function ThreadHistory() {
 	return (
-		<View className="flex flex-col items-center flex-1 w-full gap-6 p-2">
+		<View className="flex flex-col items-center flex-1 w-full gap-6 px-2 pt-2 pb-6">
 			<View className="w-full">
 				<NewChatButton />
 				<AgentsButton />

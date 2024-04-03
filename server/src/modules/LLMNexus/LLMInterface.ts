@@ -2,6 +2,7 @@ import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStr
 import type { ChatCompletion } from "openai/resources/index";
 import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
+import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import type { Message } from "@/modules/Message/MessageModel";
 import { OpenAIService, type OpenAiModels } from "./Providers/openai";
@@ -25,7 +26,10 @@ export interface LLMNexus {
 		threadMessages: Message[],
 		opts: ChatOptions
 	): Promise<ChatCompletion>;
-	createTitleFromChatHistory(messages: Message[], opts: ChatOptions): Promise<string>;
+	createTitleCompletionJSON(
+		messages: Message[],
+		opts: ChatOptions
+	): Promise<ChatCompletionRunner>;
 }
 
 type ServiceName = "OpenAIService";

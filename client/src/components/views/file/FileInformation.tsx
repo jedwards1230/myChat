@@ -17,7 +17,9 @@ export function FileInformation({ file }: { file: FileInformation }) {
 	return (
 		<Section
 			title="File Information"
-			titleComponent={<ExternalLink href={file.href}>Download</ExternalLink>}
+			titleComponent={
+				file.href ? <ExternalLink href={file.href}>Download</ExternalLink> : null
+			}
 		>
 			<RowItem>
 				<Text>Name</Text>

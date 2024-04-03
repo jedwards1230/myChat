@@ -1,19 +1,22 @@
 import { useEffect, useState } from "react";
 
 import { CacheFile, MessageFile } from "@/types";
-import { useFileQuery } from "@/lib/queries/useFileQuery";
+import { useFileSuspenseQuery } from "@/lib/queries/useFileQuery";
 
 import { FileInformation } from "./FileInformation";
 
 export type FileMetadata = {
 	fileId: string;
 	messageId: string;
+	threadId: string;
 };
 
 export function useFileInformation(file: CacheFile | FileMetadata): FileInformation {
 	const [buffer, setBuffer] = useState<ArrayBufferLike | undefined>(undefined);
 	const needsFetch = "fileId" in file && "messageId" in file;
-	const fileData = needsFetch ? useFileQuery(file.messageId, file.fileId).data : file;
+	const fileData = needsFetch
+		? useFileSuspenseQuery(file.threadId, file.messageId, file.fileId).data
+		: file;
 
 	const [fileInformation, setFileInformation] = useState<FileInformation>(
 		getFileInformation(fileData)

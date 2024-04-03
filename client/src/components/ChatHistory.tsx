@@ -2,7 +2,7 @@ import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from "react
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "expo-router";
 
-import { useMessagesSuspenseQuery } from "@/lib/queries/useMessagesQuery";
+import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 import { Button } from "@/components/ui/Button";
 import { AntDesign } from "@/components/ui/Icon";
 import { MessageGroup, groupMessages } from "@/components/MessageGroups/MessageGroup";
@@ -26,8 +26,8 @@ export default function ChatHistory({
 		setShowScrollButton(!isCloseToBottom);
 	};
 
-	const { data, isError } = useMessagesSuspenseQuery(threadId!);
-	const messageGroups = useMemo(() => groupMessages(data), [data]);
+	const { data, isError } = useMessagesQuery(threadId!);
+	const messageGroups = useMemo(() => groupMessages(threadId, data), [data]);
 
 	const scrollToBottom = () =>
 		messageGroups.length > 0 &&

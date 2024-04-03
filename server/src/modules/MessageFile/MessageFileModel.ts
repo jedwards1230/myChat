@@ -55,6 +55,10 @@ export class MessageFile extends BaseEntity {
 	@Column({ type: "text" })
 	mimetype: string;
 
+	/** Vector token count */
+	@Column({ type: "integer", nullable: true })
+	tokenCount?: number;
+
 	/** File extension */
 	@Column({ type: "text" })
 	extension: string;

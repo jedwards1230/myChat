@@ -16,23 +16,13 @@ export function handleStreamResponse(
 ) {
 	const streamRunner = ChatCompletionStreamingRunner.fromReadableStream(res);
 	streamRunner
-		.on("connect", () => {
-			console.log("Stream Connected");
-		})
-		.on("error", (error) => {
-			console.error("Stream Error", error);
-		})
+		//.on("connect", () => console.log("Stream Connected"))
+		.on("error", (error) => console.error("Stream Error", error))
 		.on("chunk", (chunk) => {
 			const delta = chunk.choices[0].delta as Message;
-			if (delta.role) addMessage(delta);
+			if (delta.role) return addMessage(delta);
 		})
-		.on("content", (content) => {
-			updateMessage(content);
-		})
-		.on("message", (message) => {
-			console.log("Stream Message", message);
-		})
-		.on("finalMessage", (message) => {
-			finalMessage();
-		});
+		.on("content", (chunk, content) => updateMessage(content))
+		//.on("message", (message) => console.log("Stream Message", message))
+		.on("finalMessage", (message) => finalMessage());
 }

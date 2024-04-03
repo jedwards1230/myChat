@@ -1,13 +1,17 @@
 import { Link } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import React from "react";
-import { Platform } from "react-native";
+import { Platform, Pressable } from "react-native";
 
-export function ExternalLink(
-	props: Omit<React.ComponentProps<typeof Link>, "href"> & { href: string }
-) {
+import { Text } from "./ui/Text";
+
+export function ExternalLink({
+	children,
+	...props
+}: Omit<React.ComponentProps<typeof Link>, "href"> & { href: string }) {
 	return (
 		<Link
+			asChild
 			target="_blank"
 			{...props}
 			// @ts-expect-error: External URLs are not typed.
@@ -20,6 +24,8 @@ export function ExternalLink(
 					WebBrowser.openBrowserAsync(props.href as string);
 				}
 			}}
-		/>
+		>
+			<Text>{children}</Text>
+		</Link>
 	);
 }

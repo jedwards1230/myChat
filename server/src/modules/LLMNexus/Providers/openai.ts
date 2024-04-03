@@ -11,6 +11,7 @@ import type { Message } from "../../Message/MessageModel";
 import logger from "@/lib/logs/logger";
 import type { ChatOptions, LLMNexus } from "../LLMInterface";
 import { runnableSaveTitle } from "../Tools/newTitle";
+import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 export const openai = new OpenAI();
 
@@ -62,40 +63,22 @@ export class OpenAIService implements LLMNexus {
 		});
 	}
 
-	async createTitleFromChatHistory(
+	async createTitleCompletionJSON(
 		messages: Message[],
 		{ tools, stream, ...opts }: ChatOptions
-	): Promise<string> {
-		const SYSTEM_MESSAGE = `Generate a thread title for the provided conversation history. 
-			Only respond with the title. 
-			Do not include any other information. 
-			Do not include unnecessary punctuation. 
-			Do not wrap the title in quotes.
-			Ensure the title is as general to the conversation as possible.\n\n
-			${JSON.stringify(messages.map((m) => ({ role: m.role, content: m.content })))}`;
-
-		const response = openai.beta.chat.completions.runTools({
-			stream: false,
+	): Promise<ChatCompletionRunner> {
+		if (stream) throw new Error("Stream option must be false");
+		const cleanedMessages = this.formatMessages(messages);
+		return openai.beta.chat.completions.runTools({
 			tools: [runnableSaveTitle],
 			tool_choice: runnableSaveTitle,
-			messages: [{ role: "system", content: SYSTEM_MESSAGE }],
+			messages: cleanedMessages,
 			...opts,
 		});
-
-		await response.done();
-		const toolCall = await response.finalFunctionCall();
-		if (!toolCall?.arguments) throw new Error("No title generated");
-
-		const { title } = JSON.parse(toolCall.arguments);
-		if (!title) throw new Error("No title generated");
-
-		return title;
 	}
 
 	private formatMessages(messages: Message[]): ChatCompletionMessageParam[] {
-		return messages
-			.sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime())
-			.map(this.formatMessage);
+		return messages.map(this.formatMessage);
 	}
 
 	private formatMessage(msg: Message): ChatCompletionMessageParam {

@@ -1,6 +1,6 @@
 import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
-import { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
+import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import logger from "@/lib/logs/logger";
 import { chatResponseEmitter } from "@/lib/events";
@@ -16,6 +16,7 @@ import { getThreadRepo } from "../Thread/ThreadRepo";
 import type { AgentRun } from "../AgentRun/AgentRunModel";
 import { NexusServiceRegistry, type LLMNexus, type ChatOptions } from "./LLMInterface";
 import { Browser } from "./Tools/browser/browser";
+import type { Message } from "openai/resources/beta/threads/index.mjs";
 
 export class LLMNexusController {
 	/**
@@ -25,17 +26,18 @@ export class LLMNexusController {
 	static processResponse = async (agentRun: AgentRun) => {
 		const llmServce = NexusServiceRegistry.getService("OpenAIService");
 		const tools = LLMNexusController.getTools(agentRun);
+		const opts: ChatOptions = {
+			tools,
+			model: "gpt-4-0125-preview",
+			stream: agentRun.stream,
+		};
 
 		switch (agentRun.type) {
 			case "getChat": {
 				const response = await this.generateChatResponse({
 					agentRun,
 					llmServce,
-					opts: {
-						tools,
-						model: "gpt-4-0125-preview",
-						stream: agentRun.stream,
-					},
+					opts,
 				});
 
 				const { thread } = agentRun;
@@ -44,46 +46,11 @@ export class LLMNexusController {
 				break;
 			}
 			case "getTitle": {
-				await this.generateTitle({
-					llmServce,
-					agentRun,
-					opts: {
-						tools,
-						model: "gpt-4-0125-preview",
-						stream: agentRun.stream,
-					},
-				});
+				TitleController.processResponse(llmServce, agentRun, opts);
 				break;
 			}
 		}
 	};
-
-	private static async generateTitle({
-		agentRun: { thread },
-		llmServce,
-		opts,
-	}: {
-		agentRun: AgentRun;
-		llmServce: LLMNexus;
-		opts: ChatOptions;
-	}) {
-		if (!thread.activeMessage) throw new Error("No active message in thread");
-		try {
-			const messages = await getMessageRepo().getMessageHistoryList(
-				thread.activeMessage,
-				true
-			);
-			const title = await llmServce.createTitleFromChatHistory(messages, opts);
-			thread.title = title;
-			await getThreadRepo().update(thread.id, { title });
-			return title;
-		} catch (error) {
-			logger.error("Error generating title", {
-				error,
-				functionName: "LLMNexusController.generateTitle",
-			});
-		}
-	}
 
 	private static async generateChatResponse({
 		agentRun: { thread },
@@ -113,46 +80,58 @@ export class LLMNexusController {
 
 	private static async saveResponse(
 		thread: Thread,
-		response: ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion
+		response: ChatCompletionStream | ChatCompletion
 	) {
+		if (response instanceof ChatCompletionStream) {
+			this.saveStreamResponse(thread, response);
+		} else {
+			this.saveJSONResponse(thread, response);
+		}
+	}
+
+	private static saveStreamResponse(thread: Thread, response: ChatCompletionStream) {
 		try {
-			if (
-				response instanceof ChatCompletionStream ||
-				response instanceof ChatCompletionStreamingRunner
-			) {
-				// Handle streamed response
-				chatResponseEmitter.sendResponseStreamReady({
-					threadId: thread.id,
-					response,
-				});
-				StreamResponseController.processResponse(
-					thread,
-					response,
-					new MessageQueue()
-				);
-			} else {
-				if (!thread.activeMessage) throw new Error("No active message in thread");
-				chatResponseEmitter.sendResponseJSONReady({
-					threadId: thread.id,
-					response,
-				});
-				const responseMsg = response.choices[0].message;
-				getThreadRepo().addMessage(thread, {
-					role: responseMsg.role as Role,
-					content: responseMsg.content,
-					parent: thread.activeMessage,
-				});
-			}
+			chatResponseEmitter.sendResponseStreamReady({
+				threadId: thread.id,
+				response,
+			});
+			StreamResponseController.processResponse(
+				thread,
+				response,
+				new MessageQueue()
+			);
 		} catch (error) {
-			logger.error("Error saving response", {
+			logger.error("Error saving stream response", {
 				error,
 				response,
-				functionName: "LLMNexusController.saveResponse",
+				functionName: "LLMNexusController.saveStreamResponse",
 			});
 		}
 	}
 
-	private static getTools(agentRun: AgentRun) {
+	private static saveJSONResponse(thread: Thread, response: ChatCompletion) {
+		if (!thread.activeMessage) throw new Error("No active message in thread");
+		try {
+			chatResponseEmitter.sendResponseJSONReady({
+				threadId: thread.id,
+				response,
+			});
+			const responseMsg = response.choices[0].message;
+			getThreadRepo().addMessage(thread, {
+				role: responseMsg.role as Role,
+				content: responseMsg.content,
+				parent: thread.activeMessage,
+			});
+		} catch (error) {
+			logger.error("Error saving JSON response", {
+				error,
+				response,
+				functionName: "LLMNexusController.saveJSONResponse",
+			});
+		}
+	}
+
+	static getTools(agentRun: AgentRun) {
 		return agentRun.agent.tools
 			.map((tool) => {
 				switch (tool) {
@@ -163,5 +142,76 @@ export class LLMNexusController {
 				}
 			})
 			.flat();
+	}
+}
+
+class TitleController {
+	/**
+	 * Process the Agent Run.
+	 * This is called by the Queue in `AgentRunSubscriber`
+	 * */
+	static processResponse = async (
+		llmServce: LLMNexus,
+		agentRun: AgentRun,
+		opts: ChatOptions
+	) => {
+		const res = await this.generateTitle({
+			llmServce,
+			agentRun,
+			opts: {
+				...opts,
+				stream: false,
+			},
+		});
+
+		await this.saveResponse(agentRun.thread, res);
+	};
+
+	private static async generateTitle({
+		agentRun: { thread },
+		llmServce,
+		opts,
+	}: {
+		agentRun: AgentRun;
+		llmServce: LLMNexus;
+		opts: ChatOptions;
+	}) {
+		if (!thread.activeMessage) throw new Error("No active message in thread");
+		try {
+			const messages = await getMessageRepo().getMessageHistoryList(
+				thread.activeMessage,
+				true
+			);
+			const SYSTEM_MESSAGE = `Generate a thread title for the provided conversation history. 
+			Only respond with the title. 
+			Do not include any other information. 
+			Do not include unnecessary punctuation. 
+			Do not wrap the title in quotes.
+			Ensure the title is as general to the conversation as possible.\n\n
+			${JSON.stringify(messages.map((m) => ({ role: m.role, content: m.content })))}`;
+
+			const msgHistory = [{ role: "system", content: SYSTEM_MESSAGE }] as any[];
+			const response = await llmServce.createTitleCompletionJSON(msgHistory, opts);
+
+			return response;
+		} catch (error) {
+			logger.error("Error generating title", {
+				error,
+				functionName: "LLMNexusController.generateTitle",
+			});
+			throw error;
+		}
+	}
+
+	private static async saveResponse(thread: Thread, response: ChatCompletionRunner) {
+		await response.done();
+		const toolCall = await response.finalFunctionCall();
+		if (!toolCall?.arguments) throw new Error("No title generated");
+
+		const { title } = JSON.parse(toolCall.arguments);
+		if (!title) throw new Error("No title generated");
+
+		thread.title = title;
+		await getThreadRepo().update(thread.id, { title });
 	}
 }

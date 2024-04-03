@@ -6,6 +6,8 @@ import { Thread } from "@/modules/Thread/ThreadModel";
 import { Message } from "@/modules/Message/MessageModel";
 import type { User } from "@/modules/User/UserModel";
 import logger from "@/lib/logs/logger";
+import tokenizer from "@/lib/tokenizer";
+import { getMessageRepo } from "../Message/MessageRepo";
 
 export const getThreadRepo = () =>
 	AppDataSource.getRepository(Thread).extend({
@@ -22,7 +24,7 @@ export const getThreadRepo = () =>
 
 		/** Create and add a Message to the DB, then add and save it to the Thread */
 		async addMessage(thread: Thread, message: Partial<Message>, parentId?: string) {
-			return AppDataSource.manager.transaction(async (manager) => {
+			const newThread = await AppDataSource.manager.transaction(async (manager) => {
 				if (parentId) {
 					message.parent = await manager.findOneByOrFail(Message, {
 						id: parentId,
@@ -33,6 +35,10 @@ export const getThreadRepo = () =>
 
 				if (!message.parent && message.role !== "system") {
 					throw new Error("No parent message found");
+				}
+
+				if (message.content) {
+					message.tokenCount = tokenizer.estimateTokenCount(message.content);
 				}
 
 				const newMsg = await manager.save(Message, { ...message, thread });
@@ -47,6 +53,27 @@ export const getThreadRepo = () =>
 
 				return newThread;
 			});
+			return this.updateTokenCount(newThread);
+		},
+
+		async updateTokenCount(thread: Thread) {
+			if (!thread.activeMessage) throw new Error("No active message found");
+			const currentHistory = await getMessageRepo().getMessageHistoryList(
+				thread.activeMessage
+			);
+
+			const tokenCount = currentHistory.reduce((acc, msg) => {
+				let count = msg.tokenCount || 0;
+				if (msg.files) {
+					count += msg.files.reduce((acc, file) => {
+						return acc + (file.tokenCount || 0);
+					}, 0);
+				}
+				return acc + count;
+			}, 0);
+
+			thread.tokenCount = tokenCount;
+			return this.save(thread);
 		},
 
 		/** Create a new Thread and add a system message */

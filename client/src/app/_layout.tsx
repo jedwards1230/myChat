@@ -17,6 +17,7 @@ import { HotkeyProvider } from "@/providers/HotkeyProvider";
 
 import { withNativeOnly } from "@/lib/withNativeOnly";
 import { PortalHost } from "@/components/primitives/portal";
+import { Platform } from "react-native";
 
 export const unstable_settings = {
 	initialRouteName: "(chat)",
@@ -50,43 +51,50 @@ export default function RootLayout() {
 	return <RootLayoutNav />;
 }
 
+const PlatformProviders = Platform.select({
+	web: (props: { children: React.ReactNode }) => (
+		<HotkeyProvider>{props.children}</HotkeyProvider>
+	),
+	default: (props: { children: React.ReactNode }) => (
+		<GestureHandlerRootView style={{ flex: 1 }}>
+			<NativeHapticsProvider>{props.children}</NativeHapticsProvider>
+		</GestureHandlerRootView>
+	),
+});
+
 function RootLayoutNav() {
 	return (
 		<ThemeProvider>
-			<NativeGestureHandlerRootView style={{ flex: 1 }}>
-				<QueryClientProvider>
-					<NativeHapticsProvider>
-						<HotkeyProvider>
-							<AppStateProvider>
-								<Stack
-									initialRouteName="(chat)"
-									screenOptions={{ headerShown: false }}
-								>
-									<Stack.Screen name="(chat)" />
-									<Stack.Screen
-										name="agent/index"
-										options={{ presentation: "modal" }}
-									/>
-									<Stack.Screen
-										name="agent/[id]"
-										options={{ presentation: "modal" }}
-									/>
-									<Stack.Screen name="agent/create/index" />
-									<Stack.Screen
-										name="file/cache/[id]"
-										options={{ presentation: "modal" }}
-									/>
-									<Stack.Screen
-										name="settings"
-										options={{ presentation: "modal" }}
-									/>
-								</Stack>
-							</AppStateProvider>
-							<PortalHost />
-						</HotkeyProvider>
-					</NativeHapticsProvider>
-				</QueryClientProvider>
-			</NativeGestureHandlerRootView>
+			<QueryClientProvider>
+				<PlatformProviders>
+					<AppStateProvider>
+						<Stack
+							initialRouteName="(chat)"
+							screenOptions={{ headerShown: false }}
+						>
+							<Stack.Screen name="(chat)" />
+							<Stack.Screen
+								name="file/[id]"
+								options={{ presentation: "modal" }}
+							/>
+							<Stack.Screen
+								name="agent/index"
+								options={{ presentation: "modal" }}
+							/>
+							<Stack.Screen
+								name="agent/[id]"
+								options={{ presentation: "modal" }}
+							/>
+							<Stack.Screen name="agent/create/index" />
+							<Stack.Screen
+								name="settings"
+								options={{ presentation: "modal" }}
+							/>
+						</Stack>
+					</AppStateProvider>
+					<PortalHost />
+				</PlatformProviders>
+			</QueryClientProvider>
 		</ThemeProvider>
 	);
 }

@@ -1,14 +1,16 @@
 import { In } from "typeorm";
 import type { FastifyReply, FastifyRequest } from "fastify";
+import type { MultipartFile } from "@fastify/multipart";
 
-import type { MessageFile } from "./MessageFileModel";
+import logger from "@/lib/logs/logger";
+import tokenizer from "@/lib/tokenizer";
+
 import {
 	getMessageFileRepo,
 	type MessageFileMetadata,
 	type PreppedFile,
 } from "./MessageFileRepo";
-import logger from "@/lib/logs/logger";
-import type { MultipartFile } from "@fastify/multipart";
+import type { MessageFile } from "./MessageFileModel";
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, reply: FastifyReply) {
@@ -59,7 +61,8 @@ export class MessageFileController {
 			for (let i = 0; i < filesRaw.length; i++) {
 				const file = filesRaw[i];
 				const metadata = metadataRaw[i];
-				files.push({ file, metadata });
+				const res = await MessageFileController.tokenizeFile(file);
+				files.push({ ...res, file, metadata });
 			}
 
 			const newMsg = await getMessageFileRepo().addFileList(files, message);
@@ -71,6 +74,20 @@ export class MessageFileController {
 				functionName: "MessageFileController.createMessageFile",
 			});
 			throw error;
+		}
+	}
+
+	private static async tokenizeFile(file: MultipartFile) {
+		try {
+			const buffer = await file.toBuffer();
+			const text = buffer.toString("utf-8");
+			const tokens = tokenizer.estimateTokenCount(text);
+			return { buffer, tokens };
+		} catch (error) {
+			logger.error("Error tokenizing file", {
+				error,
+				functionName: "MessageFileController.tokenizeFile",
+			});
 		}
 	}
 

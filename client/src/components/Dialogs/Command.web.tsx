@@ -3,6 +3,10 @@
 import * as React from "react";
 import { useQueryClient } from "@tanstack/react-query";
 
+import { fetcher } from "@/lib/fetcher";
+import { useConfigStore } from "@/lib/stores/configStore";
+import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
+
 import {
 	CommandDialog as CommandDialogComponent,
 	CommandEmpty,
@@ -12,9 +16,6 @@ import {
 	CommandList,
 } from "@/components/ui/Command";
 import { FontAwesome } from "@/components/ui/Icon";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import { fetcher } from "@/lib/fetcher";
 
 export function CommandDialog({
 	open,

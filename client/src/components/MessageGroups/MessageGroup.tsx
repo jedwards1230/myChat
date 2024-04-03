@@ -6,6 +6,7 @@ import { MessageGroupBubble } from "./MessageGroupBubble";
 
 export type ChatMessageGroup = {
 	id: string;
+	threadId: string;
 	messages: Message[];
 	name: string;
 	role: "user" | "assistant";
@@ -34,7 +35,7 @@ export const MessageGroup = ({
 	);
 };
 
-export const groupMessages = (messages: Message[] | undefined) => {
+export const groupMessages = (threadId: string, messages: Message[] | undefined) => {
 	if (!messages) return [];
 	const grouped: ChatMessageGroup[] = [];
 
@@ -42,6 +43,7 @@ export const groupMessages = (messages: Message[] | undefined) => {
 		messages: [],
 		name: "user",
 		role: "user",
+		threadId,
 		id: "",
 	});
 

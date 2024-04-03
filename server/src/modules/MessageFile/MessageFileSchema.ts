@@ -7,6 +7,7 @@ export const MessageFileObjectSchema = Type.Object({
 	uploadDate: Type.String(),
 	mimetype: Type.String(),
 	extension: Type.String(),
+	tokenCount: Type.Optional(Type.Number()),
 	fileData: Type.Optional(Type.Object(Type.Any())),
 	parsable: Type.Optional(Type.Boolean()),
 });

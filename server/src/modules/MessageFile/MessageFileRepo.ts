@@ -12,7 +12,12 @@ export type MessageFileMetadata = {
 	relativePath?: string;
 };
 
-export type PreppedFile = { file: MultipartFile; metadata: MessageFileMetadata };
+export type PreppedFile = {
+	buffer?: Buffer;
+	file: MultipartFile;
+	metadata: MessageFileMetadata;
+	tokens?: number;
+};
 
 export const getFileDataRepo = () => AppDataSource.getRepository(FileData).extend({});
 
@@ -23,11 +28,9 @@ export const getMessageFileRepo = () =>
 			try {
 				const newMsg = await AppDataSource.manager.transaction(
 					async (manager) => {
-						for await (const { file, metadata } of fileList) {
+						for await (const { buffer, file, metadata, tokens } of fileList) {
 							// Create and save FileData
-							const fileData = manager.create(FileData, {
-								blob: await file.toBuffer(),
-							});
+							const fileData = manager.create(FileData, { blob: buffer });
 							await manager.save(FileData, fileData);
 
 							// Create and save MessageFile with reference to FileData and Message
@@ -38,6 +41,8 @@ export const getMessageFileRepo = () =>
 								path: metadata.relativePath,
 								lastModified: metadata.lastModified,
 								size: BigInt(metadata.size),
+								tokenCount: tokens,
+								parsable: !!tokens && tokens > 0 && buffer !== undefined,
 								fileData,
 								message,
 							});

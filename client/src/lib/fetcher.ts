@@ -24,10 +24,11 @@ export type FetcherRequestInit = FetchRequestInit & {
 	file?: boolean;
 };
 
-const BASE_HOST = Platform.select({
-	web: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "",
-	default: process.env.EXPO_PUBLIC_API_URL,
-});
+export const BASE_HOST =
+	Platform.select({
+		web: process.env.NODE_ENV === "development" ? "http://localhost:3000" : "",
+		default: process.env.EXPO_PUBLIC_API_URL,
+	}) + "/api";
 
 /**
  * Fetcher for react-query.
@@ -41,7 +42,7 @@ export async function fetcher<T = any>(
 	}
 ): Promise<T> {
 	try {
-		const res = await fetch(BASE_HOST + "/api" + url, {
+		const res = await fetch(BASE_HOST + url, {
 			...init,
 			headers: {
 				...(!file && { "Content-Type": "application/json" }),

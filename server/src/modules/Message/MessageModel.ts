@@ -69,6 +69,10 @@ export class Message extends BaseEntity {
 	@TreeChildren()
 	children: Message[];
 
+	/** Token Count */
+	@Column({ type: "integer", nullable: true })
+	tokenCount?: number;
+
 	@TreeParent()
 	parent: Message;
 

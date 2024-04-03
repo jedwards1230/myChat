@@ -69,6 +69,10 @@ export class Thread extends BaseEntity {
 	@ManyToOne(() => User, (user) => user.threads)
 	user: Relation<User>;
 
+	/** Total token count */
+	@Column({ type: "int", default: 0 })
+	tokenCount: number;
+
 	@VersionColumn()
 	version: number;
 }
