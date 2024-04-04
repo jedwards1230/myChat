@@ -47,12 +47,6 @@ export const useConfigStore = create<State & Actions>()(
 		{
 			name,
 			storage: createJSONStorage(() => AsyncStorage),
-			partialize: (state) =>
-				Object.fromEntries(
-					Object.entries(state).filter(
-						([key]) => !["threadId", "host"].includes(key)
-					)
-				),
 		}
 	)
 );

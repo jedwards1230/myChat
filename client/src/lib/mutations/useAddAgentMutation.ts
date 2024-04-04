@@ -3,6 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { AgentCreateSchema } from "@/types";
+import { agentsQueryOptions } from "../queries/useAgentsQuery";
 
 const fetchAgent = (userId: string, agent: AgentCreateSchema) =>
 	fetcher<AgentCreateSchema>(["/agents", userId], {
@@ -18,21 +19,19 @@ export const useAddAgentMutation = () => {
 		mutationKey: ["agent"],
 		mutationFn: async (agent: AgentCreateSchema) => fetchAgent(user.id, agent),
 		onMutate: async (agent: AgentCreateSchema) => {
-			const prevAgents = queryClient.getQueryData<AgentCreateSchema[]>([
-				user.id,
-				"agents",
-			]);
+			const queryOpts = agentsQueryOptions(user.id);
+			const prevAgents = queryClient.getQueryData<AgentCreateSchema[]>(
+				queryOpts.queryKey
+			);
 
 			queryClient.setQueryData<AgentCreateSchema[]>(
-				[user.id, "agents"],
+				queryOpts.queryKey,
 				prevAgents ? [...prevAgents, agent] : [agent]
 			);
 
 			return { prevAgents };
 		},
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: [user.id, "agents"] });
-		},
+		onSuccess: () => queryClient.invalidateQueries(agentsQueryOptions(user.id)),
 		onError: (error) => console.error("Failed to create agent: " + error),
 	});
 };

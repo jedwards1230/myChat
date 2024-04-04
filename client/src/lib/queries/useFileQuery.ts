@@ -1,4 +1,4 @@
-import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import type { MessageFile } from "@/types";
@@ -19,9 +19,14 @@ export const fileQueryOptions = (
 ) => {
 	return queryOptions({
 		queryKey: [userId, threadId, messageId, fileId],
-		enabled: !!threadId,
+		enabled: !!threadId && !!messageId && !!fileId,
 		queryFn: fetchFile(userId, threadId, messageId, fileId!),
 	});
+};
+
+export const useFileQuery = (threadId: string, messageId: string, fileId: string) => {
+	const user = useConfigStore((s) => s.user);
+	return useQuery(fileQueryOptions(user.id, threadId, messageId, fileId));
 };
 
 export const useFileSuspenseQuery = (

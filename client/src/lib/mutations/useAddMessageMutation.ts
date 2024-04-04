@@ -6,7 +6,6 @@ import type {
 	MessageCreateSchema,
 	MessageObjectSchema as Message,
 } from "@db/Message/MessageSchema";
-import { threadQueryOptions } from "../queries/useThreadQuery";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 
 export type PostMessageOptions = {
@@ -14,16 +13,11 @@ export type PostMessageOptions = {
 	message: MessageCreateSchema;
 };
 
-const postMessage = async (
-	{ threadId, message }: PostMessageOptions,
-	userId: string
-): Promise<Message> => {
-	const newMessage = await fetcher<Message>([`/threads/${threadId}/messages`, userId], {
+const postMessage = async ({ threadId, message }: PostMessageOptions, userId: string) =>
+	fetcher<Message>([`/threads/${threadId}/messages`, userId], {
 		method: "POST",
 		body: JSON.stringify({ message }),
 	});
-	return newMessage;
-};
 
 /** Post a message to the server */
 export const useAddMessageMutation = () => {

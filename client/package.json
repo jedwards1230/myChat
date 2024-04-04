@@ -90,11 +90,11 @@
 		"zustand": "^4.5.2"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.24.3",
+		"@babel/core": "^7.24.4",
 		"@tanstack/eslint-plugin-query": "^5.28.11",
 		"@types/bun": "^1.0.12",
 		"@types/react": "~18.2.74",
-		"@types/react-dom": "^18.2.23",
+		"@types/react-dom": "^18.2.24",
 		"@types/react-syntax-highlighter": "^15.5.11",
 		"@types/text-encoding": "^0.0.39",
 		"ajv": "^8.12.0",

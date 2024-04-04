@@ -20,12 +20,11 @@ export class ChatResponseEmitter extends EventEmitter {
 		super();
 	}
 
-	sendResponseJSONReady(data: ChatResponseEmitterEvents["responseJSONReady"]) {
-		this.emit("responseReady", data);
-	}
-
-	sendResponseStreamReady(data: ChatResponseEmitterEvents["responseStreamReady"]) {
-		this.emit("responseStreamReady", data);
+	sendResponseReady<T extends keyof ChatResponseEmitterEvents>(
+		type: T,
+		data: ChatResponseEmitterEvents[T]
+	) {
+		this.emit(type, data);
 	}
 
 	on<E extends keyof ChatResponseEmitterEvents>(

@@ -32,7 +32,10 @@ export const themes = {
 				web: "0 0% 12%",
 				default: "0 0% 0%",
 			}),
-			"--foreground": "0 0% 98%",
+			"--foreground": Platform.select({
+				web: "0 0% 96%",
+				default: "0 0% 98%",
+			}),
 			"--secondary": Platform.select({
 				web: "0 0% 8%",
 				default: "0 0% 13%",

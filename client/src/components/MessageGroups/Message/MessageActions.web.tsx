@@ -9,16 +9,20 @@ import { useDeleteMessageMutation } from "@/lib/mutations/useDeleteMessageMutati
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
 import { useUpdateMessageMutation } from "@/lib/mutations/useUpdateMessageMutation";
+import { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({
 	message,
-	groupId,
+	group,
 }: {
 	message: Message;
-	groupId: string;
+	group: ChatMessageGroup;
 }) {
 	const { setEditId, reset, editMessageId } = useGroupStore();
-	const { mutate: deleteMessage } = useDeleteMessageMutation(message.id);
+	const { mutate: deleteMessage } = useDeleteMessageMutation(
+		group.threadId,
+		message.id
+	);
 	const { mutate: updateMessage } = useUpdateMessageMutation();
 
 	const editMode = editMessageId === message.id;
@@ -27,7 +31,7 @@ export function MessageActions({
 		editMode
 			? reset()
 			: setEditId({
-					editGroupId: groupId,
+					editGroupId: group.id,
 					editMessageId: message.id,
 			  });
 	};

@@ -27,7 +27,7 @@ export default function ChatHistory({
 	};
 
 	const { data, isError } = useMessagesQuery(threadId!);
-	const messageGroups = useMemo(() => groupMessages(threadId, data), [data]);
+	const messageGroups = groupMessages(threadId, data);
 
 	const scrollToBottom = () =>
 		messageGroups.length > 0 &&

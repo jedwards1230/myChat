@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Suspense, useState } from "react";
 import { View } from "react-native";
 
 import { CacheFile } from "@/types";
@@ -34,7 +34,11 @@ export default function FileDialog({
 				{children}
 			</DialogTrigger>
 			<DialogContent className="w-screen max-h-[90vh] max-w-[90vw] overflow-y-scroll !bg-background text-foreground">
-				{open && <FileView file={file} />}
+				{open && (
+					<Suspense fallback={<Text>Loading File Info...</Text>}>
+						{<FileView file={file} />}
+					</Suspense>
+				)}
 			</DialogContent>
 		</Dialog>
 	);

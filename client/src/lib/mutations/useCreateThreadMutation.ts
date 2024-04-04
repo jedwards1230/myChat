@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 import type { Thread } from "@/types";
+import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
 const createThread = async (userId: string): Promise<Thread> => {
 	const data = await fetcher<Thread>([`/threads`, userId], {
@@ -29,9 +30,6 @@ export function useCreateThreadMutation() {
 				params: { c: res.id },
 			});
 		},
-		onSettled: () =>
-			queryClient.invalidateQueries({
-				queryKey: [user.id, "threads"],
-			}),
+		onSettled: () => queryClient.invalidateQueries(threadListQueryOptions(user.id)),
 	});
 }

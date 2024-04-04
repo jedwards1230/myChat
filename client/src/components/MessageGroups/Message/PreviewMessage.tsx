@@ -5,7 +5,13 @@ import { MessageFilter } from "./MessageFilter";
 import { Text } from "@/components/ui/Text";
 import { Avatar } from "../Avatar";
 
-export function PreviewMessage({ message }: { message: Message }) {
+export function PreviewMessage({
+	message,
+	threadId,
+}: {
+	message: Message;
+	threadId: string;
+}) {
 	const role = message.role === "user" ? "user" : "assistant";
 	const name = message.name || message.role;
 
@@ -16,7 +22,7 @@ export function PreviewMessage({ message }: { message: Message }) {
 				<Text className="font-bold">{name}</Text>
 			</View>
 			<View className="w-full">
-				<MessageFilter message={message} />
+				<MessageFilter threadId={threadId} message={message} />
 			</View>
 		</View>
 	);

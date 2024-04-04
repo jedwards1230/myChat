@@ -4,7 +4,6 @@ import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import logger from "@/lib/logs/logger";
 import { chatResponseEmitter } from "@/lib/events";
-import MessageQueue from "@/lib/queue";
 
 import { getMessageRepo } from "../Message/MessageRepo";
 import type { Role } from "../Message/RoleModel";
@@ -13,10 +12,10 @@ import { StreamResponseController } from "../Thread/StreamResponseController";
 import type { Thread } from "../Thread/ThreadModel";
 import { getThreadRepo } from "../Thread/ThreadRepo";
 
-import type { AgentRun } from "../AgentRun/AgentRunModel";
+import type { AgentRun, AgentRunStatus } from "../AgentRun/AgentRunModel";
 import { NexusServiceRegistry, type LLMNexus, type ChatOptions } from "./LLMInterface";
 import { Browser } from "./Tools/browser/browser";
-import type { Message } from "openai/resources/beta/threads/index.mjs";
+import { getAgentRunRepo } from "../AgentRun/AgentRunRepo";
 
 export class LLMNexusController {
 	/**
@@ -24,6 +23,10 @@ export class LLMNexusController {
 	 * This is called by the Queue in `AgentRunSubscriber`
 	 * */
 	static processResponse = async (agentRun: AgentRun) => {
+		const update = (status: AgentRunStatus) =>
+			getAgentRunRepo().update({ id: agentRun.id }, { status });
+
+		await update("in_progress");
 		const llmServce = NexusServiceRegistry.getService("OpenAIService");
 		const tools = LLMNexusController.getTools(agentRun);
 		const opts: ChatOptions = {
@@ -40,16 +43,16 @@ export class LLMNexusController {
 					opts,
 				});
 
-				const { thread } = agentRun;
-
-				await this.saveResponse(thread, response);
+				await this.saveResponse(agentRun.thread, response);
 				break;
 			}
 			case "getTitle": {
-				TitleController.processResponse(llmServce, agentRun, opts);
+				await TitleController.processResponse(llmServce, agentRun, opts);
 				break;
 			}
 		}
+
+		await update("completed");
 	};
 
 	private static async generateChatResponse({
@@ -82,24 +85,29 @@ export class LLMNexusController {
 		thread: Thread,
 		response: ChatCompletionStream | ChatCompletion
 	) {
-		if (response instanceof ChatCompletionStream) {
-			this.saveStreamResponse(thread, response);
-		} else {
-			this.saveJSONResponse(thread, response);
+		try {
+			if (response instanceof ChatCompletionStream) {
+				this.saveStreamResponse(thread, response);
+			} else {
+				this.saveJSONResponse(thread, response);
+			}
+		} catch (error) {
+			logger.error("Error saving response", {
+				error,
+				response,
+				functionName: "LLMNexusController.saveResponse",
+			});
+			throw error;
 		}
 	}
 
 	private static saveStreamResponse(thread: Thread, response: ChatCompletionStream) {
 		try {
-			chatResponseEmitter.sendResponseStreamReady({
+			chatResponseEmitter.sendResponseReady("responseStreamReady", {
 				threadId: thread.id,
 				response,
 			});
-			StreamResponseController.processResponse(
-				thread,
-				response,
-				new MessageQueue()
-			);
+			StreamResponseController.processResponse(thread, response);
 		} catch (error) {
 			logger.error("Error saving stream response", {
 				error,
@@ -112,7 +120,7 @@ export class LLMNexusController {
 	private static saveJSONResponse(thread: Thread, response: ChatCompletion) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 		try {
-			chatResponseEmitter.sendResponseJSONReady({
+			chatResponseEmitter.sendResponseReady("responseJSONReady", {
 				threadId: thread.id,
 				response,
 			});

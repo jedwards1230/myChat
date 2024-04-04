@@ -5,6 +5,7 @@ import { useGroupStore } from "../GroupStore";
 import { Message } from "@/types";
 import { useDeleteMessageMutation } from "@/lib/mutations/useDeleteMessageMutation";
 import { PreviewMessage } from "./PreviewMessage";
+import { ChatMessageGroup } from "../MessageGroup";
 
 const menuConfig: MenuConfig = {
 	menuTitle: "",
@@ -26,15 +27,18 @@ const menuConfig: MenuConfig = {
 
 export function MessageActions({
 	message,
-	groupId,
+	group,
 	children,
 }: {
 	message: Message;
-	groupId: string;
+	group: ChatMessageGroup;
 	children?: React.ReactNode;
 }) {
 	const { setEditId, reset, editMessageId } = useGroupStore();
-	const { mutate: deleteMessage } = useDeleteMessageMutation(message.id);
+	const { mutate: deleteMessage } = useDeleteMessageMutation(
+		group.threadId,
+		message.id
+	);
 
 	const editMode = editMessageId === message.id;
 
@@ -42,13 +46,13 @@ export function MessageActions({
 		editMode
 			? reset()
 			: setEditId({
-					editGroupId: groupId,
+					editGroupId: group.id,
 					editMessageId: message.id,
 			  });
 	};
 
 	const copyToClipboard = () => {
-		if (message.content !== null) {
+		if (message.content) {
 			Clipboard.setStringAsync(message.content);
 		}
 	};
@@ -70,7 +74,9 @@ export function MessageActions({
 	return (
 		<ContextMenuView
 			menuConfig={menuConfig}
-			renderPreview={() => <PreviewMessage message={message} />}
+			renderPreview={() => (
+				<PreviewMessage threadId={group.threadId} message={message} />
+			)}
 			previewConfig={{ previewType: "CUSTOM" }}
 			onPressMenuItem={({ nativeEvent }) => onMenuAction(nativeEvent.actionKey)}
 		>

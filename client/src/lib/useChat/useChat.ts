@@ -9,27 +9,25 @@ import { useAddMessageFileMutation } from "../mutations/useAddMessageFileMutatio
 
 export type FormSubmission = (input: string) => Promise<true | void>;
 
-type ChatStatus = "idle" | "loading";
 type RequestStatus =
 	| "ready"
 	| "no-thread"
 	| "creating-thread"
 	| "message-sent"
 	| "adding-files"
-	| "requesting-chat"
-	| "chat-requested";
+	| "requesting-chat";
 
 export function useChat() {
 	const threadId = useConfigStore((state) => state.threadId);
 	const fileList = useFileStore((state) => state.fileList);
 
 	const [input, setInput] = useState<string | null>(null);
-	const [chatStatus, setChatStatus] = useState<ChatStatus>("idle");
+	const [isIdle, setIsIdle] = useState(true);
 	const [reqStatus, setReqStatus] = useState<RequestStatus>(
 		threadId ? "ready" : "no-thread"
 	);
 
-	const { requestChat, abort, loading } = useChatResponse();
+	const { requestChat, abort, loading } = useChatResponse(threadId);
 
 	const addMessageMut = useAddMessageMutation();
 	useEffect(() => {
@@ -51,7 +49,7 @@ export function useChat() {
 
 	const reset = () => {
 		setReqStatus(threadId ? "ready" : "no-thread");
-		setChatStatus("idle");
+		setIsIdle(true);
 		addMessageMut.reset();
 		createThreadMut.reset();
 		addMessageFileMut.reset();
@@ -64,7 +62,7 @@ export function useChat() {
 	}, [createThreadMut.data]);
 
 	useEffect(() => {
-		if (chatStatus === "idle") return;
+		if (isIdle) return;
 		if (reqStatus === "creating-thread") return;
 
 		switch (reqStatus) {
@@ -114,33 +112,23 @@ export function useChat() {
 			case "requesting-chat":
 				if (addMessageMut.status === "success") {
 					requestChat();
-					setReqStatus("chat-requested");
+					reset();
 				}
 				break;
-
-			case "chat-requested":
-				reset();
-				setChatStatus("idle");
-				setReqStatus("ready");
-				break;
 		}
-	}, [reqStatus, chatStatus, addMessageMut.status, addMessageFileMut.status, threadId]);
+	}, [reqStatus, isIdle, addMessageMut.status, addMessageFileMut.status, threadId]);
 
 	const handleSubmit: FormSubmission = async (input) => {
-		try {
-			if (!input && !fileList) throw new Error("No input or file");
-			setInput(input);
-			setChatStatus("loading");
-		} catch (error) {
-			setReqStatus(threadId ? "ready" : "no-thread");
-
-			console.error(error);
-			throw error;
+		if (!input && !fileList) {
+			console.error("No input or file");
+			throw new Error("No input or file");
 		}
+		setInput(input);
+		setIsIdle(false);
 	};
 
 	return {
-		loading,
+		loading: loading || !isIdle,
 		handleSubmit,
 		abort,
 	};

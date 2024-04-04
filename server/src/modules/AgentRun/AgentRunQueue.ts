@@ -38,7 +38,10 @@ export class AgentRunQueue {
 				functionName: "AgentRunQueue.processQueue",
 			});
 		} finally {
-			this.queue.locked = false;
+			logger.debug("AgentRunQueue is clear", {
+				runId,
+				functionName: "AgentRunQueue.processQueue",
+			});
 		}
 	}
 }

@@ -15,7 +15,7 @@ export function BaseMessage({
 	return (
 		<View className="w-full group">
 			<MessageFilter message={message} threadId={group.threadId} />
-			<MessageActions message={message} groupId={group.id} />
+			<MessageActions message={message} group={group} />
 		</View>
 	);
 }

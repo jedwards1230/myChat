@@ -1,9 +1,4 @@
-import type {
-	ChatCompletionAssistantMessageParam,
-	ChatCompletionChunk,
-	ChatCompletionMessageParam,
-	ChatCompletionToolMessageParam,
-} from "openai/resources/index";
+import type { ChatCompletionMessageParam } from "openai/resources/index";
 import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream";
 
 import logger, { streamLogger } from "@/lib/logs/logger";
@@ -15,87 +10,60 @@ import type { Message } from "../Message/MessageModel";
 import { getToolCallRepo, getMessageRepo } from "../Message/MessageRepo";
 import type { ToolCall } from "../Message/ToolCallModel";
 
-export type AddMessageQueue = MessageQueue<ChatCompletionMessageParam>;
+type QueueItem = ChatCompletionMessageParam;
+export type AddMessageQueue = MessageQueue<QueueItem>;
 
 export class StreamResponseController {
-	static async processResponse(
-		thread: Thread,
-		response: ChatCompletionStream,
-		messageQueue: AddMessageQueue
-	) {
-		response.on("message", (message) => {
-			messageQueue.enqueue(thread.id, message);
-			if (!messageQueue.locked) this.processQueue(thread, messageQueue);
-		});
-	}
-
-	private static async processQueue(threadRef: Thread, mq: AddMessageQueue) {
-		while (!mq.isEmpty(threadRef.id)) {
-			const message = mq.dequeue(threadRef.id);
-			if (!message) throw new Error("No message in queue");
-
-			const thread = await getThreadRepo().findOneOrFail({
-				where: { id: threadRef.id },
-				relations: {
-					activeMessage: true,
-					messages: true,
-				},
-			});
-
-			try {
-				let newMsg: Message | undefined;
-				if (message.role === "tool") {
-					const toolMsg = await this.handleToolMessage(message, thread);
-					newMsg = toolMsg;
-				} else if (message.role === "assistant") {
-					newMsg = await this.handleAssistantMessage(message, thread);
+	static async processResponse(thread: Thread, response: ChatCompletionStream) {
+		let newMessage = getMessageRepo().create();
+		response
+			.on("chunk", async (chunk, snap) => {
+				const delta = chunk.choices[0].delta;
+				if (delta.role) {
+					newMessage = getMessageRepo().create(delta);
+					newMessage = await getMessageRepo().save(newMessage);
+					streamLogger.info("added message", { delta, chunk, newMessage });
 				}
-				if (!newMsg) throw new Error("No new message");
+			})
+			.on("content", async (chunk, content) => {
+				if (!newMessage.id)
+					return streamLogger.warn("No message id", { content, newMessage });
+				newMessage.content = content;
+				await getMessageRepo().update({ id: newMessage.id }, { content });
+				streamLogger.info("updateContent", { content, newMessage });
+			})
+			.on("message", async (message) => {
+				streamLogger.info("onMessage", { msg: message, newMessage });
+				await this.processThread(thread.id, newMessage);
+			});
+	}
 
-				thread.activeMessage = newMsg;
-				thread.messages = thread.messages
-					? [...thread.messages, newMsg]
-					: [newMsg];
+	private static async processThread(threadId: string, message: Message) {
+		const thread = await getThreadRepo().findOneOrFail({
+			where: { id: threadId },
+			relations: {
+				activeMessage: true,
+				messages: true,
+			},
+		});
 
-				await getThreadRepo().save(thread);
-			} catch (error) {
-				logError("Error processing queue", {
-					error,
-					functionName: "processQueue",
-				});
-				throw error;
-			} finally {
-				mq.locked = false;
-			}
+		streamLogger.info("processThread", { thread, msg: message });
+
+		let newMsg: Message | undefined;
+		if (message.role === "tool") {
+			const toolMsg = await this.handleToolMessage(message, thread);
+			newMsg = toolMsg;
+		} else if (message.role === "assistant") {
+			newMsg = await this.handleAssistantMessage(message, thread);
 		}
+		if (!newMsg) throw new Error("No new message");
+
+		thread.activeMessage = newMsg;
+		thread.messages = thread.messages ? [...thread.messages, newMsg] : [newMsg];
+		await getThreadRepo().save(thread);
 	}
 
-	private static async handleToolMessage(
-		message: ChatCompletionToolMessageParam,
-		thread: Thread
-	) {
-		if (!thread.activeMessage) throw new Error("No active message in thread");
-
-		const toolCall = await getToolCallRepo().findOneByOrFail({
-			id: message.tool_call_id,
-		});
-		toolCall.content = message.content;
-
-		const toolMsg = await getMessageRepo().save({
-			role: "tool",
-			content: message.content,
-			parent: thread.activeMessage,
-			name: toolCall.function?.name || "Tool Name",
-			tool_call_id: toolCall,
-		});
-
-		return toolMsg;
-	}
-
-	private static async handleAssistantMessage(
-		message: ChatCompletionAssistantMessageParam,
-		thread: Thread
-	) {
+	private static async handleAssistantMessage(message: Message, thread: Thread) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 
 		const msg = getMessageRepo().create({
@@ -122,11 +90,24 @@ export class StreamResponseController {
 
 		return assistantMsg;
 	}
-}
 
-function logError(message: string, data: any) {
-	logger.error(message, {
-		...data,
-		functionName: `StreamResponseController.${data.functionName}`,
-	});
+	private static async handleToolMessage(message: Message, thread: Thread) {
+		if (!thread.activeMessage) throw new Error("No active message in thread");
+		if (!message.tool_call_id) throw new Error("No tool call id in message");
+
+		const toolCall = await getToolCallRepo().findOneByOrFail({
+			id: message.tool_call_id.id,
+		});
+		toolCall.content = message.content;
+
+		const toolMsg = await getMessageRepo().save({
+			role: "tool",
+			content: message.content,
+			parent: thread.activeMessage,
+			name: toolCall.function?.name || "Tool Name",
+			tool_call_id: toolCall,
+		});
+
+		return toolMsg;
+	}
 }

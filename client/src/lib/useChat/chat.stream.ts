@@ -11,8 +11,11 @@ export function handleStreamResponse(
 		updateMessage,
 		finalMessage,
 	}: {
+		/** Triggered on the first message. Should add a blank message to messages list */
 		addMessage: (message: Message) => void;
+		/** Finds last message (from addMessage) and sets the content equal to this. This param is the accumulated content, so appending is not needed. */
 		updateMessage: (content: string) => void;
+		/** Mark loading complete and clean up */
 		finalMessage: () => void;
 	}
 ) {

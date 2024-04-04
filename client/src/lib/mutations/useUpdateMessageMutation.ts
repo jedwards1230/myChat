@@ -6,6 +6,7 @@ import type {
 	MessageUpdateSchema,
 	MessageObjectSchema as Message,
 } from "@db/Message/MessageSchema";
+import { messagesQueryOptions } from "../queries/useMessagesQuery";
 
 export type UpdateMessageOptions = {
 	threadId: string;
@@ -51,10 +52,7 @@ export const useUpdateMessageMutation = () => {
 				queryClient.setQueryData([user.id, threadId], context?.prevMessages);
 			console.error(error);
 		},
-		onSettled: (res, err, opts) => {
-			queryClient.invalidateQueries({
-				queryKey: [user.id, opts.threadId],
-			});
-		},
+		onSettled: (res, err, opts) =>
+			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId)),
 	});
 };

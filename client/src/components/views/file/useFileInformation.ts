@@ -23,21 +23,23 @@ export function useFileInformation(file: CacheFile | FileMetadata): FileInformat
 	);
 
 	useEffect(() => {
+		if (!fileData) return;
+		setFileInformation(getFileInformation(fileData));
 		"extension" in fileData
 			? getMessageFileBuffer(fileData).then((buffer) => setBuffer(buffer))
 			: getCacheFileBuffer(fileData).then((buffer) => setBuffer(buffer));
 	}, [fileData]);
 
 	useEffect(() => {
-		if (fileInformation.parsed) return;
+		if (!fileInformation || fileInformation.parsed) return;
 		const update = async () => {
 			if (!buffer) return;
 			const decoder = new TextDecoder();
 			const text = decoder.decode(new Uint8Array(buffer));
-			setFileInformation((prev) => ({
-				...prev,
+			setFileInformation({
+				...fileInformation,
 				parsed: text,
-			}));
+			});
 		};
 		update();
 	}, [buffer]);

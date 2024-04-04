@@ -2,6 +2,8 @@ import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-
 
 import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/lib/stores/configStore";
+import { messagesQueryOptions } from "../queries/useMessagesQuery";
+import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
 const deleteThread = (threadId: string | null, userId: string) => () =>
 	fetcher<string>([`/threads/${threadId}`, userId], {
@@ -20,13 +22,9 @@ export function useDeleteThreadMutation(threadId: string | null): MutationHookRe
 		onSuccess: () => {
 			if (threadId === activeThreadId) {
 				setThreadId(null);
-				queryClient.removeQueries({
-					queryKey: [user.id, threadId],
-				});
+				queryClient.removeQueries(messagesQueryOptions(user.id, threadId));
 			}
-			queryClient.refetchQueries({
-				queryKey: [user.id, "threads"],
-			});
+			queryClient.refetchQueries(threadListQueryOptions(user.id));
 		},
 		onError: (error) => console.error("Failed to delete thread: " + error),
 	});

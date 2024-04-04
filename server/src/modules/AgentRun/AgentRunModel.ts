@@ -12,7 +12,7 @@ import { Agent } from "../Agent/AgentModel";
 
 export type RunType = "getChat" | "getTitle";
 
-export type Status =
+export type AgentRunStatus =
 	| "queued"
 	| "in_progress"
 	| "requires_action"
@@ -22,7 +22,7 @@ export type Status =
 	| "completed"
 	| "expired";
 
-export const statusList: Status[] = [
+export const statusList: AgentRunStatus[] = [
 	"queued",
 	"in_progress",
 	"requires_action",
@@ -46,7 +46,7 @@ export class AgentRun extends BaseEntity {
 
 	/** Run Status */
 	@Column({ type: "text", default: "queued" })
-	status: Status;
+	status: AgentRunStatus;
 
 	/** Run Type */
 	@Column({ type: "text" })

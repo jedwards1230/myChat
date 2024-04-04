@@ -9,11 +9,7 @@ export default function RightButton() {
 
 	if (!threadId) return <View />;
 	return (
-		<Link
-			className="absolute top-0 z-10 md:top-3 right-4"
-			disabled={!threadId}
-			href="/(chat)"
-		>
+		<Link className="absolute z-10 top-3 right-4" disabled={!threadId} href="/(chat)">
 			<MaterialIcons
 				name="open-in-new"
 				size={24}

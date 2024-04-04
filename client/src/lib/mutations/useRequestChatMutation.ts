@@ -4,11 +4,20 @@ import { Platform } from "react-native";
 import { Message } from "@/types";
 import { useConfigStore } from "../stores/configStore";
 import { fetcher } from "@/lib/fetcher";
+import { messagesQueryOptions } from "../queries/useMessagesQuery";
+import { handleStreamResponse } from "../useChat/chat.stream";
+
+export type PostChatRequest = {
+	threadId: string | null;
+	userId: string;
+};
 
 type FetcherResult<T> = T extends true ? Message : Response;
 
+type QueryOpts = ReturnType<typeof messagesQueryOptions>;
+
 async function postChatRequest(
-	threadId: string | null,
+	threadId: string,
 	userId: string,
 	stream?: boolean
 ): Promise<FetcherResult<typeof stream>> {
@@ -28,23 +37,49 @@ async function postChatRequest(
 	return res;
 }
 
-export type PostChatRequest = {
-	threadId: string | null;
-	userId: string;
-};
-
 export const useRequestChatMutation = () => {
 	const { user, stream } = useConfigStore();
 	const queryClient = useQueryClient();
 
+	const addMessage = (message: Message, opts: QueryOpts) =>
+		queryClient.setQueryData(opts.queryKey, (messages) =>
+			messages ? [...messages, message] : [message]
+		);
+
+	const updateMessage = (content: string, opts: QueryOpts) =>
+		queryClient.setQueryData(opts.queryKey, (messages) => {
+			if (!messages) throw new Error("No messages found");
+
+			const lastMessage = messages[messages.length - 1];
+			const updatedMessage = { ...lastMessage, content };
+			const newMessages = [...messages.slice(0, -1), updatedMessage];
+
+			return newMessages;
+		});
+
+	const finalMessage = (opts: QueryOpts) => {
+		queryClient.refetchQueries(opts);
+	};
+
 	return useMutation({
 		mutationKey: ["postChatRequest"],
-		mutationFn: async (threadId: string | null) =>
-			postChatRequest(threadId, user.id, stream),
+		mutationFn: (threadId: string) => postChatRequest(threadId, user.id, stream),
+		onMutate: (threadId) =>
+			queryClient.cancelQueries(messagesQueryOptions(user.id, threadId)),
 		onError: (error) => console.error(error),
-		onSettled: (res, err, threadId) =>
-			queryClient.refetchQueries({
-				queryKey: [user.id, threadId],
-			}),
+		onSuccess: (res, threadId) => {
+			const opts = messagesQueryOptions(user.id, threadId);
+			if (res instanceof Response) {
+				if (!res.body) throw new Error("No stream found");
+				handleStreamResponse(res.body, {
+					addMessage: (msg) => addMessage(msg, opts),
+					updateMessage: (content) => updateMessage(content, opts),
+					finalMessage: () => finalMessage(opts),
+				});
+			} else {
+				addMessage(res, opts);
+				finalMessage(opts);
+			}
+		},
 	});
 };
