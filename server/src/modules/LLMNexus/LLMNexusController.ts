@@ -43,7 +43,13 @@ export class LLMNexusController {
 					opts,
 				});
 
-				await this.saveResponse(agentRun.thread, response);
+				chatResponseEmitter.on("abort", ({ agentRunId }) => {
+					if (agentRunId !== agentRun.id) return;
+					if ("abort" in response) response.abort();
+					update("cancelled");
+				});
+
+				await this.saveResponse(agentRun, response);
 				break;
 			}
 			case "getTitle": {
@@ -82,14 +88,14 @@ export class LLMNexusController {
 	}
 
 	private static async saveResponse(
-		thread: Thread,
+		agentRun: AgentRun,
 		response: ChatCompletionStream | ChatCompletion
 	) {
 		try {
 			if (response instanceof ChatCompletionStream) {
-				this.saveStreamResponse(thread, response);
+				await this.saveStreamResponse(agentRun, response);
 			} else {
-				this.saveJSONResponse(thread, response);
+				await this.saveJSONResponse(agentRun, response);
 			}
 		} catch (error) {
 			logger.error("Error saving response", {
@@ -101,13 +107,17 @@ export class LLMNexusController {
 		}
 	}
 
-	private static saveStreamResponse(thread: Thread, response: ChatCompletionStream) {
+	private static async saveStreamResponse(
+		agentRun: AgentRun,
+		response: ChatCompletionStream
+	) {
 		try {
-			chatResponseEmitter.sendResponseReady("responseStreamReady", {
-				threadId: thread.id,
+			chatResponseEmitter.emit("responseStreamReady", {
+				agentRunId: agentRun.id,
 				response,
 			});
-			StreamResponseController.processResponse(thread, response);
+
+			await StreamResponseController.processResponse(agentRun.thread, response);
 		} catch (error) {
 			logger.error("Error saving stream response", {
 				error,
@@ -117,15 +127,16 @@ export class LLMNexusController {
 		}
 	}
 
-	private static saveJSONResponse(thread: Thread, response: ChatCompletion) {
+	private static async saveJSONResponse(agentRun: AgentRun, response: ChatCompletion) {
+		const { thread } = agentRun;
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 		try {
-			chatResponseEmitter.sendResponseReady("responseJSONReady", {
-				threadId: thread.id,
+			chatResponseEmitter.emit("responseJSONReady", {
+				agentRunId: agentRun.id,
 				response,
 			});
 			const responseMsg = response.choices[0].message;
-			getThreadRepo().addMessage(thread, {
+			await getThreadRepo().addMessage(thread, {
 				role: responseMsg.role as Role,
 				content: responseMsg.content,
 				parent: thread.activeMessage,

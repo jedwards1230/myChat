@@ -16,7 +16,7 @@ const createThread = async (userId: string): Promise<Thread> => {
 
 /** Create a new Thread on the server */
 export function useCreateThreadMutation() {
-	const { user, setThreadId } = useConfigStore();
+	const { user, threadId, setThreadId } = useConfigStore();
 	const queryClient = useQueryClient();
 
 	return useMutation({
@@ -24,6 +24,7 @@ export function useCreateThreadMutation() {
 		mutationFn: async () => createThread(user.id),
 		onError: (error) => console.error(error),
 		onSuccess: (res) => {
+			if (res.id === threadId) return;
 			setThreadId(res.id);
 			router.push({
 				pathname: "/(chat)/",

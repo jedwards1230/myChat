@@ -5,7 +5,7 @@ export const withNativeOnly = <T extends React.PropsWithChildren<object>>(
 ) =>
 	Platform.select({
 		web: (props: T) => (
-			<View style={{ flex: 1 }} {...props}>
+			<View className="flex-1" {...props}>
 				{props.children}
 			</View>
 		),

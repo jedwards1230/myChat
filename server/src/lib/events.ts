@@ -6,12 +6,16 @@ import type { ChatCompletion } from "openai/resources/index.mjs";
 
 export interface ChatResponseEmitterEvents {
 	responseJSONReady: {
-		threadId: string;
+		agentRunId: string;
 		response: ChatCompletion;
 	};
 	responseStreamReady: {
-		threadId: string;
+		agentRunId: string;
 		response: ChatCompletionStreamingRunner | ChatCompletionStream;
+	};
+	abort: {
+		agentRunId: string;
+		error?: Error;
 	};
 }
 
@@ -20,11 +24,11 @@ export class ChatResponseEmitter extends EventEmitter {
 		super();
 	}
 
-	sendResponseReady<T extends keyof ChatResponseEmitterEvents>(
-		type: T,
-		data: ChatResponseEmitterEvents[T]
-	) {
-		this.emit(type, data);
+	emit<T extends keyof ChatResponseEmitterEvents>(
+		eventName: T,
+		args: ChatResponseEmitterEvents[T]
+	): boolean {
+		return super.emit<ChatResponseEmitterEvents>(eventName, args);
 	}
 
 	on<E extends keyof ChatResponseEmitterEvents>(

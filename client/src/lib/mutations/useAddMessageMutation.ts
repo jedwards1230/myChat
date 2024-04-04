@@ -28,7 +28,6 @@ export const useAddMessageMutation = () => {
 		mutationKey: ["postMessage"],
 		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, user.id),
 		onMutate: async ({ threadId, message }: PostMessageOptions) => {
-			if (!threadId) return { message };
 			const messagesQuery = messagesQueryOptions(user.id, threadId);
 			const cached = queryClient.getQueryData(messagesQuery.queryKey);
 
@@ -51,8 +50,8 @@ export const useAddMessageMutation = () => {
 				);
 			console.error(error);
 		},
-		onSettled: (res, err, opts) => {
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId));
+		onSettled: (res, err, { threadId }) => {
+			queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
 		},
 	});
 };

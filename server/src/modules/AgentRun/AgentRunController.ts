@@ -8,7 +8,7 @@ import type { Thread } from "../Thread/ThreadModel";
 
 import { AgentRunQueue } from "./AgentRunQueue";
 import { getAgentRunRepo } from "./AgentRunRepo";
-import type { RunType } from "./AgentRunModel";
+import type { AgentRun, RunType } from "./AgentRunModel";
 import type { CreateRunBody } from "./AgentRunSchema";
 
 export class AgentRunController {
@@ -43,34 +43,48 @@ export class AgentRunController {
 				error,
 				functionName: "AgentRunController.createAndRun",
 			});
+			throw error;
 		}
 	}
 
 	static async createAndRunHandler(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
 		const { stream, type } = request.body as CreateRunBody;
+
 		const agentRun = await AgentRunController.createAndRun({
 			thread,
 			stream,
 			type: type as RunType,
 		});
 
+		reply.raw.on("close", () => {
+			if (reply.raw.destroyed)
+				chatResponseEmitter.emit("abort", {
+					agentRunId: agentRun.id,
+				});
+		});
+
 		const handleResponse = stream
 			? AgentRunController.handleStream
 			: AgentRunController.handleJSON;
 
-		const response = await handleResponse(thread);
-
+		const response = await handleResponse(agentRun);
 		return response;
 	}
 
-	static async handleStream(thread: Thread) {
+	static async handleStream(agentRun: AgentRun) {
 		return new Promise<ReadableStream<any>>((resolve, reject) => {
 			const streamHandler = async ({
-				threadId,
+				agentRunId,
 				response,
 			}: ChatResponseEmitterEvents["responseStreamReady"]) => {
-				if (threadId !== thread.id) throw new Error("Thread ID mismatch");
+				if (agentRunId !== agentRun.id)
+					logger.warn("Agent Run ID mismatch", {
+						agentRunId,
+						id: agentRun.id,
+						functionName: "AgentRunController.handleStream",
+					});
+
 				chatResponseEmitter.removeListener("responseStreamReady", streamHandler);
 				resolve(response.toReadableStream());
 			};
@@ -79,34 +93,29 @@ export class AgentRunController {
 		});
 	}
 
-	static async handleJSON(thread: Thread) {
+	static async handleJSON(agentRun: AgentRun) {
 		return new Promise<ChatCompletionMessage>((resolve, reject) => {
 			const jsonHandler = ({
-				threadId,
+				agentRunId,
 				response,
 			}: ChatResponseEmitterEvents["responseJSONReady"]) => {
 				logger.debug("Response JSON Ready", {
-					threadId,
-					id: thread.id,
+					agentRunId,
+					id: agentRun.id,
 					response,
 					functionName: "AgentRunController.handleJSON",
 				});
-				//if (threadId !== thread.id) throw new Error("Thread ID mismatch");
-				if (threadId !== thread.id) {
-					return logger.debug("Thread ID mismatch", {
-						threadId,
-						id: thread.id,
+				if (agentRunId !== agentRun.id)
+					logger.warn("Agent Run ID mismatch", {
+						agentRunId,
+						id: agentRun.id,
 						functionName: "AgentRunController.handleJSON",
 					});
-				}
+
 				chatResponseEmitter.removeListener("responseJSONReady", jsonHandler);
 				resolve(response.choices[0].message);
 			};
 
-			logger.debug("Waiting for JSON response", {
-				threadId: thread.id,
-				functionName: "AgentRunController.handleJSON",
-			});
 			chatResponseEmitter.on("responseJSONReady", jsonHandler);
 		});
 	}

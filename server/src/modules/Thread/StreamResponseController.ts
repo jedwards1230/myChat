@@ -17,6 +17,7 @@ export class StreamResponseController {
 	static async processResponse(thread: Thread, response: ChatCompletionStream) {
 		let newMessage = getMessageRepo().create();
 		response
+			.on("abort", (e) => streamLogger.warn("ABORTED", { e }))
 			.on("chunk", async (chunk, snap) => {
 				const delta = chunk.choices[0].delta;
 				if (delta.role) {

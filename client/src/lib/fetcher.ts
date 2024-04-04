@@ -32,7 +32,7 @@ export const BASE_HOST =
 
 /**
  * Fetcher for react-query.
- * It sets the Authorization header with the userId
+ * Sets the Authorization header with the userId
  * */
 export async function fetcher<T = any>(
 	[url, userId]: AuthParams,
