@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Platform } from "react-native";
-import { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner";
+import { ReadableStream } from "web-streams-polyfill";
 
 import { Message } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { useConfigStore } from "../stores/configStore";
 import { emitFeedback } from "../useChat/helpers";
+import { getStreamProcessor } from "../useChat/streamers/StreamProcessor";
 
 export type PostChatMutationRequest = {
 	threadId: string;
@@ -18,15 +19,14 @@ export type PostChatRequest = PostChatMutationRequest & {
 	stream?: boolean;
 };
 
-type FetcherResult<T> = T extends true ? Message : Response;
+type FetcherResult<T> = T extends true
+	? Message
+	: Response & {
+			body: ReadableStream<any> | null;
+	  };
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
-async function postChatRequest({
-	threadId,
-	userId,
-	stream,
-	signal,
-}: PostChatRequest): Promise<FetcherResult<typeof stream>> {
+async function postChatRequest({ threadId, userId, stream, signal }: PostChatRequest) {
 	const res = await fetcher<FetcherResult<typeof stream>>(
 		[`/threads/${threadId}/runs`, userId],
 		{
@@ -82,28 +82,18 @@ export const useRequestChatMutation = () => {
 			const opts = messagesQueryOptions(user.id, threadId);
 			if (res instanceof Response) {
 				if (!res.body) throw new Error("No stream found");
-				const streamRunner = ChatCompletionStreamingRunner.fromReadableStream(
-					res.body
-				);
-				console.log("Stream runner", { streamRunner });
-
-				const streamHandler = new Promise<void>((resolve, reject) => {
-					console.log("Declare stream handler");
-					streamRunner
-						.on("error", (error) => reject(error))
-						.on("abort", () => null)
-						.on("chunk", (chunk) => {
-							const delta = chunk.choices[0].delta as Message;
-							if (delta.role) addMessage(delta, opts);
-							emitFeedback();
-						})
-						.on("content", async (chunk, content) =>
-							updateMessage(content, opts)
-						)
-						.on("finalMessage", () => resolve());
+				const streamHandler = getStreamProcessor({
+					stream: res.body,
+					opts,
+					addMessage,
+					updateMessage,
 				});
 
-				await streamHandler;
+				try {
+					await streamHandler;
+				} catch (error) {
+					console.error("Stream Error", error);
+				}
 			} else {
 				addMessage(res, opts);
 				emitFeedback();

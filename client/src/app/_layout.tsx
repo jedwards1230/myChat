@@ -15,7 +15,6 @@ import { ThemeProvider } from "@/providers/ThemeProvider";
 import { QueryClientProvider } from "@/providers/QueryClientProvider";
 import { HotkeyProvider } from "@/providers/HotkeyProvider";
 
-import { withNativeOnly } from "@/lib/withNativeOnly";
 import { PortalHost } from "@/components/primitives/portal";
 import { Platform } from "react-native";
 
@@ -25,8 +24,6 @@ export const unstable_settings = {
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
-
-const NativeGestureHandlerRootView = withNativeOnly(GestureHandlerRootView);
 
 export default function RootLayout() {
 	const [loaded, error] = useFonts({

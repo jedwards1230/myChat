@@ -44,7 +44,6 @@ ChatGPT clone. Definitely a WIP. This project was mostly to learn React Native a
 - Optional JSON/stream response for chats
 - Route schema validation
 - OpenAPI spec (runs on `/docs` while server is running)
-- Session management
 - Thread queue system
 
 ### Client

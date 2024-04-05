@@ -7,7 +7,7 @@ import { Dropdown } from "./Dropdown";
 export default function CenterButton() {
 	return (
 		<View className="flex items-center justify-center w-full md:items-start">
-			<Dropdown className="flex flex-row items-center w-auto gap-2 mx-auto md:ml-0">
+			<Dropdown className="flex flex-row items-center w-auto gap-2 mx-auto md:ml-2">
 				<Text
 					numberOfLines={1}
 					ellipsizeMode="tail"

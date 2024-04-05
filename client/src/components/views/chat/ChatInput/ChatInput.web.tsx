@@ -74,7 +74,7 @@ export default function ChatInput({
 			variant="chat"
 			value={input}
 			placeholder="Message..."
-			className="flex-1 pb-2 border-0 pl-14 bg-background focus:outline-none text-foreground rounded-2xl"
+			className="flex-1 pb-2 border-0 pl-14 md:pl-14 bg-background focus:outline-none text-foreground rounded-2xl"
 			onContentSizeChange={onContentSizeChange}
 			onChangeText={setInput}
 			onKeyPress={onKeyPress}
