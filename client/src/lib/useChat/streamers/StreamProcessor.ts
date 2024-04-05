@@ -2,9 +2,9 @@ import { ReadableStream } from "web-streams-polyfill";
 
 import { messagesQueryOptions } from "@/lib/queries/useMessagesQuery";
 import { Message } from "@/types";
-import { getChunksAsync } from "./Stream";
 import { ChatCompletionStream } from "./ChatCompletionStream";
 import { emitFeedback } from "../helpers";
+import { Platform } from "react-native";
 
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
@@ -21,8 +21,10 @@ export const getStreamProcessor = ({
 }) =>
 	new Promise<void>(async (resolve, reject) => {
 		try {
-			const chunks = getChunksAsync(stream);
-			const streamRunner = ChatCompletionStream.fromAsyncIter(chunks);
+			const streamRunner = ChatCompletionStream.fromReadableStream(
+				stream,
+				Platform.OS !== "web"
+			);
 
 			streamRunner
 				.on("error", (error) => reject(error))

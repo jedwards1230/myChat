@@ -10,7 +10,6 @@ export const useChatResponse = (threadId: string | null) => {
 
 	useEffect(() => {
 		if (!data) return;
-		console.log("Stream finished");
 		reset();
 		generateTitle();
 	}, [data]);
