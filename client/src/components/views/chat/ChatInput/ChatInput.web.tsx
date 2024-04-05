@@ -30,34 +30,28 @@ export default function ChatInput({
 
 	useEffect(() => {
 		if (!input) return setBaseHeight(0);
-		const handleKeyDown = (e: KeyboardEvent) => {
-			if (e.key === "Enter" && !e.shiftKey) {
-				e.preventDefault();
-				handleSubmit();
-			}
-		};
-
-		window.addEventListener("keydown", handleKeyDown);
-		return () => window.removeEventListener("keydown", handleKeyDown);
 	}, [input]);
 
 	const onKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
+		if (e.nativeEvent.key === "Meta") return;
 		if (e.nativeEvent.key === "Enter" && !(e.nativeEvent as any).shiftKey) {
 			e.preventDefault();
 			handleSubmit();
+			setBaseHeight(0);
+			setHeight(0);
 		}
+	};
+
+	const setHeight = (h: number) => {
+		// set height to baseHeight + 20 * number of new lines
+		const newHeight = Math.min(baseHeight + h * 22, maxRows * 22);
+		ref.current?.style.setProperty("height", `${newHeight}px`);
 	};
 
 	const onChange = (e: NativeSyntheticEvent<TextInputChangeEventData>) => {
 		// find all \n in event.text
 		const newLines = e.nativeEvent.text.match(/\n/g);
-		// set height to baseHeight + 20 * number of new lines
-		const newHeight = Math.min(
-			baseHeight + (newLines?.length || 0) * 22,
-			maxRows * 22
-		);
-		// set height to newHeight
-		ref.current?.style.setProperty("height", `${newHeight}px`);
+		setHeight(newLines?.length || 0);
 	};
 
 	const onContentSizeChange = (

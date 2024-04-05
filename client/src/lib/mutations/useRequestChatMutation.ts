@@ -6,8 +6,8 @@ import { Message } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { useConfigStore } from "../stores/configStore";
-import { emitFeedback } from "../useChat/helpers";
-import { getStreamProcessor } from "../useChat/streamers/StreamProcessor";
+import { emitFeedback } from "../FeedbackEmitter";
+import { getStreamProcessor } from "../StreamProcessor";
 
 export type PostChatMutationRequest = {
 	threadId: string;

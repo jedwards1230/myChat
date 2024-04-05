@@ -1,10 +1,10 @@
 import { ReadableStream } from "web-streams-polyfill";
+import { Platform } from "react-native";
 
 import { messagesQueryOptions } from "@/lib/queries/useMessagesQuery";
 import { Message } from "@/types";
 import { ChatCompletionStream } from "./ChatCompletionStream";
-import { emitFeedback } from "../helpers";
-import { Platform } from "react-native";
+import { emitFeedback } from "../FeedbackEmitter";
 
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
