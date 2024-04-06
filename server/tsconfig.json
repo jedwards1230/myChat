@@ -4,15 +4,16 @@
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
+		"moduleResolution": "Bundler",
 		"jsx": "react-jsx",
 		"allowJs": true,
 		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
 
 		"paths": {
 			"@/*": ["./src/*"]
 		},
 
-		"moduleResolution": "bundler",
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
 		"noEmit": true,

@@ -1,36 +1,25 @@
-import { router } from "expo-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/lib/stores/configStore";
-import { fetcher } from "@/lib/fetcher";
 import type { Thread } from "@/types";
+import { fetcher } from "@/lib/fetcher";
+import { useConfigStore } from "@/lib/stores/configStore";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
-const createThread = async (userId: string): Promise<Thread> => {
-	const data = await fetcher<Thread>([`/threads`, userId], {
+const createThread = async (userId: string) =>
+	fetcher<Thread>([`/threads`, userId], {
 		method: "POST",
 		headers: { "Content-Type": "text/plain" },
 	});
-	return data;
-};
 
 /** Create a new Thread on the server */
 export function useCreateThreadMutation() {
-	const { user, threadId, setThreadId } = useConfigStore();
+	const user = useConfigStore((s) => s.user);
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["createThread"],
 		mutationFn: async () => createThread(user.id),
 		onError: (error) => console.error(error),
-		onSuccess: (res) => {
-			if (res.id === threadId) return;
-			setThreadId(res.id);
-			router.push({
-				pathname: "/(chat)/",
-				params: { c: res.id },
-			});
-		},
 		onSettled: () => queryClient.invalidateQueries(threadListQueryOptions(user.id)),
 	});
 }

@@ -2,21 +2,21 @@ import { Platform, Pressable, View } from "react-native";
 import { useEffect, useState } from "react";
 
 import { FormSubmission } from "@/lib/useChat";
-import { useConfigStore } from "@/lib/stores/configStore";
 import { MaterialIcons } from "@/components/ui/Icon";
-import ChatInput from "./ChatInput";
 import { FileInputButton, FileTray } from "../FileTray";
+import ChatInput from "./ChatInput";
 
 export function ChatInputContainer({
 	handleSubmit,
 	abort,
 	loading = false,
+	threadId,
 }: {
 	handleSubmit: FormSubmission;
 	abort: () => void;
 	loading?: boolean;
+	threadId: string | null;
 }) {
-	const threadId = useConfigStore((state) => state.threadId);
 	const [input, setInput] = useState("");
 	useEffect(() => setInput(""), [threadId]);
 
@@ -35,6 +35,7 @@ export function ChatInputContainer({
 				<FileTray />
 				<View className="flex flex-row items-center justify-between w-full pl-2 pr-2 web:pr-10">
 					<ChatInput
+						threadId={threadId}
 						input={input}
 						setInput={setInput}
 						handleSubmit={handleSend}

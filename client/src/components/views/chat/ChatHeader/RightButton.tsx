@@ -5,16 +5,12 @@ import { MaterialIcons } from "@/components/ui/Icon";
 import { useConfigStore } from "@/lib/stores/configStore";
 
 export default function RightButton() {
-	const threadId = useConfigStore((state) => state.threadId);
+	const { threadId, setThreadId } = useConfigStore();
 
 	if (!threadId) return <View />;
 	return (
 		<Link className="absolute z-10 top-3 right-4" disabled={!threadId} href="/(chat)">
-			<MaterialIcons
-				name="open-in-new"
-				size={24}
-				className={threadId ? "text-foreground" : "text-secondary"}
-			/>
+			<MaterialIcons name="open-in-new" size={24} className="text-foreground" />
 		</Link>
 	);
 }

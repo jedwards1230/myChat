@@ -1,8 +1,11 @@
 import { ActivityIndicator, View } from "react-native";
+import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 
 import type { Message } from "@/types";
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
+import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 
 export type ChatMessageGroup = {
 	id: string;
@@ -35,7 +38,27 @@ export const MessageGroup = ({
 	);
 };
 
-export const groupMessages = (threadId: string, messages: Message[] | undefined) => {
+export function useGroupedMessages(threadId: string) {
+	const router = useRouter();
+	const { data, isError, isSuccess, isFetched } = useMessagesQuery(threadId!);
+	const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
+		groupMessages(threadId, data)
+	);
+
+	useEffect(() => {
+		if (isError) router.push("/(chat)");
+	}, [isError]);
+
+	useEffect(() => {
+		if (isSuccess && isFetched) {
+			setMessageGroups(groupMessages(threadId, data));
+		}
+	}, [data]);
+
+	return { messageGroups, isError };
+}
+
+const groupMessages = (threadId: string, messages: Message[] | undefined) => {
 	if (!messages) return [];
 	const grouped: ChatMessageGroup[] = [];
 

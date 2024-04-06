@@ -36,16 +36,10 @@ export default function RootLayout() {
 	}, [error]);
 
 	useEffect(() => {
-		if (loaded) {
-			SplashScreen.hideAsync();
-		}
+		if (loaded) SplashScreen.hideAsync();
 	}, [loaded]);
 
-	if (!loaded) {
-		return null;
-	}
-
-	return <RootLayoutNav />;
+	return loaded ? <RootLayoutNav /> : null;
 }
 
 const PlatformProviders = Platform.select({
@@ -53,7 +47,7 @@ const PlatformProviders = Platform.select({
 		<HotkeyProvider>{props.children}</HotkeyProvider>
 	),
 	default: (props: { children: React.ReactNode }) => (
-		<GestureHandlerRootView style={{ flex: 1 }}>
+		<GestureHandlerRootView className="flex-1">
 			<NativeHapticsProvider>{props.children}</NativeHapticsProvider>
 		</GestureHandlerRootView>
 	),

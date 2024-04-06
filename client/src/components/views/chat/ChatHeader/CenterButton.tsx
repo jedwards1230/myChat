@@ -9,6 +9,7 @@ import { useConfigStore } from "@/lib/stores/configStore";
 import { useAgentQuery } from "@/lib/queries/useAgentQuery";
 import { useTokenCount } from "@/lib/tokenizer";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
+import { useThreadQuery } from "@/lib/queries/useThreadQuery";
 
 export default function CenterButton() {
 	const router = useRouter();

@@ -1,6 +1,5 @@
 "use client";
 
-import { useGlobalSearchParams } from "expo-router";
 import { View } from "react-native";
 import { useEffect } from "react";
 
@@ -10,11 +9,6 @@ import { Text } from "@/components/ui/Text";
 import { useAgentStore } from "@/lib/stores/modelStore";
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
-	const { setThreadId } = useConfigStore();
-	const search = useGlobalSearchParams();
-	const threadId = typeof search.c === "string" ? search.c : null;
-	useEffect(() => setThreadId(threadId), [threadId]);
-
 	return <AuthProvider>{children}</AuthProvider>;
 }
 

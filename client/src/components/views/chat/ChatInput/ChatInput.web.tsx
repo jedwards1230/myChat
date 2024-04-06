@@ -7,22 +7,18 @@ import {
 } from "react-native";
 
 import { Input } from "@/components/ui/Input";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { ChatInputProps } from "./types";
 
 const maxRows = 25;
 
 export default function ChatInput({
+	threadId,
 	input,
 	setInput,
 	handleSubmit,
-}: {
-	input: string;
-	setInput: (input: string) => void;
-	handleSubmit: () => void;
-}) {
+}: ChatInputProps) {
 	const [baseHeight, setBaseHeight] = useState(0);
 	const ref = useRef<(typeof Input)["prototype"] | null>(null);
-	const threadId = useConfigStore((state) => state.threadId);
 
 	useEffect(() => {
 		if (ref.current) ref.current.focus();

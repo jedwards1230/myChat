@@ -13,12 +13,14 @@ import {
 	JoinColumn,
 	OneToOne,
 	VersionColumn,
+	BeforeUpdate,
 } from "typeorm";
 
 import { Thread } from "../Thread/ThreadModel";
 import { type Role, roleList } from "./RoleModel";
 import { ToolCall } from "./ToolCallModel";
 import { MessageFile } from "../MessageFile/MessageFileModel";
+import tokenizer from "@/lib/tokenizer";
 
 @Entity("Message")
 @Tree("closure-table")
@@ -70,14 +72,21 @@ export class Message extends BaseEntity {
 	children: Message[];
 
 	/** Token Count */
-	@Column({ type: "integer", nullable: true })
-	tokenCount?: number;
+	@Column({ type: "integer", default: 0 })
+	tokenCount: number;
 
 	@TreeParent()
 	parent: Message;
 
 	@VersionColumn()
 	version: number;
+
+	@BeforeUpdate()
+	setTokenCountUpdate() {
+		if (this.content) {
+			this.tokenCount = tokenizer.estimateTokenCount(this.content);
+		}
+	}
 }
 
 export class UserMessage extends Message {

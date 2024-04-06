@@ -68,15 +68,16 @@ export const useRequestChatMutation = () => {
 		// TODO: This is a hack to ensure the message is persisted to database before refetching
 		// This should probably poll the server until the message is persisted
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		queryClient.refetchQueries(opts);
+		queryClient.invalidateQueries(opts);
 	};
 
 	return useMutation({
 		mutationKey: ["postChatRequest"],
 		mutationFn: (props: PostChatMutationRequest) =>
 			postChatRequest({ ...props, userId: user.id, stream }),
-		onMutate: ({ threadId }) =>
-			queryClient.cancelQueries(messagesQueryOptions(user.id, threadId)),
+		onMutate: ({ threadId }) => {
+			return queryClient.cancelQueries(messagesQueryOptions(user.id, threadId));
+		},
 		onError: (error) => console.error(error),
 		onSuccess: async (res, { threadId }) => {
 			const opts = messagesQueryOptions(user.id, threadId);
@@ -87,19 +88,15 @@ export const useRequestChatMutation = () => {
 					opts,
 					addMessage,
 					updateMessage,
+					finalMessage,
 				});
 
-				try {
-					await streamHandler;
-				} catch (error) {
-					console.error("Stream Error", error);
-				}
+				await streamHandler;
 			} else {
 				addMessage(res, opts);
 				emitFeedback();
+				finalMessage(opts);
 			}
-
-			finalMessage(opts);
 		},
 	});
 };

@@ -22,11 +22,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 	const { mutate: deleteThread } = useDeleteThreadMutation(thread.id);
 	const router = useRouter();
 
-	const goToThread = () =>
-		router.push({
-			pathname: "/(chat)/",
-			params: { c: thread.id },
-		});
+	const goToThread = () => router.push({ pathname: `/(chat)/c/${thread.id}` });
 
 	const onMenuAction = (actionKey: string) => {
 		switch (actionKey) {

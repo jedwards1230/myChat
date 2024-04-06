@@ -1,30 +1,26 @@
 import { useEffect, useRef } from "react";
 
 import { useRequestChatMutation } from "../mutations/useRequestChatMutation";
-import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
+import type { UseMutationResult } from "@tanstack/react-query";
 
 export const useChatResponse = (threadId: string | null) => {
-	const { mutate: getChat, data, reset, isPending } = useRequestChatMutation();
-	const { mutate: generateTitle } = useRequestThreadTitleMutation(threadId);
+	const chatMut = useRequestChatMutation();
+	const { mutate: getChat, data, reset, isPending } = chatMut;
 	const abortController = useRef(new AbortController());
 
 	useEffect(() => {
 		if (!data) return;
 		reset();
-		generateTitle();
 	}, [data]);
 
-	const requestChat = async () => {
-		if (!threadId) return;
+	const requestChat = async (threadId: string) => {
 		getChat({ threadId, signal: abortController.current.signal });
 	};
 
 	const abort = () => {
-		if (!threadId) return console.warn("No thread to abort");
 		abortController.current.abort();
 		abortController.current = new AbortController();
 		reset();
-		console.log("Aborted chat request");
 	};
 
 	return { requestChat, abort, isResponding: isPending };

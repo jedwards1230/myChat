@@ -7,7 +7,6 @@ import { Message } from "@/modules/Message/MessageModel";
 import type { User } from "@/modules/User/UserModel";
 import logger from "@/lib/logs/logger";
 import tokenizer from "@/lib/tokenizer";
-import { getMessageRepo } from "../Message/MessageRepo";
 
 export const getThreadRepo = () =>
 	AppDataSource.getRepository(Thread).extend({
@@ -53,36 +52,18 @@ export const getThreadRepo = () =>
 
 				return newThread;
 			});
-			return this.updateTokenCount(newThread);
-		},
-
-		async updateTokenCount(thread: Thread) {
-			if (!thread.activeMessage) throw new Error("No active message found");
-			const currentHistory = await getMessageRepo().getMessageHistoryList(
-				thread.activeMessage
-			);
-
-			const tokenCount = currentHistory.reduce((acc, msg) => {
-				let count = msg.tokenCount || 0;
-				if (msg.files) {
-					count += msg.files.reduce((acc, file) => {
-						return acc + (file.tokenCount || 0);
-					}, 0);
-				}
-				return acc + count;
-			}, 0);
-
-			thread.tokenCount = tokenCount;
-			return this.save(thread);
+			return newThread;
 		},
 
 		/** Create a new Thread and add a system message */
 		async createThread(user: User) {
 			return AppDataSource.manager.transaction(async (manager) => {
+				const content = user.defaultAgent.systemMessage;
 				const newMsg = await manager.save(Message, {
 					role: "system",
-					content: user.defaultAgent.systemMessage,
+					content,
 					name: user.defaultAgent.name,
+					tokenCount: tokenizer.estimateTokenCount(content),
 				});
 
 				const thread = await manager.save(Thread, {

@@ -37,11 +37,6 @@ export class AgentRunQueue {
 				runId,
 				functionName: "AgentRunQueue.processQueue",
 			});
-		} finally {
-			logger.debug("AgentRunQueue is clear", {
-				runId,
-				functionName: "AgentRunQueue.processQueue",
-			});
 		}
 	}
 }

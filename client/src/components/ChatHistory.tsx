@@ -1,11 +1,12 @@
 import { NativeScrollEvent, NativeSyntheticEvent, ScrollView, View } from "react-native";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useRouter } from "expo-router";
+import { useEffect, useRef, useState } from "react";
 
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 import { Button } from "@/components/ui/Button";
 import { AntDesign } from "@/components/ui/Icon";
-import { MessageGroup, groupMessages } from "@/components/MessageGroups/MessageGroup";
+import {
+	MessageGroup,
+	useGroupedMessages,
+} from "@/components/MessageGroups/MessageGroup";
 
 export default function ChatHistory({
 	isLoading,
@@ -14,10 +15,10 @@ export default function ChatHistory({
 	isLoading: boolean;
 	threadId: string;
 }) {
-	const router = useRouter();
 	const viewRef = useRef<View>(null);
 	const scrollViewRef = useRef<ScrollView>(null);
 	const [showScrollButton, setShowScrollButton] = useState(false);
+	const { messageGroups, isError } = useGroupedMessages(threadId);
 
 	const onScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
 		const { layoutMeasurement, contentOffset, contentSize } = event.nativeEvent;
@@ -26,27 +27,15 @@ export default function ChatHistory({
 		setShowScrollButton(!isCloseToBottom);
 	};
 
-	const { data, isError } = useMessagesQuery(threadId!);
-	const messageGroups = groupMessages(threadId, data);
-
 	const scrollToBottom = () =>
 		messageGroups.length > 0 &&
 		scrollViewRef.current?.scrollToEnd({ animated: true });
 
 	useEffect(() => {
-		if (isError) {
-			router.push("/(chat)");
-		}
-	}, [isError]);
-
-	useEffect(() => {
-		if (viewRef.current) {
-			viewRef.current.measure((x, y, width, height) => {
-				if (height > 0) {
-					scrollToBottom();
-				}
-			});
-		}
+		if (!viewRef.current) return;
+		viewRef.current.measure((x, y, width, height) => {
+			if (height > 0) scrollToBottom();
+		});
 	}, []);
 
 	if (isError) return null;

@@ -30,11 +30,6 @@ export class AgentRunController {
 				stream,
 				type,
 			});
-			logger.debug("Agent Run created", {
-				threadId: thread.id,
-				runId: run.id,
-				functionName: "AgentRunController.createAndRun",
-			});
 			AgentRunQueue.addRunToQueue(run);
 			return run;
 		} catch (error) {

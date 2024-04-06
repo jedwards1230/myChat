@@ -1,18 +1,10 @@
 import { useEffect, useRef } from "react";
 
 import { Input } from "@/components/ui/Input";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { ChatInputProps } from "./types";
 
-export default function ChatInput({
-	input,
-	setInput,
-}: {
-	input: string;
-	setInput: (input: string) => void;
-	handleSubmit: () => void;
-}) {
+export default function ChatInput({ threadId, input, setInput }: ChatInputProps) {
 	const ref = useRef<any | null>(null);
-	const threadId = useConfigStore((state) => state.threadId);
 
 	useEffect(() => {
 		if (ref.current) {

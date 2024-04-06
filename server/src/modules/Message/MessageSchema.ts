@@ -3,12 +3,13 @@ import { MessageFileListSchema } from "../MessageFile/MessageFileSchema";
 
 export const MessageObjectSchema = Type.Object({
 	id: Type.String(),
-	content: Type.Optional(Type.String()),
 	role: Type.String(),
-	name: Type.Optional(Type.String()),
 	createdAt: Type.String(),
-	tool_calls: Type.Optional(Type.Array(Type.Any())),
+	tokenCount: Type.Number(),
+	name: Type.Optional(Type.String()),
+	content: Type.Optional(Type.String()),
 	tool_call_id: Type.Optional(Type.Any()),
+	tool_calls: Type.Optional(Type.Array(Type.Any())),
 	files: Type.Optional(MessageFileListSchema),
 });
 export type MessageObjectSchema = Static<typeof MessageObjectSchema>;

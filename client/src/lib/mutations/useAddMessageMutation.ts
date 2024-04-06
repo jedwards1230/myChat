@@ -30,6 +30,7 @@ export const useAddMessageMutation = () => {
 		onMutate: async ({ threadId, message }: PostMessageOptions) => {
 			const messagesQuery = messagesQueryOptions(user.id, threadId);
 			const cached = queryClient.getQueryData(messagesQuery.queryKey);
+			queryClient.cancelQueries(messagesQuery);
 
 			const prevMessages = cached || [];
 			const msg = {

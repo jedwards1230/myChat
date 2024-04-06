@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "expo-router";
 
-import { useConfigStore } from "@/lib/stores/configStore";
 import { useChatResponse } from "./useChatResponse";
 import { useFileStore } from "../stores/fileStore";
+import { useMessagesQuery } from "../queries/useMessagesQuery";
 import { useAddMessageMutation } from "../mutations/useAddMessageMutation";
 import { useCreateThreadMutation } from "../mutations/useCreateThreadMutation";
 import { useAddMessageFileMutation } from "../mutations/useAddMessageFileMutation";
+import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
 
 export type FormSubmission = (input: string) => Promise<true | void>;
 
@@ -18,19 +20,21 @@ type RequestStatus =
 	| "adding-files"
 	| "requesting-chat";
 
-export function useChat() {
-	const threadId = useConfigStore((state) => state.threadId);
+export function useChat(threadId: string | null) {
+	const router = useRouter();
 	const [activeThreadId, setActiveThreadId] = useState<string | null>(threadId);
 	const fileList = useFileStore((state) => state.fileList);
-	const { requestChat, abort, isResponding } = useChatResponse(activeThreadId);
 
 	const [input, setInput] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 	const [reqStatus, setReqStatus] = useState<RequestStatus>("idle");
 
+	const messagesQuery = useMessagesQuery(activeThreadId);
 	const addMessageMut = useAddMessageMutation();
 	const createThreadMut = useCreateThreadMutation();
 	const addMessageFileMut = useAddMessageFileMutation();
+
+	const { requestChat, abort, isResponding } = useChatResponse(activeThreadId);
 
 	const isMutating =
 		addMessageMut.isPending ||
@@ -62,7 +66,11 @@ export function useChat() {
 	// Lets a useEffect pass if the mutation is not ready to process
 	// This will check the mutation each time its status changes
 	const onMutationSuccess = <
-		T extends typeof addMessageMut | typeof createThreadMut | typeof addMessageFileMut
+		T extends
+			| ReturnType<typeof useAddMessageMutation>
+			| ReturnType<typeof useCreateThreadMutation>
+			| ReturnType<typeof useAddMessageFileMutation>
+			| ReturnType<typeof useRequestThreadTitleMutation>
 	>(
 		mutationObject: T,
 		onSuccess: (data: NonNullable<T["data"]>) => void
@@ -77,14 +85,6 @@ export function useChat() {
 		}
 	};
 
-	// Reset state when threadId changes
-	useEffect(() => {
-		if (createThreadMut.isPending || reqStatus === "creating-thread") return;
-		if (activeThreadId === threadId) return;
-		if (createThreadMut.data?.id === threadId) return;
-		reset(threadId);
-	}, [threadId, activeThreadId, reqStatus, createThreadMut.data]);
-
 	// Handle thread creation
 	useEffect(() => {
 		if (!isReadyToProcess || reqStatus !== "no-thread") return;
@@ -97,8 +97,11 @@ export function useChat() {
 	useEffect(() => {
 		if (!isReadyToProcess || reqStatus !== "creating-thread") return;
 		onMutationSuccess(createThreadMut, (data) => {
+			if (data.id !== activeThreadId) {
+				router.push({ pathname: `/(chat)/c/${data.id}` });
+				setActiveThreadId(data.id);
+			}
 			setReqStatus("ready");
-			setActiveThreadId(data.id);
 			createThreadMut.reset();
 		});
 	}, [isReadyToProcess, reqStatus, createThreadMut.status]);
@@ -124,8 +127,8 @@ export function useChat() {
 	useEffect(() => {
 		if (!isReadyToProcess || reqStatus !== "adding-message") return;
 		onMutationSuccess(addMessageMut, () => {
+			if (!activeThreadId) throw new Error("No threadId");
 			if (fileList.length > 0) {
-				if (!activeThreadId) throw new Error("No threadId");
 				if (!addMessageMut.data) throw new Error("No message data");
 
 				addMessageFileMut.mutate({
@@ -150,15 +153,25 @@ export function useChat() {
 	// Handle file upload success
 	useEffect(() => {
 		if (!isReadyToProcess || reqStatus !== "adding-files") return;
-		onMutationSuccess(addMessageFileMut, () => setReqStatus("requesting-chat"));
-	}, [isReadyToProcess, reqStatus, addMessageFileMut.status]);
+		onMutationSuccess(addMessageFileMut, () => {
+			if (!activeThreadId) throw new Error("No threadId");
+			setReqStatus("requesting-chat");
+		});
+	}, [isReadyToProcess, reqStatus]);
 
-	// Handle chat request
+	// Handle chat request success
 	useEffect(() => {
-		if (!isReadyToProcess || reqStatus !== "requesting-chat") return;
-		requestChat();
-		reset();
-	}, [isReadyToProcess, reqStatus, addMessageFileMut.status]);
+		if (
+			messagesQuery.isRefetching ||
+			!isReadyToProcess ||
+			reqStatus !== "requesting-chat" ||
+			!activeThreadId
+		)
+			return;
+
+		requestChat(activeThreadId);
+		reset(threadId);
+	}, [activeThreadId, reqStatus, isReadyToProcess, messagesQuery.isRefetching]);
 
 	// Handle errors
 	useEffect(() => {

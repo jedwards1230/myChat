@@ -13,11 +13,13 @@ export const getStreamProcessor = ({
 	opts,
 	addMessage,
 	updateMessage,
+	finalMessage,
 }: {
 	stream: ReadableStream;
 	opts: QueryOpts;
 	addMessage: (message: Message, opts: QueryOpts) => void;
 	updateMessage: (content: string, opts: QueryOpts) => void;
+	finalMessage: (opts: QueryOpts) => void;
 }) =>
 	new Promise<void>(async (resolve, reject) => {
 		try {
@@ -36,7 +38,10 @@ export const getStreamProcessor = ({
 					emitFeedback();
 				})
 				.on("content", async (_, content) => updateMessage(content, opts))
-				.on("finalMessage", () => resolve());
+				.on("finalMessage", () => {
+					finalMessage(opts);
+					resolve();
+				});
 
 			resolve();
 		} catch (error) {

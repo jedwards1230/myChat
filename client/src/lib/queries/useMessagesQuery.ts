@@ -1,10 +1,4 @@
-import {
-	QueryObserver,
-	queryOptions,
-	useQuery,
-	useQueryClient,
-	useSuspenseQuery,
-} from "@tanstack/react-query";
+import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { useConfigStore } from "@/lib/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
@@ -28,14 +22,7 @@ export const useMessagesQuery = (threadId: string | null) => {
 	return useQuery(messagesQueryOptions(user.id, threadId));
 };
 
-export const useMessagesSuspenseQuery = (threadId: string) => {
+export const useMessagesQueryOptions = (threadId: string | null) => {
 	const user = useConfigStore((s) => s.user);
-	return useSuspenseQuery(messagesQueryOptions(user.id, threadId));
-};
-
-export const useMessagesQueryObserver = (threadId: string | null) => {
-	const queryClient = useQueryClient();
-	const user = useConfigStore((s) => s.user);
-
-	return new QueryObserver(queryClient, messagesQueryOptions(user.id, threadId));
+	return messagesQueryOptions(user.id, threadId);
 };

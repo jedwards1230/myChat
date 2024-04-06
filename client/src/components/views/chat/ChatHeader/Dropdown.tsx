@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
+import { useAgentStore } from "@/lib/stores/modelStore";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
-import { useTokenCount } from "@/lib/tokenizer";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 
 import {
@@ -16,7 +16,6 @@ import {
 import { Text } from "@/components/ui/Text";
 import { AgentDialog } from "@/components/Dialogs/AgentDialog.web";
 import { Entypo } from "@/components/ui/Icon";
-import { useAgentStore } from "@/lib/stores/modelStore";
 
 export function Dropdown({
 	children,
@@ -34,8 +33,7 @@ export function Dropdown({
 	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
 	const { data: messages } = useMessagesQuery(threadId);
 
-	const tokenInput = messages?.map((m) => m.content).join(" ") || "";
-	const tokens = useTokenCount(tokenInput);
+	const tokens = messages?.reduce((acc, m) => acc + m.tokenCount || 0, 0) || 0;
 
 	const openAgentMenu = () => setAgentOpen(true);
 
