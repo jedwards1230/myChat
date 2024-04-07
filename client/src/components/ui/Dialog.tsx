@@ -5,7 +5,7 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import * as DialogPrimitive from "@/components/primitives/dialog";
 import { cn } from "@/lib/utils";
-import { useColorScheme } from "@/lib/useColorScheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 const Dialog = DialogPrimitive.Root;
 

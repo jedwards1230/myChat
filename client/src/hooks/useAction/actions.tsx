@@ -1,19 +1,22 @@
 import { useQueryClient } from "@tanstack/react-query";
-import { useDeleteThreadMutation } from "../mutations/useDeleteThreadMutation";
-import { fetcher } from "../fetcher";
+
+import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "../stores/configStore";
+import { useDeleteThreadMutation } from "../mutations/useDeleteThreadMutation";
 
 const Actions = {
 	deleteThread: useDeleteThread,
 	resetDb: useResetDb,
 };
 
-export type Command = keyof typeof Actions;
+type ActionMap = typeof Actions;
+export type Command = keyof ActionMap;
+export type UIAction = ReturnType<ActionMap[keyof ActionMap]>;
 
 export const ActionList: Command[] = Object.keys(Actions) as Command[];
 
-export function useAction(commands: Command) {
-	return Actions[commands]();
+export function useAction<K extends Command>(action: K): ActionMap[K] {
+	return Actions[action];
 }
 
 function useDeleteThread() {
@@ -27,6 +30,7 @@ function useDeleteThread() {
 	return { action };
 }
 
+/** Reset the Server DB to empty. */
 function useResetDb() {
 	const queryClient = useQueryClient();
 	const user = useConfigStore((s) => s.user);

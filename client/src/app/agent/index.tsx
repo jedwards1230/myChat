@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 
 import AgentModal from "@/components/views/agent/AgentModal";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { Agent } from "@/types";
 
 export default function AgentPage() {

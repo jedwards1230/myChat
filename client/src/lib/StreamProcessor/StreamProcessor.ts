@@ -1,7 +1,7 @@
 import { ReadableStream } from "web-streams-polyfill";
 import { Platform } from "react-native";
 
-import { messagesQueryOptions } from "@/lib/queries/useMessagesQuery";
+import { messagesQueryOptions } from "@/hooks/queries/useMessagesQuery";
 import { Message } from "@/types";
 import { ChatCompletionStream } from "./ChatCompletionStream";
 import { emitFeedback } from "../FeedbackEmitter";

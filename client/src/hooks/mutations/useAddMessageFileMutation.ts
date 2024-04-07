@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";

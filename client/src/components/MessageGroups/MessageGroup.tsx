@@ -5,7 +5,7 @@ import { useRouter } from "expo-router";
 import type { Message } from "@/types";
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
+import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
 
 export type ChatMessageGroup = {
 	id: string;

@@ -29,12 +29,9 @@ export default function ChatInput({
 	}, [input]);
 
 	const onKeyPress = (e: NativeSyntheticEvent<TextInputKeyPressEventData>) => {
-		if (e.nativeEvent.key === "Meta") return;
 		if (e.nativeEvent.key === "Enter" && !(e.nativeEvent as any).shiftKey) {
 			e.preventDefault();
 			handleSubmit();
-			setBaseHeight(0);
-			setHeight(0);
 		}
 	};
 

@@ -4,11 +4,11 @@ import { ContextMenuButton, type MenuConfig } from "react-native-ios-context-men
 
 import { Text } from "@/components/ui/Text";
 import { AntDesign } from "@/components/ui/Icon";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useAgentQuery } from "@/lib/queries/useAgentQuery";
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
-import { useTokenCount } from "@/lib/tokenizer";
-import { useAction } from "@/lib/actions";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { useAgentQuery } from "@/hooks/queries/useAgentQuery";
+import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
+import { useTokenCount } from "@/hooks/useTokenCount";
+import { useAction } from "@/hooks/useAction";
 
 export default function CenterButton() {
 	const router = useRouter();
@@ -16,7 +16,7 @@ export default function CenterButton() {
 
 	const { data: messages } = useMessagesQuery(threadId);
 	const { data: agent } = useAgentQuery(user.defaultAgent.id);
-	const deleteThread = useAction("deleteThread");
+	const deleteThread = useAction("deleteThread")();
 
 	const tokenInput = messages?.map((m) => m.content).join(" ") || "";
 	const tokens = useTokenCount(tokenInput);

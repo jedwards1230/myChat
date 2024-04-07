@@ -3,8 +3,8 @@ import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { Thread } from "@/types";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useAction } from "@/lib/actions";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { useAction } from "@/hooks/useAction";
 import { FontAwesome } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
@@ -13,7 +13,7 @@ import { AntDesign } from "@/components/ui/Icon";
 
 export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	const user = useConfigStore((state) => state.user);
-	const deleteThread = useAction("deleteThread");
+	const deleteThread = useAction("deleteThread")();
 
 	const insets = useSafeAreaInsets();
 	const contentInsets = {

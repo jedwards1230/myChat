@@ -11,8 +11,8 @@ import {
 	CommandList,
 } from "@/components/ui/Command";
 import { FontAwesome } from "@/components/ui/Icon";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useAction } from "@/lib/actions";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { useAction } from "@/hooks/useAction";
 
 export function CommandDialog({
 	open,
@@ -22,8 +22,8 @@ export function CommandDialog({
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const { threadId } = useConfigStore();
-	const deleteThread = useAction("deleteThread");
-	const resetDb = useAction("resetDb");
+	const deleteThread = useAction("deleteThread")();
+	const resetDb = useAction("resetDb")();
 
 	const items = [
 		{

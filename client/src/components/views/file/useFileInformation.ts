@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 import { CacheFile, MessageFile } from "@/types";
-import { useFileSuspenseQuery } from "@/lib/queries/useFileQuery";
+import { useFileSuspenseQuery } from "@/hooks/queries/useFileQuery";
 
 import { FileInformation } from "./FileInformation";
 

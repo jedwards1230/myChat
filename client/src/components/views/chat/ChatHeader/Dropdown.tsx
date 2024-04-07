@@ -1,9 +1,9 @@
 import { useState } from "react";
 
-import { useAction } from "@/lib/actions";
-import { useAgentStore } from "@/lib/stores/modelStore";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
+import { useAction } from "@/hooks/useAction";
+import { useAgentStore } from "@/hooks/stores/modelStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
 
 import {
 	DropdownMenu,
@@ -30,7 +30,7 @@ export function Dropdown({
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
 
-	const deleteThread = useAction("deleteThread");
+	const deleteThread = useAction("deleteThread")();
 	const { data: messages } = useMessagesQuery(threadId);
 
 	const tokens = messages?.reduce((acc, m) => acc + m.tokenCount || 0, 0) || 0;

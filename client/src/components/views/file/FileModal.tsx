@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 import { CacheFile } from "@/types";
-import { useColorScheme } from "@/lib/useColorScheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 
 import { Text } from "@/components/ui/Text";
 import ModalWrapper from "@/components/ui/Modal";

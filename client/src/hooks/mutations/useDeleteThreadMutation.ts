@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
 
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 import { ThreadDelete } from "@/types";

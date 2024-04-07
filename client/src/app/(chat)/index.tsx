@@ -2,7 +2,7 @@ import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
 
 import { ChatView } from "@/components/views/chat";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 export default function Chat() {
 	const isFocused = useIsFocused();

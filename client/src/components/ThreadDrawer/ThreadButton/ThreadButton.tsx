@@ -3,7 +3,7 @@ import { Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 
 import type { Thread } from "@/types";
-import { useAction } from "@/lib/actions";
+import { useAction } from "@/hooks/useAction";
 import { Text } from "@/components/ui/Text";
 import ChatHistory from "@/components/ChatHistory";
 
@@ -18,7 +18,7 @@ const menuConfig: MenuConfig = {
 };
 
 export function ThreadButton({ thread }: { thread: Thread }) {
-	const deleteThread = useAction("deleteThread");
+	const deleteThread = useAction("deleteThread")();
 	const router = useRouter();
 
 	const goToThread = () => router.push({ pathname: `/(chat)/c/${thread.id}` });

@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
 
-import { useFileStore } from "@/lib/stores/fileStore";
+import { useFileStore } from "@/hooks/stores/fileStore";
 import { Feather, FontAwesome } from "@/components/ui/Icon";
 import { CacheFile } from "@/types";
 import { FileRouter } from "./FolderButton.web";

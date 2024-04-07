@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 import ModalWrapper from "@/components/ui/Modal";
 import { Text } from "@/components/ui/Text";
-import { useAgentsQuery } from "@/lib/queries/useAgentsQuery";
+import { useAgentsQuery } from "@/hooks/queries/useAgentsQuery";
 
 export default function AgentListModal() {
 	const { data: agents, isSuccess } = useAgentsQuery();

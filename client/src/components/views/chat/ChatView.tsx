@@ -1,4 +1,4 @@
-import { useChat } from "@/lib/useChat";
+import { useChat } from "@/hooks/useChat";
 import ChatHistory from "@/components/ChatHistory";
 import { ChatHeader } from "./ChatHeader";
 import { ChatViewWrapper } from "./ChatViewWrapper";

@@ -1,5 +1,5 @@
-import { useColorScheme } from "@/lib/useColorScheme";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 import { Button } from "@/components/ui/Button";
 import { Switch } from "@/components/ui/Switch";

@@ -2,7 +2,7 @@ import { useColorScheme as useNativewindColorScheme } from "nativewind";
 import { useEffect, useMemo } from "react";
 
 import { themes } from "@/lib/constants/Theme";
-import { useConfigStore } from "./stores/configStore";
+import { useConfigStore } from "../stores/configStore";
 
 export function useColorScheme() {
 	const setTheme = useConfigStore((state) => state.setTheme);

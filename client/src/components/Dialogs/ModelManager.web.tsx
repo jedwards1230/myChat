@@ -7,7 +7,7 @@ import {
 	DialogDescription,
 	DialogTitle,
 } from "@/components/ui/Dialog";
-import { useAgentStore } from "@/lib/stores/modelStore";
+import { useAgentStore } from "@/hooks/stores/modelStore";
 import { Text } from "@/components/ui/Text";
 import {
 	Select,

@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { Thread } from "@/types";
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
 const createThread = async (userId: string) =>

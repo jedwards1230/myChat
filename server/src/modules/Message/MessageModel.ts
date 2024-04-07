@@ -20,7 +20,7 @@ import { Thread } from "../Thread/ThreadModel";
 import { type Role, roleList } from "./RoleModel";
 import { ToolCall } from "./ToolCallModel";
 import { MessageFile } from "../MessageFile/MessageFileModel";
-import tokenizer from "@/lib/tokenizer";
+import tokenizer from "@/hooks/useTokenCount";
 
 @Entity("Message")
 @Tree("closure-table")

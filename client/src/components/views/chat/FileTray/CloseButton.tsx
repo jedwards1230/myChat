@@ -1,7 +1,7 @@
 import { Pressable } from "react-native";
 
 import { CacheFile } from "@/types";
-import { useFileStore } from "@/lib/stores/fileStore";
+import { useFileStore } from "@/hooks/stores/fileStore";
 import { MaterialIcons } from "@/components/ui/Icon";
 
 export function RemoveFileButton({ file }: { file: CacheFile }) {

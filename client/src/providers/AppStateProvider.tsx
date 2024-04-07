@@ -3,10 +3,10 @@
 import { View } from "react-native";
 import { useEffect } from "react";
 
-import { useUserQuery } from "@/lib/queries/useUserQuery";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useUserQuery } from "@/hooks/queries/useUserQuery";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { Text } from "@/components/ui/Text";
-import { useAgentStore } from "@/lib/stores/modelStore";
+import { useAgentStore } from "@/hooks/stores/modelStore";
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
 	return <AuthProvider>{children}</AuthProvider>;

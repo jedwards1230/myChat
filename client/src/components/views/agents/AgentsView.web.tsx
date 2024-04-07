@@ -6,7 +6,7 @@ import { Link } from "expo-router";
 
 import { AntDesign, Entypo, Octicons } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
-import { useAgentsQuery } from "@/lib/queries/useAgentsQuery";
+import { useAgentsQuery } from "@/hooks/queries/useAgentsQuery";
 import { Agent } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { AgentDialog } from "../../Dialogs/AgentDialog.web";

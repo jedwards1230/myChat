@@ -3,7 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type { MultipartFile } from "@fastify/multipart";
 
 import logger from "@/lib/logs/logger";
-import tokenizer from "@/lib/tokenizer";
+import tokenizer from "@/hooks/useTokenCount";
 
 import {
 	getMessageFileRepo,

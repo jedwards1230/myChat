@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
-import { ActionList } from "@/lib/actions";
+import { ActionList } from "@/hooks/useAction";
 
 export function CommandTray({ input }: { input: string }) {
 	if (!input.startsWith("/")) return null;

@@ -5,9 +5,9 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { SplashScreen } from "expo-router";
 
-import { useColorScheme } from "@/lib/useColorScheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import { NAV_THEME } from "@/lib/constants/ReactNavTheme";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 const LIGHT_THEME: Theme = {
 	dark: false,

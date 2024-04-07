@@ -2,7 +2,7 @@ import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigatio
 import { Platform } from "react-native";
 import { withLayoutContext } from "expo-router";
 
-import { useBreakpoints } from "@/lib/useBreakpoints";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 import DrawerContent from "./DrawerContent";
 
 export const Drawer = withLayoutContext(createDrawerNavigator().Navigator);

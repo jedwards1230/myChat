@@ -5,10 +5,10 @@ import { useGroupStore } from "../GroupStore";
 import { cn } from "@/lib/utils";
 import { FontAwesome6, Octicons } from "@/components/ui/Icon";
 import { Message } from "@/types";
-import { useDeleteMessageMutation } from "@/lib/mutations/useDeleteMessageMutation";
+import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
-import { useUpdateMessageMutation } from "@/lib/mutations/useUpdateMessageMutation";
+import { useUpdateMessageMutation } from "@/hooks/mutations/useUpdateMessageMutation";
 import { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({

@@ -2,7 +2,7 @@ import { Link } from "expo-router";
 import { View } from "react-native";
 
 import { MaterialIcons } from "@/components/ui/Icon";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 export default function RightButton() {
 	const { threadId, setThreadId } = useConfigStore();

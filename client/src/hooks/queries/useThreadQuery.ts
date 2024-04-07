@@ -1,6 +1,6 @@
 import { Thread } from "@/types";
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 const fetchThread = (userId: string, threadId: string | null) => () =>

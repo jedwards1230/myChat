@@ -1,7 +1,7 @@
 import { Pressable, View } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
 
-import { useFileStore } from "@/lib/stores/fileStore";
+import { useFileStore } from "@/hooks/stores/fileStore";
 import { FileButton } from "./FileButton";
 import { FontAwesome } from "@/components/ui/Icon";
 

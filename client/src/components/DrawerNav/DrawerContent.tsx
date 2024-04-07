@@ -2,7 +2,7 @@ import { type DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 
-import { useBreakpoints } from "@/lib/useBreakpoints";
+import { useBreakpoints } from "@/hooks/useBreakpoints";
 import ThreadHistory from "../ThreadDrawer/ThreadHistory";
 import NativeSafeAreaView from "../NativeSafeAreaView";
 

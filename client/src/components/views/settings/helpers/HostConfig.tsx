@@ -1,7 +1,7 @@
 import { RowItem } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { Input } from "@/components/ui/Input";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { useEffect, useState } from "react";
 
 export function HostConfig() {

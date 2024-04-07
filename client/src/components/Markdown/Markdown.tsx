@@ -1,7 +1,7 @@
 import type { PropsWithChildren } from "react";
 import Markdown, { type MarkdownProps, MarkdownIt } from "react-native-markdown-display";
 
-import { useColorScheme } from "@/lib/useColorScheme";
+import { useColorScheme } from "@/hooks/useColorScheme";
 import { getMarkdownRules } from "./rules";
 
 type MarkdownComponentProps = PropsWithChildren<MarkdownProps>;

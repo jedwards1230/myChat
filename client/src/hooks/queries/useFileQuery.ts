@@ -1,6 +1,6 @@
 import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useConfigStore } from "@/hooks/stores/configStore";
 import type { MessageFile } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
