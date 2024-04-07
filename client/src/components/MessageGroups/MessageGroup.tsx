@@ -1,4 +1,4 @@
-import { ActivityIndicator, View } from "react-native";
+import { View } from "react-native";
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
@@ -32,8 +32,11 @@ export const MessageGroup = ({
 
 	return (
 		<View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
-			<MessageGroupBubble editMode={editMode} group={item} />
-			{isLoading && isLastMessageGroup && <ActivityIndicator />}
+			<MessageGroupBubble
+				editMode={editMode}
+				group={item}
+				isLoading={isLoading && isLastMessageGroup}
+			/>
 		</View>
 	);
 };

@@ -1,27 +1,30 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 
 import { useRequestChatMutation } from "../mutations/useRequestChatMutation";
-import type { UseMutationResult } from "@tanstack/react-query";
+import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
 
-export const useChatResponse = (threadId: string | null) => {
+export const useChatResponse = () => {
 	const chatMut = useRequestChatMutation();
-	const { mutate: getChat, data, reset, isPending } = chatMut;
+	const titleMut = useRequestThreadTitleMutation();
 	const abortController = useRef(new AbortController());
 
-	useEffect(() => {
-		if (!data) return;
-		reset();
-	}, [data]);
-
 	const requestChat = async (threadId: string) => {
-		getChat({ threadId, signal: abortController.current.signal });
+		await chatMut.mutateAsync({
+			threadId,
+			signal: abortController.current.signal,
+		});
+		chatMut.reset();
+		titleMut
+			.mutateAsync(threadId)
+			.catch(console.error)
+			.then(() => titleMut.reset());
 	};
 
 	const abort = () => {
 		abortController.current.abort();
 		abortController.current = new AbortController();
-		reset();
+		chatMut.reset();
 	};
 
-	return { requestChat, abort, isResponding: isPending };
+	return { requestChat, abort, isResponding: chatMut.isPending };
 };

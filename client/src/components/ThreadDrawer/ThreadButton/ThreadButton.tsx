@@ -1,11 +1,10 @@
 import { ContextMenuView, type MenuConfig } from "react-native-ios-context-menu";
-
 import { Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 
 import type { Thread } from "@/types";
+import { useAction } from "@/lib/actions";
 import { Text } from "@/components/ui/Text";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 import ChatHistory from "@/components/ChatHistory";
 
 const menuConfig: MenuConfig = {
@@ -19,7 +18,7 @@ const menuConfig: MenuConfig = {
 };
 
 export function ThreadButton({ thread }: { thread: Thread }) {
-	const { mutate: deleteThread } = useDeleteThreadMutation(thread.id);
+	const deleteThread = useAction("deleteThread");
 	const router = useRouter();
 
 	const goToThread = () => router.push({ pathname: `/(chat)/c/${thread.id}` });
@@ -27,7 +26,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 	const onMenuAction = (actionKey: string) => {
 		switch (actionKey) {
 			case "delete":
-				deleteThread();
+				deleteThread.action(thread.id);
 				break;
 		}
 	};

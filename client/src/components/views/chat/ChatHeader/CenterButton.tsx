@@ -1,15 +1,14 @@
-import { Link, useRouter } from "expo-router";
-import { Pressable, View } from "react-native";
+import { useRouter } from "expo-router";
+import { Pressable } from "react-native";
 import { ContextMenuButton, type MenuConfig } from "react-native-ios-context-menu";
 
 import { Text } from "@/components/ui/Text";
 import { AntDesign } from "@/components/ui/Icon";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 import { useConfigStore } from "@/lib/stores/configStore";
 import { useAgentQuery } from "@/lib/queries/useAgentQuery";
-import { useTokenCount } from "@/lib/tokenizer";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
-import { useThreadQuery } from "@/lib/queries/useThreadQuery";
+import { useTokenCount } from "@/lib/tokenizer";
+import { useAction } from "@/lib/actions";
 
 export default function CenterButton() {
 	const router = useRouter();
@@ -17,7 +16,7 @@ export default function CenterButton() {
 
 	const { data: messages } = useMessagesQuery(threadId);
 	const { data: agent } = useAgentQuery(user.defaultAgent.id);
-	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
+	const deleteThread = useAction("deleteThread");
 
 	const tokenInput = messages?.map((m) => m.content).join(" ") || "";
 	const tokens = useTokenCount(tokenInput);
@@ -43,7 +42,7 @@ export default function CenterButton() {
 	const onMenuAction = (actionKey: string) => {
 		switch (actionKey) {
 			case "delete":
-				deleteThread();
+				deleteThread.action(threadId!);
 				break;
 			case "agent":
 				router.push({

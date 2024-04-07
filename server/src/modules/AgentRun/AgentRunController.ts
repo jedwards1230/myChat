@@ -3,6 +3,7 @@ import type { ChatCompletionMessage } from "openai/resources/index.mjs";
 
 import { chatResponseEmitter, type ChatResponseEmitterEvents } from "@/lib/events";
 import logger from "@/lib/logs/logger";
+import type { ModelApi } from "@/types/models";
 
 import type { Thread } from "../Thread/ThreadModel";
 
@@ -17,10 +18,12 @@ export class AgentRunController {
 		thread,
 		stream = true,
 		type,
+		model,
 	}: {
 		thread: Thread;
 		stream?: boolean;
 		type: RunType;
+		model: ModelApi;
 	}) {
 		try {
 			if (!thread?.activeMessage) throw new Error("No active message found");
@@ -29,6 +32,7 @@ export class AgentRunController {
 				agent: thread.agent,
 				stream,
 				type,
+				model,
 			});
 			AgentRunQueue.addRunToQueue(run);
 			return run;
@@ -45,11 +49,16 @@ export class AgentRunController {
 	static async createAndRunHandler(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
 		const { stream, type } = request.body as CreateRunBody;
+		const model = {
+			name: "gpt-4-turbo",
+			api: "openai",
+		} as ModelApi;
 
 		const agentRun = await AgentRunController.createAndRun({
 			thread,
 			stream,
 			type: type as RunType,
+			model,
 		});
 
 		reply.raw.on("close", () => {

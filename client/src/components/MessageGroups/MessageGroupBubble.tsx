@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 import { BaseMessage } from "./Message/BaseMessage";
 import { ChatMessageGroup } from "./MessageGroup";
@@ -9,9 +9,11 @@ import { Avatar } from "./Avatar";
 export function MessageGroupBubble({
 	group,
 	editMode,
+	isLoading,
 }: {
 	group: ChatMessageGroup;
 	editMode?: boolean;
+	isLoading?: boolean;
 }) {
 	const role = group.role === "user" ? "user" : "assistant";
 	const name = group.name || group.role;
@@ -31,6 +33,7 @@ export function MessageGroupBubble({
 				{group.messages.map((message, idx) => (
 					<BaseMessage key={message.id + idx} message={message} group={group} />
 				))}
+				{isLoading && <ActivityIndicator />}
 			</View>
 		</View>
 	);

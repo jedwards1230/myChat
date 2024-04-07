@@ -9,6 +9,7 @@ import {
 
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
+import type { ModelApi } from "@/types/models";
 
 export type RunType = "getChat" | "getTitle";
 
@@ -38,11 +39,15 @@ export class AgentRun extends BaseEntity {
 	@PrimaryGeneratedColumn("uuid")
 	id: string;
 
-	@ManyToOne(() => Thread)
+	@ManyToOne(() => Thread, { onDelete: "CASCADE" })
 	thread: Thread;
 
 	@ManyToOne(() => Agent)
 	agent: Agent;
+
+	// model info. deep json object of text
+	@Column({ type: "jsonb" })
+	model: ModelApi;
 
 	/** Run Status */
 	@Column({ type: "text", default: "queued" })

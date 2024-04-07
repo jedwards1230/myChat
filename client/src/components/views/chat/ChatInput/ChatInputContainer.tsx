@@ -5,6 +5,7 @@ import { FormSubmission } from "@/lib/useChat";
 import { MaterialIcons } from "@/components/ui/Icon";
 import { FileInputButton, FileTray } from "../FileTray";
 import ChatInput from "./ChatInput";
+import { CommandTray } from "../CommandTray";
 
 export function ChatInputContainer({
 	handleSubmit,
@@ -33,6 +34,7 @@ export function ChatInputContainer({
 		<View className="w-full px-2 pt-2 web:mb-2">
 			<View className="relative flex flex-col items-center justify-between w-full px-1 mt-2 mb-2 border border-2 border-input rounded-xl web:mx-auto md:max-w-[90%] lg:max-w-[75%]">
 				<FileTray />
+				<CommandTray input={input} />
 				<View className="flex flex-row items-center justify-between w-full pl-2 pr-2 web:pr-10">
 					<ChatInput
 						threadId={threadId}

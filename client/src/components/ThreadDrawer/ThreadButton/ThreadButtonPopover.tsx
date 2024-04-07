@@ -3,17 +3,17 @@ import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { Thread } from "@/types";
+import { useConfigStore } from "@/lib/stores/configStore";
+import { useAction } from "@/lib/actions";
 import { FontAwesome } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
 import { Button } from "@/components/ui/Button";
 import { AntDesign } from "@/components/ui/Icon";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 
 export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	const user = useConfigStore((state) => state.user);
-	const { mutate: deleteThread } = useDeleteThreadMutation(thread.id);
+	const deleteThread = useAction("deleteThread");
 
 	const insets = useSafeAreaInsets();
 	const contentInsets = {
@@ -29,7 +29,7 @@ export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 			label: "Delete Thread",
 			onClick: async () => {
 				if (!thread.id || !user.id) return console.error("No threadId or userId");
-				deleteThread();
+				deleteThread.action(thread.id);
 			},
 		},
 	];

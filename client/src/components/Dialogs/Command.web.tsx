@@ -1,11 +1,6 @@
 "use client";
 
 import * as React from "react";
-import { useQueryClient } from "@tanstack/react-query";
-
-import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/lib/stores/configStore";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 
 import {
 	CommandDialog as CommandDialogComponent,
@@ -16,6 +11,8 @@ import {
 	CommandList,
 } from "@/components/ui/Command";
 import { FontAwesome } from "@/components/ui/Icon";
+import { useConfigStore } from "@/lib/stores/configStore";
+import { useAction } from "@/lib/actions";
 
 export function CommandDialog({
 	open,
@@ -24,31 +21,23 @@ export function CommandDialog({
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-	const { threadId, user } = useConfigStore();
-	const deleteThreadMutation = useDeleteThreadMutation(threadId);
-	const queryClient = useQueryClient();
-
-	const resetDb = async () => {
-		await fetcher(["/reset", user.id]);
-		queryClient.invalidateQueries();
-	};
+	const { threadId } = useConfigStore();
+	const deleteThread = useAction("deleteThread");
+	const resetDb = useAction("resetDb");
 
 	const items = [
 		{
 			label: "Delete Active Thread",
 			Icon: FontAwesome,
 			iconName: "trash" as const,
-			onClick: async () => {
-				if (!deleteThreadMutation) return console.error("No thread or userId");
-				deleteThreadMutation.mutate();
-			},
+			onClick: () => deleteThread.action(threadId!),
 			hidden: !threadId,
 		},
 		{
 			label: "Reset DB",
 			Icon: FontAwesome,
 			iconName: "database" as const,
-			onClick: resetDb,
+			onClick: resetDb.action,
 		},
 	];
 

@@ -1,12 +1,16 @@
-import { ChatView } from "@/components/views/chat";
-import { useConfigStore } from "@/lib/stores/configStore";
+import { useIsFocused } from "@react-navigation/native";
 import { useEffect } from "react";
 
+import { ChatView } from "@/components/views/chat";
+import { useConfigStore } from "@/lib/stores/configStore";
+
 export default function Chat() {
+	const isFocused = useIsFocused();
+
 	const setThreadId = useConfigStore((s) => s.setThreadId);
-	useEffect(() => {
-		setThreadId(null);
-	}, []);
+	useEffect(() => setThreadId(null), []);
+
+	if (!isFocused) return null;
 	return <ChatView threadId={null} />;
 }
 

@@ -12,7 +12,6 @@ export const messagesQueryOptions = (userId: string, threadId: string | null) =>
 		queryKey: [userId, threadId],
 		enabled: !!threadId,
 		queryFn: fetchMessages(userId, threadId),
-		retry: false,
 		initialData: [],
 	});
 };

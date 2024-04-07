@@ -1,8 +1,8 @@
 import { useState } from "react";
 
+import { useAction } from "@/lib/actions";
 import { useAgentStore } from "@/lib/stores/modelStore";
 import { useConfigStore } from "@/lib/stores/configStore";
-import { useDeleteThreadMutation } from "@/lib/mutations/useDeleteThreadMutation";
 import { useMessagesQuery } from "@/lib/queries/useMessagesQuery";
 
 import {
@@ -30,7 +30,7 @@ export function Dropdown({
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
 
-	const { mutate: deleteThread } = useDeleteThreadMutation(threadId);
+	const deleteThread = useAction("deleteThread");
 	const { data: messages } = useMessagesQuery(threadId);
 
 	const tokens = messages?.reduce((acc, m) => acc + m.tokenCount || 0, 0) || 0;
@@ -49,7 +49,7 @@ export function Dropdown({
 		},
 		{
 			label: "Delete Thread",
-			onPress: deleteThread,
+			onPress: () => deleteThread.action(threadId!),
 		},
 		{
 			label: "Share Thread",

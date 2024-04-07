@@ -15,5 +15,8 @@ export const ThreadSchema = Type.Object({
 });
 export type ThreadSchema = Static<typeof ThreadSchema>;
 
+export const ThreadSchemaWithoutId = Type.Omit(ThreadSchema, ["id"]);
+export type ThreadSchemaWithoutId = Static<typeof ThreadSchemaWithoutId>;
+
 export const ThreadListSchema = Type.Array(ThreadSchema);
 export type ThreadListSchema = Static<typeof ThreadListSchema>;

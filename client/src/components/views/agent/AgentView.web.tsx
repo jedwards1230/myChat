@@ -5,6 +5,13 @@ import { Text } from "@/components/ui/Text";
 import { RowItem, Section } from "@/components/ui/Section";
 
 export function AgentView({ agent }: { agent: Agent }) {
+	const model = {
+		name: "gpt-4-0125-preview",
+		provider: "OpenAI",
+		tokenLimit: 128000,
+		canStream: true,
+		canUseTools: true,
+	};
 	return (
 		<View className="flex w-full gap-4 p-2">
 			<Section title="System Message">
@@ -27,6 +34,21 @@ export function AgentView({ agent }: { agent: Agent }) {
 						<Text>"N/A"</Text>
 					</RowItem>
 				)}
+			</Section>
+
+			<Section title="Model">
+				<RowItem>
+					<Text>Model: {model.name || "N/A"}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>Provider: {model.provider || "N/A"}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>Token Limit: {model.tokenLimit || "N/A"}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>Can Stream: {model.canStream || "N/A"}</Text>
+				</RowItem>
 			</Section>
 
 			<Section title="Stats">
