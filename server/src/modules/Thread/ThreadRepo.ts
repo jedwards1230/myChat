@@ -5,8 +5,7 @@ import { AppDataSource } from "@/lib/pg";
 import { Thread } from "@/modules/Thread/ThreadModel";
 import { Message } from "@/modules/Message/MessageModel";
 import type { User } from "@/modules/User/UserModel";
-import logger from "@/lib/logs/logger";
-import tokenizer from "@/hooks/useTokenCount";
+import tokenizer from "@/lib/tokenizer";
 
 export const getThreadRepo = () =>
 	AppDataSource.getRepository(Thread).extend({

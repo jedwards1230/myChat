@@ -44,21 +44,6 @@ export const useThreadManager = (initialThreadId: string | null) => {
 		return threadId ? onReady(threadId, input) : onNoThread(threadId, input);
 	};
 
-	const messageRevalidation = async () => {
-		let count = 0;
-		const interval = setInterval(() => {
-			if (!messagesQuery.isFetching && !messagesQuery.isRefetching) {
-				clearInterval(interval);
-				return;
-			}
-			if (count > 10) {
-				clearInterval(interval);
-				throw new Error("Failed to fetch messages");
-			}
-			count++;
-		}, 10);
-	};
-
 	const reset = (threadId?: string | null) => {
 		if (threadId !== undefined) setActiveThreadId(threadId);
 		addMessageMut.reset();
@@ -88,6 +73,7 @@ export const useThreadManager = (initialThreadId: string | null) => {
 			message: { role: "user", content: input ?? "" },
 		});
 		if (!res) throw new Error("No message data");
+		await messagesQuery.refetch();
 
 		if (fileList.length > 0) {
 			await addMessageFileMut.mutateAsync({
@@ -95,9 +81,9 @@ export const useThreadManager = (initialThreadId: string | null) => {
 				messageId: res.id,
 				fileList,
 			});
+			await messagesQuery.refetch();
 		}
 
-		await messageRevalidation();
 		return { message: res, threadId };
 	};
 

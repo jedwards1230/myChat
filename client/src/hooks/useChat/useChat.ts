@@ -25,10 +25,7 @@ export function useChat(initialThreadId: string | null) {
 	const handleSubmit: FormSubmission = async (input) => {
 		setIsRunning(true);
 		try {
-			const { message, threadId } = await threadManager.onSubmit(
-				initialThreadId,
-				input
-			);
+			const { threadId } = await threadManager.onSubmit(initialThreadId, input);
 			chatResponseManager.requestChat(threadId);
 			reset(threadId);
 			return true;

@@ -1,7 +1,6 @@
 import { Suspense, useState } from "react";
 import { View } from "react-native";
 
-import { CacheFile } from "@/types";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import {
 	Dialog,
@@ -14,17 +13,18 @@ import {
 import { Text } from "@/components/ui/Text";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
 
-import { FileInformation } from "./FileInformation";
-import { FileMetadata, useFileInformation } from "./useFileInformation";
+import { FileMetadata } from "./FileMetadata";
+import { FileData } from "@/components/FileRouter";
+import { FileQueryOpts, isDbFile, useFileInformation } from "@/hooks/useFileInformation";
 
-export default function FileDialog({
+export function FileDialog({
 	children,
 	className,
-	file,
+	data,
 }: {
 	children: React.ReactNode;
 	className?: string;
-	file: CacheFile | FileMetadata;
+	data: FileData;
 }) {
 	const [open, setOpen] = useState(false);
 
@@ -36,7 +36,7 @@ export default function FileDialog({
 			<DialogContent className="w-screen max-h-[90vh] max-w-[90vw] overflow-y-scroll !bg-background text-foreground">
 				{open && (
 					<Suspense fallback={<Text>Loading File Info...</Text>}>
-						{<FileView file={file} />}
+						<FileView data={data} />
 					</Suspense>
 				)}
 			</DialogContent>
@@ -44,27 +44,45 @@ export default function FileDialog({
 	);
 }
 
-function FileView({ file }: { file: CacheFile | FileMetadata }) {
-	const { colorScheme } = useColorScheme();
-	const fileInfo = useFileInformation(file);
-	const content = fileInfo?.parsed || "";
+function FileView({ data }: { data: FileData }) {
+	const file = data.file;
+	const content = file?.parsed || "";
 
 	return (
 		<>
 			<View className="flex flex-row items-center justify-between">
-				<DialogTitle>{fileInfo.name}</DialogTitle>
+				<DialogTitle>{file.name}</DialogTitle>
 				<DialogClose>
 					<Text>Close</Text>
 				</DialogClose>
 			</View>
 			<DialogDescription className="flex flex-col gap-4">
-				<FileInformation file={fileInfo} />
-				{content && (
-					<CodeBlock colorScheme={colorScheme} language={fileInfo.extension}>
-						{content}
-					</CodeBlock>
-				)}
+				<FileMetadata file={file} />
+				{content ? (
+					<FileContent content={content} extension={file.extension} />
+				) : "id" in data.file && data.query ? (
+					<FileContentSuspense
+						query={{ ...data.query, fileId: data.file.id }}
+					/>
+				) : null}
 			</DialogDescription>
 		</>
+	);
+}
+
+function FileContentSuspense({ query }: { query: FileQueryOpts }) {
+	const file = useFileInformation(query);
+
+	if (!file.parsable || !file.parsed) return null;
+	return <FileContent content={file.parsed} extension={file.extension} />;
+}
+
+function FileContent({ content, extension }: { content: string; extension?: string }) {
+	const { colorScheme } = useColorScheme();
+
+	return (
+		<CodeBlock colorScheme={colorScheme} language={extension}>
+			{content}
+		</CodeBlock>
 	);
 }

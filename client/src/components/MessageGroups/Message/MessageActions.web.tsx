@@ -8,7 +8,6 @@ import { Message } from "@/types";
 import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
-import { useUpdateMessageMutation } from "@/hooks/mutations/useUpdateMessageMutation";
 import { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({
@@ -23,7 +22,6 @@ export function MessageActions({
 		group.threadId,
 		message.id
 	);
-	const { mutate: updateMessage } = useUpdateMessageMutation();
 
 	const editMode = editMessageId === message.id;
 
@@ -38,7 +36,7 @@ export function MessageActions({
 
 	const copyToClipboard = () => {
 		if (message.content !== null) {
-			Clipboard.setStringAsync(message.content);
+			Clipboard.setStringAsync(message.content!);
 		}
 	};
 

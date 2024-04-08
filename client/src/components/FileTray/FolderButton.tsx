@@ -1,21 +1,31 @@
 import { useRouter } from "expo-router";
-import React, { useState } from "react";
+import { useState } from "react";
 import { View, Pressable } from "react-native";
 
-import { CacheFile } from "@/types";
 import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
-import { RemoveFileButton } from "./CloseButton";
+import { RemoveFileButton } from "./DeleteButton";
+import { FileInformation } from "@/hooks/useFileInformation";
+import { RouterChildrenProps, RouterData } from "../FileRouter";
 
-export function FileButton({ file }: { file: CacheFile }) {
+export function FolderButton({
+	baseDir,
+	data,
+	routerProps,
+}: {
+	baseDir: string;
+	data: RouterData;
+	routerProps?: RouterChildrenProps;
+}) {
 	const [pressed, setPressed] = useState(false);
 	const router = useRouter();
+	const file = data.files[0];
 
 	return (
 		<View className="relative">
 			<Pressable
 				onPressIn={() => setPressed(true)}
-				onPress={() => router.push(`/file/cache/${file.name}`)}
+				onPress={() => router.push(`/file/${file.name}`)}
 				onPressOut={() => setPressed(false)}
 				className={cn(
 					"transition-all rounded-lg bg-background hover:bg-foreground/20",

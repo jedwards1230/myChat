@@ -3,42 +3,26 @@ import { Pressable, View } from "react-native";
 
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { Feather, FontAwesome } from "@/components/ui/Icon";
-import { CacheFile } from "@/types";
-import { FileRouter } from "./FolderButton.web";
+import { FileRouter } from "../FileRouter";
+import { getCacheFileBuffer, parseLocalFiles } from "@/hooks/useFileInformation";
 
 export function FileTray() {
 	const fileList = useFileStore((state) => state.fileList);
 	if (!fileList.length) return null;
 	return (
 		<View className="flex flex-row flex-wrap items-start justify-start w-full gap-4 px-2 pt-3 pb-1">
-			<FileRouter files={fileList} />
+			<FileRouter data={{ files: fileList }} />
 		</View>
 	);
 }
 
 export function FileInputButton() {
-	const addAssets = useFileStore((state) => state.addAssets);
+	const addFiles = useFileStore((state) => state.addFiles);
 	const fileInputRef = useRef<HTMLInputElement>(null);
 	const directoryInputRef = useRef<HTMLInputElement>(null);
 
-	const triggerFileInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const files = event.target.files;
-		if (!files) return console.error("No files selected");
-		const assets: CacheFile[] = Array.from(files).map((file) => ({
-			name: file.name,
-			size: file.size,
-			uri: URL.createObjectURL(file),
-			mimeType: file.type,
-			lastModified: file.lastModified,
-			file: file,
-		}));
-		addAssets(assets);
-	};
-
-	const triggerDirectoryInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
-		const files = event.target.files;
-		if (!files) return console.error("No files selected");
-		const assets: CacheFile[] = Array.from(files).map((file) => ({
+	const parseFiles = async (files: FileList) => {
+		const mappedFilesPromises = Array.from(files).map(async (file) => ({
 			name: file.name,
 			size: file.size,
 			uri: URL.createObjectURL(file),
@@ -47,7 +31,15 @@ export function FileInputButton() {
 			relativePath: file.webkitRelativePath,
 			file: file,
 		}));
-		addAssets(assets);
+		const mappedFiles = await Promise.all(mappedFilesPromises);
+		const parsedFiles = await parseLocalFiles(mappedFiles);
+		addFiles(parsedFiles);
+	};
+
+	const triggerFileInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
+		const files = event.target.files;
+		if (!files) return console.error("No files selected");
+		parseFiles(files);
 	};
 
 	return (
@@ -66,7 +58,7 @@ export function FileInputButton() {
 				directory=""
 				ref={directoryInputRef}
 				className="hidden"
-				onChange={(e) => triggerDirectoryInput(e)}
+				onChange={(e) => triggerFileInput(e)}
 			/>
 			<Pressable
 				onPress={() => fileInputRef.current?.click()}

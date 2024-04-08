@@ -1,22 +1,22 @@
 import { View } from "react-native";
 
-import { CacheFile } from "@/types";
 import { Text } from "@/components/ui/Text";
-import FileDialog from "@/components/views/file/FileDialog";
-import { RemoveFileButton } from "./CloseButton";
+import { FileDialog } from "@/components/views/file/FileDialog";
+import { RemoveFileButton } from "./DeleteButton";
+import { FileData } from "../FileRouter";
 
-export function FileButton({ file }: { file: CacheFile }) {
+export function FileButton({ data }: { data: FileData }) {
 	return (
 		<View className="relative items-start">
 			<FileDialog
 				className="w-auto transition-all rounded-lg bg-background hover:bg-foreground/20"
-				file={file}
+				data={data}
 			>
 				<Text className="px-4 py-2 border-2 rounded border-border text-foreground">
-					{file.name}
+					{data.file.name}
 				</Text>
 			</FileDialog>
-			<RemoveFileButton file={file} />
+			<RemoveFileButton file={data.file} />
 		</View>
 	);
 }

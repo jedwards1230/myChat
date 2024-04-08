@@ -5,7 +5,7 @@ import { MessageFilter } from "./MessageFilter";
 import { Text } from "@/components/ui/Text";
 import { Avatar } from "../Avatar";
 
-export function PreviewMessage({
+export function MessagePreview({
 	message,
 	threadId,
 }: {

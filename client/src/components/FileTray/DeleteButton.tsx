@@ -1,10 +1,10 @@
 import { Pressable } from "react-native";
 
-import { CacheFile } from "@/types";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { MaterialIcons } from "@/components/ui/Icon";
+import { FileInformation } from "@/hooks/useFileInformation";
 
-export function RemoveFileButton({ file }: { file: CacheFile }) {
+export function RemoveFileButton({ file }: { file: FileInformation }) {
 	const removeFile = useFileStore((state) => state.removeFile);
 	return (
 		<Pressable
@@ -23,7 +23,7 @@ export function RemoveFileButton({ file }: { file: CacheFile }) {
 	);
 }
 
-export function RemoveFolderButton({ files }: { files: CacheFile[] }) {
+export function RemoveFolderButton({ files }: { files: FileInformation[] }) {
 	const removeFiles = useFileStore((state) => state.removeFiles);
 	return (
 		<Pressable

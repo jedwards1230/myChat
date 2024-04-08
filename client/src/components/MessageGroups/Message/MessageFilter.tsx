@@ -1,12 +1,11 @@
 import { View } from "react-native";
 
+import type { Message } from "@/types";
 import Markdown from "@/components/Markdown/Markdown";
 import { Textarea } from "@/components/ui/Textarea";
-import { Text } from "@/components/ui/Text";
-import { Message } from "@/types";
 import { useGroupStore } from "../GroupStore";
-import { ToolCallMessage } from "./ToolMessage";
-import { UserMessage } from "./UserMessage";
+import { ToolCallMessage } from "./MessageTypes/ToolMessage";
+import { FileMessageGroup } from "./FileMessageGroup";
 
 export function MessageFilter({
 	message,
@@ -27,16 +26,25 @@ export function MessageFilter({
 		);
 	}
 
-	if (message.role === "tool") {
-		return <ToolCallMessage message={message} />;
+	switch (message.role) {
+		case "tool":
+			return <ToolCallMessage message={message} />;
+		case "user":
+			return (
+				<View className="w-full pl-6">
+					{message.files && (
+						<FileMessageGroup messageId={message.id} threadId={threadId} />
+					)}
+					<Markdown>{message.content}</Markdown>
+				</View>
+			);
+		case "assistant":
+			return (
+				<View className="pl-6">
+					<Markdown>{message.content}</Markdown>
+				</View>
+			);
+		case "system":
+			return null;
 	}
-
-	if (message.role === "user")
-		return <UserMessage threadId={threadId} message={message} />;
-
-	return (
-		<View className="pl-6">
-			<Markdown>{message.content}</Markdown>
-		</View>
-	);
 }

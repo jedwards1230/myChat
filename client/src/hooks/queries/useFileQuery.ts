@@ -18,7 +18,7 @@ export const fileQueryOptions = (
 	fileId: string
 ) => {
 	return queryOptions({
-		queryKey: [userId, threadId, messageId, fileId],
+		queryKey: [userId, threadId, messageId, "files", fileId],
 		enabled: !!threadId && !!messageId && !!fileId,
 		queryFn: fetchFile(userId, threadId, messageId, fileId!),
 	});

@@ -4,7 +4,7 @@ import * as Clipboard from "expo-clipboard";
 import { useGroupStore } from "../GroupStore";
 import { Message } from "@/types";
 import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
-import { PreviewMessage } from "./PreviewMessage";
+import { MessagePreview } from "./MessagePreview";
 import { ChatMessageGroup } from "../MessageGroup";
 
 const menuConfig: MenuConfig = {
@@ -75,7 +75,7 @@ export function MessageActions({
 		<ContextMenuView
 			menuConfig={menuConfig}
 			renderPreview={() => (
-				<PreviewMessage threadId={group.threadId} message={message} />
+				<MessagePreview threadId={group.threadId} message={message} />
 			)}
 			previewConfig={{ previewType: "CUSTOM" }}
 			onPressMenuItem={({ nativeEvent }) => onMenuAction(nativeEvent.actionKey)}

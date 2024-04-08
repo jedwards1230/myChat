@@ -1,9 +1,10 @@
 import { Type, type Static } from "@fastify/type-provider-typebox";
 import { MessageFileListSchema } from "../MessageFile/MessageFileSchema";
+import { RoleEnum } from "./RoleModel";
 
 export const MessageObjectSchema = Type.Object({
 	id: Type.String(),
-	role: Type.String(),
+	role: Type.Enum(RoleEnum),
 	createdAt: Type.String(),
 	tokenCount: Type.Number(),
 	name: Type.Optional(Type.String()),

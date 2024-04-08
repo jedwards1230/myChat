@@ -4,7 +4,8 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";
-import { threadQueryOptions } from "../queries/useThreadQuery";
+import { messagesQueryOptions } from "../queries/useMessagesQuery";
+import { FileInformation } from "../useFileInformation";
 
 type CacheFile = {
 	name: string;
@@ -19,7 +20,7 @@ type CacheFile = {
 export type PostMessageOptions = {
 	messageId: string;
 	threadId: string;
-	fileList: CacheFile[];
+	fileList: FileInformation[];
 };
 
 const postMessage = async (
@@ -43,32 +44,51 @@ export const useAddMessageFileMutation = () => {
 	return useMutation({
 		mutationKey: ["postMessageFile"],
 		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, user.id),
-		onMutate: async () => reset(),
-		onError: (error, { fileList }) => {
+		onMutate: async ({ threadId, messageId, fileList }) => {
+			const messagesQuery = messagesQueryOptions(user.id, threadId);
+			const cached = queryClient.getQueryData(messagesQuery.queryKey);
+			queryClient.cancelQueries(messagesQuery);
+
+			// verify messageId in cached messages
+			const messageExists = cached?.find((m: Message) => m.id === messageId);
+			if (!messageExists) throw new Error("Message not found");
+
+			// Add the files to the message
+			const prevMessages = cached || [];
+			const messages = prevMessages.map((m: Message) =>
+				m.id === messageId ? { ...m, files: fileList } : m
+			) as Message[];
+
+			queryClient.setQueryData(messagesQuery.queryKey, messages as any[]);
+			reset();
+
+			return { prevMessages, fileList };
+		},
+		onError: (error, { fileList, threadId }) => {
 			setFiles(fileList);
+			queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
 			console.error(error);
 		},
 		onSettled: (res, err, opts) => {
-			queryClient.invalidateQueries(threadQueryOptions(user.id, opts.threadId));
+			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId));
 		},
 	});
 };
 
-const buildFormData = async (fileList: CacheFile[]) => {
+const buildFormData = async (fileList: FileInformation[]) => {
 	const formData = new FormData();
-	// TODO: Pass the CacheFile metadata to the server
 	fileList.forEach((f, index) => {
-		if (f.file) {
-			// Append file buffer
-			formData.append(`file${index}`, f.file, f.name);
+		console.log("prepping", f);
+		if (!f.file) throw new Error("File not found");
+		// Append file buffer
+		formData.append(`file${index}`, f.file, f.name);
 
-			// Clone to avoid mutating original object when deleting file key
-			const metadata = { ...f };
-			delete metadata.file; // Remove the file object
+		// Clone to avoid mutating original object when deleting file key
+		const metadata = { ...f };
+		delete metadata.buffer; // Remove the file object
 
-			// Append metadata as a JSON string
-			formData.append(`metadata${index}`, JSON.stringify(metadata));
-		}
+		// Append metadata as a JSON string
+		formData.append(`metadata${index}`, JSON.stringify(metadata));
 	});
 	return formData;
 };

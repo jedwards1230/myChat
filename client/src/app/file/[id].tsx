@@ -12,7 +12,7 @@ export default function FilePage() {
 	if (!messageId) throw new Error("Message ID is required");
 	if (!threadId) throw new Error("Thread ID is required");
 
-	return <FileModal file={{ fileId: id, messageId, threadId }} />;
+	return <FileModal fileMeta={{ fileId: id, messageId, threadId }} />;
 }
 
 export { ErrorBoundary } from "expo-router";

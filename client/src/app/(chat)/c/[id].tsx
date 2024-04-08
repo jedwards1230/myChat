@@ -8,10 +8,14 @@ export default function Chat() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const isFocused = useIsFocused();
 
-	const setThreadId = useConfigStore((s) => s.setThreadId);
+	const { threadId, setThreadId } = useConfigStore();
 	useEffect(() => setThreadId(id), [id]);
 
 	if (!isFocused) return null;
+	if (id !== threadId) {
+		console.warn("Thread ID mismatch", { id, threadId });
+		return null;
+	}
 	return <ChatView threadId={id} />;
 }
 

@@ -7,14 +7,9 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@db/*": ["../server/src/modules/*"]
-		}
+		},
+
+		"experimentalDecorators": true
 	},
-	"include": [
-		"**/*.ts",
-		"**/*.tsx",
-		".expo/types/**/*.ts",
-		"expo-env.d.ts",
-		"../server/src/modules/**/*.ts",
-		"../server/src/types/*.d.ts"
-	]
+	"include": ["**/*.ts", "**/*.tsx", ".expo/types/**/*.ts", "expo-env.d.ts"]
 }

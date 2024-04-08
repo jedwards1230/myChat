@@ -9,13 +9,3 @@ export type {
 	AgentObjectSchema as Agent,
 	AgentCreateSchema,
 } from "@db/Agent/AgentSchema";
-
-export type CacheFile = {
-	name: string;
-	size?: number | undefined;
-	uri: string;
-	mimeType?: string | undefined;
-	lastModified?: number | undefined;
-	file?: File | undefined;
-	relativePath?: string;
-};

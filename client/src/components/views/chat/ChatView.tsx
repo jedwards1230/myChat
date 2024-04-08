@@ -1,8 +1,8 @@
 import { useChat } from "@/hooks/useChat";
 import ChatHistory from "@/components/ChatHistory";
+import { ChatInputContainer } from "@/components/ChatInput";
 import { ChatHeader } from "./ChatHeader";
 import { ChatViewWrapper } from "./ChatViewWrapper";
-import { ChatInputContainer } from "./ChatInput";
 
 export function ChatView({ threadId }: { threadId: string | null }) {
 	const { loading, handleSubmit, abort } = useChat(threadId);
