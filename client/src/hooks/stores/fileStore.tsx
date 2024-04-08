@@ -1,7 +1,6 @@
 import { create } from "zustand";
-import type { DocumentPickerAsset } from "expo-document-picker";
 
-import { FileInformation, parseLocalFile, parseLocalFiles } from "../useFileInformation";
+import { FileInformation } from "../useFileInformation";
 
 type State = { fileList: FileInformation[] };
 

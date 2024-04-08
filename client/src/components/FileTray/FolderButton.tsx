@@ -5,17 +5,16 @@ import { View, Pressable } from "react-native";
 import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
 import { RemoveFileButton } from "./DeleteButton";
-import { FileInformation } from "@/hooks/useFileInformation";
 import { RouterChildrenProps, RouterData } from "../FileRouter";
 
 export function FolderButton({
 	baseDir,
 	data,
-	routerProps,
+	routerComponents,
 }: {
 	baseDir: string;
 	data: RouterData;
-	routerProps?: RouterChildrenProps;
+	routerComponents?: RouterChildrenProps;
 }) {
 	const [pressed, setPressed] = useState(false);
 	const router = useRouter();

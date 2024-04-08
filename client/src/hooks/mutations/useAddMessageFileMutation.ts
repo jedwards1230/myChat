@@ -7,16 +7,6 @@ import { useFileStore } from "../stores/fileStore";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { FileInformation } from "../useFileInformation";
 
-type CacheFile = {
-	name: string;
-	size?: number | undefined;
-	uri: string;
-	mimeType?: string | undefined;
-	lastModified?: number | undefined;
-	file?: File | undefined;
-	relativePath?: string;
-};
-
 export type PostMessageOptions = {
 	messageId: string;
 	threadId: string;
@@ -50,7 +40,7 @@ export const useAddMessageFileMutation = () => {
 			queryClient.cancelQueries(messagesQuery);
 
 			// verify messageId in cached messages
-			const messageExists = cached?.find((m: Message) => m.id === messageId);
+			const messageExists = cached?.find((m) => m.id === messageId);
 			if (!messageExists) throw new Error("Message not found");
 
 			// Add the files to the message
@@ -59,7 +49,7 @@ export const useAddMessageFileMutation = () => {
 				m.id === messageId ? { ...m, files: fileList } : m
 			) as Message[];
 
-			queryClient.setQueryData(messagesQuery.queryKey, messages as any[]);
+			queryClient.setQueryData(messagesQuery.queryKey, messages);
 			reset();
 
 			return { prevMessages, fileList };
@@ -69,16 +59,14 @@ export const useAddMessageFileMutation = () => {
 			queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
 			console.error(error);
 		},
-		onSettled: (res, err, opts) => {
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId));
-		},
+		onSettled: (res, err, opts) =>
+			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId)),
 	});
 };
 
 const buildFormData = async (fileList: FileInformation[]) => {
 	const formData = new FormData();
 	fileList.forEach((f, index) => {
-		console.log("prepping", f);
 		if (!f.file) throw new Error("File not found");
 		// Append file buffer
 		formData.append(`file${index}`, f.file, f.name);

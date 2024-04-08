@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { FileRouter } from "@/components/FileRouter";
 import { useFilesInformation } from "@/hooks/useFileInformation";
 import { FileMessage } from "./MessageTypes/FileMessage";
+import { FolderButton } from "@/components/FileTray/FolderButton";
 
 export function FileMessageGroup(query: { messageId: string; threadId: string }) {
 	const files = useFilesInformation(query);
@@ -10,7 +11,7 @@ export function FileMessageGroup(query: { messageId: string; threadId: string })
 		<View className="flex flex-row flex-wrap gap-x-2 gap-y-1">
 			<FileRouter
 				data={{ files, query }}
-				routerComponents={{ FileButton: FileMessage }}
+				routerComponents={{ FileButton: FileMessage, FolderButton: FolderButton }}
 			/>
 		</View>
 	);

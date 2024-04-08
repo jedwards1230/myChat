@@ -4,7 +4,7 @@ import * as DocumentPicker from "expo-document-picker";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { FileButton } from "./FileButton";
 import { FontAwesome } from "@/components/ui/Icon";
-import { getFileInformation } from "@/hooks/useFileInformation";
+import { parseLocalFiles } from "@/hooks/useFileInformation";
 
 export function FileTray() {
 	const fileList = useFileStore((state) => state.fileList);
@@ -24,7 +24,7 @@ export function FileInputButton() {
 	const triggerFileInput = async () => {
 		const res = await DocumentPicker.getDocumentAsync({ multiple: true });
 		if (!res.assets) return console.warn("No files selected");
-		const files = res.assets.map((file) => getFileInformation(file));
+		const files = await parseLocalFiles(res.assets);
 		if (res.assets && res.assets.length > 0) addFiles(files);
 		if (res.canceled) console.log({ res });
 	};

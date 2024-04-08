@@ -4,13 +4,13 @@ import { Pressable, View } from "react-native";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { Feather, FontAwesome } from "@/components/ui/Icon";
 import { FileRouter } from "../FileRouter";
-import { getCacheFileBuffer, parseLocalFiles } from "@/hooks/useFileInformation";
+import { parseLocalFiles } from "@/hooks/useFileInformation";
 
 export function FileTray() {
 	const fileList = useFileStore((state) => state.fileList);
 	if (!fileList.length) return null;
 	return (
-		<View className="flex flex-row flex-wrap items-start justify-start w-full gap-4 px-2 pt-3 pb-1">
+		<View className="flex flex-row flex-wrap items-start justify-start flex-1 w-full h-full gap-4 px-2 pt-3 pb-1 overflow-y-scroll rounded max-h-96">
 			<FileRouter data={{ files: fileList }} />
 		</View>
 	);

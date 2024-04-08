@@ -95,7 +95,7 @@ export function FileRouter({
 					key={dir}
 					baseDir={dir}
 					data={data}
-					routerProps={routerComponents}
+					routerComponents={routerComponents}
 				/>
 			))}
 			{standaloneFiles.map((file, index) => (

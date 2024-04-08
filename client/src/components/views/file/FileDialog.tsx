@@ -15,7 +15,7 @@ import { CodeBlock } from "@/components/Markdown/CodeBlock";
 
 import { FileMetadata } from "./FileMetadata";
 import { FileData } from "@/components/FileRouter";
-import { FileQueryOpts, isDbFile, useFileInformation } from "@/hooks/useFileInformation";
+import { FileQueryOpts, useFileInformation } from "@/hooks/useFileInformation";
 
 export function FileDialog({
 	children,

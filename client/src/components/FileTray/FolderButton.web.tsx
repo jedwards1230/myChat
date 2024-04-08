@@ -9,25 +9,52 @@ import { FileRouter, RouterChildrenProps, RouterData } from "../FileRouter";
 export function FolderButton({
 	baseDir,
 	data,
-	routerProps,
+	routerComponents,
 }: {
 	baseDir: string;
 	data: RouterData;
-	routerProps?: RouterChildrenProps;
+	routerComponents?: RouterChildrenProps;
 }) {
 	const [open, setOpen] = useState(false);
 	const levels = baseDir.split("/").length;
 
 	const colorMap = [
-		"bg-foreground/5",
-		"bg-foreground/10",
-		"bg-foreground/20",
-		"bg-foreground/30",
-		"bg-foreground/40",
-		"bg-foreground/50",
-		"bg-foreground/60",
-		"bg-foreground/70",
-		"bg-foreground/80",
+		[
+			"bg-foreground/5",
+			"bg-foreground/5 aria-selected:border-foreground/50 hover:bg-foreground/10",
+		],
+		[
+			"bg-foreground/10",
+			"bg-foreground/10 aria-selected:border-foreground/50 hover:bg-foreground/15",
+		],
+		[
+			"bg-foreground/15",
+			"bg-foreground/15 aria-selected:border-foreground/50 hover:bg-foreground/20",
+		],
+		[
+			"bg-foreground/20",
+			"bg-foreground/20 aria-selected:border-foreground/50 hover:bg-foreground/25",
+		],
+		[
+			"bg-foreground/25",
+			"bg-foreground/25 aria-selected:border-foreground/50 hover:bg-foreground/30",
+		],
+		[
+			"bg-foreground/30",
+			"bg-foreground/30 aria-selected:border-foreground/50 hover:bg-foreground/35",
+		],
+		[
+			"bg-foreground/35",
+			"bg-foreground/35 aria-selected:border-foreground/50 hover:bg-foreground/70",
+		],
+		[
+			"bg-foreground/40",
+			"bg-foreground/40 aria-selected:border-foreground/50 hover:bg-foreground/80",
+		],
+		[
+			"bg-foreground/45",
+			"bg-foreground/45 aria-selected:border-foreground/50 hover:bg-foreground/90",
+		],
 	];
 
 	if (levels > colorMap.length)
@@ -35,17 +62,19 @@ export function FolderButton({
 
 	return (
 		<View
+			aria-selected={open}
 			className={cn(
-				"flex flex-row rounded-lg flex-wrap items-start justify-start flex-shrink gap-2",
-				open ? colorMap[levels] : "",
-				open ? "p-1" : ""
+				"flex flex-row aria-selected:p-1 rounded-lg flex-wrap items-start justify-start flex-shrink gap-2",
+				open ? colorMap[levels][0] : ""
 			)}
 		>
 			<View className="relative">
-				<Pressable onPress={() => setOpen(!open)} className="bg-foreground/5">
-					<Text className="px-4 py-2 border-2 rounded border-border text-foreground">
-						{baseDir}
-					</Text>
+				<Pressable
+					aria-selected={open}
+					onPress={() => setOpen(!open)}
+					className={cn("border-2 rounded border-border", colorMap[levels][1])}
+				>
+					<Text className="px-4 py-2 text-foreground">{baseDir}</Text>
 				</Pressable>
 				<RemoveFolderButton files={data.files} />
 			</View>
@@ -53,7 +82,7 @@ export function FolderButton({
 				<FileRouter
 					data={data}
 					parentDir={baseDir}
-					routerComponents={routerProps}
+					routerComponents={routerComponents}
 				/>
 			)}
 		</View>
