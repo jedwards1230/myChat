@@ -39,7 +39,7 @@ export default function RootLayout() {
 		if (loaded) SplashScreen.hideAsync();
 	}, [loaded]);
 
-	return loaded ? <RootLayoutNav /> : null;
+	return loaded ? <RootProviders /> : null;
 }
 
 const PlatformProviders = Platform.select({
@@ -53,7 +53,7 @@ const PlatformProviders = Platform.select({
 	),
 });
 
-function RootLayoutNav() {
+function RootProviders() {
 	return (
 		<ThemeProvider>
 			<QueryClientProvider>
@@ -63,6 +63,7 @@ function RootLayoutNav() {
 							initialRouteName="(chat)"
 							screenOptions={{ headerShown: false }}
 						>
+							<Stack.Screen name="(auth)" />
 							<Stack.Screen name="(chat)" />
 							<Stack.Screen
 								name="file/[id]"

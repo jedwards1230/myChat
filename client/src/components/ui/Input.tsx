@@ -27,10 +27,12 @@ const inputVariants = cva(
 );
 
 type InputProps = React.ComponentPropsWithoutRef<typeof TextInput> &
-	VariantProps<typeof inputVariants>;
+	VariantProps<typeof inputVariants> & {
+		boxShadow?: never;
+	};
 
 const Input = React.forwardRef<React.ElementRef<typeof TextInput>, InputProps>(
-	({ className, placeholderClassName, variant, size, ...props }, ref) => {
+	({ className, placeholderClassName, variant, size, boxShadow, ...props }, ref) => {
 		const { colorScheme } = useColorScheme();
 		return (
 			<TextInput
