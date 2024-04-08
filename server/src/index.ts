@@ -19,6 +19,8 @@ import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 
+const isProd = process.env.NODE_ENV === "production";
+
 const _clientBuildDir = process.env.CLIENT_BUILD_DIR || "../client/dist";
 const CLIENT_BUILD_DIR = path.join(process.cwd(), _clientBuildDir);
 
@@ -71,10 +73,15 @@ await app.register(fastifyOpenApi, { ...pluginOpts });
 
 // Access Logger
 app.addHook("onRequest", (request, reply, done) => {
-	accessLogger.info(`${request.headers.referer} ${request.method} ${request.url}`);
-	logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`, {
-		functionName: "onRequest",
-	});
+	accessLogger.info(
+		`${request.headers.referer} ${request.method} ${request.url}`
+	);
+	logger.info(
+		`Req: ${request.headers.referer} ${request.method} ${request.url}`,
+		{
+			functionName: "onRequest",
+		}
+	);
 	done();
 });
 
@@ -91,7 +98,7 @@ app.setErrorHandler(function (error, request, reply) {
 });
 
 // Static Files
-if (process.env.NODE_ENV === "production") {
+if (isProd) {
 	await app.register(require("@fastify/static"), {
 		root: CLIENT_BUILD_DIR,
 		prefix: "/",
@@ -154,15 +161,17 @@ app.listen({ port, host: "0.0.0.0" }, (err, address) => {
 	logger.info(`UI:   ${address}/docs`);
 });
 
-readline.emitKeypressEvents(process.stdin);
-process.stdin.setRawMode(true);
+if (!isProd) {
+	readline.emitKeypressEvents(process.stdin);
+	process.stdin.setRawMode(true);
 
-process.stdin.on("keypress", (str, key) => {
-	if (key.ctrl && key.name === "c") {
-		process.exit(); // Exit the process when Ctrl+C is pressed
-	} else if (key.name === "c") {
-		console.clear(); // Clear the console when 'c' is pressed
-	}
-});
+	process.stdin.on("keypress", (str, key) => {
+		if (key.ctrl && key.name === "c") {
+			process.exit(); // Exit the process when Ctrl+C is pressed
+		} else if (key.name === "c") {
+			console.clear(); // Clear the console when 'c' is pressed
+		}
+	});
+}
 
 export { app };
