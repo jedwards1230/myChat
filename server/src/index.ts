@@ -1,4 +1,3 @@
-import path from "path";
 import readline from "readline";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
@@ -8,6 +7,7 @@ import fastifyOpenApi from "@eropple/fastify-openapi3";
 import type { OAS3PluginOptions } from "@eropple/fastify-openapi3";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
+import { Config } from "./config";
 import { initDb, resetDatabase } from "./lib/pg";
 import logger, { accessLogger } from "./lib/logs/logger";
 import { init } from "./lib/utils";
@@ -19,30 +19,8 @@ import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 
-const isProd = process.env.NODE_ENV === "production";
-
-const _clientBuildDir = process.env.CLIENT_BUILD_DIR || "../client/dist";
-const CLIENT_BUILD_DIR = path.join(process.cwd(), _clientBuildDir);
-
-// ssl
-const SSL_ENABLED = process.env.SSL_ENABLED === "true";
-
-const SSL_DIR = path.join(process.cwd(), "ssl");
-const SSL_KEY_PATH = path.join(SSL_DIR, "key.pem");
-const SSL_CERT_PATH = path.join(SSL_DIR, "cert.pem");
-
-const SSL_KEY = SSL_ENABLED ? SSL_KEY_PATH : undefined;
-const SSL_CERT = SSL_ENABLED ? SSL_CERT_PATH : undefined;
-
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
-
-const options = {
-	key: SSL_KEY,
-	cert: SSL_CERT,
-};
-
 // Connect to Postgres and initialize TypeORM
-if (process.env.RESET_DB === "true") {
+if (Config.resetDbOnInit) {
 	await initDb();
 	await resetDatabase();
 }
@@ -51,7 +29,7 @@ await init();
 
 const app = Fastify({
 	logger: false,
-	...options,
+	...Config.sslOptions,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 // Middleware
@@ -73,15 +51,10 @@ await app.register(fastifyOpenApi, { ...pluginOpts });
 
 // Access Logger
 app.addHook("onRequest", (request, reply, done) => {
-	accessLogger.info(
-		`${request.headers.referer} ${request.method} ${request.url}`
-	);
-	logger.info(
-		`Req: ${request.headers.referer} ${request.method} ${request.url}`,
-		{
-			functionName: "onRequest",
-		}
-	);
+	accessLogger.info(`${request.headers.referer} ${request.method} ${request.url}`);
+	logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`, {
+		functionName: "onRequest",
+	});
 	done();
 });
 
@@ -98,13 +71,11 @@ app.setErrorHandler(function (error, request, reply) {
 });
 
 // Static Files
-if (isProd) {
-	await app.register(require("@fastify/static"), {
-		root: CLIENT_BUILD_DIR,
-		prefix: "/",
-		decorateReply: false,
-	});
-}
+await app.register(require("@fastify/static"), {
+	root: Config.directories.clientBuild,
+	prefix: "/",
+	decorateReply: false,
+});
 
 // Api Routes
 await app.register(
@@ -151,7 +122,7 @@ await app.register(
 	{ prefix: "/api" }
 );
 
-app.listen({ port, host: "0.0.0.0" }, (err, address) => {
+app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 	if (err) {
 		logger.error(err);
 		process.exit(1);
@@ -161,7 +132,7 @@ app.listen({ port, host: "0.0.0.0" }, (err, address) => {
 	logger.info(`UI:   ${address}/docs`);
 });
 
-if (!isProd) {
+if (!Config.isProd) {
 	readline.emitKeypressEvents(process.stdin);
 	process.stdin.setRawMode(true);
 

@@ -1,5 +1,6 @@
 import winston, { format } from "winston";
 import { formats as baseFormats, getLogsDir } from "./utils";
+import { Config } from "@/config";
 
 const LOGS_DIR = getLogsDir();
 
@@ -46,7 +47,7 @@ const logger = winston.createLogger({
 			format: formats.simpleLog,
 		}),
 		new winston.transports.Console({
-			level: process.env.NODE_ENV !== "production" ? "debug" : "verbose",
+			level: Config.isProd ? "debug" : "verbose",
 			format: formats.consoleLog,
 		}),
 	],

@@ -2,6 +2,7 @@ import stringify from "json-stringify-safe";
 import { format } from "winston";
 import fs from "fs";
 import path from "path";
+import { Config } from "@/config";
 
 const DIR_NAME = "logs";
 const LOGS_DIR = path.normalize(path.join(process.cwd(), DIR_NAME));
@@ -15,9 +16,7 @@ const combinedLogFormat = format.printf(
 		let msg = `${timestamp} [${level}]: ${functionNameStr}${message} `;
 
 		if (error) {
-			msg += `\nError: ${
-				error.stack || error.message || stringify(error)
-			}`;
+			msg += `\nError: ${error.stack || error.message || stringify(error)}`;
 		}
 		if (Object.keys(metadata).length !== 0) {
 			msg += `\n${stringify(metadata, null, 2)}`;
@@ -32,9 +31,7 @@ const consoleLogFormat = format.printf(
 		let msg = `${level}: ${functionNameStr}${message} `;
 
 		if (error) {
-			msg += `\nError: ${
-				error.stack || error.message || stringify(error)
-			}`;
+			msg += `\nError: ${error.stack || error.message || stringify(error)}`;
 		}
 		if (Object.keys(metadata).length !== 0) {
 			msg += `\n${stringify(metadata, null, 2)}`;
@@ -78,5 +75,4 @@ function purgeLogFiles() {
 	return LOGS_DIR;
 }
 
-export const getLogsDir = () =>
-	process.env.NODE_ENV !== "production" ? purgeLogFiles() : LOGS_DIR;
+export const getLogsDir = () => (Config.isProd ? purgeLogFiles() : LOGS_DIR);

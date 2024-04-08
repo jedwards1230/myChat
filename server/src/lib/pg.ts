@@ -10,18 +10,12 @@ import { Message } from "@/modules/Message/MessageModel";
 import { FileData, MessageFile } from "@/modules/MessageFile/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
+import { Config } from "@/config";
 
-// TODO: setup env vars
 export const AppDataSource = new DataSource({
-	type: "postgres",
-	host: process.env.DB_HOST || "localhost",
-	port: 5432,
-	username: "admin",
-	password: "admin",
-	database: "ChatDB",
+	...Config.database,
 	entities: [User, Agent, Thread, ToolCall, FileData, MessageFile, Message, AgentRun],
 	synchronize: true,
-	logging: process.env.DEBUG_DB === "true" ? "all" : ["error", "warn"],
 	logger: new DBLogger(),
 });
 
