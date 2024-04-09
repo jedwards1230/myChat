@@ -1,8 +1,8 @@
-import readline from "readline";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyOpenApi from "@eropple/fastify-openapi3";
+import fastifyStatic from "@fastify/static";
 
 import type { OAS3PluginOptions } from "@eropple/fastify-openapi3";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
@@ -32,10 +32,6 @@ const app = Fastify({
 	...Config.sslOptions,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
-// Middleware
-await app.register(fastifyCors, { origin: "*" });
-await app.register(fastifyMultipart);
-
 const pluginOpts: OAS3PluginOptions = {
 	openapiInfo: {
 		title: "myChat API",
@@ -47,7 +43,10 @@ const pluginOpts: OAS3PluginOptions = {
 	},
 };
 
+// Middleware
+await app.register(fastifyMultipart);
 await app.register(fastifyOpenApi, { ...pluginOpts });
+await app.register(fastifyCors, { origin: "*" });
 
 // Access Logger
 app.addHook("onRequest", (request, reply, done) => {
@@ -68,13 +67,6 @@ app.setErrorHandler(function (error, request, reply) {
 		headers: request.headers,
 	});
 	reply.status(409).send({ ok: false });
-});
-
-// Static Files
-await app.register(require("@fastify/static"), {
-	root: Config.staticClientFilesDir,
-	prefix: "/",
-	decorateReply: false,
 });
 
 // Api Routes
@@ -122,6 +114,11 @@ await app.register(
 	{ prefix: "/api" }
 );
 
+await app.register(fastifyStatic, {
+	root: Config.staticClientFilesDir,
+	prefix: "/",
+});
+
 app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 	if (err) {
 		logger.error(err);
@@ -131,18 +128,5 @@ app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 	logger.info(`JSON: ${address}/openapi.json`);
 	logger.info(`UI:   ${address}/docs`);
 });
-
-if (!Config.isProd) {
-	readline.emitKeypressEvents(process.stdin);
-	process.stdin.setRawMode(true);
-
-	process.stdin.on("keypress", (str, key) => {
-		if (key.ctrl && key.name === "c") {
-			process.exit(); // Exit the process when Ctrl+C is pressed
-		} else if (key.name === "c") {
-			console.clear(); // Clear the console when 'c' is pressed
-		}
-	});
-}
 
 export { app };

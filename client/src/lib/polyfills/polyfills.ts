@@ -1,8 +1,6 @@
-import { ReadableStream, ReadableStreamAsyncIterator } from "web-streams-polyfill";
+import { ReadableStream } from "web-streams-polyfill";
 import { TextEncoder, TextDecoder } from "text-encoding";
 import { setupURLPolyfill } from "react-native-url-polyfill";
-
-import "@azure/core-asynciterator-polyfill";
 
 if (typeof Symbol === undefined || !Symbol.asyncIterator) {
 	Object.defineProperty(Symbol, "asyncIterator", {

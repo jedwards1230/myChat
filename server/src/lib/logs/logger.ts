@@ -47,7 +47,7 @@ const logger = winston.createLogger({
 			format: formats.simpleLog,
 		}),
 		new winston.transports.Console({
-			level: Config.isProd ? "debug" : "verbose",
+			level: !Config.isProd ? "debug" : "verbose",
 			format: formats.consoleLog,
 		}),
 	],
