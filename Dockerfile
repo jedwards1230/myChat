@@ -1,7 +1,6 @@
 FROM oven/bun:1 as base
-WORKDIR /usr/src/app
-# RUN mkdir -p /usr/src/app/logs
-RUN chown -R bun:bun /usr/src/app
+WORKDIR /app
+RUN chown -R bun:bun /app
 
 # install dependencies into temp directory
 # this will cache them and speed up future builds
@@ -16,8 +15,8 @@ FROM base AS release
 COPY --from=install /temp/dev/node_modules ./node_modules
 COPY server/ .
 
-# run the app
 USER bun
 ENV NODE_ENV=production
+ENV CLIENT_BUILD_DIR=/app/web/
 EXPOSE 3000/tcp
 ENTRYPOINT [ "bun", "start" ]

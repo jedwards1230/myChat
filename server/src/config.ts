@@ -18,8 +18,8 @@ const database = {
 	logging: debugDb ? "all" : (["error", "warn"] as LogLevel[]),
 } as const;
 
-const _clientBuildDir = process.env.CLIENT_BUILD_DIR || "../client/dist";
-const CLIENT_BUILD_DIR = path.join(process.cwd(), _clientBuildDir);
+const CLIENT_BUILD_DIR =
+	process.env.CLIENT_BUILD_DIR || path.join(process.cwd(), "../client/dist");
 
 const directories = {
 	clientBuild: CLIENT_BUILD_DIR,
