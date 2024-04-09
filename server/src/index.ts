@@ -72,7 +72,7 @@ app.setErrorHandler(function (error, request, reply) {
 
 // Static Files
 await app.register(require("@fastify/static"), {
-	root: Config.directories.clientBuild,
+	root: Config.staticClientFilesDir,
 	prefix: "/",
 	decorateReply: false,
 });

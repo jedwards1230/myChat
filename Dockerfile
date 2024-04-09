@@ -17,6 +17,6 @@ COPY server/ .
 
 USER bun
 ENV NODE_ENV=production
-ENV CLIENT_BUILD_DIR=/app/web/
+ENV CLIENT_BUILD_DIR=web/
 EXPOSE 3000/tcp
 ENTRYPOINT [ "bun", "start" ]

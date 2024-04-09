@@ -2,10 +2,8 @@ import path from "path";
 import type { LogLevel } from "typeorm";
 
 const isProd = process.env.NODE_ENV === "production";
-
 const resetDbOnInit = process.env.RESET_DB === "true";
 const debugDb = process.env.DEBUG_DB === "true";
-
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
 const database = {
@@ -18,31 +16,24 @@ const database = {
 	logging: debugDb ? "all" : (["error", "warn"] as LogLevel[]),
 } as const;
 
-const CLIENT_BUILD_DIR =
-	process.env.CLIENT_BUILD_DIR || path.join(process.cwd(), "../client/dist");
+const staticClientFilesDir = path.resolve(
+	process.cwd(),
+	process.env.CLIENT_BUILD_DIR || "../client/dist"
+);
 
-const directories = {
-	clientBuild: CLIENT_BUILD_DIR,
-};
-
-// ssl
 const SSL_ENABLED = process.env.SSL_ENABLED === "true";
-
 const SSL_DIR = path.join(process.cwd(), "ssl");
 const SSL_KEY_PATH = path.join(SSL_DIR, "key.pem");
 const SSL_CERT_PATH = path.join(SSL_DIR, "cert.pem");
 
-const SSL_KEY = SSL_ENABLED ? SSL_KEY_PATH : undefined;
-const SSL_CERT = SSL_ENABLED ? SSL_CERT_PATH : undefined;
-
 const sslOptions = {
-	key: SSL_KEY,
-	cert: SSL_CERT,
+	key: SSL_ENABLED ? SSL_KEY_PATH : undefined,
+	cert: SSL_ENABLED ? SSL_CERT_PATH : undefined,
 };
 
 export const Config = {
 	isProd,
-	directories,
+	staticClientFilesDir,
 	database,
 	port,
 	debugDb,
