@@ -1,3 +1,4 @@
+const path = require("path");
 // Learn more https://docs.expo.io/guides/customizing-metro
 const { getDefaultConfig } = require("expo/metro-config");
 const { withNativeWind } = require("nativewind/metro");
@@ -7,4 +8,6 @@ const config = getDefaultConfig(__dirname);
 
 config.transformer.assetPlugins = ["expo-asset/tools/hashAssetFiles"];
 
-module.exports = withNativeWind(config, { input: "./src/app/global.css" });
+module.exports = withNativeWind(config, {
+	input: path.resolve(__dirname, "src/app/global.css"),
+});
