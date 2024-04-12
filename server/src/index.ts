@@ -4,6 +4,8 @@ import fastifyMultipart from "@fastify/multipart";
 import fastifyOpenApi from "@eropple/fastify-openapi3";
 import fastifyStatic from "@fastify/static";
 
+import sdk from "node-appwrite";
+
 import type { OAS3PluginOptions } from "@eropple/fastify-openapi3";
 import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
 
@@ -19,6 +21,12 @@ import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 import { setupModelsRoute } from "./routes/models";
+
+const client = new sdk.Client()
+	.setEndpoint(Config.AppwriteConfig.endpoint)
+	.setProject(Config.AppwriteConfig.project)
+	.setKey(Config.AppwriteConfig.key)
+	.setSelfSigned(); // Use only on dev mode with a self-signed SSL cert
 
 // Connect to Postgres and initialize TypeORM
 if (Config.resetDbOnInit) {
@@ -111,12 +119,10 @@ app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 
 process.on("SIGINT", async () => {
 	logger.info("Received SIGINT. Graceful shutdown in progress...");
-	await app.close();
 	process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
 	logger.info("Received SIGTERM. Graceful shutdown in progress...");
-	await app.close();
 	process.exit(0);
 });

@@ -1,20 +1,24 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import type { User } from "@/types";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher, FetchError } from "../../lib/fetcher";
 
-export const userQueryOptions = (userId: string) => {
+export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({
-		queryKey: [userId],
+		queryKey: ["user"],
 		retry: false,
-		queryFn: () => fetcher<User>("/user", { userId }),
+		queryFn: () => fetcher<User>("/user", { apiKey }),
 		throwOnError: (error, query) =>
 			!(error instanceof FetchError || error.message === "Network request failed"),
 	});
 };
 
 export const useUserQuery = () => {
-	const user = useConfigStore((s) => s.user);
-	return useQuery(userQueryOptions(user.id));
+	const apiKey = useUserData((s) => s.apiKey);
+	try {
+		return useQuery(userQueryOptions(apiKey));
+	} catch (error) {
+		return null;
+	}
 };

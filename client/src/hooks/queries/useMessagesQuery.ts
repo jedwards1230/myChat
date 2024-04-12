@@ -1,24 +1,23 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import { Message } from "@/types";
 
-export const messagesQueryOptions = (userId: string, threadId: string | null) => {
-	return queryOptions({
-		queryKey: [userId, threadId],
+export const messagesQueryOptions = (apiKey: string, threadId: string | null) =>
+	queryOptions({
+		queryKey: [threadId],
 		enabled: !!threadId,
-		queryFn: () => fetcher<Message[]>(`/threads/${threadId}/messages`, { userId }),
+		queryFn: () => fetcher<Message[]>(`/threads/${threadId}/messages`, { apiKey }),
 		initialData: [],
 	});
-};
 
 export const useMessagesQuery = (threadId: string | null) => {
-	const user = useConfigStore((s) => s.user);
-	return useQuery(messagesQueryOptions(user.id, threadId));
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(messagesQueryOptions(apiKey, threadId));
 };
 
 export const useMessagesQueryOptions = (threadId: string | null) => {
-	const user = useConfigStore((s) => s.user);
-	return messagesQueryOptions(user.id, threadId);
+	const apiKey = useUserData((s) => s.apiKey);
+	return messagesQueryOptions(apiKey, threadId);
 };

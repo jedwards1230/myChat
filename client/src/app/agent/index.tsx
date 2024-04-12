@@ -5,9 +5,7 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { Agent } from "@/types";
 
 export default function AgentPage() {
-	const defaultAgent = useConfigStore(
-		(state) => state.user.defaultAgent
-	) as unknown as Agent;
+	const defaultAgent = useConfigStore((state) => state.defaultAgent) as Agent;
 	const [agent, setAgent] = useState<Agent | null>(defaultAgent);
 	useEffect(() => setAgent(defaultAgent), [defaultAgent]);
 

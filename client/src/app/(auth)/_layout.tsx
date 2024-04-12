@@ -1,9 +1,9 @@
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { Redirect, Stack } from "expo-router";
 
 export default function AuthLayout() {
-	const user = useConfigStore((state) => state.user);
-	if (user) return <Redirect href="/(chat)" />;
+	const session = useUserData((s) => s.session);
+	if (session) return <Redirect href="/(chat)" />;
 	return (
 		<Stack initialRouteName="index">
 			<Stack.Screen name="index" options={{ headerShown: false }} />

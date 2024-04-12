@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";
@@ -15,27 +15,27 @@ export type PostMessageOptions = {
 
 const postMessage = async (
 	{ messageId, threadId, fileList }: PostMessageOptions,
-	userId: string
+	apiKey: string
 ): Promise<Message> => {
 	const formData = await buildFormData(fileList);
 	const message = await fetcher<Message>(
 		`/threads/${threadId}/messages/${messageId}/files`,
-		{ method: "POST", body: formData, file: true, userId }
+		{ method: "POST", body: formData, file: true, apiKey }
 	);
 	return message;
 };
 
 /** Post a message file to the server */
 export const useAddMessageFileMutation = () => {
-	const { user } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
 	const { reset, setFiles } = useFileStore();
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["postMessageFile"],
-		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, user.id),
+		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, apiKey),
 		onMutate: async ({ threadId, messageId, fileList }) => {
-			const messagesQuery = messagesQueryOptions(user.id, threadId);
+			const messagesQuery = messagesQueryOptions(apiKey, threadId);
 			const cached = queryClient.getQueryData(messagesQuery.queryKey);
 			queryClient.cancelQueries(messagesQuery);
 
@@ -56,11 +56,11 @@ export const useAddMessageFileMutation = () => {
 		},
 		onError: (error, { fileList, threadId }) => {
 			setFiles(fileList);
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
+			queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
 			console.error(error);
 		},
 		onSettled: (res, err, opts) =>
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId)),
+			queryClient.invalidateQueries(messagesQueryOptions(apiKey, opts.threadId)),
 	});
 };
 

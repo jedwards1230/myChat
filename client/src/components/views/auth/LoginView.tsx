@@ -1,60 +1,67 @@
-import { KeyboardAvoidingView, Pressable, View } from "react-native";
+import { View } from "react-native";
+import { useState } from "react";
 
 import { Text } from "@/components/ui/Text";
 import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
-import { useState } from "react";
+import { AuthButton } from "./AuthButton";
+import { AuthViewWrapper } from "./AuthViewWrapper";
+import { useUserData } from "@/hooks/stores/useUserData";
+import { loginUser } from "@/lib/Appwrite";
 
 export function LoginView() {
-	return (
-		<View className="h-full text-base bg-accent text-foreground">
-			<View className="flex justify-center h-full px-8 pb-16">
-				<KeyboardAvoidingView>
-					<LoginCard />
-				</KeyboardAvoidingView>
-			</View>
-		</View>
-	);
-}
-
-function LoginCard() {
-	const [username, setUsername] = useState("");
+	const setSession = useUserData((state) => state.setSession);
+	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
-	const handleLogin = () => {
+	const handleLogin = async () => {
 		setError("");
-		console.log("Login", { username, password });
+		if (!email || !password) {
+			setError("Email and Password are required");
+			return;
+		}
+		try {
+			const res = await loginUser(email, password);
+			setSession(res);
+			console.log(res);
+		} catch (error) {
+			setError(JSON.stringify(error, null, 2));
+		} finally {
+			setEmail("");
+			setPassword("");
+		}
 	};
-
 	return (
-		<View className="p-8 border rounded shadow-sm bg-background border-border">
-			<View className="flex gap-4">
-				<Text className="text-xl font-semibold text-center">Login</Text>
-				<View>
-					<Label nativeID="Username">Username</Label>
-					<Input
-						value={username}
-						onChangeText={setUsername}
-						autoComplete="username"
-						placeholder="Username"
-					/>
+		<AuthViewWrapper>
+			<View className="p-8 border rounded shadow-sm bg-background border-border">
+				<View className="flex gap-4">
+					<Text className="text-xl font-semibold text-center">Login</Text>
+					<View className="flex gap-1">
+						<Label nativeID="Username">Username</Label>
+						<Input
+							value={email}
+							onChangeText={setEmail}
+							autoComplete="username"
+							placeholder="Username"
+						/>
+					</View>
+					<View className="flex gap-1">
+						<Label nativeID="Password">Password</Label>
+						<Input
+							value={password}
+							onChangeText={setPassword}
+							autoComplete="current-password"
+							secureTextEntry={true}
+							placeholder="Password"
+						/>
+					</View>
+					<AuthButton onPress={handleLogin}>Login</AuthButton>
+					{error ? (
+						<Text className="text-center text-red-500">{error}</Text>
+					) : null}
 				</View>
-				<View>
-					<Label nativeID="Password">Password</Label>
-					<Input
-						value={password}
-						onChangeText={setPassword}
-						autoComplete="current-password"
-						secureTextEntry={true}
-						placeholder="Password"
-					/>
-				</View>
-				<Pressable onPress={handleLogin} className="w-full p-4 bg-foreground">
-					<Text className="font-bold text-center text-background">Login</Text>
-				</Pressable>
-				{error && <Text className="text-center text-red-500">{error}</Text>}
 			</View>
-		</View>
+		</AuthViewWrapper>
 	);
 }

@@ -1,17 +1,17 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import type { Agent } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
-export const agentsQueryOptions = (userId: string) => {
+export const agentsQueryOptions = (apiKey: string) => {
 	return queryOptions({
-		queryKey: [userId, "agents"],
-		queryFn: () => fetcher<Agent[]>("/agents", { userId }),
+		queryKey: ["agents"],
+		queryFn: () => fetcher<Agent[]>("/agents", { apiKey }),
 	});
 };
 
 export const useAgentsQuery = () => {
-	const user = useConfigStore((s) => s.user);
-	return useQuery(agentsQueryOptions(user.id));
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(agentsQueryOptions(apiKey));
 };

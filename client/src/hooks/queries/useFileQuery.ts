@@ -1,14 +1,14 @@
 import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import type { MessageFile } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
 const fetchFile =
-	(userId: string, threadId: string, messageId: string, fileId: string) => () =>
+	(apiKey: string, threadId: string, messageId: string, fileId: string) => () =>
 		fetcher<MessageFile>(
 			`/threads/${threadId}/messages/${messageId}/files/${fileId}`,
-			{ userId }
+			{ apiKey }
 		);
 
 export const fileQueryOptions = (
@@ -25,8 +25,8 @@ export const fileQueryOptions = (
 };
 
 export const useFileQuery = (threadId: string, messageId: string, fileId: string) => {
-	const user = useConfigStore((s) => s.user);
-	return useQuery(fileQueryOptions(user.id, threadId, messageId, fileId));
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(fileQueryOptions(apiKey, threadId, messageId, fileId));
 };
 
 export const useFileSuspenseQuery = (
@@ -34,6 +34,6 @@ export const useFileSuspenseQuery = (
 	messageId: string,
 	fileId: string
 ) => {
-	const user = useConfigStore((s) => s.user);
-	return useSuspenseQuery(fileQueryOptions(user.id, threadId, messageId, fileId));
+	const apiKey = useUserData((s) => s.apiKey);
+	return useSuspenseQuery(fileQueryOptions(apiKey, threadId, messageId, fileId));
 };

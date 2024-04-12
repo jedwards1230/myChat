@@ -12,10 +12,10 @@ import { useAction } from "@/hooks/useAction";
 
 export default function CenterButton() {
 	const router = useRouter();
-	const { threadId, user } = useConfigStore();
+	const { threadId, defaultAgent } = useConfigStore();
 
 	const { data: messages } = useMessagesQuery(threadId);
-	const { data: agent } = useAgentQuery(user.defaultAgent.id);
+	const { data: agent } = useAgentQuery(defaultAgent.id);
 	const deleteThread = useAction("deleteThread")();
 
 	const tokenInput = messages?.map((m) => m.content).join(" ") || "";

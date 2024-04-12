@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import type {
 	MessageCreateSchema,
@@ -13,23 +13,23 @@ export type PostMessageOptions = {
 	message: MessageCreateSchema;
 };
 
-const postMessage = async ({ threadId, message }: PostMessageOptions, userId: string) =>
+const postMessage = async ({ threadId, message }: PostMessageOptions, apiKey: string) =>
 	fetcher<Message>(`/threads/${threadId}/messages`, {
-		userId,
+		apiKey,
 		method: "POST",
 		body: JSON.stringify({ message }),
 	});
 
 /** Post a message to the server */
 export const useAddMessageMutation = () => {
-	const { user } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["postMessage"],
-		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, user.id),
+		mutationFn: async (opts: PostMessageOptions) => postMessage(opts, apiKey),
 		onMutate: async ({ threadId, message }: PostMessageOptions) => {
-			const messagesQuery = messagesQueryOptions(user.id, threadId);
+			const messagesQuery = messagesQueryOptions(apiKey, threadId);
 			const cached = queryClient.getQueryData(messagesQuery.queryKey);
 			queryClient.cancelQueries(messagesQuery);
 
@@ -47,13 +47,13 @@ export const useAddMessageMutation = () => {
 		onError: (error, { threadId, message }, context) => {
 			if (threadId && context?.prevMessages)
 				queryClient.setQueryData(
-					messagesQueryOptions(user.id, threadId).queryKey,
+					messagesQueryOptions(apiKey, threadId).queryKey,
 					context?.prevMessages
 				);
 			console.error(error);
 		},
 		onSettled: (res, err, { threadId }) => {
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
+			queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
 		},
 	});
 };

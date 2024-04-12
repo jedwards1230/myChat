@@ -22,8 +22,8 @@ export type FetcherRequestInit = FetchRequestInit & {
 	stream?: boolean;
 	/** If true, removes default "Content-Type" header (Default: false) */
 	file?: boolean;
-	/** userId for Authorization header */
-	userId?: string;
+	/** apiKey for Authorization header */
+	apiKey?: string;
 };
 
 export const BASE_HOST =
@@ -38,7 +38,7 @@ export const BASE_HOST =
  * */
 export async function fetcher<T = any>(
 	url: string | URL | Request,
-	{ stream, file, userId, ...init }: FetcherRequestInit = {
+	{ stream, file, apiKey, ...init }: FetcherRequestInit = {
 		stream: false,
 		file: false,
 	}
@@ -48,7 +48,7 @@ export async function fetcher<T = any>(
 			...init,
 			headers: {
 				...(!file && { "Content-Type": "application/json" }),
-				...(userId && { Authorization: userId }),
+				...(apiKey && { Authorization: apiKey }),
 				...(init?.headers || {}),
 			},
 		});

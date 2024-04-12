@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { User } from "@/types";
+import type { Agent, User, UserData } from "@/types";
 
 type State = {
 	threadId: string | null;
@@ -10,6 +10,7 @@ type State = {
 	stream: boolean;
 	user: User;
 	theme: string;
+	defaultAgent: Agent;
 };
 
 interface Actions {
@@ -28,6 +29,7 @@ const initial: State = {
 	stream: true,
 	user: { id: "user-1" } as User,
 	theme: "system",
+	defaultAgent: {} as Agent,
 };
 
 const name = "config";

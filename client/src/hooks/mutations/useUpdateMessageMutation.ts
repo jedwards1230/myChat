@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import type {
 	MessageUpdateSchema,
@@ -15,40 +15,40 @@ export type UpdateMessageOptions = {
 
 const postMessage = async (
 	{ threadId, message }: UpdateMessageOptions,
-	userId: string
+	apiKey: string
 ): Promise<Message> =>
 	fetcher<Message>(`/threads/${threadId}/messages/${message.id}`, {
-		userId,
+		apiKey,
 		method: "POST",
 		body: JSON.stringify({ message }),
 	});
 
 /** Update a message on the server */
 export const useUpdateMessageMutation = () => {
-	const { user } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["updateMessage"],
-		mutationFn: async (opts: UpdateMessageOptions) => postMessage(opts, user.id),
+		mutationFn: async (opts: UpdateMessageOptions) => postMessage(opts, apiKey),
 		onMutate: async ({ threadId, message }: UpdateMessageOptions) => {
 			if (!threadId) return { message };
-			const prevMessages = queryClient.getQueryData<Message[]>([user.id, threadId]);
+			const prevMessages = queryClient.getQueryData<Message[]>([apiKey, threadId]);
 
 			const mutatedMessages = prevMessages?.map((msg) =>
 				msg.id === message.id ? { ...msg, ...message } : msg
 			);
 
-			queryClient.setQueryData([user.id, threadId], mutatedMessages);
+			queryClient.setQueryData([apiKey, threadId], mutatedMessages);
 
 			return { prevMessages };
 		},
 		onError: (error, { threadId }, context) => {
 			if (threadId && context?.prevMessages)
-				queryClient.setQueryData([user.id, threadId], context?.prevMessages);
+				queryClient.setQueryData([apiKey, threadId], context?.prevMessages);
 			console.error(error);
 		},
 		onSettled: (res, err, opts) =>
-			queryClient.invalidateQueries(messagesQueryOptions(user.id, opts.threadId)),
+			queryClient.invalidateQueries(messagesQueryOptions(apiKey, opts.threadId)),
 	});
 };

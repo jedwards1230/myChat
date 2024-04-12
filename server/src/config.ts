@@ -6,6 +6,12 @@ const resetDbOnInit = process.env.RESET_DB === "true";
 const debugDb = process.env.DEBUG_DB === "true";
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 
+const AppwriteConfig = {
+	endpoint: process.env.APPWRITE_ENDPOINT || "http://localhost/v1",
+	project: process.env.APPWRITE_PROJECT || "project-id",
+	key: process.env.APPWRITE_KEY || "secret",
+};
+
 const database = {
 	type: "postgres",
 	host: process.env.DB_HOST || "localhost",
@@ -34,6 +40,7 @@ const sslOptions = {
 export const Config = {
 	isProd,
 	staticClientFilesDir,
+	AppwriteConfig,
 	database,
 	port,
 	debugDb,

@@ -1,7 +1,7 @@
 import { useQueryClient } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "../stores/configStore";
+import { useUserData } from "../stores/useUserData";
 import { useDeleteThreadMutation } from "../mutations/useDeleteThreadMutation";
 
 const Actions = {
@@ -33,10 +33,10 @@ function useDeleteThread() {
 /** Reset the Server DB to empty. */
 function useResetDb() {
 	const queryClient = useQueryClient();
-	const user = useConfigStore((s) => s.user);
+	const apiKey = useUserData((s) => s.apiKey);
 
 	const action = async () => {
-		await fetcher("/reset", { userId: user.id });
+		await fetcher("/reset", { apiKey });
 		queryClient.invalidateQueries();
 	};
 

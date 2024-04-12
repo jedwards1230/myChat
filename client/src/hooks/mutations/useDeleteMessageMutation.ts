@@ -1,12 +1,13 @@
 import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 
-const deleteMessage = (threadId: string, messageId: string, userId: string) => () =>
-	fetcher<string>([`/threads/${threadId}/messages/${messageId}`, userId], {
+const deleteMessage = (threadId: string, messageId: string, apiKey: string) => () =>
+	fetcher<string>(`/threads/${threadId}/messages/${messageId}`, {
 		method: "DELETE",
+		apiKey,
 	});
 
 type MutationHookReturn = UseMutationResult<string, Error, void, unknown>;
@@ -15,14 +16,14 @@ export function useDeleteMessageMutation(
 	threadId: string,
 	messageId: string
 ): MutationHookReturn {
-	const { user } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["deleteMessage", messageId],
-		mutationFn: deleteMessage(threadId, messageId, user.id),
+		mutationFn: deleteMessage(threadId, messageId, apiKey),
 		onSuccess: () =>
-			queryClient.refetchQueries(messagesQueryOptions(user.id, threadId)),
+			queryClient.refetchQueries(messagesQueryOptions(apiKey, threadId)),
 		onError: (error) => console.error("Failed to delete message: " + error),
 	});
 }

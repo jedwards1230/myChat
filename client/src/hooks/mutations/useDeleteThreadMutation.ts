@@ -6,28 +6,31 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 import { ThreadDelete } from "@/types";
+import { useUserData } from "../stores/useUserData";
 
-const deleteThread = (threadId: string, userId: string) =>
+const deleteThread = (threadId: string, apiKey: string) =>
 	fetcher<ThreadDelete>(`/threads/${threadId}`, {
-		userId,
+		apiKey,
 		method: "DELETE",
 	});
 
 export function useDeleteThreadMutation() {
-	const { user, threadId: activeThreadId, setThreadId } = useConfigStore();
+	const { threadId: activeThreadId, setThreadId } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
+
 	const router = useRouter();
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["deleteThread"],
-		mutationFn: (threadId: string) => deleteThread(threadId, user.id),
-		onSuccess: (deletedThread, threadId) => {
+		mutationFn: (threadId: string) => deleteThread(threadId, apiKey),
+		onSuccess: (_, threadId) => {
 			if (threadId === activeThreadId) {
 				setThreadId(null);
 				router.push("/(chat)");
-				queryClient.invalidateQueries(messagesQueryOptions(user.id, threadId));
+				queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
 			}
-			queryClient.invalidateQueries(threadListQueryOptions(user.id));
+			queryClient.invalidateQueries(threadListQueryOptions(apiKey));
 		},
 		onError: (error) => console.error("Failed to delete thread: " + error),
 	});

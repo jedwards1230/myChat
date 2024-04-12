@@ -1,16 +1,16 @@
 import { Thread } from "@/types";
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-export const threadQueryOptions = (userId: string, threadId: string | null) =>
+export const threadQueryOptions = (apiKey: string, threadId: string | null) =>
 	queryOptions({
-		queryKey: [userId, "threads", threadId],
+		queryKey: ["threads", threadId],
 		enabled: !!threadId,
-		queryFn: () => fetcher<Thread>(`/threads/${threadId}`, { userId }),
+		queryFn: () => fetcher<Thread>(`/threads/${threadId}`, { apiKey }),
 	});
 
 export const useThreadQuery = (threadId: string | null) => {
-	const user = useConfigStore((s) => s.user);
-	return useQuery(threadQueryOptions(user.id, threadId));
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(threadQueryOptions(apiKey, threadId));
 };

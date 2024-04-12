@@ -1,10 +1,10 @@
 import Drawer from "@/components/DrawerNav/Drawer";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { Redirect } from "expo-router";
 
 export default function HomeLayout() {
-	const user = useConfigStore((state) => state.user);
-	if (!user) return <Redirect href="/(auth)" />;
+	const session = useUserData((s) => s.session);
+	if (!session) return <Redirect href="/(auth)" />;
 	return <Drawer />;
 }
 

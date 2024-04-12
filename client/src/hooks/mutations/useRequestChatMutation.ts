@@ -8,6 +8,7 @@ import { messagesQueryOptions } from "../queries/useMessagesQuery";
 import { useConfigStore } from "../stores/configStore";
 import { emitFeedback } from "../../lib/FeedbackEmitter";
 import { getStreamProcessor } from "../../lib/StreamProcessor";
+import { useUserData } from "../stores/useUserData";
 
 export type PostChatMutationRequest = {
 	threadId: string;
@@ -15,7 +16,7 @@ export type PostChatMutationRequest = {
 };
 
 export type PostChatRequest = PostChatMutationRequest & {
-	userId: string;
+	apiKey: string;
 	stream?: boolean;
 };
 
@@ -26,14 +27,14 @@ type FetcherResult<T> = T extends true
 	  };
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
-async function postChatRequest({ threadId, userId, stream, signal }: PostChatRequest) {
+async function postChatRequest({ threadId, apiKey, stream, signal }: PostChatRequest) {
 	const res = await fetcher<FetcherResult<typeof stream>>(`/threads/${threadId}/runs`, {
 		method: "POST",
 		...(Platform.OS !== "web" && { reactNative: { textStreaming: true } }),
 		body: JSON.stringify({ stream, type: "getChat" }),
 		signal,
 		stream,
-		userId,
+		apiKey,
 	});
 
 	if (stream && res instanceof Response && res.body === null)
@@ -43,7 +44,9 @@ async function postChatRequest({ threadId, userId, stream, signal }: PostChatReq
 }
 
 export const useRequestChatMutation = () => {
-	const { user, stream } = useConfigStore();
+	const { stream } = useConfigStore();
+	const apiKey = useUserData((s) => s.apiKey);
+
 	const queryClient = useQueryClient();
 
 	const addMessage = (message: Message, opts: QueryOpts) =>
@@ -72,13 +75,13 @@ export const useRequestChatMutation = () => {
 	return useMutation({
 		mutationKey: ["postChatRequest"],
 		mutationFn: (props: PostChatMutationRequest) =>
-			postChatRequest({ ...props, userId: user.id, stream }),
+			postChatRequest({ ...props, apiKey: apiKey, stream }),
 		onMutate: ({ threadId }) => {
-			return queryClient.cancelQueries(messagesQueryOptions(user.id, threadId));
+			return queryClient.cancelQueries(messagesQueryOptions(apiKey, threadId));
 		},
 		onError: (error) => console.error(error),
 		onSuccess: async (res, { threadId }) => {
-			const opts = messagesQueryOptions(user.id, threadId);
+			const opts = messagesQueryOptions(apiKey, threadId);
 			if (res instanceof Response) {
 				if (!res.body) throw new Error("No stream found");
 				const streamHandler = getStreamProcessor({

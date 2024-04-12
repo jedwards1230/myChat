@@ -2,25 +2,25 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type { Thread } from "@/types";
 import { fetcher } from "@/lib/fetcher";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
-const createThread = async (userId: string) =>
+const createThread = async (apiKey: string) =>
 	fetcher<Thread>(`/threads`, {
-		userId,
+		apiKey,
 		method: "POST",
 		headers: { "Content-Type": "text/plain" },
 	});
 
 /** Create a new Thread on the server */
 export function useCreateThreadMutation() {
-	const user = useConfigStore((s) => s.user);
+	const apiKey = useUserData((s) => s.apiKey);
 	const queryClient = useQueryClient();
 
 	return useMutation({
 		mutationKey: ["createThread"],
-		mutationFn: async () => createThread(user.id),
+		mutationFn: async () => createThread(apiKey),
 		onError: (error) => console.error(error),
-		onSettled: () => queryClient.invalidateQueries(threadListQueryOptions(user.id)),
+		onSettled: () => queryClient.invalidateQueries(threadListQueryOptions(apiKey)),
 	});
 }
