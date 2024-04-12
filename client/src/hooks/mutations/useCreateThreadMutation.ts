@@ -6,7 +6,8 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
 const createThread = async (userId: string) =>
-	fetcher<Thread>([`/threads`, userId], {
+	fetcher<Thread>(`/threads`, {
+		userId,
 		method: "POST",
 		headers: { "Content-Type": "text/plain" },
 	});

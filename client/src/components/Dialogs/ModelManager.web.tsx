@@ -7,21 +7,11 @@ import {
 	DialogDescription,
 	DialogTitle,
 } from "@/components/ui/Dialog";
-import { useAgentStore } from "@/hooks/stores/modelStore";
+import { useAgentStore } from "@/hooks/stores/agentStore";
 import { Text } from "@/components/ui/Text";
-import {
-	Select,
-	SelectContent,
-	SelectGroup,
-	SelectItem,
-	SelectLabel,
-	SelectTrigger,
-	SelectValue,
-} from "../ui/Select";
-import { modelList } from "@/lib/models/models";
-import { Model } from "@/lib/models/types";
 import { Switch } from "../ui/Switch";
 import { Textarea } from "../ui/Textarea";
+import { useModelsQuery } from "@/hooks/queries/useModelsQuery";
 
 export function ModelManagerDialog({
 	open,
@@ -70,8 +60,9 @@ function StreamToggle() {
 
 function SelectModel({ container }: { container: HTMLElement | null }) {
 	const { model, setModel } = useAgentStore();
-	const models = modelList;
-	return (
+	const { data: models } = useModelsQuery();
+	return null;
+	/* return (
 		<Select
 			onValueChange={(e) => setModel(e?.value as Model)}
 			defaultValue={{ value: model.name, label: model.name }}
@@ -97,5 +88,5 @@ function SelectModel({ container }: { container: HTMLElement | null }) {
 				</SelectGroup>
 			</SelectContent>
 		</Select>
-	);
+	); */
 }

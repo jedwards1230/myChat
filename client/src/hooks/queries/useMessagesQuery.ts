@@ -4,14 +4,11 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { fetcher } from "@/lib/fetcher";
 import { Message } from "@/types";
 
-const fetchMessages = (userId: string, threadId: string | null) => () =>
-	fetcher<Message[]>([`/threads/${threadId}/messages`, userId]);
-
 export const messagesQueryOptions = (userId: string, threadId: string | null) => {
 	return queryOptions({
 		queryKey: [userId, threadId],
 		enabled: !!threadId,
-		queryFn: fetchMessages(userId, threadId),
+		queryFn: () => fetcher<Message[]>(`/threads/${threadId}/messages`, { userId }),
 		initialData: [],
 	});
 };

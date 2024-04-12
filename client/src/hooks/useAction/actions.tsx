@@ -36,7 +36,7 @@ function useResetDb() {
 	const user = useConfigStore((s) => s.user);
 
 	const action = async () => {
-		await fetcher(["/reset", user.id]);
+		await fetcher("/reset", { userId: user.id });
 		queryClient.invalidateQueries();
 	};
 

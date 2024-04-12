@@ -4,7 +4,7 @@ import { getThread } from "@/middleware/getThread";
 import { CreateRunBody } from "@/modules/AgentRun/AgentRunSchema";
 import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
 
-export const setupAgentRunsRoute = async (app: FastifyInstance) => {
+export async function setupAgentRunsRoute(app: FastifyInstance) {
 	// POST Create Thread and Run
 	app.post("/runs", {
 		schema: { body: CreateRunBody },
@@ -66,4 +66,4 @@ export const setupAgentRunsRoute = async (app: FastifyInstance) => {
 		}),
 		handler: (req, rep) => rep.send("TODO"),
 	});
-};
+}

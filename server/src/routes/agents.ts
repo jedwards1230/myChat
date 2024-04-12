@@ -8,7 +8,7 @@ import {
 import { AgentController } from "@/modules/Agent/AgentController";
 import { getAgent } from "@/middleware/getAgent";
 
-export const setupAgentsRoute = (app: FastifyInstance) => {
+export async function setupAgentsRoute(app: FastifyInstance) {
 	// POST Create a new agent
 	app.post("/", {
 		oas: { description: "Create Agent.", tags: ["Agent"] },
@@ -47,4 +47,4 @@ export const setupAgentsRoute = (app: FastifyInstance) => {
 		preHandler: [getAgent()],
 		handler: AgentController.deleteAgent,
 	});
-};
+}

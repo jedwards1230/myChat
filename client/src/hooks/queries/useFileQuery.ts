@@ -6,10 +6,10 @@ import { fetcher } from "@/lib/fetcher";
 
 const fetchFile =
 	(userId: string, threadId: string, messageId: string, fileId: string) => () =>
-		fetcher<MessageFile>([
+		fetcher<MessageFile>(
 			`/threads/${threadId}/messages/${messageId}/files/${fileId}`,
-			userId,
-		]);
+			{ userId }
+		);
 
 export const fileQueryOptions = (
 	userId: string,

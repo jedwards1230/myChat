@@ -1,20 +1,17 @@
 import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { Model, ModelApi } from "@/lib/models/types";
-import { modelMap } from "@/lib/models/models";
+import type { Model, ModelInformation } from "@/types";
 import { Agent } from "@/types";
 
 type State = {
 	agent: Agent;
-	model: ModelApi;
+	model: ModelInformation | null;
 	stream: boolean;
 };
 
 interface Actions {
 	setAgent: (agent: Agent) => void;
-	setModel: (model: Model) => void;
+	setModel: (model: ModelInformation | null) => void;
 	setStream: (stream: boolean) => void;
 	toggleStream: () => void;
 
@@ -30,14 +27,14 @@ const initial: State = {
 		toolsEnabled: false,
 		systemMessage: "default",
 	},
-	model: modelMap["gpt-4-turbo"],
+	model: null,
 	stream: true,
 };
 
 export const useAgentStore = create<State & Actions>()((set, get) => ({
 	...initial,
 	setAgent: (agent) => set({ agent }),
-	setModel: (model) => set({ model: modelMap[model] }),
+	setModel: (model) => set({ model }),
 	setStream: (stream) => set({ stream }),
 	toggleStream: () => set((state) => ({ stream: !state.stream })),
 

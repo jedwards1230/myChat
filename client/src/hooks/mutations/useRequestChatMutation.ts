@@ -27,16 +27,14 @@ type FetcherResult<T> = T extends true
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
 async function postChatRequest({ threadId, userId, stream, signal }: PostChatRequest) {
-	const res = await fetcher<FetcherResult<typeof stream>>(
-		[`/threads/${threadId}/runs`, userId],
-		{
-			method: "POST",
-			...(Platform.OS !== "web" && { reactNative: { textStreaming: true } }),
-			body: JSON.stringify({ stream, type: "getChat" }),
-			signal,
-			stream,
-		}
-	);
+	const res = await fetcher<FetcherResult<typeof stream>>(`/threads/${threadId}/runs`, {
+		method: "POST",
+		...(Platform.OS !== "web" && { reactNative: { textStreaming: true } }),
+		body: JSON.stringify({ stream, type: "getChat" }),
+		signal,
+		stream,
+		userId,
+	});
 
 	if (stream && res instanceof Response && res.body === null)
 		throw new Error("No stream found");

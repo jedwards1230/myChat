@@ -8,7 +8,8 @@ import { threadListQueryOptions } from "../queries/useThreadListQuery";
 import { ThreadDelete } from "@/types";
 
 const deleteThread = (threadId: string, userId: string) =>
-	fetcher<ThreadDelete>([`/threads/${threadId}`, userId], {
+	fetcher<ThreadDelete>(`/threads/${threadId}`, {
+		userId,
 		method: "DELETE",
 	});
 

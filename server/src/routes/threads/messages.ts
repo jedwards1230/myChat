@@ -13,7 +13,7 @@ import {
 import { MessageController } from "@/modules/Message/MessageController";
 import { MessageFileController } from "@/modules/MessageFile/MessageFileController";
 
-export const setupMessagesRoute = (app: FastifyInstance) => {
+export async function setupMessagesRoute(app: FastifyInstance) {
 	// POST Create Message in Thread
 	app.post("/", {
 		oas: { description: "Create Message in Thread.", tags: ["Message"] },
@@ -85,4 +85,4 @@ export const setupMessagesRoute = (app: FastifyInstance) => {
 		preHandler: [getMessage({ files: { fileData: true } })],
 		handler: MessageFileController.getMessageFile,
 	});
-};
+}

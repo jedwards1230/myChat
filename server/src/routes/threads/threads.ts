@@ -4,7 +4,7 @@ import { getThread } from "@/middleware/getThread";
 import { ThreadSchema, ThreadListSchema } from "@/modules/Thread/ThreadSchema";
 import { ThreadController } from "@/modules/Thread/ThreadController";
 
-export const setupThreadsRoute = (app: FastifyInstance) => {
+export async function setupThreadsRoute(app: FastifyInstance) {
 	// GET Thread History for user
 	app.get("/", {
 		schema: { response: { 200: ThreadListSchema } },
@@ -41,4 +41,4 @@ export const setupThreadsRoute = (app: FastifyInstance) => {
 		preHandler: [getThread()],
 		handler: ThreadController.deleteThread,
 	});
-};
+}

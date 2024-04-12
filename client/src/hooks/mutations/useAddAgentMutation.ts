@@ -6,9 +6,10 @@ import { AgentCreateSchema } from "@/types";
 import { agentsQueryOptions } from "../queries/useAgentsQuery";
 
 const fetchAgent = (userId: string, agent: AgentCreateSchema) =>
-	fetcher<AgentCreateSchema>(["/agents", userId], {
+	fetcher<AgentCreateSchema>("/agents", {
 		method: "POST",
 		body: JSON.stringify(agent),
+		userId,
 	});
 
 export const useAddAgentMutation = () => {

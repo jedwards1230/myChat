@@ -5,7 +5,8 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { threadListQueryOptions } from "../queries/useThreadListQuery";
 
 const fetchTitle = (threadId: string | null, userId: string) =>
-	fetcher<string>([`/threads/${threadId}/runs`, userId], {
+	fetcher<string>(`/threads/${threadId}/runs`, {
+		userId,
 		method: "POST",
 		body: JSON.stringify({ type: "getTitle" }),
 	});

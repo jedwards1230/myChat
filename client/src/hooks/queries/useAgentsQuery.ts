@@ -4,12 +4,10 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import type { Agent } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
-const fetchAgents = (userId: string) => () => fetcher<Agent[]>(["/agents", userId]);
-
 export const agentsQueryOptions = (userId: string) => {
 	return queryOptions({
 		queryKey: [userId, "agents"],
-		queryFn: fetchAgents(userId),
+		queryFn: () => fetcher<Agent[]>("/agents", { userId }),
 	});
 };
 

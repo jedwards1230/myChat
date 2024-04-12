@@ -18,6 +18,7 @@ import { setupAgentsRoute } from "./routes/agents";
 import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
+import { setupModelsRoute } from "./routes/models";
 
 // Connect to Postgres and initialize TypeORM
 if (Config.resetDbOnInit) {
@@ -27,20 +28,14 @@ if (Config.resetDbOnInit) {
 await initDb();
 await init();
 
-const app = Fastify({
+export const app = Fastify({
 	logger: false,
 	...Config.sslOptions,
 }).withTypeProvider<TypeBoxTypeProvider>();
 
 const pluginOpts: OAS3PluginOptions = {
-	openapiInfo: {
-		title: "myChat API",
-		version: "0.1.0",
-	},
-	publish: {
-		ui: "rapidoc",
-		json: true,
-	},
+	openapiInfo: { title: "myChat API", version: "0.1.0" },
+	publish: { ui: "rapidoc", json: true },
 };
 
 // Middleware
@@ -49,12 +44,11 @@ await app.register(fastifyOpenApi, { ...pluginOpts });
 await app.register(fastifyCors, { origin: "*" });
 
 // Access Logger
-app.addHook("onRequest", (request, reply, done) => {
+app.addHook("onRequest", async (request, reply) => {
 	accessLogger.info(`${request.headers.referer} ${request.method} ${request.url}`);
 	logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`, {
 		functionName: "onRequest",
 	});
-	done();
 });
 
 app.setErrorHandler(function (error, request, reply) {
@@ -72,12 +66,18 @@ app.setErrorHandler(function (error, request, reply) {
 // Api Routes
 await app.register(
 	async (app, opts) => {
-		// User Route
-		await app.register(async (app, opts) => setupUserRoute(app));
+		await app.register(setupUserRoute);
+		await app.register(setupModelsRoute);
 
-		// Authenticated Routes
 		await app.register(async (app, opts) => {
 			app.addHook("preHandler", authenticate);
+
+			await app.register(setupAgentsRoute, { prefix: "/agents" });
+			await app.register(setupThreadsRoute, { prefix: "/threads" });
+			await app.register(setupAgentRunsRoute, { prefix: "/threads" });
+			await app.register(setupMessagesRoute, {
+				prefix: "threads/:threadId/messages",
+			});
 
 			app.get(
 				"/reset",
@@ -89,26 +89,6 @@ await app.register(
 					res.send({ ok: true });
 				}
 			);
-
-			// Threads Route
-			await app.register(async (app, opts) => setupThreadsRoute(app), {
-				prefix: "/threads",
-			});
-
-			// AgentRun Route
-			await app.register(async (app, opts) => setupAgentRunsRoute(app), {
-				prefix: "/threads",
-			});
-
-			// Messages Route
-			await app.register(async (app, opts) => setupMessagesRoute(app), {
-				prefix: "threads/:threadId/messages",
-			});
-
-			// Agents Route
-			await app.register(async (app, opts) => setupAgentsRoute(app), {
-				prefix: "/agents",
-			});
 		});
 	},
 	{ prefix: "/api" }
@@ -129,4 +109,14 @@ app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 	logger.info(`UI:   ${address}/docs`);
 });
 
-export { app };
+process.on("SIGINT", async () => {
+	logger.info("Received SIGINT. Graceful shutdown in progress...");
+	await app.close();
+	process.exit(0);
+});
+
+process.on("SIGTERM", async () => {
+	logger.info("Received SIGTERM. Graceful shutdown in progress...");
+	await app.close();
+	process.exit(0);
+});

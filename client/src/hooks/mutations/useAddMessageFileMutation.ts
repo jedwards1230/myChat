@@ -19,8 +19,8 @@ const postMessage = async (
 ): Promise<Message> => {
 	const formData = await buildFormData(fileList);
 	const message = await fetcher<Message>(
-		[`/threads/${threadId}/messages/${messageId}/files`, userId],
-		{ method: "POST", body: formData, file: true }
+		`/threads/${threadId}/messages/${messageId}/files`,
+		{ method: "POST", body: formData, file: true, userId }
 	);
 	return message;
 };

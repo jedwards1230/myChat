@@ -9,3 +9,8 @@ export type {
 	AgentObjectSchema as Agent,
 	AgentCreateSchema,
 } from "@db/Agent/AgentSchema";
+
+export type {
+	ModelLiteral as Model,
+	ModelInfoSchema as ModelInformation,
+} from "@db/Models/ModelsSchema";

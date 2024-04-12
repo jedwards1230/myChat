@@ -86,7 +86,7 @@ const SelectScrollDownButton = ({
 const SelectContent = React.forwardRef<
 	React.ElementRef<typeof SelectPrimitive.Content>,
 	React.ComponentPropsWithoutRef<typeof SelectPrimitive.Content> & {
-		container: HTMLElement | null;
+		container?: HTMLElement | null;
 	}
 >(({ className, children, position = "popper", container, ...props }, ref) => {
 	const { open } = SelectPrimitive.useRootContext();

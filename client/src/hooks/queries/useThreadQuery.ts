@@ -3,16 +3,12 @@ import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/hooks/stores/configStore";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-const fetchThread = (userId: string, threadId: string | null) => () =>
-	fetcher<Thread>([`/threads/${threadId}`, userId]);
-
-export const threadQueryOptions = (userId: string, threadId: string | null) => {
-	return queryOptions({
+export const threadQueryOptions = (userId: string, threadId: string | null) =>
+	queryOptions({
 		queryKey: [userId, "threads", threadId],
 		enabled: !!threadId,
-		queryFn: fetchThread(userId, threadId),
+		queryFn: () => fetcher<Thread>(`/threads/${threadId}`, { userId }),
 	});
-};
 
 export const useThreadQuery = (threadId: string | null) => {
 	const user = useConfigStore((s) => s.user);

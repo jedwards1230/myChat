@@ -16,16 +16,12 @@ export type UpdateMessageOptions = {
 const postMessage = async (
 	{ threadId, message }: UpdateMessageOptions,
 	userId: string
-): Promise<Message> => {
-	const res = await fetcher<Message>(
-		[`/threads/${threadId}/messages/${message.id}`, userId],
-		{
-			method: "POST",
-			body: JSON.stringify({ message }),
-		}
-	);
-	return res;
-};
+): Promise<Message> =>
+	fetcher<Message>(`/threads/${threadId}/messages/${message.id}`, {
+		userId,
+		method: "POST",
+		body: JSON.stringify({ message }),
+	});
 
 /** Update a message on the server */
 export const useUpdateMessageMutation = () => {

@@ -1,7 +1,7 @@
 import { useState } from "react";
 
 import { useAction } from "@/hooks/useAction";
-import { useAgentStore } from "@/hooks/stores/modelStore";
+import { useAgentStore } from "@/hooks/stores/agentStore";
 import { useConfigStore } from "@/hooks/stores/configStore";
 import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
 
@@ -25,7 +25,7 @@ export function Dropdown({
 	className?: string;
 }) {
 	const { threadId } = useConfigStore();
-	const agent = useAgentStore((state) => state.agent);
+	const { agent, model } = useAgentStore();
 
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
@@ -39,7 +39,8 @@ export function Dropdown({
 
 	const actions = [
 		{
-			label: `Tokens: ${tokens}`,
+			label: `Tokens: ${tokens} / ${model?.params.maxTokens}`,
+			hidden: !model,
 		},
 		{
 			label: "View Agent",
@@ -65,22 +66,26 @@ export function Dropdown({
 				</DropdownMenuTrigger>
 				<DropdownMenuContent className="w-64 native:w-72">
 					<DropdownMenuGroup>
-						{actions.map((action, index) => (
-							<DropdownMenuItem
-								key={index}
-								disabled={action.disabled}
-								onPress={
-									action.onPress ? (e) => action.onPress() : undefined
-								}
-							>
-								<Text>{action.label}</Text>
-								{action.icon && (
-									<DropdownMenuShortcut>
-										<action.icon name={action.iconLabel as any} />
-									</DropdownMenuShortcut>
-								)}
-							</DropdownMenuItem>
-						))}
+						{actions.map((action, index) =>
+							!action.hidden ? (
+								<DropdownMenuItem
+									key={index}
+									disabled={action.disabled}
+									onPress={
+										action.onPress
+											? (e) => action.onPress()
+											: undefined
+									}
+								>
+									<Text>{action.label}</Text>
+									{action.icon && (
+										<DropdownMenuShortcut>
+											<action.icon name={action.iconLabel as any} />
+										</DropdownMenuShortcut>
+									)}
+								</DropdownMenuItem>
+							) : null
+						)}
 					</DropdownMenuGroup>
 				</DropdownMenuContent>
 			</DropdownMenu>

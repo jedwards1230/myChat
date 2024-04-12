@@ -14,7 +14,8 @@ export type PostMessageOptions = {
 };
 
 const postMessage = async ({ threadId, message }: PostMessageOptions, userId: string) =>
-	fetcher<Message>([`/threads/${threadId}/messages`, userId], {
+	fetcher<Message>(`/threads/${threadId}/messages`, {
+		userId,
 		method: "POST",
 		body: JSON.stringify({ message }),
 	});
