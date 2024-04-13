@@ -6,11 +6,10 @@ import { Input } from "@/components/ui/Input";
 import { Label } from "@/components/ui/Label";
 import { AuthButton } from "./AuthButton";
 import { AuthViewWrapper } from "./AuthViewWrapper";
-import { createUser, loginUser } from "@/lib/Appwrite";
 import { useUserData } from "@/hooks/stores/useUserData";
 
 export function SignUpView() {
-	const setSession = useUserData((s) => s.setSession);
+	const signup = useUserData((s) => s.signup);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -22,9 +21,7 @@ export function SignUpView() {
 			return;
 		}
 		try {
-			const res = await createUser(email, password);
-			const sessionRes = await loginUser(email, password);
-			setSession(sessionRes);
+			signup(email, password);
 		} catch (error) {
 			setError(JSON.stringify(error, null, 2));
 		} finally {

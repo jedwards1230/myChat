@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
-import { getThread } from "@/middleware/getThread";
+import { getThread } from "@/hooks/getThread";
 import { ThreadSchema, ThreadListSchema } from "@/modules/Thread/ThreadSchema";
 import { ThreadController } from "@/modules/Thread/ThreadController";
 

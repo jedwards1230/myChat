@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
 
-import { getThread } from "@/middleware/getThread";
+import { getThread } from "@/hooks/getThread";
 import { CreateRunBody } from "@/modules/AgentRun/AgentRunSchema";
 import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
 

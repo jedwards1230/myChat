@@ -1,8 +1,8 @@
 import type { FastifyInstance } from "fastify";
 import { Type } from "@fastify/type-provider-typebox";
 
-import { getThread } from "@/middleware/getThread";
-import { getMessage } from "@/middleware/getMessage";
+import { getThread } from "@/hooks/getThread";
+import { getMessage } from "@/hooks/getMessage";
 
 import {
 	MessageListSchema,

@@ -9,7 +9,7 @@ export const authenticate = async (request: FastifyRequest, reply: FastifyReply)
 	}
 
 	const user = await getUserRepo().findOne({
-		where: { id: token },
+		where: { apiKey: token },
 		relations: ["threads", "agents"],
 	});
 	if (!user) {

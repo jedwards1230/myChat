@@ -11,10 +11,10 @@ export function AuthView() {
 			<View className="p-8 border rounded shadow-sm bg-background border-border">
 				<View className="flex gap-4">
 					<Text className="text-xl font-semibold text-center">Auth View</Text>
-					<Link href="/(auth)/login">
+					<Link asChild href="/(auth)/login">
 						<AuthButton>Login</AuthButton>
 					</Link>
-					<Link href="/(auth)/signup">
+					<Link asChild href="/(auth)/signup">
 						<AuthButton>Sign Up</AuthButton>
 					</Link>
 				</View>

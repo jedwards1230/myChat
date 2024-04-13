@@ -11,8 +11,9 @@ export async function init() {
 		if (!agent) throw new Error("Cannot preload agent");
 
 		const baseUser = await getUserRepo().save({
-			id: "user-1",
+			apiKey: "user-1",
 			agents: [agent],
+			email: "",
 			defaultAgent: agent,
 		});
 		if (!baseUser) throw new Error("Cannot preload user");

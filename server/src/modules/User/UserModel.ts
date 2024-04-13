@@ -5,22 +5,34 @@ import {
 	JoinColumn,
 	ManyToOne,
 	OneToMany,
-	PrimaryColumn,
+	PrimaryGeneratedColumn,
 	type Relation,
 } from "typeorm";
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
+import { UserSession } from "./SessionModel";
 
 @Entity("User")
 export class User extends BaseEntity {
-	@PrimaryColumn({ type: "varchar", length: 255 })
+	@PrimaryGeneratedColumn("uuid")
 	id!: string;
+
+	@Column({ type: "varchar", length: 255 })
+	apiKey!: string;
 
 	/** User name.
 	 * Default is "New User"
 	 */
 	@Column({ type: "text", default: "New User" })
 	name: string;
+
+	/** Email */
+	@Column({ type: "text" })
+	email: string;
+
+	/** Password */
+	@Column({ type: "text", default: "" })
+	password: string;
 
 	/** Threads owned by the User. */
 	@OneToMany(() => Thread, (thread) => thread.user)
@@ -40,4 +52,10 @@ export class User extends BaseEntity {
 	})
 	@JoinColumn()
 	defaultAgent: Relation<Agent>;
+
+	/** User sessions. */
+	@OneToMany(() => UserSession, (session) => session.user, {
+		cascade: true,
+	})
+	sessions: Relation<UserSession[]>;
 }

@@ -12,7 +12,7 @@ export const getAgentRepo = () =>
 			relations?: FindOneOptions<Agent>["relations"]
 		) {
 			return this.findOne({
-				where: { id, owner: Equal(user.id) },
+				where: { id, owner: Equal(user.apiKey) },
 				relations,
 			});
 		},

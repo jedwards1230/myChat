@@ -7,10 +7,9 @@ import { Label } from "@/components/ui/Label";
 import { AuthButton } from "./AuthButton";
 import { AuthViewWrapper } from "./AuthViewWrapper";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { loginUser } from "@/lib/Appwrite";
 
 export function LoginView() {
-	const setSession = useUserData((state) => state.setSession);
+	const login = useUserData((state) => state.login);
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
@@ -22,9 +21,7 @@ export function LoginView() {
 			return;
 		}
 		try {
-			const res = await loginUser(email, password);
-			setSession(res);
-			console.log(res);
+			await login(email, password);
 		} catch (error) {
 			setError(JSON.stringify(error, null, 2));
 		} finally {

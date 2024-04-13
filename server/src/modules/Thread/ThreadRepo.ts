@@ -15,7 +15,7 @@ export const getThreadRepo = () =>
 			relations?: FindOneOptions<Thread>["relations"]
 		) {
 			return this.findOne({
-				where: { id, user: Equal(user.id) },
+				where: { id, user: Equal(user.apiKey) },
 				relations,
 			});
 		},
@@ -81,7 +81,7 @@ export const getThreadRepo = () =>
 		async getOrCreateThread(user: User, id?: string | null) {
 			if (id) {
 				return this.findOne({
-					where: { id, user: Equal(user.id) },
+					where: { id, user: Equal(user.apiKey) },
 					relations: ["activeMessage", "messages"],
 				});
 			} else {
@@ -94,7 +94,7 @@ export const getThreadRepo = () =>
 			return AppDataSource.manager.transaction(async (manager) => {
 				const thread = await manager.findOneByOrFail(Thread, {
 					id,
-					user: Equal(user.id),
+					user: Equal(user.apiKey),
 				});
 				const removed = await manager.remove(thread);
 				return removed;

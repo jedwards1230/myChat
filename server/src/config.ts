@@ -2,15 +2,15 @@ import path from "path";
 import type { LogLevel } from "typeorm";
 
 const isProd = process.env.NODE_ENV === "production";
-const resetDbOnInit = process.env.RESET_DB === "true";
-const debugDb = process.env.DEBUG_DB === "true";
+const resetDbOnInit = process.env.DEBUG_RESET_DB === "true";
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const sessionSecret = process.env.SESSION_SECRET || "secret";
 
 const AppwriteConfig = {
 	endpoint: process.env.APPWRITE_ENDPOINT || "http://localhost/v1",
 	project: process.env.APPWRITE_PROJECT || "project-id",
 	key: process.env.APPWRITE_KEY || "secret",
-};
+} as const;
 
 const database = {
 	type: "postgres",
@@ -19,7 +19,7 @@ const database = {
 	username: process.env.DB_USER || "admin",
 	password: process.env.DB_PASSWORD || "admin",
 	database: process.env.DB_NAME || "ChatDB",
-	logging: debugDb ? "all" : (["error", "warn"] as LogLevel[]),
+	logging: process.env.DB_DEBUG ? "all" : (["error", "warn"] as LogLevel[]),
 } as const;
 
 const staticClientFilesDir = path.resolve(
@@ -39,11 +39,11 @@ const sslOptions = {
 
 export const Config = {
 	isProd,
+	sessionSecret,
 	staticClientFilesDir,
 	AppwriteConfig,
 	database,
 	port,
-	debugDb,
 	sslOptions,
 	resetDbOnInit,
 } as const;

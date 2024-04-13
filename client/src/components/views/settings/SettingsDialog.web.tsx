@@ -13,6 +13,7 @@ import { Text } from "@/components/ui/Text";
 import { ResetDefaultsButton, StreamToggle, ToggleThemeButton } from "./helpers";
 import { HostConfig } from "./helpers/HostConfig";
 import { DeviceConfig } from "./helpers/DeviceConfig";
+import { UserConfig } from "./helpers/UserConfig";
 
 export default function SettingsDialog({
 	children,
@@ -29,7 +30,7 @@ export default function SettingsDialog({
 				{children}
 			</DialogTrigger>
 
-			<DialogContent className="w-screen">
+			<DialogContent className="text-foreground">
 				<DialogTitle>Settings</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<Section title="Chat Host">
@@ -37,6 +38,7 @@ export default function SettingsDialog({
 						<ToggleThemeButton />
 						<StreamToggle />
 					</Section>
+					<UserConfig />
 					{isSaved && <Text>Settings saved successfully!</Text>}
 					<ResetDefaultsButton />
 					<DeviceConfig />

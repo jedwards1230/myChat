@@ -6,7 +6,7 @@ import {
 	AgentObjectListSchema,
 } from "@/modules/Agent/AgentSchema";
 import { AgentController } from "@/modules/Agent/AgentController";
-import { getAgent } from "@/middleware/getAgent";
+import { getAgent } from "@/hooks/getAgent";
 
 export async function setupAgentsRoute(app: FastifyInstance) {
 	// POST Create a new agent

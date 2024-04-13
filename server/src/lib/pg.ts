@@ -11,10 +11,21 @@ import { FileData, MessageFile } from "@/modules/MessageFile/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
 import { Config } from "@/config";
+import { UserSession } from "@/modules/User/SessionModel";
 
 export const AppDataSource = new DataSource({
 	...Config.database,
-	entities: [User, Agent, Thread, ToolCall, FileData, MessageFile, Message, AgentRun],
+	entities: [
+		User,
+		UserSession,
+		Agent,
+		Thread,
+		ToolCall,
+		FileData,
+		MessageFile,
+		Message,
+		AgentRun,
+	],
 	synchronize: true,
 	logger: new DBLogger(),
 });
@@ -22,7 +33,9 @@ export const AppDataSource = new DataSource({
 /** Initialize Database Connection */
 export const initDb = async () => {
 	await AppDataSource.initialize().catch((err) => {
-		logger.error("Failed to connect to database", { err, functionName: "initDb" });
+		logger.error(`Failed to connect to database: ${err.message}`, {
+			functionName: "initDb",
+		});
 		process.exit(1);
 	});
 
