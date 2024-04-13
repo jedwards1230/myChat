@@ -23,7 +23,11 @@ export const useFileStore = create<State & Actions>()((set, get) => ({
 	setFiles: (files) => set({ fileList: files }),
 	removeFile: (file) => set({ fileList: get().fileList.filter((f) => f !== file) }),
 	removeFiles: (files) =>
-		set({ fileList: get().fileList.filter((f) => !files.includes(f)) }),
+		set({
+			fileList: get().fileList.filter(
+				(f) => !files.some((file) => file.id === f.id)
+			),
+		}),
 
 	reset: () => set(initial),
 }));

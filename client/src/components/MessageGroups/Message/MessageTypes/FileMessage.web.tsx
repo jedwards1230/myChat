@@ -6,7 +6,7 @@ import { FileData } from "@/components/FileRouter";
 
 export const FileMessage = ({ data }: { data: FileData }) => {
 	return (
-		<View className="self-start flex-grow-0 w-auto mb-4">
+		<View className="self-start flex-grow-0 w-auto">
 			<FileDialog data={data}>
 				<Text className="p-2 border rounded-md bg-secondary">
 					{data.file.name}

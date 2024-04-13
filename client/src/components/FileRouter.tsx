@@ -1,10 +1,4 @@
-import { FileButton as DefaultFileButton } from "./FileTray/FileButton";
-import { FolderButton as DefaultFolderButton } from "./FileTray/FolderButton";
-import {
-	MessageQueryOpts,
-	SavedFileInformation,
-	type FileInformation,
-} from "@/hooks/useFileInformation";
+import { MessageQueryOpts, type FileInformation } from "@/hooks/useFileInformation";
 
 export type RouterData = {
 	files: FileInformation[];
@@ -16,16 +10,15 @@ export type LocalFileData = {
 	query?: MessageQueryOpts;
 };
 
-export type SavedFileData = {
-	file: SavedFileInformation;
-	query?: MessageQueryOpts;
-};
-
-export type FileData = LocalFileData | SavedFileData;
+export type FileData = LocalFileData;
 
 export type RouterChildrenProps = {
-	FolderButton?: React.ComponentType<{ baseDir: string; data: RouterData }>;
-	FileButton?: React.ComponentType<{ data: FileData }>;
+	FileButton: React.ComponentType<{ data: FileData }>;
+	FolderButton: React.ComponentType<{
+		baseDir: string;
+		data: RouterData;
+		routerComponents: RouterChildrenProps;
+	}>;
 };
 
 export function FileRouter({
@@ -35,14 +28,14 @@ export function FileRouter({
 }: {
 	data: RouterData;
 	parentDir?: string;
-	routerComponents?: RouterChildrenProps;
+	routerComponents: RouterChildrenProps;
 }) {
 	// separate folders and files
 	const filesInDirectory: FileInformation[] = [];
 	const standaloneFiles: FileInformation[] = [];
 
-	const FolderButton = routerComponents?.FolderButton || DefaultFolderButton;
-	const FileButton = routerComponents?.FileButton || DefaultFileButton;
+	const FolderButton = routerComponents.FolderButton;
+	const FileButton = routerComponents.FileButton;
 
 	data.files.forEach((file) => {
 		if (file.relativePath) {
@@ -66,6 +59,7 @@ export function FileRouter({
 	const filesByBaseDir: Record<string, FileInformation[]> = filesInDirectory.reduce(
 		(acc, file) => {
 			if (!file.relativePath) return acc;
+
 			let baseDir: string | undefined;
 			if (parentDir) {
 				const relativePath = file.relativePath.replace(parentDir + "/", "");
@@ -78,10 +72,8 @@ export function FileRouter({
 			}
 
 			if (!baseDir) return acc;
+			if (!acc[baseDir]) acc[baseDir] = [];
 
-			if (!acc[baseDir]) {
-				acc[baseDir] = [];
-			}
 			acc[baseDir].push(file);
 			return acc;
 		},
@@ -94,7 +86,7 @@ export function FileRouter({
 				<FolderButton
 					key={dir}
 					baseDir={dir}
-					data={data}
+					data={{ ...data, files }}
 					routerComponents={routerComponents}
 				/>
 			))}

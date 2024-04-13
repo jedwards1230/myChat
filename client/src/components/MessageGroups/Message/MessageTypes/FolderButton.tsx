@@ -1,10 +1,9 @@
 import { Pressable, View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
-import { RemoveFolderButton } from "./DeleteButton";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { FileRouter, RouterChildrenProps, RouterData } from "../FileRouter";
+import { RouterData, RouterChildrenProps, FileRouter } from "@/components/FileRouter";
 
 export function FolderButton({
 	baseDir,
@@ -37,7 +36,6 @@ export function FolderButton({
 				>
 					<Text className="px-4 py-2 text-foreground">{baseDir}</Text>
 				</Pressable>
-				<RemoveFolderButton files={data.files} />
 			</View>
 			{open && (
 				<FileRouter

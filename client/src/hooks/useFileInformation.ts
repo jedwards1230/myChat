@@ -41,13 +41,15 @@ export function useFileInformation({ threadId, messageId, fileId }: FileQueryOpt
 	return fileInformation;
 }
 
-export function getFileInformation<
-	T extends MessageFile | DocumentPickerAsset | DocumentPickerAsset
->(file: T): T extends MessageFile ? SavedFileInformation : FileInformation {
+export function getFileInformation<T extends MessageFile | DocumentPickerAsset>(
+	file: T,
+	id?: number
+): FileInformation {
 	if (isLocalFile(file)) {
 		const extension = file.name.split(".").pop();
 		if (!extension) throw new Error("No extension found");
 		return {
+			id: id?.toString(),
 			name: file.name,
 			href: file.uri,
 			extension,
@@ -55,7 +57,8 @@ export function getFileInformation<
 			type: file.mimeType,
 			size: file.size,
 			file: file.file,
-		} as T extends MessageFile ? SavedFileInformation : FileInformation;
+			local: true,
+		} as FileInformation;
 	}
 
 	return {
@@ -65,16 +68,17 @@ export function getFileInformation<
 		extension: file.extension,
 		relativePath: file.path,
 		type: file.mimetype,
-		size: file.size,
-	} as T extends MessageFile ? SavedFileInformation : FileInformation;
+		size: parseInt(file.size),
+		local: false,
+	} as FileInformation;
 }
 
 export async function parseLocalFiles(assets: DocumentPickerAsset[]) {
-	return Promise.all(assets.map(parseLocalFile));
+	return Promise.all(assets.map((a, i) => parseLocalFile(a, i)));
 }
 
-async function parseLocalFile(asset: DocumentPickerAsset) {
-	const file = getFileInformation(asset);
+async function parseLocalFile(asset: DocumentPickerAsset, id: number) {
+	const file = getFileInformation(asset, id);
 	if (file.parsable === undefined) {
 		const buffer = await getCacheFileBuffer(asset);
 		if (!buffer)
@@ -117,6 +121,7 @@ function isLocalFile(
 }
 
 export type FileInformation = {
+	id: string;
 	name: string;
 	href: string;
 	extension: string;
@@ -125,13 +130,10 @@ export type FileInformation = {
 	relativePath?: string;
 	buffer?: ArrayBuffer;
 	parsed?: string;
+	local: boolean;
 	parsable?: boolean;
 	file?: File;
 };
-
-export type SavedFileInformation = {
-	id: string;
-} & FileInformation;
 
 export type MessageQueryOpts = {
 	messageId: string;
