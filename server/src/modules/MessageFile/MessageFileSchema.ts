@@ -1,22 +1,22 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 
-export const MessageFileObjectSchema = Type.Object({
-	id: Type.String(),
-	name: Type.String(),
-	uploadDate: Type.String(),
-	mimetype: Type.String(),
-	extension: Type.String(),
-	size: Type.Number(),
-	path: Type.Optional(Type.String()),
-	lastModified: Type.Optional(Type.Number()),
-	tokenCount: Type.Optional(Type.Number()),
-	fileData: Type.Optional(Type.Any()),
-	parsable: Type.Optional(Type.Boolean()),
+export const MessageFileObjectSchema = z.object({
+	id: z.string(),
+	name: z.string(),
+	uploadDate: z.date(),
+	mimetype: z.string(),
+	extension: z.string(),
+	size: z.string(),
+	path: z.optional(z.string()),
+	lastModified: z.union([z.number(), z.null()]),
+	tokenCount: z.optional(z.number()),
+	fileData: z.optional(z.any()),
+	parsable: z.optional(z.boolean()),
 });
-export type MessageFileObjectSchema = Static<typeof MessageFileObjectSchema>;
+export type MessageFileObjectSchema = z.infer<typeof MessageFileObjectSchema>;
 
-export const MessageFileSchemaWithoutId = Type.Omit(MessageFileObjectSchema, ["id"]);
-export type MessageFileSchemaWithoutId = Static<typeof MessageFileSchemaWithoutId>;
+export const MessageFileSchemaWithoutId = MessageFileObjectSchema.omit({ id: true });
+export type MessageFileSchemaWithoutId = z.infer<typeof MessageFileSchemaWithoutId>;
 
-export const MessageFileListSchema = Type.Array(MessageFileObjectSchema);
-export type MessageFileListSchema = Static<typeof MessageFileListSchema>;
+export const MessageFileListSchema = z.array(MessageFileObjectSchema);
+export type MessageFileListSchema = z.infer<typeof MessageFileListSchema>;

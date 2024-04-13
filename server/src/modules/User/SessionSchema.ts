@@ -1,11 +1,11 @@
-import { Type, type Static } from "@sinclair/typebox";
+import z from "zod";
 
-export const UserSessionSchema = Type.Object({
-	id: Type.String(),
-	createdAt: Type.String(),
-	lastActive: Type.Optional(Type.String()),
-	userId: Type.String(),
-	expire: Type.String(),
-	provider: Type.Literal("email"),
+export const UserSessionSchema = z.object({
+	id: z.string(),
+	createdAt: z.date(),
+	lastActive: z.optional(z.string()),
+	userId: z.string(),
+	expire: z.date(),
+	provider: z.literal("email"),
 });
-export type UserSessionSchema = Static<typeof UserSessionSchema>;
+export type UserSessionSchema = z.infer<typeof UserSessionSchema>;

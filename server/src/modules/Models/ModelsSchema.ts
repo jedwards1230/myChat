@@ -1,41 +1,57 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 import { getListByApi, modelList } from "./data";
 
-const OpenAiModelLiteral = Type.Union(
-	getListByApi("openai").map((m) => Type.Literal(m.name))
+export function isValidZodLiteralUnion<T extends z.ZodLiteral<unknown>>(
+	literals: T[]
+): literals is [T, T, ...T[]] {
+	return literals.length >= 2;
+}
+export function constructZodLiteralUnionType<T extends z.ZodLiteral<unknown>>(
+	literals: T[]
+) {
+	if (!isValidZodLiteralUnion(literals)) {
+		throw new Error(
+			"Literals passed do not meet the criteria for constructing a union schema, the minimum length is 2"
+		);
+	}
+	return z.union(literals);
+}
+
+const OpenAiModelLiteral = constructZodLiteralUnionType(
+	getListByApi("openai").map((m) => z.literal(m.name))
 );
-export type OpenAiModelLiteral = Static<typeof OpenAiModelLiteral>;
+export type OpenAiModelLiteral = z.infer<typeof OpenAiModelLiteral>;
 
-const LlamaModelLiteral = Type.Literal("llama-2-7b-chat-int8");
-export type LlamaModelLiteral = Static<typeof LlamaModelLiteral>;
+const LlamaModelLiteral = z.literal("llama-2-7b-chat-int8");
+export type LlamaModelLiteral = z.infer<typeof LlamaModelLiteral>;
 
-export const ModelLiteral = Type.Union([OpenAiModelLiteral, LlamaModelLiteral]);
-export type ModelLiteral = Static<typeof ModelLiteral>;
+export const ModelLiteral = z.union([OpenAiModelLiteral, LlamaModelLiteral]);
+export type ModelLiteral = z.infer<typeof ModelLiteral>;
 
-const ModelParams = Type.Object({
-	temperature: Type.Optional(Type.Number()),
-	topP: Type.Optional(Type.Number()),
-	N: Type.Optional(Type.Number()),
-	maxTokens: Type.Optional(Type.Number()),
-	frequencyPenalty: Type.Optional(Type.Number()),
-	presencePenalty: Type.Optional(Type.Number()),
-	canStream: Type.Optional(Type.Boolean()),
+const ModelParams = z.object({
+	temperature: z.optional(z.number()),
+	topP: z.optional(z.number()),
+	N: z.optional(z.number()),
+	maxTokens: z.optional(z.number()),
+	frequencyPenalty: z.optional(z.number()),
+	presencePenalty: z.optional(z.number()),
+	canStream: z.optional(z.boolean()),
 });
 
-const OpenAiApiInfo = Type.Object({
+const OpenAiApiInfo = z.object({
 	name: OpenAiModelLiteral,
-	api: Type.Literal("openai"),
+	api: z.literal("openai"),
 });
-export type OpenAiApiInfo = Static<typeof OpenAiApiInfo>;
+export type OpenAiApiInfo = z.infer<typeof OpenAiApiInfo>;
 
-const LlamaApiInfo = Type.Object({ name: LlamaModelLiteral, api: Type.Literal("llama") });
-export type LlamaApiInfo = Static<typeof LlamaApiInfo>;
+const LlamaApiInfo = z.object({ name: LlamaModelLiteral, api: z.literal("llama") });
+export type LlamaApiInfo = z.infer<typeof LlamaApiInfo>;
 
-export const ModelInfoSchema = Type.Intersect([
-	Type.Union([OpenAiApiInfo, LlamaApiInfo]),
-	Type.Object({ params: ModelParams }),
-]);
-export type ModelInfoSchema = Static<typeof ModelInfoSchema>;
+export const ModelInfoSchema = z.intersection(
+	z.union([OpenAiApiInfo, LlamaApiInfo]),
+	z.object({ params: ModelParams })
+);
+export type ModelInfoSchema = z.infer<typeof ModelInfoSchema>;
 
-export const ModelListSchema = Type.Array(ModelInfoSchema);
-export type ModelListSchema = Static<typeof ModelListSchema>;
+export const ModelListSchema = z.array(ModelInfoSchema);
+export type ModelListSchema = z.infer<typeof ModelListSchema>;

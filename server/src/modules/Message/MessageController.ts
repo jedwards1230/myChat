@@ -1,17 +1,15 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type OpenAI from "openai";
 
 import logger from "@/lib/logs/logger";
 import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Role } from "./RoleModel";
 import { getMessageRepo } from "./MessageRepo";
+import type { MessageCreateSchema } from "./MessageSchema";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
-		const { message } = request.body as {
-			message: OpenAI.ChatCompletionMessageParam;
-		};
+		const message = request.body as MessageCreateSchema;
 
 		try {
 			const newThread = await getThreadRepo().addMessage(thread, {

@@ -11,8 +11,9 @@ import { getAgent } from "@/hooks/getAgent";
 export async function setupAgentsRoute(app: FastifyInstance) {
 	// POST Create a new agent
 	app.post("/", {
-		oas: { description: "Create Agent.", tags: ["Agent"] },
 		schema: {
+			description: "Create Agent.",
+			tags: ["Agent"],
 			body: AgentCreateSchema,
 			response: { 200: AgentObjectSchema },
 		},
@@ -21,29 +22,35 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 
 	// GET Agents
 	app.get("/", {
-		schema: { response: { 200: AgentObjectListSchema } },
-		oas: { description: "List Agents.", tags: ["Agent"] },
+		schema: {
+			description: "List Agents.",
+			tags: ["Agent"],
+			response: { 200: AgentObjectListSchema },
+		},
 		handler: AgentController.getAgents,
 	});
 
 	// GET Agent by ID
 	app.get("/:agentId", {
-		schema: { response: { 200: AgentObjectSchema } },
-		oas: { description: "Get Agent by ID.", tags: ["Agent"] },
+		schema: {
+			description: "Get Agent by ID.",
+			tags: ["Agent"],
+			response: { 200: AgentObjectSchema },
+		},
 		preHandler: [getAgent()],
 		handler: AgentController.getAgent,
 	});
 
 	// POST Update an agent by ID
 	app.post("/:agentId", {
-		oas: { description: "Update Agent by ID.", tags: ["Agent"] },
+		schema: { description: "Update Agent by ID.", tags: ["Agent"] },
 		preHandler: [getAgent()],
 		handler: AgentController.updateAgent,
 	});
 
 	// DELETE Agent by ID
 	app.delete("/:agentId", {
-		oas: { description: "Delete Agent by ID.", tags: ["Agent"] },
+		schema: { description: "Delete Agent by ID.", tags: ["Agent"] },
 		preHandler: [getAgent()],
 		handler: AgentController.deleteAgent,
 	});

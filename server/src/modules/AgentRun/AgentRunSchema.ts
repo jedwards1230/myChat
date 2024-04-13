@@ -1,7 +1,7 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 
-export const CreateRunBody = Type.Object({
-	stream: Type.Optional(Type.Boolean()),
-	type: Type.String(),
+export const CreateRunBody = z.object({
+	stream: z.optional(z.boolean()),
+	type: z.string(),
 });
-export type CreateRunBody = Static<typeof CreateRunBody>;
+export type CreateRunBody = z.infer<typeof CreateRunBody>;

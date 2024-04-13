@@ -42,7 +42,7 @@ export function SignUpView() {
 							onChangeText={setEmail}
 							autoComplete="email"
 							placeholder="Email"
-							keyboardType="email-address"
+							inputMode="email"
 						/>
 					</View>
 					<View className="flex gap-1">

@@ -1,5 +1,4 @@
 import type { FastifyInstance } from "fastify";
-import { Type } from "@fastify/type-provider-typebox";
 
 import { getThread } from "@/hooks/getThread";
 import { getMessage } from "@/hooks/getMessage";
@@ -16,9 +15,10 @@ import { MessageFileController } from "@/modules/MessageFile/MessageFileControll
 export async function setupMessagesRoute(app: FastifyInstance) {
 	// POST Create Message in Thread
 	app.post("/", {
-		oas: { description: "Create Message in Thread.", tags: ["Message"] },
 		schema: {
-			body: Type.Object({ message: MessageCreateSchema }),
+			description: "Create Message in Thread.",
+			tags: ["Message"],
+			body: MessageCreateSchema,
 			response: { 200: MessageObjectSchema },
 		},
 		preHandler: [getThread(["activeMessage"])],
@@ -27,8 +27,11 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 
 	// GET list of messages for a thread
 	app.get("/", {
-		oas: { description: "List Messages for a Thread.", tags: ["Message"] },
-		schema: { response: { 200: MessageListSchema } },
+		schema: {
+			description: "List Messages for a Thread.",
+			tags: ["Message"],
+			response: { 200: MessageListSchema },
+		},
 		preHandler: [
 			getThread({
 				activeMessage: true,
@@ -42,46 +45,58 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 
 	// GET Message
 	app.get("/:messageId", {
-		oas: { description: "Get Message.", tags: ["Message"] },
-		schema: { response: { 200: MessageObjectSchema } },
+		schema: {
+			description: "Get Message.",
+			tags: ["Message"],
+			response: { 200: MessageObjectSchema },
+		},
 		preHandler: [getMessage()],
 		handler: async (req, res) => res.send(req.message),
 	});
 
 	// POST Modify Message
 	app.post("/:messageId", {
-		oas: { description: "Modify Message.", tags: ["Message"] },
-		schema: { response: { 200: MessageObjectSchema } },
+		schema: {
+			description: "Modify Message.",
+			tags: ["Message"],
+			response: { 200: MessageObjectSchema },
+		},
 		preHandler: [getMessage()],
 		handler: MessageController.modifyMessage,
 	});
 
 	// DELETE Message
 	app.delete("/:messageId", {
-		oas: { description: "Delete Message.", tags: ["Message"] },
-		schema: { response: { 200: MessageSchemaWithoutId } },
+		schema: {
+			description: "Delete Message.",
+			tags: ["Message"],
+			response: { 200: MessageSchemaWithoutId },
+		},
 		preHandler: [getMessage(["parent", "children"])],
 		handler: MessageController.deleteMessage,
 	});
 
 	// POST Create a Message File
 	app.post("/:messageId/files", {
-		oas: { description: "Create a Message File.", tags: ["MessageFile"] },
-		schema: { response: { 200: MessageObjectSchema } },
+		schema: {
+			description: "Create a Message File.",
+			tags: ["MessageFile"],
+			response: { 200: MessageObjectSchema },
+		},
 		preHandler: [getMessage()],
 		handler: MessageFileController.createMessageFile,
 	});
 
 	// GET list of files for a message
 	app.get("/:messageId/files", {
-		oas: { description: "List Files for a Message.", tags: ["MessageFile"] },
+		schema: { description: "List Files for a Message.", tags: ["MessageFile"] },
 		preHandler: [getMessage(["files"])],
 		handler: MessageFileController.getMessageFiles,
 	});
 
 	// GET file by message ID
 	app.get("/:messageId/files/:fileId", {
-		oas: { description: "Get File by Message ID.", tags: ["MessageFile"] },
+		schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
 		preHandler: [getMessage({ files: { fileData: true } })],
 		handler: MessageFileController.getMessageFile,
 	});

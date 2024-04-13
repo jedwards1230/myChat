@@ -9,6 +9,7 @@ export type {
 } from "@db/Thread/ThreadSchema";
 
 export type { UserSchema as User } from "@db/User/UserSchema";
+
 export type { UserSessionSchema as UserSession } from "@db/User/SessionSchema";
 
 export type {

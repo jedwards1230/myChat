@@ -17,7 +17,7 @@ const postMessage = async ({ threadId, message }: PostMessageOptions, apiKey: st
 	fetcher<Message>(`/threads/${threadId}/messages`, {
 		apiKey,
 		method: "POST",
-		body: JSON.stringify({ message }),
+		body: JSON.stringify(message),
 	});
 
 /** Post a message to the server */

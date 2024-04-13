@@ -1,34 +1,34 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 import { MessageFileListSchema } from "../MessageFile/MessageFileSchema";
 import { RoleEnum } from "./RoleModel";
 
-export const MessageObjectSchema = Type.Object({
-	id: Type.String(),
-	role: Type.Enum(RoleEnum),
-	createdAt: Type.String(),
-	tokenCount: Type.Number(),
-	name: Type.Optional(Type.String()),
-	content: Type.Optional(Type.String()),
-	tool_call_id: Type.Optional(Type.Any()),
-	tool_calls: Type.Optional(Type.Array(Type.Any())),
-	files: Type.Optional(MessageFileListSchema),
+export const MessageObjectSchema = z.object({
+	id: z.string(),
+	role: z.nativeEnum(RoleEnum),
+	createdAt: z.date(),
+	tokenCount: z.number(),
+	name: z.union([z.string(), z.null()]),
+	content: z.optional(z.string()),
+	tool_call_id: z.optional(z.any()),
+	tool_calls: z.optional(z.array(z.any())),
+	files: z.optional(MessageFileListSchema),
 });
-export type MessageObjectSchema = Static<typeof MessageObjectSchema>;
+export type MessageObjectSchema = z.infer<typeof MessageObjectSchema>;
 
-export const MessageSchemaWithoutId = Type.Omit(MessageObjectSchema, ["id"]);
-export type MessageSchemaWithoutId = Static<typeof MessageSchemaWithoutId>;
+export const MessageSchemaWithoutId = MessageObjectSchema.omit({ id: true });
+export type MessageSchemaWithoutId = z.infer<typeof MessageSchemaWithoutId>;
 
-export const MessageCreateSchema = Type.Object({
-	content: Type.Optional(Type.String()),
-	role: Type.Optional(Type.String()),
+export const MessageCreateSchema = z.object({
+	content: z.optional(z.string()),
+	role: z.optional(z.string()),
 });
-export type MessageCreateSchema = Static<typeof MessageCreateSchema>;
+export type MessageCreateSchema = z.infer<typeof MessageCreateSchema>;
 
-export const MessageUpdateSchema = Type.Object({
-	id: Type.String(),
-	content: Type.Optional(Type.String()),
+export const MessageUpdateSchema = z.object({
+	id: z.string(),
+	content: z.optional(z.string()),
 });
-export type MessageUpdateSchema = Static<typeof MessageUpdateSchema>;
+export type MessageUpdateSchema = z.infer<typeof MessageUpdateSchema>;
 
-export const MessageListSchema = Type.Array(MessageObjectSchema);
-export type MessageListSchema = Static<typeof MessageListSchema>;
+export const MessageListSchema = z.array(MessageObjectSchema);
+export type MessageListSchema = z.infer<typeof MessageListSchema>;

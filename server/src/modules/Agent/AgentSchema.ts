@@ -1,26 +1,26 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 
-export const AgentObjectSchema = Type.Object({
-	id: Type.String(),
-	createdAt: Type.String(),
-	name: Type.String(),
-	tools: Type.Array(Type.String()),
-	toolsEnabled: Type.Boolean(),
-	systemMessage: Type.String(),
-	threads: Type.Optional(Type.Array(Type.String())),
-	owner: Type.Optional(Type.String()),
-	version: Type.Optional(Type.Number()),
+export const AgentObjectSchema = z.object({
+	id: z.string(),
+	createdAt: z.date(),
+	name: z.string(),
+	tools: z.array(z.string()),
+	toolsEnabled: z.boolean(),
+	systemMessage: z.string(),
+	threads: z.optional(z.array(z.string())),
+	owner: z.optional(z.string()),
+	version: z.optional(z.number()),
 });
-export type AgentObjectSchema = Static<typeof AgentObjectSchema>;
+export type AgentObjectSchema = z.infer<typeof AgentObjectSchema>;
 
-export const AgentObjectListSchema = Type.Array(AgentObjectSchema);
-export type AgentObjectListSchema = Static<typeof AgentObjectListSchema>;
+export const AgentObjectListSchema = z.array(AgentObjectSchema);
+export type AgentObjectListSchema = z.infer<typeof AgentObjectListSchema>;
 
-export const AgentCreateSchema = Type.Omit(AgentObjectSchema, [
-	"id",
-	"createdAt",
-	"threads",
-	"owner",
-	"version",
-]);
-export type AgentCreateSchema = Static<typeof AgentCreateSchema>;
+export const AgentCreateSchema = AgentObjectSchema.omit({
+	id: true,
+	createdAt: true,
+	threads: true,
+	owner: true,
+	version: true,
+});
+export type AgentCreateSchema = z.infer<typeof AgentCreateSchema>;

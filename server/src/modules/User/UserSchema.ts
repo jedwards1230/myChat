@@ -1,21 +1,21 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 
 import { ThreadSchema } from "../Thread/ThreadSchema";
 import { AgentObjectSchema } from "../Agent/AgentSchema";
 
-export const CreateUserSchema = Type.Object({
-	email: Type.String(),
-	password: Type.String(),
+export const AuthInputSchema = z.object({
+	email: z.string().email(),
+	password: z.string().min(8, { message: "Password must be at least 8 characters" }),
 });
-export type CreateUserSchema = Static<typeof CreateUserSchema>;
+export type AuthInputSchema = z.infer<typeof AuthInputSchema>;
 
-export const UserSchema = Type.Object({
-	id: Type.String(),
-	apiKey: Type.String(),
-	name: Type.String(),
-	threads: Type.Optional(Type.Array(ThreadSchema)),
-	agents: Type.Optional(Type.Array(AgentObjectSchema)),
+export const UserSchema = z.object({
+	id: z.string(),
+	apiKey: z.string(),
+	name: z.string(),
+	threads: z.optional(z.array(ThreadSchema)),
+	agents: z.optional(z.array(AgentObjectSchema)),
 	defaultAgent: AgentObjectSchema,
-	sessions: Type.Optional(Type.Array(Type.String())),
+	sessions: z.optional(z.array(z.string())),
 });
-export type UserSchema = Static<typeof UserSchema>;
+export type UserSchema = z.infer<typeof UserSchema>;

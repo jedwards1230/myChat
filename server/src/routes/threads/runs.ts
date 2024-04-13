@@ -7,8 +7,11 @@ import { AgentRunController } from "@/modules/AgentRun/AgentRunController";
 export async function setupAgentRunsRoute(app: FastifyInstance) {
 	// POST Create Thread and Run
 	app.post("/runs", {
-		schema: { body: CreateRunBody },
-		oas: { description: "Create Thread and Run.", tags: ["Run"] },
+		schema: {
+			description: "Create Thread and Run.",
+			tags: ["Run"],
+			body: CreateRunBody,
+		},
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
@@ -18,8 +21,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 
 	// POST Create Run for Thread
 	app.post("/:threadId/runs", {
-		schema: { body: CreateRunBody },
-		oas: { description: "Create a run.", tags: ["Run"] },
+		schema: { description: "Create a run.", tags: ["Run"], body: CreateRunBody },
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
@@ -29,7 +31,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 
 	// GET List of Runs for Thread
 	app.get("/:threadId/runs", {
-		oas: { description: "List of Runs for a Thread.", tags: ["Run"] },
+		schema: { description: "List of Runs for a Thread.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
@@ -39,7 +41,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 
 	// GET Get Run for Thread
 	app.get("/:threadId/runs/:runId", {
-		oas: { description: "Get Run for Thread.", tags: ["Run"] },
+		schema: { description: "Get Run for Thread.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
@@ -49,7 +51,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 
 	// POST Modify a Run
 	app.post("/:threadId/runs/:runId", {
-		oas: { description: "Modify Run for Thread.", tags: ["Run"] },
+		schema: { description: "Modify Run for Thread.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
@@ -59,7 +61,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 
 	// POST Cancel a Run
 	app.post("/:threadId/runs/:runId/cancel", {
-		oas: { description: "Cancel a Run for Thread.", tags: ["Run"] },
+		schema: { description: "Cancel a Run for Thread.", tags: ["Run"] },
 		preHandler: getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },

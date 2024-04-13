@@ -2,7 +2,7 @@ import type { FastifyInstance } from "fastify";
 
 import logger from "@/lib/logs/logger";
 import { authenticate } from "@/hooks/auth";
-import { CreateUserSchema, UserSchema } from "@/modules/User/UserSchema";
+import { AuthInputSchema, UserSchema } from "@/modules/User/UserSchema";
 import { UserSessionSchema } from "@/modules/User/SessionSchema";
 import { UserSession } from "@/modules/User/SessionModel";
 import { Agent } from "@/modules/Agent/AgentModel";
@@ -10,8 +10,11 @@ import { User } from "@/modules/User/UserModel";
 
 export async function setupUserRoute(app: FastifyInstance) {
 	app.get("/user", {
-		schema: { response: { 200: UserSchema } },
-		oas: { description: "Get the current user", tags: ["User"] },
+		schema: {
+			description: "Get the current user",
+			tags: ["User"],
+			response: { 200: UserSchema },
+		},
 		handler: async (request, reply) => {
 			await authenticate(request, reply);
 			reply.send(request.user);
@@ -19,10 +22,14 @@ export async function setupUserRoute(app: FastifyInstance) {
 	});
 
 	app.post("/user", {
-		schema: { body: CreateUserSchema, response: { 200: UserSchema } },
-		oas: { description: "Create user", tags: ["User"] },
+		schema: {
+			description: "Create user",
+			tags: ["User"],
+			body: AuthInputSchema,
+			response: { 200: UserSchema },
+		},
 		handler: async (request, reply) => {
-			const { email, password } = request.body as CreateUserSchema;
+			const { email, password } = request.body as AuthInputSchema;
 
 			try {
 				const agent = await app.orm.getRepository(Agent).save({});
@@ -47,8 +54,11 @@ export async function setupUserRoute(app: FastifyInstance) {
 	});
 
 	app.get("/user/:userId", {
-		schema: { response: { 200: UserSchema } },
-		oas: { description: "Get user by ID", tags: ["User"] },
+		schema: {
+			description: "Get user by ID",
+			tags: ["User"],
+			response: { 200: UserSchema },
+		},
 		handler: async (request, reply) => {
 			await authenticate(request, reply);
 			return reply.send(request.user);
@@ -56,8 +66,11 @@ export async function setupUserRoute(app: FastifyInstance) {
 	});
 
 	app.get("/user/session", {
-		schema: { response: { 200: UserSchema } },
-		oas: { description: "Get user session by ID", tags: ["User"] },
+		schema: {
+			description: "Get user session by ID",
+			tags: ["User"],
+			response: { 200: UserSchema },
+		},
 		handler: async (request, reply) => {
 			await authenticate(request, reply);
 			return reply.send(request.user);
@@ -65,10 +78,13 @@ export async function setupUserRoute(app: FastifyInstance) {
 	});
 
 	app.post("/user/session", {
-		schema: { response: { 200: UserSessionSchema } },
-		oas: { description: "Create user session by ID", tags: ["User"] },
+		schema: {
+			description: "Create user session by ID",
+			tags: ["User"],
+			response: { 200: UserSessionSchema },
+		},
 		handler: async (request, reply) => {
-			const { email, password } = request.body as CreateUserSchema;
+			const { email, password } = request.body as AuthInputSchema;
 
 			// Validate user credentials
 			const user = await app.orm
@@ -107,19 +123,26 @@ export async function setupUserRoute(app: FastifyInstance) {
 	});
 
 	// Delete a session
-	app.delete("/user/session/:sessionId", async (request, reply) => {
-		const { sessionId } = request.params as { sessionId: string };
-		const session = await UserSession.findOne({ where: { id: sessionId } });
+	app.delete("/user/session/:sessionId", {
+		schema: {
+			description: "Delete a user session by ID",
+			tags: ["User"],
+			response: { 200: UserSessionSchema },
+		},
+		handler: async (request, reply) => {
+			const { sessionId } = request.params as { sessionId: string };
+			const session = await UserSession.findOne({ where: { id: sessionId } });
 
-		if (!session) {
-			return reply
-				.status(404)
-				.send({ success: false, message: "Session not found" });
-		}
+			if (!session) {
+				return reply
+					.status(404)
+					.send({ success: false, message: "Session not found" });
+			}
 
-		await session.remove();
-		reply
-			.clearCookie("sessionId", { path: "/" })
-			.send({ success: true, message: "Session deleted" });
+			await session.remove();
+			reply
+				.clearCookie("sessionId", { path: "/" })
+				.send({ success: true, message: "Session deleted" });
+		},
 	});
 }

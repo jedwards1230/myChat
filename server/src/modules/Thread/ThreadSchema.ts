@@ -1,22 +1,22 @@
-import { Type, type Static } from "@fastify/type-provider-typebox";
+import z from "zod";
 
 import { AgentObjectSchema } from "../Agent/AgentSchema";
 import { MessageObjectSchema } from "../Message/MessageSchema";
 
-export const ThreadSchema = Type.Object({
-	id: Type.String(),
-	created: Type.String(),
-	lastModified: Type.String(),
-	activeMessage: Type.Optional(MessageObjectSchema),
-	messages: Type.Optional(Type.Array(MessageObjectSchema)),
-	title: Type.Optional(Type.String()),
-	agent: Type.Optional(AgentObjectSchema),
-	version: Type.Optional(Type.Number()),
+export const ThreadSchema = z.object({
+	id: z.string(),
+	created: z.date(),
+	lastModified: z.date(),
+	activeMessage: z.optional(MessageObjectSchema),
+	messages: z.optional(z.array(MessageObjectSchema)),
+	title: z.union([z.string(), z.null()]),
+	agent: z.optional(AgentObjectSchema),
+	version: z.optional(z.number()),
 });
-export type ThreadSchema = Static<typeof ThreadSchema>;
+export type ThreadSchema = z.infer<typeof ThreadSchema>;
 
-export const ThreadSchemaWithoutId = Type.Omit(ThreadSchema, ["id"]);
-export type ThreadSchemaWithoutId = Static<typeof ThreadSchemaWithoutId>;
+export const ThreadSchemaWithoutId = ThreadSchema.omit({ id: true });
+export type ThreadSchemaWithoutId = z.infer<typeof ThreadSchemaWithoutId>;
 
-export const ThreadListSchema = Type.Array(ThreadSchema);
-export type ThreadListSchema = Static<typeof ThreadListSchema>;
+export const ThreadListSchema = z.array(ThreadSchema);
+export type ThreadListSchema = z.infer<typeof ThreadListSchema>;

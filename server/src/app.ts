@@ -1,12 +1,17 @@
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
-import fastifyOpenApi from "@eropple/fastify-openapi3";
 import fastifyStatic from "@fastify/static";
 import fastifyCookie from "@fastify/cookie";
-
 import fastifyORM from "typeorm-fastify-plugin";
-import type { TypeBoxTypeProvider } from "@fastify/type-provider-typebox";
+import fastifySwagger from "@fastify/swagger";
+import fastifySwaggerUI from "@fastify/swagger-ui";
+import {
+	jsonSchemaTransform,
+	serializerCompiler,
+	validatorCompiler,
+	type ZodTypeProvider,
+} from "fastify-type-provider-zod";
 
 import { Config } from "./config";
 import { initDb, resetDatabase, AppDataSource } from "./lib/pg";
@@ -20,11 +25,12 @@ import { setupMessagesRoute } from "./routes/threads/messages";
 import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 import { setupModelsRoute } from "./routes/models";
+import { errorHandler } from "./errors";
 
 export const app = Fastify({
 	logger: false,
 	...Config.sslOptions,
-}).withTypeProvider<TypeBoxTypeProvider>();
+});
 
 export type BuildAppParams = {
 	isProd: boolean;
@@ -54,15 +60,39 @@ export async function buildApp(
 	await app.register(fastifyORM, { connection: AppDataSource });
 	await init();
 
+	app.setValidatorCompiler(validatorCompiler);
+	app.setSerializerCompiler(serializerCompiler);
+	app.withTypeProvider<ZodTypeProvider>();
+
 	// Hooks
 	await app.register(fastifyCookie, {
 		secret: sessionSecret,
 		parseOptions: { secure: isProd },
 	});
 	await app.register(fastifyMultipart);
-	await app.register(fastifyOpenApi, {
-		openapiInfo: { title: "myChat API", version: "0.1.0" },
-		publish: { ui: "rapidoc", json: true },
+	app.register(fastifySwagger, {
+		openapi: {
+			openapi: "3.0.0",
+			info: {
+				title: "myChat API",
+				description: "Sample backend service",
+				version: "0.1.0",
+			},
+			servers: [],
+			/* components: {
+				securitySchemes: {
+					apiKey: {
+						type: "http",
+						scheme: "bearer",
+					},
+				},
+			}, */
+		},
+		transform: jsonSchemaTransform,
+	});
+
+	app.register(fastifySwaggerUI, {
+		routePrefix: "/docs",
 	});
 	await app.register(fastifyCors, { origin: "*" });
 
@@ -72,17 +102,7 @@ export async function buildApp(
 		logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`);
 	});
 
-	app.setErrorHandler(function (error, request, reply) {
-		logger.error("Fastify error", {
-			error,
-			params: request.params,
-			method: request.method,
-			url: request.url,
-			body: request.body,
-			headers: request.headers,
-		});
-		reply.status(409).send({ ok: false });
-	});
+	app.setErrorHandler(errorHandler);
 
 	// Api Routes
 	await app.register(
@@ -102,7 +122,7 @@ export async function buildApp(
 
 				app.get(
 					"/reset",
-					{ oas: { description: "Reset the database", tags: ["Admin"] } },
+					{ schema: { description: "Reset the database", tags: ["Admin"] } },
 					async (req, res) => {
 						await resetDatabase();
 						await initDb();
