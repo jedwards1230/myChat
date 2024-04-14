@@ -54,8 +54,8 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 		handler: async (req, res) => res.send(req.message),
 	});
 
-	// POST Modify Message
-	app.post("/:messageId", {
+	// PATCH Modify Message
+	app.patch("/:messageId", {
 		schema: {
 			description: "Modify Message.",
 			tags: ["Message"],

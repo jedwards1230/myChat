@@ -2,10 +2,10 @@ import { View } from "react-native";
 
 import type { Message } from "@/types";
 import Markdown from "@/components/Markdown/Markdown";
-import { Textarea } from "@/components/ui/Textarea";
 import { useGroupStore } from "../GroupStore";
 import { ToolCallMessage } from "./MessageTypes/ToolMessage";
 import { FileMessageGroup } from "./FileMessageGroup";
+import { EditableMessage } from "./MessageTypes/EditableMessage";
 
 export function MessageFilter({
 	message,
@@ -14,17 +14,10 @@ export function MessageFilter({
 	message: Message;
 	threadId: string;
 }) {
-	const { editMessageId } = useGroupStore();
-	const editMode = editMessageId === message.id;
+	const isEditMode = useGroupStore((s) => s.isEditMode);
 
-	if (editMode) {
-		return (
-			<Textarea
-				className="px-2 py-1 bg-transparent web:focus-visible:ring-0"
-				value={message.content ?? undefined}
-			/>
-		);
-	}
+	if (isEditMode(message.id))
+		return <EditableMessage message={message} threadId={threadId} />;
 
 	switch (message.role) {
 		case "tool":

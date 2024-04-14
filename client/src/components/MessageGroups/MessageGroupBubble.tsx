@@ -31,9 +31,13 @@ export function MessageGroupBubble({
 			</View>
 			<View className={editMode ? "pl-4" : ""}>
 				{group.messages.map((message, idx) => (
-					<BaseMessage key={message.id + idx} message={message} group={group} />
+					<BaseMessage
+						key={message.id + idx}
+						message={message}
+						group={group}
+						isLoading={isLoading}
+					/>
 				))}
-				{isLoading && <ActivityIndicator />}
 			</View>
 		</View>
 	);

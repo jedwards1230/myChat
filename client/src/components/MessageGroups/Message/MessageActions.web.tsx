@@ -6,16 +6,16 @@ import { cn } from "@/lib/utils";
 import { FontAwesome6, Octicons } from "@/components/ui/Icon";
 import { Message } from "@/types";
 import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
-import { Button } from "@/components/ui/Button";
-import { Text } from "@/components/ui/Text";
 import { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({
 	message,
 	group,
+	children,
 }: {
 	message: Message;
 	group: ChatMessageGroup;
+	children?: React.ReactNode;
 }) {
 	const { setEditId, reset, editMessageId } = useGroupStore();
 	const { mutate: deleteMessage } = useDeleteMessageMutation(
@@ -25,14 +25,13 @@ export function MessageActions({
 
 	const editMode = editMessageId === message.id;
 
-	const toggleEditMode = () => {
+	const toggleEditMode = () =>
 		editMode
 			? reset()
 			: setEditId({
 					editGroupId: group.id,
 					editMessageId: message.id,
 			  });
-	};
 
 	const copyToClipboard = () => {
 		if (message.content !== null) {
@@ -61,16 +60,7 @@ export function MessageActions({
 
 	return (
 		<>
-			{editMode && (
-				<View className="flex flex-row justify-center gap-4 mt-2">
-					<Button onPress={toggleEditMode} size="sm">
-						<Text>Cancel</Text>
-					</Button>
-					<Button size="sm">
-						<Text>Save</Text>
-					</Button>
-				</View>
-			)}
+			{children}
 			<View className="h-3 pl-6">
 				<View
 					className={cn(
