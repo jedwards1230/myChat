@@ -12,7 +12,19 @@ export const agentQueryOptions = (apiKey: string, agentId: string) => {
 	});
 };
 
+export const toolQueryOptions = (apiKey: string) => {
+	return queryOptions({
+		queryKey: ["tools"],
+		queryFn: () => fetcher<string[]>(`/agents/tools`, { apiKey }),
+	});
+};
+
 export const useAgentQuery = (agentId: string) => {
 	const apiKey = useUserData((s) => s.apiKey);
 	return useQuery(agentQueryOptions(apiKey, agentId));
+};
+
+export const useToolsQuery = () => {
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(toolQueryOptions(apiKey));
 };

@@ -54,4 +54,13 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 		preHandler: [getAgent()],
 		handler: AgentController.deleteAgent,
 	});
+
+	// GET list of available tools
+	app.get("/tools", {
+		schema: {
+			description: "List available tools for an agent.",
+			tags: ["Agent"],
+		},
+		handler: AgentController.getTools,
+	});
 }

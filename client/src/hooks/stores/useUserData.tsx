@@ -18,10 +18,7 @@ const loginUser = async (email: string, password: string) =>
 	});
 
 const logoutUser = async (sessionId: string) =>
-	fetcher(`/user/session/${sessionId}`, { method: "DELETE", file: true });
-
-const verifySession = async (sessionId: string) =>
-	fetcher<UserSession>(`/user/session/${sessionId}`);
+	fetcher(`/user/session/${sessionId}`, { method: "DELETE" });
 
 type State = {
 	session: UserSession | null;
@@ -34,7 +31,6 @@ interface Actions {
 	setTheme: (theme: string) => void;
 	login: (email: string, password: string) => Promise<void>;
 	signup: (email: string, password: string) => Promise<void>;
-	verify: () => Promise<void>;
 	logout: () => void;
 	reset: () => void;
 }
@@ -67,16 +63,6 @@ export const useUserData = create<State & Actions>()(
 				if (!id) return console.error("No active session");
 				await logoutUser(id);
 				set({ session: null });
-			},
-			verify: async () => {
-				const sessionId = get().session?.id;
-				if (!sessionId) return set({ session: null });
-				try {
-					const session = await verifySession(sessionId);
-					set({ session });
-				} catch (error) {
-					set({ session: null });
-				}
 			},
 			reset: () => set(initial),
 		}),

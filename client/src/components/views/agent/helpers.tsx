@@ -1,10 +1,11 @@
 import { useState } from "react";
+import { View } from "react-native";
 
 import type { Agent, ModelInformation } from "@/types";
 import { useModelsQuery } from "@/hooks/queries/useModelsQuery";
 import { Text } from "@/components/ui/Text";
 import { Switch } from "@/components/ui/Switch";
-import { RowItem, Section } from "@/components/ui/Section";
+import { RowItem, Section, SectionBlock } from "@/components/ui/Section";
 import {
 	Select,
 	SelectItem,
@@ -14,6 +15,7 @@ import {
 	Option,
 } from "@/components/ui/Select";
 import { useAgentStore } from "@/hooks/stores/agentStore";
+import { useToolsQuery } from "@/hooks/queries/useAgentQuery";
 
 export function SystemMessage({ agent }: { agent: Agent }) {
 	return (
@@ -25,6 +27,7 @@ export function SystemMessage({ agent }: { agent: Agent }) {
 
 export function ToolSection({ agent }: { agent: Agent }) {
 	const [checked, setChecked] = useState(false);
+	const { data } = useToolsQuery();
 
 	return (
 		<Section title="Tools">
@@ -37,8 +40,8 @@ export function ToolSection({ agent }: { agent: Agent }) {
 				/>
 			</RowItem>
 			{checked &&
-				(agent.tools?.length ? (
-					agent.tools.map((tool) => (
+				(data && data.length ? (
+					data.map((tool) => (
 						<RowItem key={tool}>
 							<Text>{tool}</Text>
 						</RowItem>
@@ -80,10 +83,13 @@ export function ModelSection({
 	container: HTMLElement | null;
 }) {
 	return (
-		<Section title="Model">
+		<View className="flex w-full gap-2">
+			<View className="flex flex-row items-center justify-between px-4 pb-2">
+				<Text className="text-secondary-foreground">Model</Text>
+			</View>
 			<ModelSelector modelInfo={model} container={container} />
 			{model && (
-				<>
+				<SectionBlock>
 					<RowItem>
 						<Text>Model: {model.name || "N/A"}</Text>
 					</RowItem>
@@ -96,9 +102,9 @@ export function ModelSection({
 					<RowItem>
 						<Text>Can Stream: {model.params?.canStream || "N/A"}</Text>
 					</RowItem>
-				</>
+				</SectionBlock>
 			)}
-		</Section>
+		</View>
 	);
 }
 

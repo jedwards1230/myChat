@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import type { User } from "@/types";
+import type { User, UserSession } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher, FetchError } from "../../lib/fetcher";
 
@@ -14,11 +14,21 @@ export const userQueryOptions = (apiKey: string) => {
 	});
 };
 
+export const userSessionQueryOptions = (apiKey: string, sessionId: string | null) => {
+	return queryOptions({
+		queryKey: ["session"],
+		enabled: !!sessionId,
+		retry: false,
+		queryFn: () => fetcher<UserSession>(`/user/session/${sessionId}`, { apiKey }),
+	});
+};
+
 export const useUserQuery = () => {
 	const apiKey = useUserData((s) => s.apiKey);
-	try {
-		return useQuery(userQueryOptions(apiKey));
-	} catch (error) {
-		return null;
-	}
+	useQuery(userQueryOptions(apiKey));
+};
+
+export const useUserSessionQuery = (sessionId: string | null) => {
+	const apiKey = useUserData((s) => s.apiKey);
+	return useQuery(userSessionQueryOptions(apiKey, sessionId));
 };

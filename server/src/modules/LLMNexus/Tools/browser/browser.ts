@@ -1,3 +1,4 @@
+import type { LLMTool, Runner } from "../types";
 import { Mclick } from "./mclick";
 import { OpenUrl } from "./openurl";
 import { Search } from "./search";
@@ -30,12 +31,29 @@ Otherwise do not render links.`;
 // clean the quotes and such for a postgres insert with typeorm. getting an error with the quotes
 export const cleanedSystemMessage = systemMessage.replace(/'/g, "''");
 
-export const Browser = {
+const tools = [Search, Mclick, OpenUrl];
+
+export const Browser: ToolConfig<typeof tools> = {
 	name: "Browser",
-	tools: [Search, Mclick, OpenUrl],
+	tools,
 	description:
 		"Use the browser tool to search the web, retrieve webpages, and open URLs",
 	systemMessage: cleanedSystemMessage,
+	getTools: () => tools.map((t) => t.runnable),
+};
 
-	getTools: () => Browser.tools.map((t) => t.runnable),
+type Runnable<T> = T extends (infer U)[]
+	? U extends { runnable: infer R }
+		? R
+		: never
+	: T extends { runnable: infer R }
+	? R
+	: never;
+
+type ToolConfig<T = any> = {
+	name: string;
+	tools: T;
+	description: string;
+	systemMessage: string;
+	getTools: () => Runnable<T>[];
 };

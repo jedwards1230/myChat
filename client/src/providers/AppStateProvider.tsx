@@ -1,16 +1,7 @@
-"use client";
-
-import { useUserData } from "@/hooks/stores/useUserData";
-import { useEffect, useState } from "react";
+import { useUser } from "@/hooks/useUser";
 
 export function AppStateProvider({ children }: { children: React.ReactNode }) {
-	const verifySession = useUserData((state) => state.verify);
-	const [loading, setLoading] = useState(true);
-
-	useEffect(() => {
-		verifySession().finally(() => setLoading(false));
-	}, []);
-
+	const { loading } = useUser();
 	if (loading) return null;
 	return children;
 }

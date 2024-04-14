@@ -8,7 +8,7 @@ import { AuthViewWrapper } from "./AuthViewWrapper";
 export function AuthView() {
 	return (
 		<AuthViewWrapper>
-			<View className="p-8 border border-transparent rounded shadow-sm !bg-background md:border-border">
+			<View className="p-8 border border-transparent rounded shadow-sm !bg-background sm:border-border">
 				<View className="flex gap-4">
 					<Text className="text-xl font-semibold text-center">Auth View</Text>
 					<Link asChild href="/(auth)/login">

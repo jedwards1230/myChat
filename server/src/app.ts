@@ -2,7 +2,6 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyStatic from "@fastify/static";
-import fastifyCookie from "@fastify/cookie";
 import fastifyORM from "typeorm-fastify-plugin";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
@@ -16,7 +15,6 @@ import {
 import { Config } from "./config";
 import { initDb, resetDatabase, AppDataSource } from "./lib/pg";
 import logger, { accessLogger } from "./lib/logs/logger";
-import { init } from "./lib/utils";
 import { authenticate } from "./hooks/auth";
 
 import { setupUserRoute } from "./routes/user";
@@ -58,17 +56,12 @@ export async function buildApp(
 		await resetDatabase();
 	}
 	await app.register(fastifyORM, { connection: AppDataSource });
-	await init();
 
 	app.setValidatorCompiler(validatorCompiler);
 	app.setSerializerCompiler(serializerCompiler);
 	app.withTypeProvider<ZodTypeProvider>();
 
 	// Hooks
-	await app.register(fastifyCookie, {
-		secret: sessionSecret,
-		parseOptions: { secure: isProd },
-	});
 	await app.register(fastifyMultipart);
 	app.register(fastifySwagger, {
 		openapi: {
@@ -79,14 +72,6 @@ export async function buildApp(
 				version: "0.1.0",
 			},
 			servers: [],
-			/* components: {
-				securitySchemes: {
-					apiKey: {
-						type: "http",
-						scheme: "bearer",
-					},
-				},
-			}, */
 		},
 		transform: jsonSchemaTransform,
 	});
@@ -126,7 +111,6 @@ export async function buildApp(
 					async (req, res) => {
 						await resetDatabase();
 						await initDb();
-						await init();
 						res.send({ ok: true });
 					}
 				);

@@ -21,7 +21,7 @@ interface Actions {
 const initial: State = {
 	agent: {
 		id: "default",
-		createdAt: new Date().toLocaleDateString(),
+		createdAt: new Date(),
 		name: "default",
 		tools: [],
 		toolsEnabled: false,

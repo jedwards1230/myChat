@@ -3,8 +3,6 @@ import type { ChatCompletionMessage } from "openai/resources/index.mjs";
 
 import { chatResponseEmitter, type ChatResponseEmitterEvents } from "@/lib/events";
 import logger from "@/lib/logs/logger";
-import type { ModelApi } from "@/types/models";
-
 import type { Thread } from "../Thread/ThreadModel";
 
 import { AgentRunQueue } from "./AgentRunQueue";

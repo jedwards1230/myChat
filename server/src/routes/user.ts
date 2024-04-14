@@ -36,7 +36,9 @@ export async function setupUserRoute(app: FastifyInstance) {
 					where: { email },
 				});
 				if (emailedAlreadyStored)
-					return reply.code(409).send("User with this email already exists");
+					return reply
+						.code(409)
+						.send({ error: "User with this email already exists" });
 
 				const agent = await app.orm.getRepository(Agent).save({});
 				if (!agent) throw new Error("Cannot load default agent");
@@ -48,12 +50,13 @@ export async function setupUserRoute(app: FastifyInstance) {
 					agents: [agent],
 					defaultAgent: agent,
 				});
-				if (!baseUser) return reply.code(409).send("Cannot create user");
+				if (!baseUser)
+					return reply.code(409).send({ error: "Cannot create user" });
 
 				return reply.send(baseUser);
 			} catch (error) {
 				logger.error("Error creating user", error);
-				return reply.code(409).send("Cannot create user");
+				return reply.code(409).send({ error: "Cannot create user" });
 			}
 		},
 	});
@@ -96,7 +99,7 @@ export async function setupUserRoute(app: FastifyInstance) {
 				.getRepository(User)
 				.findOne({ where: { email, password } });
 			if (!user) {
-				return reply.status(401).send("Invalid credentials");
+				return reply.status(401).send({ error: "Invalid credentials" });
 			}
 
 			const session = await app.orm.getRepository(UserSession).save({
@@ -129,7 +132,7 @@ export async function setupUserRoute(app: FastifyInstance) {
 			});
 
 			if (!session) {
-				return reply.status(404).send("Session not found");
+				return reply.status(404).send({ error: "Session not found" });
 			}
 
 			// check if expired
@@ -138,7 +141,7 @@ export async function setupUserRoute(app: FastifyInstance) {
 					functionName: "GET /user/session/:sessionId",
 				});
 				await session.remove();
-				return reply.status(401).send("Session expired");
+				return reply.status(401).send({ error: "Session expired" });
 			}
 
 			return reply.send({ ...session, userId: session.user.id });
@@ -157,11 +160,11 @@ export async function setupUserRoute(app: FastifyInstance) {
 			const session = await UserSession.findOne({ where: { id: sessionId } });
 
 			if (!session) {
-				return reply.status(404).send("Session not found");
+				return reply.status(404).send({ error: "Session not found" });
 			}
 
 			await session.remove();
-			return reply.send("Session deleted");
+			return reply.send({ message: "Session deleted" });
 		},
 	});
 }
