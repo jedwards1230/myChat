@@ -16,7 +16,7 @@ export function MessagePreview({
 	const name = message.name || message.role;
 
 	return (
-		<View className="absolute min-w-full px-2 py-4 border rounded bg-background">
+		<View className="min-w-full px-2 py-4 border rounded bg-background">
 			<View className="flex flex-row items-center gap-2">
 				<Avatar role={role} name={name} />
 				<Text className="font-bold">{name}</Text>

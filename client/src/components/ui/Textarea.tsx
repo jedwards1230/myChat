@@ -16,6 +16,8 @@ const Textarea = React.forwardRef<
 		},
 		ref
 	) => {
+		const [height, setHeight] = React.useState(0);
+
 		return (
 			<TextInput
 				ref={ref}
@@ -26,7 +28,9 @@ const Textarea = React.forwardRef<
 				)}
 				placeholderClassName={cn("text-muted-foreground", placeholderClassName)}
 				multiline={multiline}
-				numberOfLines={numberOfLines}
+				onContentSizeChange={(e) => setHeight(e.nativeEvent.contentSize.height)}
+				//numberOfLines={numberOfLines}
+				style={{ height }}
 				textAlignVertical="top"
 				{...props}
 			/>

@@ -42,14 +42,13 @@ export function MessageActions({
 
 	const editMode = editMessageId === message.id;
 
-	const toggleEditMode = () => {
+	const toggleEditMode = () =>
 		editMode
 			? reset()
 			: setEditId({
 					editGroupId: group.id,
 					editMessageId: message.id,
 			  });
-	};
 
 	const copyToClipboard = () => {
 		if (message.content) {
@@ -71,9 +70,11 @@ export function MessageActions({
 		}
 	};
 
+	if (editMode) return children;
 	return (
 		<ContextMenuView
 			menuConfig={menuConfig}
+			shouldPreventLongPressGestureFromPropagating={true}
 			renderPreview={() => (
 				<MessagePreview threadId={group.threadId} message={message} />
 			)}

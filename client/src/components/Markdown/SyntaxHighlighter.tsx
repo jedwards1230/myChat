@@ -1,9 +1,9 @@
 import * as React from "react";
 import { ComponentType } from "react";
-import { ScrollView, TextStyle, View } from "react-native";
+import { TextStyle, View } from "react-native";
 import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
-	Prism as Highlighter,
+	PrismAsync as Highlighter,
 	SyntaxHighlighterProps as DefaultProps,
 } from "react-syntax-highlighter";
 

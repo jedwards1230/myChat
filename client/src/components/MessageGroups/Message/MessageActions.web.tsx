@@ -34,7 +34,7 @@ export function MessageActions({
 			  });
 
 	const copyToClipboard = () => {
-		if (message.content !== null) {
+		if (typeof message.content === "string") {
 			Clipboard.setStringAsync(message.content!);
 		}
 	};
@@ -61,30 +61,27 @@ export function MessageActions({
 	return (
 		<>
 			{children}
-			<View className="h-3 pl-6">
-				<View
-					className={cn(
-						"flex-row gap-4 group-hover:flex",
-						editMode ? "" : "hidden"
-					)}
-				>
-					{actions.map(({ IconProvider, icon, onPress, hidden }, i) =>
-						!hidden ? (
-							<Pressable
-								className="transition-all active:scale-110"
-								key={i}
-								onPress={onPress}
-							>
-								<IconProvider
-									name={icon}
-									size={14}
-									className="transition-colors text-foreground/30 hover:text-foreground/80"
-								/>
-							</Pressable>
-						) : null
-					)}
+			{!editMode && (
+				<View className="h-3 pl-6">
+					<View className="flex-row hidden gap-4 group-hover:flex">
+						{actions.map(({ IconProvider, icon, onPress, hidden }, i) =>
+							!hidden ? (
+								<Pressable
+									className="transition-all active:scale-110"
+									key={i}
+									onPress={onPress}
+								>
+									<IconProvider
+										name={icon}
+										size={14}
+										className="transition-colors text-foreground/30 hover:text-foreground/80"
+									/>
+								</Pressable>
+							) : null
+						)}
+					</View>
 				</View>
-			</View>
+			)}
 		</>
 	);
 }

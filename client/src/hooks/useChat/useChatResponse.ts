@@ -1,18 +1,21 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { useRequestChatMutation } from "../mutations/useRequestChatMutation";
 import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
 
 export const useChatResponse = () => {
-	const chatMut = useRequestChatMutation();
+	const [loading, setLoading] = useState(false);
+	const chatMut = useRequestChatMutation(() => setLoading(false));
 	const titleMut = useRequestThreadTitleMutation();
 	const abortController = useRef(new AbortController());
 
 	const requestChat = async (threadId: string) => {
+		setLoading(true);
 		await chatMut.mutateAsync({
 			threadId,
 			signal: abortController.current.signal,
 		});
+
 		chatMut.reset();
 		titleMut
 			.mutateAsync(threadId)
@@ -26,5 +29,5 @@ export const useChatResponse = () => {
 		chatMut.reset();
 	};
 
-	return { requestChat, abort, isResponding: chatMut.isPending };
+	return { requestChat, abort, isResponding: loading };
 };

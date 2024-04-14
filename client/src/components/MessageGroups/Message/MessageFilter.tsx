@@ -6,6 +6,7 @@ import { useGroupStore } from "../GroupStore";
 import { ToolCallMessage } from "./MessageTypes/ToolMessage";
 import { FileMessageGroup } from "./FileMessageGroup";
 import { EditableMessage } from "./MessageTypes/EditableMessage";
+import { useMemo } from "react";
 
 export function MessageFilter({
 	message,
@@ -14,10 +15,10 @@ export function MessageFilter({
 	message: Message;
 	threadId: string;
 }) {
-	const isEditMode = useGroupStore((s) => s.isEditMode);
+	const { editMessageId, isEditMode } = useGroupStore();
+	const editMode = useMemo(() => isEditMode(message.id), [message.id, editMessageId]);
 
-	if (isEditMode(message.id))
-		return <EditableMessage message={message} threadId={threadId} />;
+	if (editMode) return <EditableMessage message={message} threadId={threadId} />;
 
 	switch (message.role) {
 		case "tool":

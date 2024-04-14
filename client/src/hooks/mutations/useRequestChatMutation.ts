@@ -43,7 +43,7 @@ async function postChatRequest({ threadId, apiKey, stream, signal }: PostChatReq
 	return res;
 }
 
-export const useRequestChatMutation = () => {
+export const useRequestChatMutation = (fn: () => void) => {
 	const { stream } = useConfigStore();
 	const apiKey = useUserData((s) => s.apiKey);
 
@@ -66,10 +66,12 @@ export const useRequestChatMutation = () => {
 		});
 
 	const finalMessage = async (opts: QueryOpts) => {
+		console.log("final message");
 		// TODO: This is a hack to ensure the message is persisted to database before refetching
 		// This should probably poll the server until the message is persisted
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		queryClient.invalidateQueries(opts);
+		await queryClient.invalidateQueries(opts);
+		fn();
 	};
 
 	return useMutation({
@@ -93,6 +95,7 @@ export const useRequestChatMutation = () => {
 				});
 
 				await streamHandler;
+				console.log("stream handled");
 			} else {
 				addMessage(res, opts);
 				emitFeedback();

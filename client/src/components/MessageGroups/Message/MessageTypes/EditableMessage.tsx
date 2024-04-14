@@ -57,7 +57,7 @@ export function EditableMessage({
 	};
 
 	return (
-		<>
+		<View className="flex flex-1 h-full pb-2">
 			<Controller
 				control={control}
 				name="input"
@@ -66,7 +66,7 @@ export function EditableMessage({
 					<Textarea
 						onBlur={onBlur}
 						onChangeText={onChange}
-						className="px-2 py-0 !border-0 web:focus-visible:!ring-offset-0 bg-transparent focus-visible:!border-transparent !border-transparent web:focus-visible:ring-0"
+						className="px-2 py-0 h-full !border-0 web:focus-visible:!ring-offset-0 bg-transparent focus-visible:!border-transparent !border-transparent web:focus-visible:ring-0"
 						value={value}
 					/>
 				)}
@@ -82,6 +82,6 @@ export function EditableMessage({
 					<Text>Save</Text>
 				</Button>
 			</View>
-		</>
+		</View>
 	);
 }

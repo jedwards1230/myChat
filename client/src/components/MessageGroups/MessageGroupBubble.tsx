@@ -29,7 +29,7 @@ export function MessageGroupBubble({
 				<Avatar name={name} role={role} />
 				<Text className="text-lg font-semibold md:font-bold">{group.name}</Text>
 			</View>
-			<View className={editMode ? "pl-4" : ""}>
+			<View className={cn(editMode ? "pl-4" : "", "pt-1")}>
 				{group.messages.map((message, idx) => (
 					<BaseMessage
 						key={message.id + idx}
