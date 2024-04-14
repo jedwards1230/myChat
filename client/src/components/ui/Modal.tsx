@@ -18,7 +18,7 @@ export default function ModalWrapper({
 			<ScrollView className="flex flex-col items-center flex-1 w-full gap-8 p-4">
 				<View className="pt-4">
 					{!isPresented && (
-						<Link className="text-primary" href="/(chat)">
+						<Link className="text-primary" href="/(main)">
 							Dismiss
 						</Link>
 					)}

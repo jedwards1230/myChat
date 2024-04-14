@@ -27,7 +27,7 @@ export function useDeleteThreadMutation() {
 		onSuccess: (_, threadId) => {
 			if (threadId === activeThreadId) {
 				setThreadId(null);
-				router.push("/(chat)");
+				router.push("/(main)");
 				queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
 			}
 			queryClient.invalidateQueries(threadListQueryOptions(apiKey));

@@ -55,7 +55,7 @@ export const useThreadManager = (initialThreadId: string | null) => {
 		try {
 			const res = await createThreadMut.mutateAsync();
 			if (res.id !== threadId) {
-				router.push({ pathname: `/(chat)/c/${res.id}` });
+				router.push({ pathname: `/(main)/c/${res.id}` });
 				setActiveThreadId(res.id);
 			}
 

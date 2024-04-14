@@ -49,7 +49,7 @@ export function useGroupedMessages(threadId: string) {
 	);
 
 	useEffect(() => {
-		if (isError) router.push("/(chat)");
+		if (isError) router.push("/(main)");
 	}, [isError]);
 
 	useEffect(() => {

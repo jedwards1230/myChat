@@ -70,8 +70,8 @@ export const useRequestChatMutation = (fn: () => void) => {
 		// TODO: This is a hack to ensure the message is persisted to database before refetching
 		// This should probably poll the server until the message is persisted
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		await queryClient.invalidateQueries(opts);
 		fn();
+		await queryClient.invalidateQueries(opts);
 	};
 
 	return useMutation({

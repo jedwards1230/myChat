@@ -4,7 +4,7 @@ import { MaterialIcons } from "@/components/ui/Icon";
 
 export default function NewChatButton() {
 	return (
-		<LinkButton href={{ pathname: "/(chat)/" }}>
+		<LinkButton href={{ pathname: "/(main)/" }}>
 			<MaterialIcons
 				name="open-in-new"
 				size={20}

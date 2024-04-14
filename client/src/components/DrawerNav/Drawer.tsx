@@ -26,8 +26,8 @@ export default function CustomDrawer() {
 			screenOptions={screenOptions}
 			initialRouteName="index"
 		>
-			<Drawer.Screen name="index" options={{ drawerLabel: "Home" }} />
-			<Drawer.Screen name="c/[id]" options={{ drawerLabel: "Thread" }} />
+			<Drawer.Screen name="index" />
+			<Drawer.Screen name="c/[id]" />
 			<Drawer.Screen name="agents" options={{ drawerLabel: "Agents" }} />
 		</Drawer>
 	);

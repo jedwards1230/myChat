@@ -3,7 +3,7 @@ import { Redirect, Stack } from "expo-router";
 
 export default function AuthLayout() {
 	const session = useUserData((s) => s.session);
-	if (session) return <Redirect href="/(chat)" />;
+	if (session) return <Redirect href="/(main)" />;
 	return (
 		<Stack initialRouteName="index">
 			<Stack.Screen name="index" options={{ headerShown: false }} />

@@ -12,10 +12,10 @@ export default function Chat() {
 	useEffect(() => setThreadId(id), [id]);
 
 	if (!isFocused) return null;
-	if (id !== threadId) {
+	/* if (id !== threadId) {
 		console.warn("Thread ID mismatch", { id, threadId });
 		return null;
-	}
+	} */
 	return <ChatView threadId={id} />;
 }
 

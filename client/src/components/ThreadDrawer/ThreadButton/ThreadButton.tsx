@@ -21,7 +21,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 	const deleteThread = useAction("deleteThread")();
 	const router = useRouter();
 
-	const goToThread = () => router.push({ pathname: `/(chat)/c/${thread.id}` });
+	const goToThread = () => router.push({ pathname: `/(main)/c/${thread.id}` });
 
 	const onMenuAction = (actionKey: string) => {
 		switch (actionKey) {

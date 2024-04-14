@@ -19,7 +19,7 @@ import { PortalHost } from "@/components/primitives/portal";
 import { Platform } from "react-native";
 
 export const unstable_settings = {
-	initialRouteName: "(chat)",
+	initialRouteName: "(main)",
 };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -60,11 +60,14 @@ function RootProviders() {
 				<PlatformProviders>
 					<AppStateProvider>
 						<Stack
-							initialRouteName="(chat)"
-							screenOptions={{ headerShown: false }}
+							initialRouteName="(main)"
+							screenOptions={{
+								headerShown: false,
+								contentStyle: { backgroundColor: "#fff" },
+							}}
 						>
 							<Stack.Screen name="(auth)" />
-							<Stack.Screen name="(chat)" />
+							<Stack.Screen name="(main)" />
 							<Stack.Screen
 								name="file/[id]"
 								options={{ presentation: "modal" }}
