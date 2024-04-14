@@ -15,6 +15,15 @@ export class FetchError extends Error {
 		}
 		return undefined;
 	}
+
+	get response() {
+		if (this.res instanceof Response) {
+			return this.res;
+		} else if (this.res instanceof XMLHttpRequest) {
+			return this.res.response;
+		}
+		return undefined;
+	}
 }
 
 export type FetcherRequestInit = FetchRequestInit & {

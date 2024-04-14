@@ -32,8 +32,14 @@ export async function setupUserRoute(app: FastifyInstance) {
 			const { email, password } = request.body as AuthInputSchema;
 
 			try {
+				const emailedAlreadyStored = await app.orm.getRepository(User).findOne({
+					where: { email },
+				});
+				if (emailedAlreadyStored)
+					return reply.code(409).send("User with this email already exists");
+
 				const agent = await app.orm.getRepository(Agent).save({});
-				if (!agent) throw new Error("Cannot preload agent");
+				if (!agent) throw new Error("Cannot load default agent");
 
 				const baseUser = await app.orm.getRepository(User).save({
 					apiKey: "user-1",
@@ -42,13 +48,12 @@ export async function setupUserRoute(app: FastifyInstance) {
 					agents: [agent],
 					defaultAgent: agent,
 				});
-				if (!baseUser)
-					return reply.code(409).send({ error: "Cannot create user" });
+				if (!baseUser) return reply.code(409).send("Cannot create user");
 
 				return reply.send(baseUser);
 			} catch (error) {
 				logger.error("Error creating user", error);
-				return reply.code(409).send({ error: "Cannot create user" });
+				return reply.code(409).send("Cannot create user");
 			}
 		},
 	});
@@ -91,34 +96,52 @@ export async function setupUserRoute(app: FastifyInstance) {
 				.getRepository(User)
 				.findOne({ where: { email, password } });
 			if (!user) {
-				return reply
-					.status(401)
-					.send({ success: false, message: "Invalid credentials" });
+				return reply.status(401).send("Invalid credentials");
 			}
-
-			logger.debug("User logged in", { email, password, request });
 
 			const session = await app.orm.getRepository(UserSession).save({
 				user,
 				createdAt: new Date(),
-				expire: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours
+				expire: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days
 				ip: request.ip,
 				provider: "email",
 			});
 
-			logger.debug("Session created", { session });
+			logger.verbose(`Session created: ${session.id}`, {
+				functionName: "POST /user/session",
+			});
+			return reply.send({ ...session, userId: user.id });
+		},
+	});
 
-			// Set cookie with the session ID
-			reply.setCookie("sessionId", session.id, {
-				path: "/",
-				secure: true, // Set to true in production (HTTPS)
-				httpOnly: true,
-				sameSite: "lax", // CSRF protection
+	// Get a session
+	app.get("/user/session/:sessionId", {
+		schema: {
+			description: "Get a user session by ID",
+			tags: ["User"],
+			response: { 200: UserSessionSchema },
+		},
+		handler: async (request, reply) => {
+			const { sessionId } = request.params as { sessionId: string };
+			const session = await UserSession.findOne({
+				where: { id: sessionId },
+				relations: ["user"],
 			});
 
-			logger.debug("Session cookie set");
+			if (!session) {
+				return reply.status(404).send("Session not found");
+			}
 
-			return reply.send({ ...session, userId: user.id });
+			// check if expired
+			if (session.expire < new Date()) {
+				logger.verbose(`Session expired: ${session.id}`, {
+					functionName: "GET /user/session/:sessionId",
+				});
+				await session.remove();
+				return reply.status(401).send("Session expired");
+			}
+
+			return reply.send({ ...session, userId: session.user.id });
 		},
 	});
 
@@ -127,22 +150,18 @@ export async function setupUserRoute(app: FastifyInstance) {
 		schema: {
 			description: "Delete a user session by ID",
 			tags: ["User"],
-			response: { 200: UserSessionSchema },
+			//response: { 200: UserSessionSchema },
 		},
 		handler: async (request, reply) => {
 			const { sessionId } = request.params as { sessionId: string };
 			const session = await UserSession.findOne({ where: { id: sessionId } });
 
 			if (!session) {
-				return reply
-					.status(404)
-					.send({ success: false, message: "Session not found" });
+				return reply.status(404).send("Session not found");
 			}
 
 			await session.remove();
-			reply
-				.clearCookie("sessionId", { path: "/" })
-				.send({ success: true, message: "Session deleted" });
+			return reply.send("Session deleted");
 		},
 	});
 }
