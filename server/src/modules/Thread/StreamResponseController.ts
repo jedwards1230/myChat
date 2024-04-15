@@ -36,6 +36,12 @@ export class StreamResponseController {
 			.on("message", async (message) => {
 				streamLogger.info("onMessage", { msg: message, newMessage });
 				await this.processThread(thread.id, newMessage);
+			})
+			.on("error", (error) => {
+				if ("code" in error && error.code === "insufficient_quota")
+					return logger.error("Stream error: insufficient_quota");
+				logger.error("Stream error", { err: error });
+				throw error;
 			});
 	}
 

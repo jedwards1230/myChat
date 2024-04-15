@@ -6,6 +6,8 @@ import type { Thread } from "@/types";
 import { useAction } from "@/hooks/useAction";
 import { Text } from "@/components/ui/Text";
 import ChatHistory from "@/components/ChatHistory";
+import { useHoverHelper } from "@/hooks/useHoverHelper";
+import { cn } from "@/lib/utils";
 
 const menuConfig: MenuConfig = {
 	menuTitle: "",
@@ -18,10 +20,12 @@ const menuConfig: MenuConfig = {
 };
 
 export function ThreadButton({ thread }: { thread: Thread }) {
+	const { isHover, ...helpers } = useHoverHelper();
 	const deleteThread = useAction("deleteThread")();
 	const router = useRouter();
 
-	const goToThread = () => router.push({ pathname: `/(main)/c/${thread.id}` });
+	const goToThread = () =>
+		router.push({ pathname: `/(main)/`, params: { c: thread.id } });
 
 	const onMenuAction = (actionKey: string) => {
 		switch (actionKey) {
@@ -33,7 +37,13 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 
 	return (
 		<Pressable
-			className="flex flex-row items-center justify-start w-full h-10 gap-2 p-2 rounded-md active:bg-primary group bg-secondary hover:bg-secondary-foreground/10 dark:hover:bg-secondary-foreground/50 active:opacity-90"
+			{...helpers}
+			className={cn(
+				"flex flex-row items-center justify-start w-full h-10 gap-2 p-2 rounded-md active:bg-primary group active:opacity-90",
+				!isHover
+					? "bg-secondary"
+					: "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
+			)}
 			onPress={goToThread}
 			onLongPress={() => null}
 			delayLongPress={125}

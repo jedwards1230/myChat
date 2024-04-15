@@ -10,7 +10,10 @@ import { ThreadButtonPopover } from "./ThreadButtonPopover";
 export function ThreadButton({ thread }: { thread: Thread }) {
 	return (
 		<View className="relative flex flex-row items-center w-full group">
-			<LinkButton className="pr-8" href={{ pathname: `/(main)/c/${thread.id}` }}>
+			<LinkButton
+				className="pr-8"
+				href={{ pathname: `/(main)/`, params: { c: thread.id } }}
+			>
 				<Text numberOfLines={1} ellipsizeMode="tail">
 					{thread.title}
 				</Text>

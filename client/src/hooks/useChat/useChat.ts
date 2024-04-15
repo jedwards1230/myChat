@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useChatResponse } from "./useChatResponse";
 import { useThreadManager } from "./useThreadManager";
 
-export type FormSubmission = (input: string) => Promise<true | void>;
+export type FormSubmission = (input: string) => Promise<void>;
 
 export function useChat(initialThreadId: string | null) {
 	const [isRunning, setIsRunning] = useState(false);
@@ -28,7 +28,6 @@ export function useChat(initialThreadId: string | null) {
 			const { threadId } = await threadManager.onSubmit(initialThreadId, input);
 			chatResponseManager.requestChat(threadId);
 			reset(threadId);
-			return true;
 		} catch (error) {
 			setError("Failed to send message");
 			reset();

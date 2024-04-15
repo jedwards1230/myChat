@@ -1,23 +1,30 @@
 import { Pressable } from "react-native";
 
-import { useFileStore } from "@/hooks/stores/fileStore";
+import { cn } from "@/lib/utils";
 import { MaterialIcons } from "@/components/ui/Icon";
+import { useFileStore } from "@/hooks/stores/fileStore";
+import { useHoverHelper } from "@/hooks/useHoverHelper";
 import { FileInformation } from "@/hooks/useFileInformation";
 
 export function RemoveFileButton({ file }: { file: FileInformation }) {
 	const removeFile = useFileStore((state) => state.removeFile);
+	const { isHover, ...helpers } = useHoverHelper();
 	return (
 		<Pressable
+			{...helpers}
 			onPress={(e) => {
 				e.stopPropagation();
 				removeFile(file);
 			}}
-			className="absolute z-10 flex items-center justify-center w-4 h-4 rounded-full -top-2 -right-2 group bg-background hover:bg-foreground/20"
+			className={cn(
+				"absolute z-10 flex items-center justify-center w-4 h-4 rounded-full -top-2 -right-2 group",
+				!isHover ? "bg-background" : "bg-foreground/20"
+			)}
 		>
 			<MaterialIcons
 				name="close"
 				size={16}
-				className="text-foreground/60 group-hover:text-foreground"
+				className={!isHover ? "text-foreground/60" : "text-foreground"}
 			/>
 		</Pressable>
 	);
@@ -25,18 +32,24 @@ export function RemoveFileButton({ file }: { file: FileInformation }) {
 
 export function RemoveFolderButton({ files }: { files: FileInformation[] }) {
 	const removeFiles = useFileStore((state) => state.removeFiles);
+	const { isHover, ...helpers } = useHoverHelper();
+
 	return (
 		<Pressable
+			{...helpers}
 			onPress={(e) => {
 				e.stopPropagation();
 				removeFiles(files);
 			}}
-			className="absolute z-10 flex items-center justify-center w-4 h-4 rounded-full -top-2 -right-2 group bg-background hover:bg-foreground/20"
+			className={cn(
+				"absolute z-10 flex items-center justify-center w-4 h-4 rounded-full -top-2 -right-2",
+				!isHover ? "bg-background" : "bg-foreground/20"
+			)}
 		>
 			<MaterialIcons
 				name="close"
 				size={16}
-				className="text-foreground/60 group-hover:text-foreground"
+				className={!isHover ? "text-foreground/60" : "text-foreground"}
 			/>
 		</Pressable>
 	);

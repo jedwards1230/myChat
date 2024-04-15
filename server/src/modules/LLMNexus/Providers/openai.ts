@@ -33,22 +33,18 @@ export class OpenAIService implements LLMNexus {
 	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream> {
 		if (stream === false) throw new Error("Stream option must be true");
 		const messages = this.formatMessages(threadMessages);
-		return (
-			tools.length > 0
-				? openai.beta.chat.completions.runTools({
-						stream,
-						messages,
-						tools,
-						...opts,
-				  })
-				: openai.beta.chat.completions.stream({
-						stream,
-						messages,
-						...opts,
-				  })
-		).on("error", (error) => {
-			logger.error("Stream error", { error });
-		});
+		return tools.length > 0
+			? openai.beta.chat.completions.runTools({
+					stream,
+					messages,
+					tools,
+					...opts,
+			  })
+			: openai.beta.chat.completions.stream({
+					stream,
+					messages,
+					...opts,
+			  });
 	}
 
 	async createChatCompletionJSON(

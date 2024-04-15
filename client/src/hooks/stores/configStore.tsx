@@ -3,6 +3,7 @@ import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { Agent, User, UserData } from "@/types";
+import { createSelectors } from "@/lib/zustand";
 
 type State = {
 	threadId: string | null;
@@ -34,21 +35,23 @@ const initial: State = {
 
 const name = "config";
 
-export const useConfigStore = create<State & Actions>()(
-	persist(
-		(set, get) => ({
-			...initial,
-			setThreadId: (threadId) => set({ threadId }),
-			setHost: (host) => set({ host }),
-			setStream: (stream) => set({ stream }),
-			setUser: (user) => set({ user }),
-			setTheme: (theme) => set({ theme }),
+export const useConfigStore = createSelectors(
+	create<State & Actions>()(
+		persist(
+			(set, get) => ({
+				...initial,
+				setThreadId: (threadId) => set({ threadId }),
+				setHost: (host) => set({ host }),
+				setStream: (stream) => set({ stream }),
+				setUser: (user) => set({ user }),
+				setTheme: (theme) => set({ theme }),
 
-			reset: () => set(initial),
-		}),
-		{
-			name,
-			storage: createJSONStorage(() => AsyncStorage),
-		}
+				reset: () => set(initial),
+			}),
+			{
+				name,
+				storage: createJSONStorage(() => AsyncStorage),
+			}
+		)
 	)
 );

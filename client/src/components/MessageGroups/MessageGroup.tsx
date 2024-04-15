@@ -1,6 +1,5 @@
 import { View } from "react-native";
 import { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
 
 import type { Message } from "@/types";
 import { useGroupStore } from "./GroupStore";
@@ -42,14 +41,13 @@ export const MessageGroup = ({
 };
 
 export function useGroupedMessages(threadId: string) {
-	const router = useRouter();
-	const { data, isError, isSuccess, isFetched } = useMessagesQuery(threadId!);
+	const { data, isError, isSuccess, isFetched, error } = useMessagesQuery(threadId!);
 	const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
 		groupMessages(threadId, data)
 	);
 
 	useEffect(() => {
-		if (isError) router.push("/(main)");
+		if (isError) console.warn("Error fetching messages", error);
 	}, [isError]);
 
 	useEffect(() => {

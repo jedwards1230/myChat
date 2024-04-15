@@ -66,11 +66,10 @@ export const useRequestChatMutation = (fn: () => void) => {
 		});
 
 	const finalMessage = async (opts: QueryOpts) => {
-		console.log("final message");
+		fn();
 		// TODO: This is a hack to ensure the message is persisted to database before refetching
 		// This should probably poll the server until the message is persisted
 		await new Promise((resolve) => setTimeout(resolve, 1000));
-		fn();
 		await queryClient.invalidateQueries(opts);
 	};
 
@@ -78,28 +77,31 @@ export const useRequestChatMutation = (fn: () => void) => {
 		mutationKey: ["postChatRequest"],
 		mutationFn: (props: PostChatMutationRequest) =>
 			postChatRequest({ ...props, apiKey: apiKey, stream }),
-		onMutate: ({ threadId }) => {
-			return queryClient.cancelQueries(messagesQueryOptions(apiKey, threadId));
-		},
+		onMutate: ({ threadId }) =>
+			queryClient.cancelQueries(messagesQueryOptions(apiKey, threadId)),
 		onError: (error) => console.error(error),
 		onSuccess: async (res, { threadId }) => {
 			const opts = messagesQueryOptions(apiKey, threadId);
-			if (res instanceof Response) {
-				if (!res.body) throw new Error("No stream found");
-				const streamHandler = getStreamProcessor({
-					stream: res.body,
-					opts,
-					addMessage,
-					updateMessage,
-					finalMessage,
-				});
+			try {
+				if (res instanceof Response) {
+					if (!res.body) throw new Error("No stream found");
+					const streamHandler = getStreamProcessor({
+						stream: res.body,
+						opts,
+						addMessage,
+						updateMessage,
+						finalMessage,
+					});
 
-				await streamHandler;
-				console.log("stream handled");
-			} else {
-				addMessage(res, opts);
-				emitFeedback();
-				finalMessage(opts);
+					await streamHandler;
+				} else {
+					addMessage(res, opts);
+					emitFeedback();
+					finalMessage(opts);
+				}
+			} catch (error) {
+				console.error(error);
+				queryClient.invalidateQueries(opts);
 			}
 		},
 	});

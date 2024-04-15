@@ -1,17 +1,14 @@
-import { useIsFocused } from "@react-navigation/native";
+import { useGlobalSearchParams } from "expo-router";
 import { useEffect } from "react";
 
 import { ChatView } from "@/components/views/chat";
 import { useConfigStore } from "@/hooks/stores/configStore";
 
 export default function Chat() {
-	const isFocused = useIsFocused();
-
+	const { c } = useGlobalSearchParams<{ c?: string }>();
 	const setThreadId = useConfigStore((s) => s.setThreadId);
-	useEffect(() => setThreadId(null), []);
-
-	if (!isFocused) return null;
-	return <ChatView threadId={null} />;
+	useEffect(() => setThreadId(c || null), [c]);
+	return <ChatView threadId={c || null} />;
 }
 
 export { ErrorBoundary } from "expo-router";
