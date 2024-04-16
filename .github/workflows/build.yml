@@ -16,15 +16,10 @@ jobs:
                   sparse-checkout: client
                   fetch-depth: 2
 
-            - name: Generate Cache Key
-              id: key
-              run: |
-                  echo "cache-key=${{ hashFiles('./client/package.json') }}-${{ hashFiles('./client/src/**') }}-${{ runner.os }}" >> $GITHUB_OUTPUT
-
             - name: Check for changes in client or Dockerfile
               id: check-changes
               run: |
-                  echo "::set-output name=changed::$(git diff --quiet HEAD^ HEAD client/ Dockerfile || echo true)"
+                  echo "changed=$(git diff --quiet HEAD^ HEAD client/ Dockerfile || echo true)" >> $GITHUB_OUTPUT
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
@@ -36,12 +31,12 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: ./client/node_modules
-                  key: ${{ runner.os }}-node-${{ hashFiles('./client/package.json') }}
+                  key: node_modules-${{ runner.os }}-node-${{ hashFiles('./client/package.json') }}
                   restore-keys: |
                       ${{ runner.os }}-node-
 
             - name: Install client dependencies
-              if: steps.cache-node.outputs.cache-hit != 'true' && steps.check-changes.outputs.changed == 'true'
+              if: steps.cache-node.outputs.cache-hit != 'true' && ${{steps.check-changes.outputs.changed}} == 'true'
               working-directory: client
               run: npm install --legacy-peer-deps
 
@@ -50,12 +45,12 @@ jobs:
               uses: actions/cache@v4
               with:
                   path: ./client/dist
-                  key: ${{ steps.key.outputs.cache-key }}
+                  key: dist-${{ hashFiles('./client/package.json') }}-${{ hashFiles('./client/src/**') }}-${{ runner.os }}
                   restore-keys: |
                       ${{ runner.os }}-dist-
 
             - name: Compile client
-              if: steps.cache-artifacts.outputs.cache-hit != 'true' || steps.check-changes.outputs.changed == 'true'
+              if: steps.cache-artifacts.outputs.cache-hit != 'true' || ${{steps.check-changes.outputs.changed}} == 'true'
               uses: nick-fields/retry@v3
               with:
                   timeout_minutes: 10
@@ -99,12 +94,11 @@ jobs:
               id: repo_name
               run: |
                   echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
-                  ls -la
+                  ls -la ./client
+                  ls -la ./client/dist
 
             - name: Build and push
               uses: docker/build-push-action@v5
-              env:
-                  REPO: ${{steps.repo_name.outputs.REPO}}
               with:
                   push: true
-                  tags: ${{env.REPO}}:latest
+                  tags: ${{steps.repo_name.outputs.REPO}}:latest
