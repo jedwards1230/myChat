@@ -22,7 +22,7 @@ jobs:
 
             - name: Cache node modules
               id: cache-node
-              uses: actions/cache@v3
+              uses: actions/cache@v4
               with:
                   path: ./client/node_modules
                   key: ${{ runner.os }}-node-${{ hashFiles('./client/package.json') }}
@@ -74,8 +74,14 @@ jobs:
                   username: ${{ secrets.DOCKER_USERNAME }}
                   password: ${{ secrets.DOCKER_PASSWORD }}
 
+            - name: downcase REPO
+              id: repo_name
+              run: echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
+
             - name: Build and push
               uses: docker/build-push-action@v5
+              env:
+                  REPO: ${{steps.repo_name.outputs.REPO}}
               with:
                   push: true
-                  tags: ${{ github.repository }}:latest
+                  tags: ${REPO}:latest
