@@ -44,7 +44,7 @@ jobs:
                       npm run export
 
             - name: Archive production artifacts
-              uses: actions/upload-artifact@v3
+              uses: actions/upload-artifact@v4
               with:
                   name: dist
                   path: ./client/dist
@@ -57,7 +57,7 @@ jobs:
             - uses: actions/checkout@v4
 
             - name: Download artifacts
-              uses: actions/download-artifact@v3
+              uses: actions/download-artifact@v4
               with:
                   name: dist
                   path: ./client/dist
@@ -84,4 +84,4 @@ jobs:
                   REPO: ${{steps.repo_name.outputs.REPO}}
               with:
                   push: true
-                  tags: ${REPO}:latest
+                  tags: ${{env.REPO}}:latest
