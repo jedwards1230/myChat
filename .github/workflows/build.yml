@@ -30,7 +30,7 @@ jobs:
             - name: Install client dependencies
               if: steps.cache-node.outputs.cache-hit != 'true'
               working-directory: ./client
-              run: npm install
+              run: npm install --legacy-peer-deps
 
             - name: Export client
               working-directory: ./client
