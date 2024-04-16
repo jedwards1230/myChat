@@ -76,7 +76,9 @@ jobs:
 
             - name: downcase REPO
               id: repo_name
-              run: echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
+              run: |
+                  echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
+                  ls -la
 
             - name: Build and push
               uses: docker/build-push-action@v5
