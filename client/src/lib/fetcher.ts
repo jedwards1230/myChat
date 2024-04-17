@@ -2,9 +2,10 @@ import { Platform } from "react-native";
 
 export type AuthParams = [url: string, userId: string];
 
-export class FetchError extends Error {
+class FetchError extends Error {
 	constructor(public res: Response | XMLHttpRequest, message?: string) {
 		super(message);
+		this.name = "FetchError";
 	}
 
 	get status() {

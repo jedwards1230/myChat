@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import type { User, UserSession } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { fetcher, FetchError } from "../../lib/fetcher";
+import { fetcher } from "../../lib/fetcher";
 
 export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({
@@ -10,7 +10,7 @@ export const userQueryOptions = (apiKey: string) => {
 		retry: false,
 		queryFn: () => fetcher<User>("/user", { apiKey }),
 		throwOnError: (error, query) =>
-			!(error instanceof FetchError || error.message === "Network request failed"),
+			error.name !== "FetchError" || error.message === "Network request failed",
 	});
 };
 

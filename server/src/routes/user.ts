@@ -132,7 +132,7 @@ export async function setupUserRoute(app: FastifyInstance) {
 			});
 
 			if (!session) {
-				return reply.status(404).send({ error: "Session not found" });
+				return reply.status(401).send({ error: "Session not found" });
 			}
 
 			// check if expired

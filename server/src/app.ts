@@ -14,7 +14,6 @@ import {
 
 import { Config } from "./config";
 import { initDb, resetDatabase, AppDataSource } from "./lib/pg";
-import logger, { accessLogger } from "./lib/logs/logger";
 import { authenticate } from "./hooks/auth";
 
 import { setupUserRoute } from "./routes/user";
@@ -24,6 +23,7 @@ import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 import { setupModelsRoute } from "./routes/models";
 import { errorHandler } from "./errors";
+import { accessErrorLogger, accessLogger } from "./hooks/accessLogger";
 
 export const app = Fastify({
 	logger: false,
@@ -31,23 +31,14 @@ export const app = Fastify({
 });
 
 export type BuildAppParams = {
-	isProd: boolean;
 	resetDbOnInit: boolean;
 	staticClientFilesDir: string;
-	sessionSecret: string;
 };
 
 export async function buildApp(
-	{
-		isProd,
-		resetDbOnInit,
-		staticClientFilesDir,
-		sessionSecret,
-	}: BuildAppParams | undefined = {
-		isProd: Config.isProd,
+	{ resetDbOnInit, staticClientFilesDir }: BuildAppParams | undefined = {
 		resetDbOnInit: Config.resetDbOnInit,
 		staticClientFilesDir: Config.staticClientFilesDir,
-		sessionSecret: Config.sessionSecret,
 	}
 ) {
 	// Connect to Postgres and initialize TypeORM
@@ -82,10 +73,8 @@ export async function buildApp(
 	await app.register(fastifyCors, { origin: "*" });
 
 	// Access Logger
-	app.addHook("onRequest", async (request, reply) => {
-		accessLogger.info(`${request.headers.referer} ${request.method} ${request.url}`);
-		logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`);
-	});
+	app.addHook("onRequest", accessLogger);
+	app.addHook("onSend", accessErrorLogger);
 
 	app.setErrorHandler(errorHandler);
 

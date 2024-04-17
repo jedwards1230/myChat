@@ -16,10 +16,12 @@ app.listen({ port: Config.port, host: "0.0.0.0" }, (err, address) => {
 
 process.on("SIGINT", async () => {
 	logger.info("Received SIGINT. Graceful shutdown in progress...");
+	await app.close();
 	process.exit(0);
 });
 
 process.on("SIGTERM", async () => {
 	logger.info("Received SIGTERM. Graceful shutdown in progress...");
+	await app.close();
 	process.exit(0);
 });
