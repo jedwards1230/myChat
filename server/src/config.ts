@@ -6,12 +6,6 @@ const resetDbOnInit = process.env.DEBUG_RESET_DB === "true";
 const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
 const sessionSecret = process.env.SESSION_SECRET || "secret";
 
-const AppwriteConfig = {
-	endpoint: process.env.APPWRITE_ENDPOINT || "http://localhost/v1",
-	project: process.env.APPWRITE_PROJECT || "project-id",
-	key: process.env.APPWRITE_KEY || "secret",
-} as const;
-
 const database = {
 	type: "postgres",
 	host: process.env.DB_HOST || "localhost",
@@ -41,7 +35,6 @@ export const Config = {
 	isProd,
 	sessionSecret,
 	staticClientFilesDir,
-	AppwriteConfig,
 	database,
 	port,
 	sslOptions,

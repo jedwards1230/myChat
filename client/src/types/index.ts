@@ -1,5 +1,3 @@
-import type { Models } from "appwrite";
-
 export type { MessageFileObjectSchema as MessageFile } from "@db/MessageFile/MessageFileSchema";
 export type { MessageObjectSchema as Message } from "@db/Message/MessageSchema";
 
@@ -21,5 +19,3 @@ export type {
 	ModelLiteral as Model,
 	ModelInfoSchema as ModelInformation,
 } from "@db/Models/ModelsSchema";
-
-export type UserData = Models.User<Models.Preferences>;

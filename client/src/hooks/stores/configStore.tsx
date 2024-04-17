@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { Agent, User, UserData } from "@/types";
+import type { Agent, User } from "@/types";
 import { createSelectors } from "@/lib/zustand";
 
 type State = {

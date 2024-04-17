@@ -2,11 +2,11 @@ import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import type { UserData, UserSession } from "@/types";
+import type { User, UserSession } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
 const createUser = async (email: string, password: string) =>
-	fetcher<UserData>("/user", {
+	fetcher<User>("/user", {
 		method: "POST",
 		body: JSON.stringify({ email, password }),
 	});

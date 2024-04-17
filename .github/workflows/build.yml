@@ -51,6 +51,12 @@ jobs:
 
             - name: Compile client
               if: steps.cache-artifacts.outputs.cache-hit != 'true' || ${{steps.check-changes.outputs.changed}} == 'true'
+              # `expo export -p web` always fails on first run
+              # this seems to be related to nativewind compilation.
+              # it adds a file to the node_modules cache after the process begins
+              # then the process doesnt recognize that file and fails.
+              # this issue does not happen after that file is generated
+              # This typically works in one pass if node_modules are cached.
               uses: nick-fields/retry@v3
               with:
                   timeout_minutes: 10
@@ -100,5 +106,6 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
+                  context: .
                   push: true
                   tags: ${{steps.repo_name.outputs.REPO}}:latest
