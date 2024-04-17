@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 
-import AgentModal from "@/components/views/agent/AgentModal";
+import AgentModal from "@/views/agent/AgentModal";
 import { useAgentQuery } from "@/hooks/queries/useAgentQuery";
 
 export default function AgentPage() {

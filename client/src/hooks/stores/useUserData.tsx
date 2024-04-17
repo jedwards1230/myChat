@@ -4,6 +4,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import type { User, UserSession } from "@/types";
 import { fetcher } from "@/lib/fetcher";
+import { createSelectors } from "@/lib/zustand";
 
 const createUser = async (email: string, password: string) =>
 	fetcher<User>("/user", {
@@ -43,32 +44,34 @@ const initial: State = {
 
 const name = "userData";
 
-export const useUserData = create<State & Actions>()(
-	persist(
-		(set, get) => ({
-			...initial,
-			setSession: (session) => set({ session }),
-			setTheme: (theme) => set({ theme }),
-			login: async (email, password) => {
-				const session = await loginUser(email, password);
-				set({ session });
-			},
-			signup: async (email, password) => {
-				await createUser(email, password);
-				const session = await loginUser(email, password);
-				set({ session });
-			},
-			logout: async () => {
-				const id = get().session?.id;
-				if (!id) return console.error("No active session");
-				await logoutUser(id);
-				set({ session: null });
-			},
-			reset: () => set(initial),
-		}),
-		{
-			name,
-			storage: createJSONStorage(() => AsyncStorage),
-		}
+export const useUserData = createSelectors(
+	create<State & Actions>()(
+		persist(
+			(set, get) => ({
+				...initial,
+				setSession: (session) => set({ session }),
+				setTheme: (theme) => set({ theme }),
+				login: async (email, password) => {
+					const session = await loginUser(email, password);
+					set({ session });
+				},
+				signup: async (email, password) => {
+					await createUser(email, password);
+					const session = await loginUser(email, password);
+					set({ session });
+				},
+				logout: async () => {
+					const id = get().session?.id;
+					if (!id) return console.error("No active session");
+					await logoutUser(id);
+					set({ session: null });
+				},
+				reset: () => set(initial),
+			}),
+			{
+				name,
+				storage: createJSONStorage(() => AsyncStorage),
+			}
+		)
 	)
 );

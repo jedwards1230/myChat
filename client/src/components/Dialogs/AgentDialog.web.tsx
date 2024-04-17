@@ -9,7 +9,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
-import { AgentView } from "../views/agent/AgentView";
+import { AgentView } from "../../views/agent/AgentView";
 
 export function AgentDialog({
 	existingAgent,

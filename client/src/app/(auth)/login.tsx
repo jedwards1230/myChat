@@ -1,4 +1,4 @@
-import { LoginView } from "@/components/views/auth/LoginView";
+import { LoginView } from "@/views/auth/LoginView";
 
 export default function Chat() {
 	return <LoginView />;

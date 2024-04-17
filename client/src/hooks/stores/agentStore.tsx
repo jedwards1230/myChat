@@ -2,6 +2,7 @@ import { create } from "zustand";
 
 import type { Model, ModelInformation } from "@/types";
 import { Agent } from "@/types";
+import { createSelectors } from "@/lib/zustand";
 
 type State = {
 	agent: Agent;
@@ -31,15 +32,17 @@ const initial: State = {
 	stream: true,
 };
 
-export const useAgentStore = create<State & Actions>()((set, get) => ({
-	...initial,
-	setAgent: (agent) => set({ agent }),
-	setModel: (model) => set({ model }),
-	setStream: (stream) => set({ stream }),
-	toggleStream: () => set((state) => ({ stream: !state.stream })),
+export const useAgentStore = createSelectors(
+	create<State & Actions>()((set, get) => ({
+		...initial,
+		setAgent: (agent) => set({ agent }),
+		setModel: (model) => set({ model }),
+		setStream: (stream) => set({ stream }),
+		toggleStream: () => set((state) => ({ stream: !state.stream })),
 
-	reset: () => set(initial),
-}));
+		reset: () => set(initial),
+	}))
+);
 
 const name = "agent";
 

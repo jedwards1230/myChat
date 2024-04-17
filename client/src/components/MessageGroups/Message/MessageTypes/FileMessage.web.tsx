@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
-import { FileDialog } from "@/components/views/file/FileDialog";
+import { FileDialog } from "@/views/file/FileDialog";
 import { FileData } from "@/components/FileRouter";
 
 export const FileMessage = ({ data }: { data: FileData }) => {

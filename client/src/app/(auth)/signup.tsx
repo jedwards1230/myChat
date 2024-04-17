@@ -1,4 +1,4 @@
-import { SignUpView } from "@/components/views/auth/SignupView";
+import { SignUpView } from "@/views/auth/SignupView";
 
 export default function Chat() {
 	return <SignUpView />;

@@ -1,7 +1,7 @@
 import { useGlobalSearchParams } from "expo-router";
 import { useEffect } from "react";
 
-import { ChatView } from "@/components/views/chat";
+import { ChatView } from "@/views/chat";
 import { useConfigStore } from "@/hooks/stores/configStore";
 
 export default function Chat() {

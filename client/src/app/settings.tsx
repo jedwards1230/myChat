@@ -1,4 +1,4 @@
-import SettingsModal from "@/components/views/settings/SettingsModal";
+import SettingsModal from "@/views/settings/SettingsModal";
 
 export default function SettingsPage() {
 	return <SettingsModal />;

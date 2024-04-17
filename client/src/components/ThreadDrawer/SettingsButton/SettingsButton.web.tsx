@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
-import SettingsDialog from "@/components/views/settings/SettingsDialog.web";
+import SettingsDialog from "@/views/settings/SettingsDialog.web";
 import { Button } from "@/components/ui/Button";
 
 export function SettingsButton() {

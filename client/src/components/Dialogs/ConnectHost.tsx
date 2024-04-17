@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/Dialog";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import { HostConfig } from "../views/settings/helpers/HostConfig";
+import { HostConfig } from "../../views/settings/helpers/HostConfig";
 
 export default function ConnectHostDialog() {
 	const [isSaved, setIsSaved] = useState(false);

@@ -1,4 +1,4 @@
-import { AgentForm } from "@/components/views/agent/create/AgentForm";
+import { AgentForm } from "@/views/agent/create/AgentForm";
 
 export default function NewAgentPage() {
 	return <AgentForm />;

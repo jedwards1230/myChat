@@ -5,7 +5,7 @@ import { Controller, useForm } from "react-hook-form";
 import { Textarea } from "@/components/ui/Textarea";
 import { Message } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { ErrorMessage, parseError } from "@/components/views/auth/AuthFormWrapper";
+import { ErrorMessage, parseError } from "@/views/auth/AuthFormWrapper";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
 import { useGroupStore } from "../../GroupStore";
