@@ -106,6 +106,7 @@ jobs:
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
+                  platforms: linux/amd64,linux/arm64
                   context: .
                   push: true
                   tags: ${{steps.repo_name.outputs.REPO}}:latest
