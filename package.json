@@ -9,7 +9,9 @@
 	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "docker build -t mychat:local ."
+		"build": "docker build -t mychat:local .",
+		"compose": "docker compose",
+		"compose:prod": "docker compose -f production.yml"
 	},
 	"keywords": [],
 	"author": "",
