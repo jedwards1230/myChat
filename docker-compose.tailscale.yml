@@ -1,0 +1,70 @@
+services:
+    postgres:
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+        container_name: postgres-mychat
+        image: postgres:latest
+        depends_on:
+            - tailscale
+        volumes:
+            - ${PWD}/docker-service/pg/:/var/lib/postgresql/data
+        env_file:
+            - .env
+        network_mode: service:tailscale
+
+    mychat:
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+        image: jedwards1230/mychat:latest
+        container_name: mychat
+        depends_on:
+            - postgres
+            - tailscale
+        env_file:
+            - .env
+        network_mode: service:tailscale
+
+    mindsdb:
+        image: mindsdb/mindsdb
+        container_name: mindsdb
+        depends_on:
+            - postgres
+        ports:
+            - 47334:47334
+            - 47335:47335
+        volumes:
+            - ${PWD}/docker-service/mindsdb:/root/mdb_storage
+        restart: unless-stopped
+
+    tailscale:
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+            resources:
+                limits:
+                    cpus: "0.50"
+                    memory: 1G
+        image: tailscale/tailscale:latest
+        hostname: tailscale-mychat
+        container_name: tailscale-mychat
+        environment:
+            - TS_STATE_DIR=/var/lib/tailscale
+            - TS_SERVE_CONFIG=/config/funnel.json
+            - TS_USERSPACE=false
+        env_file:
+            - .env
+        volumes:
+            - ${PWD}/docker-service/ts/state:/var/lib/tailscale
+            - ${PWD}/docker-service/ts/config:/config
+            #- /dev/net/tun:/dev/net/tun
+        cap_add:
+            - net_admin
+            - sys_module

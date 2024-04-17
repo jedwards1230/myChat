@@ -1,6 +1,9 @@
 stuff
 docker.sh
 
-db/
+/docker-service/pg/
+docker-service/mindsdb/
+docker-service/ts/state
+
 
 .env
