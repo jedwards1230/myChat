@@ -30,18 +30,6 @@ services:
             - .env
         network_mode: service:tailscale
 
-    mindsdb:
-        image: mindsdb/mindsdb
-        container_name: mindsdb
-        depends_on:
-            - postgres
-        ports:
-            - 47334:47334
-            - 47335:47335
-        volumes:
-            - ${PWD}/docker-service/mindsdb:/root/mdb_storage
-        restart: unless-stopped
-
     tailscale:
         deploy:
             restart_policy:
