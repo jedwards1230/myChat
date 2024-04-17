@@ -5,3 +5,5 @@
 docker-service/*
 
 /server/logs/
+.gitignore
+pg.sh
