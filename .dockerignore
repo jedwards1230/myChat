@@ -1,5 +1,6 @@
 /**/db/
-/**/node_modules/
+/server/node_modules/
+/client/node_modules/
 /**/ios/
 /**/tests/
 docker-service/*

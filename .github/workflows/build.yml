@@ -20,7 +20,6 @@ jobs:
               id: check-changes
               run: |
                   echo "changed=$(git diff --quiet HEAD^ HEAD client/ Dockerfile || echo true)" >> $GITHUB_OUTPUT
-                  echo "Items changed: $changed"
 
             - name: Setup Node.js environment
               uses: actions/setup-node@v4
