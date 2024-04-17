@@ -7,6 +7,7 @@ import {
 } from "@/modules/Agent/AgentSchema";
 import { AgentController } from "@/modules/Agent/AgentController";
 import { getAgent } from "@/hooks/getAgent";
+import { authenticate } from "@/hooks/auth";
 
 export async function setupAgentsRoute(app: FastifyInstance) {
 	// POST Create a new agent
@@ -37,7 +38,7 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 			tags: ["Agent"],
 			response: { 200: AgentObjectSchema },
 		},
-		preHandler: [getAgent()],
+		preHandler: [authenticate, getAgent()],
 		handler: AgentController.getAgent,
 	});
 

@@ -17,7 +17,7 @@
 		"analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
 		"analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
 		"postinstall": "patch-package",
-		"ts:check": "tsc"
+		"tsc": "tsc"
 	},
 	"jest": {
 		"preset": "jest-expo",

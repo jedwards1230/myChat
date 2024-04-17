@@ -1,15 +1,14 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { getAgentRepo } from "./AgentRepo";
 import type { AgentCreateSchema } from "./AgentSchema";
-import type { Agent } from "./AgentModel";
+import { Agent } from "./AgentModel";
 import { tools } from "../LLMNexus/Tools";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
 		const agent = request.body as AgentCreateSchema;
-		const savedAgent = await getAgentRepo().save({
+		const savedAgent = await request.server.orm.getRepository(Agent).save({
 			...(agent as Agent),
 			owner: user,
 		});

@@ -11,7 +11,6 @@ import {
 import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/queries/useAgentsQuery";
 import { Link } from "expo-router";
-import { Button } from "@/components/ui/Button";
 import { Agent } from "@/types";
 
 export function AgentsView() {

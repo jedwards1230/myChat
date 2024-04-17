@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 import { getUserRepo } from "@/modules/User/UserRepo";
 
-export const authenticate = async (request: FastifyRequest, reply: FastifyReply) => {
+export async function authenticate(request: FastifyRequest, reply: FastifyReply) {
 	const token = request.headers.authorization;
 	if (!token) {
 		return reply.code(401).send({ error: "Unauthorized" });
@@ -17,4 +17,4 @@ export const authenticate = async (request: FastifyRequest, reply: FastifyReply)
 	}
 
 	request.user = user;
-};
+}
