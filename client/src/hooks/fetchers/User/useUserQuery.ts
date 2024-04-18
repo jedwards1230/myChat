@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import type { User, UserSession } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { fetcher } from "../../../lib/fetcher";
+import { fetcher } from "@/lib/fetcher";
 
 export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({
@@ -25,7 +25,7 @@ export const userSessionQueryOptions = (apiKey: string, sessionId: string | null
 
 export const useUserQuery = () => {
 	const apiKey = useUserData((s) => s.apiKey);
-	useQuery(userQueryOptions(apiKey));
+	return useQuery(userQueryOptions(apiKey));
 };
 
 export const useUserSessionQuery = (sessionId: string | null) => {

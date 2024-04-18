@@ -4,6 +4,7 @@ import {
 	AgentCreateSchema,
 	AgentObjectSchema,
 	AgentObjectListSchema,
+	AgentUpdateSchema,
 } from "@/modules/Agent/AgentSchema";
 import { AgentController } from "@/modules/Agent/AgentController";
 import { getAgent } from "@/hooks/getAgent";
@@ -38,13 +39,18 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 			tags: ["Agent"],
 			response: { 200: AgentObjectSchema },
 		},
-		preHandler: [authenticate, getAgent()],
+		preHandler: [authenticate, getAgent(["threads", "owner"])],
 		handler: AgentController.getAgent,
 	});
 
 	// PATCH Update an agent by ID
 	app.patch("/:agentId", {
-		schema: { description: "Update Agent by ID.", tags: ["Agent"] },
+		schema: {
+			description: "Update Agent by ID.",
+			tags: ["Agent"],
+			body: AgentUpdateSchema,
+			response: { 200: AgentObjectSchema },
+		},
 		preHandler: [getAgent()],
 		handler: AgentController.updateAgent,
 	});

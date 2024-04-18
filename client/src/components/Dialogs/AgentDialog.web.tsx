@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-
 import type { Agent } from "@/types";
 
 import {
@@ -9,7 +7,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
-import { AgentView } from "../../views/agent/AgentView";
+import { AgentView } from "@/views/agent/AgentView";
+import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 
 export function AgentDialog({
 	existingAgent,
@@ -18,15 +17,19 @@ export function AgentDialog({
 	open,
 	onClose,
 }: {
-	existingAgent?: Agent | null;
+	existingAgent: Agent;
 	children?: React.ReactNode;
 	className?: string;
 	open?: boolean;
 	onClose?: () => void;
 }) {
-	const [agent, setAgent] = useState<Agent | null>(existingAgent || null);
-	useEffect(() => setAgent(existingAgent || null), [existingAgent]);
+	const agentQuery = useAgentQuery(existingAgent.id);
 
+	if (agentQuery.isPending) return null;
+	if (agentQuery.isError) {
+		console.error(agentQuery.error);
+		return null;
+	}
 	return (
 		<Dialog open={open} onOpenChange={onClose} className="w-full">
 			{children && (
@@ -38,7 +41,7 @@ export function AgentDialog({
 			<DialogContent className="flex flex-col min-w-[60vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
 				<DialogTitle className="text-center">Agent</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
-					<AgentView agent={agent} />
+					<AgentView agent={agentQuery.data} />
 				</DialogDescription>
 			</DialogContent>
 		</Dialog>

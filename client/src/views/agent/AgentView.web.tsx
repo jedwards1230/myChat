@@ -1,9 +1,11 @@
 import { View } from "react-native";
+import { useRef } from "react";
 
 import type { Agent } from "@/types";
-import { useRef } from "react";
-import { ModelSection, ModelStats, SystemMessage, ToolSection } from "./helpers";
 import { useAgentStore } from "@/hooks/stores/agentStore";
+
+import { SystemMessage } from "./SystemMessage";
+import { ModelSection, ModelStats, ToolSection } from "./helpers";
 
 export function AgentView({ agent }: { agent: Agent }) {
 	const ViewRef = useRef<HTMLElement>(null);

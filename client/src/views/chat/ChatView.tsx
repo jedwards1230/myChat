@@ -8,7 +8,7 @@ export function ChatView({ threadId }: { threadId: string | null }) {
 	const { loading, handleSubmit, abort } = useChat(threadId);
 	return (
 		<ChatViewWrapper>
-			<ChatHeader />
+			<ChatHeader threadId={threadId} />
 			{threadId && <ChatHistory isLoading={loading} threadId={threadId} />}
 			<ChatInputContainer
 				threadId={threadId}

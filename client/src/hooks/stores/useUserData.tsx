@@ -22,12 +22,14 @@ const logoutUser = async (sessionId: string) =>
 	fetcher(`/user/session/${sessionId}`, { method: "DELETE" });
 
 type State = {
+	user: User | null;
 	session: UserSession | null;
 	apiKey: string;
 	theme: string;
 };
 
 interface Actions {
+	setUser: (user: User | null) => void;
 	setSession: (session: UserSession | null) => void;
 	setTheme: (theme: string) => void;
 	login: (email: string, password: string) => Promise<void>;
@@ -37,6 +39,7 @@ interface Actions {
 }
 
 const initial: State = {
+	user: null,
 	session: null,
 	apiKey: "user-1",
 	theme: "system",
@@ -49,6 +52,7 @@ export const useUserData = createSelectors(
 		persist(
 			(set, get) => ({
 				...initial,
+				setUser: (user) => set({ user }),
 				setSession: (session) => set({ session }),
 				setTheme: (theme) => set({ theme }),
 				login: async (email, password) => {

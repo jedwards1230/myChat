@@ -3,22 +3,23 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import { agentQueryOptions } from "./useAgentQuery";
-import { Agent, Message } from "@/types";
+import { Agent, AgentUpdateSchema } from "@/types";
+import { agentsQueryOptions } from "./useAgentsQuery";
 
 export type PatchAgentOptions = {
 	agentId: string;
-	agentConfig: Partial<Agent>;
+	agentConfig: AgentUpdateSchema;
 };
 
 const fetch = async ({ agentId, agentConfig }: PatchAgentOptions, apiKey: string) =>
-	fetcher<Message>(`/agents/${agentId}`, {
+	fetcher<Agent>(`/agents/${agentId}`, {
 		apiKey,
 		method: "PATCH",
-		body: JSON.stringify({ agentConfig }),
+		body: JSON.stringify(agentConfig),
 	});
 
-/** Post a message to the server */
-export const useMessageEditMutation = () => {
+/** Patch an Agent object */
+export const useAgentEditMutation = () => {
 	const apiKey = useUserData((s) => s.apiKey);
 	const queryClient = useQueryClient();
 
@@ -27,16 +28,20 @@ export const useMessageEditMutation = () => {
 		mutationFn: async (opts: PatchAgentOptions) => fetch(opts, apiKey),
 		onMutate: async ({ agentId, agentConfig }: PatchAgentOptions) => {
 			const agentQuery = agentQueryOptions(apiKey, agentId);
+			const agentsQuery = agentsQueryOptions(apiKey);
 			const prevAgent = queryClient.getQueryData(agentQuery.queryKey);
 			if (!prevAgent) return console.error("No cached agent found");
-			queryClient.cancelQueries(agentQuery);
+			await Promise.all([
+				queryClient.cancelQueries(agentQuery),
+				queryClient.cancelQueries(agentsQuery),
+			]);
 
-			const agent = { ...prevAgent, ...agentConfig };
+			const agent = { ...prevAgent, ...{ [agentConfig.type]: agentConfig.value } };
 			queryClient.setQueryData(agentQuery.queryKey, agent);
 
 			return { agent };
 		},
-		onError: (error, { agentId, agentConfig }, context) => {
+		onError: (error, { agentId }, context) => {
 			if (agentId && context?.agent)
 				queryClient.setQueryData(
 					agentQueryOptions(apiKey, agentId).queryKey,
@@ -44,8 +49,11 @@ export const useMessageEditMutation = () => {
 				);
 			console.error(error);
 		},
-		onSettled: (res, err, { agentId, agentConfig }) => {
-			queryClient.invalidateQueries(agentQueryOptions(apiKey, agentId));
+		onSettled: async (res, err, { agentId }) => {
+			await Promise.all([
+				queryClient.invalidateQueries(agentQueryOptions(apiKey, agentId)),
+				queryClient.invalidateQueries(agentsQueryOptions(apiKey)),
+			]);
 		},
 	});
 };

@@ -24,3 +24,12 @@ export const AgentCreateSchema = AgentObjectSchema.omit({
 	version: true,
 });
 export type AgentCreateSchema = z.infer<typeof AgentCreateSchema>;
+
+// Discriminated union schema options
+export const AgentUpdateSchema = z.discriminatedUnion("type", [
+	z.object({ type: z.literal("name"), value: z.string() }),
+	z.object({ type: z.literal("tools"), value: z.array(z.string()) }),
+	z.object({ type: z.literal("toolsEnabled"), value: z.boolean() }),
+	z.object({ type: z.literal("systemMessage"), value: z.string() }),
+]);
+export type AgentUpdateSchema = z.infer<typeof AgentUpdateSchema>;

@@ -1,10 +1,6 @@
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
-import {
-	ContextMenuButton,
-	MenuElementConfig,
-	type MenuConfig,
-} from "react-native-ios-context-menu";
+import { ContextMenuButton, type MenuConfig } from "react-native-ios-context-menu";
 
 import { Text } from "@/components/ui/Text";
 import { AntDesign } from "@/components/ui/Icon";
@@ -14,9 +10,9 @@ import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 import { useTokenCount } from "@/hooks/useTokenCount";
 import { useAction } from "@/hooks/useAction";
 
-export default function CenterButton() {
+export function CenterButton({ threadId }: { threadId: string | null }) {
 	const router = useRouter();
-	const { threadId, defaultAgent } = useConfigStore();
+	const { defaultAgent } = useConfigStore();
 
 	const { data: messages } = useMessagesQuery(threadId);
 	const { data: agent } = useAgentQuery(defaultAgent.id);

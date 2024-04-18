@@ -1,22 +1,38 @@
 import { useEffect, useState } from "react";
-import { useUserSessionQuery } from "./fetchers/User/useUserQuery";
+import { useUserQuery, useUserSessionQuery } from "./fetchers/User/useUserQuery";
 import { useUserData } from "./stores/useUserData";
 
 export function useUser() {
 	const [mounted, setMounted] = useState(true);
 	useEffect(() => setMounted(false), []);
 
-	const { session, setSession } = useUserData();
-	const userQuery = useUserSessionQuery(session?.id || null);
+	const { session, setSession, setUser } = useUserData();
+	const userQuery = useUserQuery();
+	const userSessionQuery = useUserSessionQuery(session?.id || null);
 
 	useEffect(() => {
 		if (userQuery.isPending) return;
 		if (userQuery.isError) {
+			setUser(null);
+			return;
+		}
+		setUser(userQuery.data);
+	}, [userQuery.status]);
+
+	useEffect(() => {
+		if (userSessionQuery.isPending) return;
+		if (userSessionQuery.isError) {
 			setSession(null);
 			return;
 		}
-		setSession(userQuery.data);
-	}, [userQuery.status]);
+		setSession(userSessionQuery.data);
+	}, [userSessionQuery.status]);
 
-	return { loading: mounted, data: userQuery.data };
+	return {
+		loading: mounted,
+		data: {
+			user: userQuery.data,
+			session: userSessionQuery.data,
+		},
+	};
 }

@@ -1,6 +1,6 @@
 import type { Agent } from "@/types";
-import { Text } from "@/components/ui/Text";
-import { ModelStats, SystemMessage, ToolSection } from "./helpers";
+import { ModelStats, ToolSection } from "./helpers";
+import { SystemMessage } from "./SystemMessage";
 
 export function AgentView({ agent }: { agent?: Agent | null }) {
 	if (!agent) {
@@ -15,7 +15,3 @@ export function AgentView({ agent }: { agent?: Agent | null }) {
 		</>
 	);
 }
-
-const SecondaryInfo = ({ children }: { children: React.ReactNode }) => {
-	return <Text className="text-secondary-foreground">{children}</Text>;
-};
