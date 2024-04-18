@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useUserQuery, useUserSessionQuery } from "./fetchers/User/useUserQuery";
 import { useUserData } from "./stores/useUserData";
+import Toast from "react-native-toast-message";
 
 export function useUser() {
 	const [mounted, setMounted] = useState(true);
@@ -22,6 +23,11 @@ export function useUser() {
 	useEffect(() => {
 		if (userSessionQuery.isPending) return;
 		if (userSessionQuery.isError) {
+			Toast.show({
+				type: "error",
+				text1: "Session Error",
+				text2: "Failed to fetch user session.",
+			});
 			setSession(null);
 			return;
 		}

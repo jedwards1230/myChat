@@ -6,17 +6,15 @@ import { fetcher } from "@/lib/fetcher";
 
 export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({
-		queryKey: ["user"],
+		queryKey: ["user", apiKey],
 		retry: false,
 		queryFn: () => fetcher<User>("/user", { apiKey }),
-		throwOnError: (error, query) =>
-			error.name !== "FetchError" || error.message === "Network request failed",
 	});
 };
 
 export const userSessionQueryOptions = (apiKey: string, sessionId: string | null) => {
 	return queryOptions({
-		queryKey: ["session"],
+		queryKey: ["session", apiKey, sessionId],
 		enabled: !!sessionId,
 		retry: false,
 		queryFn: () => fetcher<UserSession>(`/user/session/${sessionId}`, { apiKey }),

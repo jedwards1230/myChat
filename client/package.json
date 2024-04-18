@@ -17,7 +17,8 @@
 		"analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
 		"analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
 		"postinstall": "patch-package",
-		"tsc": "tsc"
+		"tsc": "tsc",
+		"lint": "eslint ."
 	},
 	"jest": {
 		"preset": "jest-expo",
@@ -30,6 +31,7 @@
 		"@expo/metro-runtime": "^3.1.3",
 		"@expo/vector-icons": "^14.0.0",
 		"@hookform/resolvers": "^3.3.4",
+		"@radix-ui/react-alert-dialog": "^1.0.5",
 		"@radix-ui/react-dialog": "^1.0.5",
 		"@radix-ui/react-dropdown-menu": "^2.0.6",
 		"@radix-ui/react-label": "^2.0.2",
@@ -43,7 +45,9 @@
 		"@react-navigation/native": "^6.1.17",
 		"@react-navigation/native-stack": "^6.9.26",
 		"@shopify/flash-list": "^1.6.4",
+		"@tanstack/query-async-storage-persister": "^5.29.1",
 		"@tanstack/react-query": "^5.29.2",
+		"@tanstack/react-query-persist-client": "^5.29.2",
 		"class-variance-authority": "^0.7.0",
 		"clsx": "^2.1.0",
 		"cmdk": "^1.0.0",
@@ -79,9 +83,11 @@
 		"react-native-markdown-display": "^7.0.2",
 		"react-native-react-query-devtools": "^1.1.0",
 		"react-native-reanimated": "~3.8.1",
+		"react-native-root-siblings": "^5.0.1",
 		"react-native-safe-area-context": "4.9.0",
 		"react-native-screens": "~3.30.1",
 		"react-native-svg": "^15.1.0",
+		"react-native-toast-message": "^2.2.0",
 		"react-native-url-polyfill": "^2.0.0",
 		"react-native-vector-icons": "^10.0.3",
 		"react-native-web": "~0.19.10",
@@ -104,14 +110,13 @@
 		"@types/react-syntax-highlighter": "^15.5.11",
 		"@types/text-encoding": "^0.0.39",
 		"ajv": "^8.12.0",
-		"eslint": "^9.0.0",
+		"eslint": "8",
 		"eslint-config-react-app": "^7.0.1",
 		"jest": "^29.7.0",
 		"jest-expo": "~50.0.4",
 		"react-test-renderer": "18.2.0",
 		"source-map-explorer": "^2.5.3",
-		"typescript": "next",
-		"typescript-eslint": "^7.7.0"
+		"typescript": "^5.4.5"
 	},
 	"private": true
 }

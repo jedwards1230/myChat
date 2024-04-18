@@ -3,6 +3,7 @@ import { View } from "react-native";
 import { Text } from "@/components/ui/Text";
 import { AuthViewWrapper } from "./AuthViewWrapper";
 import { FieldValues, UseFormSetError } from "react-hook-form";
+import { isFetchError } from "@/lib/fetcher";
 
 export function AuthFormWrapper({ children }: { children: React.ReactNode }) {
 	return (
@@ -22,9 +23,13 @@ export async function parseError<T extends FieldValues>(
 	error: any,
 	setError: UseFormSetError<T>
 ) {
-	if (error.name === "FetchError") {
+	if (isFetchError(error)) {
 		const errMsg =
-			error.res instanceof Response ? await error.res.json() : error.res.response;
+			error.res instanceof Response
+				? await error.res.json()
+				: error.res instanceof Error
+				? { error: error.res.message }
+				: error.res.response;
 		setError("root", { type: "manual", message: errMsg.error });
 	} else {
 		console.warn(error);

@@ -26,7 +26,6 @@
 
 - Better Agent Builder
   - Select tools
-  - Modify System message
   - Modify hyperparameters
   - Validate per model limitations (streaming, function calls, etc)
 - App icon

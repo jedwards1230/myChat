@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 export type AuthParams = [url: string, userId: string];
 
 class FetchError extends Error {
-	constructor(public res: Response | XMLHttpRequest, message?: string) {
+	constructor(public res: Response | XMLHttpRequest | Error, message?: string) {
 		super(message);
 		this.name = "FetchError";
 	}
@@ -13,6 +13,8 @@ class FetchError extends Error {
 			return this.res.status;
 		} else if (this.res instanceof XMLHttpRequest) {
 			return this.res.status;
+		} else if (this.res instanceof Error) {
+			return 500;
 		}
 		return undefined;
 	}
@@ -25,6 +27,10 @@ class FetchError extends Error {
 		}
 		return undefined;
 	}
+}
+
+export function isFetchError(error: any): error is FetchError {
+	return error instanceof FetchError;
 }
 
 export type FetcherRequestInit = FetchRequestInit & {
@@ -66,7 +72,12 @@ export async function fetcher<T = any>(
 			return stream ? res : res.json();
 		}
 		throw new FetchError(res, `HTTP error! status: ${res.status}`);
-	} catch (error) {
-		throw error;
+	} catch (error: any) {
+		// ensure it is fetch error
+		if (error instanceof FetchError) {
+			throw error;
+		}
+		console.warn(error);
+		throw new FetchError(error, "Failed to connect to server!");
 	}
 }
