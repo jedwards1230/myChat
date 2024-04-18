@@ -1,12 +1,16 @@
 import { useRouter } from "expo-router";
 import { Pressable } from "react-native";
-import { ContextMenuButton, type MenuConfig } from "react-native-ios-context-menu";
+import {
+	ContextMenuButton,
+	MenuElementConfig,
+	type MenuConfig,
+} from "react-native-ios-context-menu";
 
 import { Text } from "@/components/ui/Text";
 import { AntDesign } from "@/components/ui/Icon";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { useAgentQuery } from "@/hooks/queries/useAgentQuery";
-import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
+import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 import { useTokenCount } from "@/hooks/useTokenCount";
 import { useAction } from "@/hooks/useAction";
 
@@ -31,6 +35,7 @@ export default function CenterButton() {
 			{
 				actionKey: "delete",
 				actionTitle: "Delete Thread",
+				menuAttributes: threadId ? undefined : ["hidden"],
 			},
 			{
 				actionKey: "agent",

@@ -6,7 +6,7 @@ import type {
 	MessageCreateSchema,
 	MessageObjectSchema as Message,
 } from "@db/Message/MessageSchema";
-import { messagesQueryOptions } from "../queries/useMessagesQuery";
+import { messagesQueryOptions } from "./useMessagesQuery";
 
 export type PostMessageOptions = {
 	threadId: string;

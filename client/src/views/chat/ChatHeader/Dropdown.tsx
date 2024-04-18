@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useAction } from "@/hooks/useAction";
 import { useAgentStore } from "@/hooks/stores/agentStore";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
+import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 
 import {
 	DropdownMenu,

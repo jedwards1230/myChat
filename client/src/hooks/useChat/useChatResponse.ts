@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 
-import { useRequestChatMutation } from "../mutations/useRequestChatMutation";
-import { useRequestThreadTitleMutation } from "../mutations/useRequestThreadTitleMutation";
+import { useRequestChatMutation } from "@/hooks/fetchers/Runs/useRequestChatMutation";
+import { useRequestThreadTitleMutation } from "@/hooks/fetchers/Runs/useRequestThreadTitleMutation";
 
 export const useChatResponse = () => {
 	const [loading, setLoading] = useState(false);

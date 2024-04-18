@@ -9,7 +9,7 @@ import {
 } from "react-native";
 
 import { Text } from "@/components/ui/Text";
-import { useAgentsQuery } from "@/hooks/queries/useAgentsQuery";
+import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
 import { Link } from "expo-router";
 import { Agent } from "@/types";
 

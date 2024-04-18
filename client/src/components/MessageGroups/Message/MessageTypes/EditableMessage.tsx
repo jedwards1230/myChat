@@ -9,7 +9,7 @@ import { ErrorMessage, parseError } from "@/views/auth/AuthFormWrapper";
 import { Button } from "@/components/ui/Button";
 import { Text } from "@/components/ui/Text";
 import { useGroupStore } from "../../GroupStore";
-import { useMessageEditMutation } from "@/hooks/mutations/useMessageEditMutation";
+import { useMessageEditMutation } from "@/hooks/fetchers/Message/useMessageEditMutation";
 
 const InputEdit = z.object({
 	input: z.string(),

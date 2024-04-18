@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import type { Message } from "@/types";
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
-import { useMessagesQuery } from "@/hooks/queries/useMessagesQuery";
+import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 
 export type ChatMessageGroup = {
 	id: string;

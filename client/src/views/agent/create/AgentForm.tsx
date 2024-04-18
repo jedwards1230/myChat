@@ -6,7 +6,7 @@ import { Text } from "@/components/ui/Text";
 import { Textarea } from "@/components/ui/Textarea";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
-import { useAddAgentMutation } from "@/hooks/mutations/useAddAgentMutation";
+import { useAddAgentMutation } from "@/hooks/fetchers/Agent/useAddAgentMutation";
 
 const defaultAgent: AgentCreateSchema = {
 	name: "",

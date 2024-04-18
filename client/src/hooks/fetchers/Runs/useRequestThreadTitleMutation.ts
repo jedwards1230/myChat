@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { threadListQueryOptions } from "../queries/useThreadListQuery";
+import { threadListQueryOptions } from "../Thread/useThreadListQuery";
 
 const fetchTitle = (threadId: string | null, apiKey: string) =>
 	fetcher<string>(`/threads/${threadId}/runs`, {

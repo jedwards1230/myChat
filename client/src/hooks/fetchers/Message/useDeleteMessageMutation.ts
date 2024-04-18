@@ -2,7 +2,7 @@ import { useMutation, UseMutationResult, useQueryClient } from "@tanstack/react-
 
 import { fetcher } from "@/lib/fetcher";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { messagesQueryOptions } from "../queries/useMessagesQuery";
+import { messagesQueryOptions } from "./useMessagesQuery";
 
 const deleteMessage = (threadId: string, messageId: string, apiKey: string) => () =>
 	fetcher<string>(`/threads/${threadId}/messages/${messageId}`, {

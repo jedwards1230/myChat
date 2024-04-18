@@ -3,7 +3,7 @@ import * as Clipboard from "expo-clipboard";
 
 import { useGroupStore } from "../GroupStore";
 import { Message } from "@/types";
-import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
+import { useDeleteMessageMutation } from "@/hooks/fetchers/Message/useDeleteMessageMutation";
 import { MessagePreview } from "./MessagePreview";
 import { ChatMessageGroup } from "../MessageGroup";
 

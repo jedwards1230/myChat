@@ -2,7 +2,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
 import { useUserData } from "../stores/useUserData";
-import { useDeleteThreadMutation } from "../mutations/useDeleteThreadMutation";
+import { useDeleteThreadMutation } from "../fetchers/Thread/useDeleteThreadMutation";
 
 const Actions = {
 	deleteThread: useDeleteThread,

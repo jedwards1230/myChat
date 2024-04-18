@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
-import { useAddMessageMutation } from "../mutations/useAddMessageMutation";
-import { useCreateThreadMutation } from "../mutations/useCreateThreadMutation";
-import { useAddMessageFileMutation } from "../mutations/useAddMessageFileMutation";
+import { useAddMessageMutation } from "../fetchers/Message/useAddMessageMutation";
+import { useCreateThreadMutation } from "../fetchers/Thread/useCreateThreadMutation";
+import { useAddMessageFileMutation } from "../fetchers/Message/useAddMessageFileMutation";
 import { useFileStore } from "../stores/fileStore";
 import { Message } from "@/types";
-import { useMessagesQuery } from "../queries/useMessagesQuery";
+import { useMessagesQuery } from "../fetchers/Message/useMessagesQuery";
 
 type FormSubmission = (
 	threadId: string | null,

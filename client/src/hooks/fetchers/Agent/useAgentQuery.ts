@@ -4,6 +4,7 @@ import { useUserData } from "@/hooks/stores/useUserData";
 import type { Agent } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
+/** Fetch agent by ID */
 export const agentQueryOptions = (apiKey: string, agentId: string) => {
 	return queryOptions({
 		queryKey: ["agents", agentId],
@@ -12,6 +13,7 @@ export const agentQueryOptions = (apiKey: string, agentId: string) => {
 	});
 };
 
+/** Fetch list of available models */
 export const toolQueryOptions = (apiKey: string) => {
 	return queryOptions({
 		queryKey: ["tools"],

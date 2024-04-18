@@ -7,7 +7,7 @@ services:
                 max_attempts: 3
         container_name: postgres-mychat
         hostname: postgres-mychat
-        image: postgres:latest
+        image: pgvector/pgvector:pg16
         ports:
             - 5432:5432
         volumes:

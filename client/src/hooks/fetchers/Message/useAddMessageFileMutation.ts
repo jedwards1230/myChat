@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import type { Message } from "@/types";
-import { useFileStore } from "../stores/fileStore";
-import { messagesQueryOptions } from "../queries/useMessagesQuery";
-import { FileInformation } from "../useFileInformation";
+import { useFileStore } from "../../stores/fileStore";
+import { messagesQueryOptions } from "./useMessagesQuery";
+import { FileInformation } from "../../useFileInformation";
 
 export type PostMessageOptions = {
 	messageId: string;

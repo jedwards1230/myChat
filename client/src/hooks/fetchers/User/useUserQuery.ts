@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import type { User, UserSession } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
-import { fetcher } from "../../lib/fetcher";
+import { fetcher } from "../../../lib/fetcher";
 
 export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({

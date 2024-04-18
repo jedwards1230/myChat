@@ -42,8 +42,8 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 		handler: AgentController.getAgent,
 	});
 
-	// POST Update an agent by ID
-	app.post("/:agentId", {
+	// PATCH Update an agent by ID
+	app.patch("/:agentId", {
 		schema: { description: "Update Agent by ID.", tags: ["Agent"] },
 		preHandler: [getAgent()],
 		handler: AgentController.updateAgent,

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useUserSessionQuery } from "./queries/useUserQuery";
+import { useUserSessionQuery } from "./fetchers/User/useUserQuery";
 import { useUserData } from "./stores/useUserData";
 
 export function useUser() {

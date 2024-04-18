@@ -1,9 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 
 import { MessageFile } from "@/types";
-import { useFileSuspenseQuery } from "@/hooks/queries/useFileQuery";
+import { useFileSuspenseQuery } from "@/hooks/fetchers/Message/useFileQuery";
 import type { DocumentPickerAsset } from "expo-document-picker";
-import { useFilesSuspenseQuery } from "./queries/useFilesQuery";
+import { useFilesSuspenseQuery } from "./fetchers/Message/useFilesQuery";
 
 export function useFilesInformation({ threadId, messageId }: MessageQueryOpts) {
 	const filesData = useFilesSuspenseQuery(threadId, messageId).data;

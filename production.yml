@@ -6,7 +6,7 @@ services:
                 delay: 3s
                 max_attempts: 3
         container_name: postgres-mychat
-        image: postgres:latest
+        image: pgvector/pgvector:pg16
         depends_on:
             - tailscale
         volumes:

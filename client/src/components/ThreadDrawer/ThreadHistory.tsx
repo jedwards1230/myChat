@@ -5,7 +5,7 @@ import { SettingsButton } from "./SettingsButton";
 import HorizontalLine from "../ui/HorizontalLine";
 import NewChatButton from "./NewChatButton";
 import { AgentsButton } from "./AgentsButton";
-import { useThreadListQuery } from "@/hooks/queries/useThreadListQuery";
+import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
 import { groupThreadsByDate, ThreadGroup } from "./ThreadGroups";
 
 export default function ThreadHistory() {

@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 
 import type { Agent, ModelInformation } from "@/types";
-import { useModelsQuery } from "@/hooks/queries/useModelsQuery";
+import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
 import { Text } from "@/components/ui/Text";
 import { Switch } from "@/components/ui/Switch";
 import { RowItem, Section, SectionBlock } from "@/components/ui/Section";
@@ -15,12 +15,28 @@ import {
 	Option,
 } from "@/components/ui/Select";
 import { useAgentStore } from "@/hooks/stores/agentStore";
-import { useToolsQuery } from "@/hooks/queries/useAgentQuery";
+import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { Textarea } from "@/components/ui/Textarea";
 
 export function SystemMessage({ agent }: { agent: Agent }) {
+	const [editMode, setEditMode] = useState(false);
+
+	const SectionTitle = () => (
+		<Pressable onPress={() => setEditMode(!editMode)}>
+			<Text>Edit</Text>
+		</Pressable>
+	);
+
 	return (
-		<Section title="System Message">
-			<Text className="overflow-y-scroll max-h-64">{agent?.systemMessage}</Text>
+		<Section title="System Message" titleComponent={<SectionTitle />}>
+			{editMode ? (
+				<Textarea
+					value={agent?.systemMessage}
+					className="overflow-y-scroll max-h-64"
+				/>
+			) : (
+				<Text className="overflow-y-scroll max-h-64">{agent?.systemMessage}</Text>
+			)}
 		</Section>
 	);
 }

@@ -4,11 +4,11 @@ import { ReadableStream } from "web-streams-polyfill";
 
 import { Message } from "@/types";
 import { fetcher } from "@/lib/fetcher";
-import { messagesQueryOptions } from "../queries/useMessagesQuery";
-import { useConfigStore } from "../stores/configStore";
-import { emitFeedback } from "../../lib/FeedbackEmitter";
-import { getStreamProcessor } from "../../lib/StreamProcessor";
-import { useUserData } from "../stores/useUserData";
+import { messagesQueryOptions } from "@/hooks/fetchers/Message/useMessagesQuery";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { emitFeedback } from "@/lib/FeedbackEmitter";
+import { getStreamProcessor } from "@/lib/StreamProcessor";
+import { useUserData } from "@/hooks/stores/useUserData";
 
 export type PostChatMutationRequest = {
 	threadId: string;

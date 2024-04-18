@@ -5,7 +5,7 @@ import { useGroupStore } from "../GroupStore";
 import { cn } from "@/lib/utils";
 import { FontAwesome6, Octicons } from "@/components/ui/Icon";
 import { Message } from "@/types";
-import { useDeleteMessageMutation } from "@/hooks/mutations/useDeleteMessageMutation";
+import { useDeleteMessageMutation } from "@/hooks/fetchers/Message/useDeleteMessageMutation";
 import { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({

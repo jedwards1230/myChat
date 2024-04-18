@@ -2,7 +2,7 @@ import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { LogoutButton } from "../helpers";
-import { useThreadListQuery } from "@/hooks/queries/useThreadListQuery";
+import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
 
 export function UserConfig() {
 	const session = useUserData.use.session();

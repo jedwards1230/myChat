@@ -11,7 +11,7 @@ import { useAgentStore } from "@/hooks/stores/agentStore";
 import { Text } from "@/components/ui/Text";
 import { Switch } from "../ui/Switch";
 import { Textarea } from "../ui/Textarea";
-import { useModelsQuery } from "@/hooks/queries/useModelsQuery";
+import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
 
 export function ModelManagerDialog({
 	open,
