@@ -4,5 +4,7 @@ docker.sh
 docker-service/mindsdb/
 docker-service/ts/state
 
+secrets/
+
 
 .env
