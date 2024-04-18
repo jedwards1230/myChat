@@ -1,14 +1,15 @@
 import { useUserData } from "@/hooks/stores/useUserData";
-import { Redirect, Stack } from "expo-router";
+import { Redirect, Stack, useLocalSearchParams } from "expo-router";
 
 export default function AuthLayout() {
-	const session = useUserData((s) => s.session);
-	if (session) return <Redirect href="/(main)" />;
+	const params = useLocalSearchParams();
+	const session = useUserData.use.session();
+	if (session) return <Redirect href={{ pathname: "/(main)", params }} />;
 	return (
-		<Stack initialRouteName="index">
-			<Stack.Screen name="index" options={{ headerShown: false }} />
-			<Stack.Screen name="login" options={{ headerShown: false }} />
-			<Stack.Screen name="signup" options={{ headerShown: false }} />
+		<Stack screenOptions={{ headerShown: false }}>
+			<Stack.Screen name="index" />
+			<Stack.Screen name="login" />
+			<Stack.Screen name="signup" />
 		</Stack>
 	);
 }

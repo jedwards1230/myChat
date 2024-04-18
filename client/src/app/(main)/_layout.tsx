@@ -3,7 +3,7 @@ import { useUserData } from "@/hooks/stores/useUserData";
 import { Redirect } from "expo-router";
 
 export default function HomeLayout() {
-	const session = useUserData((s) => s.session);
+	const session = useUserData.use.session();
 	if (!session) return <Redirect href="/(auth)" />;
 	return <Drawer />;
 }

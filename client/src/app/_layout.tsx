@@ -7,20 +7,12 @@ import { useFonts } from "expo-font";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
 import { useEffect } from "react";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
-
-import { AppStateProvider } from "@/providers/AppStateProvider";
-import NativeHapticsProvider from "@/providers/HapticsProvider";
-import { ThemeProvider } from "@/providers/ThemeProvider";
-import { QueryClientProvider } from "@/providers/QueryClientProvider";
-import { HotkeyProvider } from "@/providers/HotkeyProvider";
+import Head from "expo-router/head";
 
 import { PortalHost } from "@/components/primitives/portal";
-import { Platform } from "react-native";
+import { Providers } from "@/providers";
 
-export const unstable_settings = {
-	initialRouteName: "(main)",
-};
+export const unstable_settings = { initialRouteName: "(main)" };
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -42,55 +34,28 @@ export default function RootLayout() {
 	return loaded ? <RootProviders /> : null;
 }
 
-const PlatformProviders = Platform.select({
-	web: (props: { children: React.ReactNode }) => (
-		<HotkeyProvider>{props.children}</HotkeyProvider>
-	),
-	default: (props: { children: React.ReactNode }) => (
-		<GestureHandlerRootView className="flex-1">
-			<NativeHapticsProvider>{props.children}</NativeHapticsProvider>
-		</GestureHandlerRootView>
-	),
-});
-
 function RootProviders() {
 	return (
-		<ThemeProvider>
-			<QueryClientProvider>
-				<PlatformProviders>
-					<AppStateProvider>
-						<Stack
-							initialRouteName="(main)"
-							screenOptions={{
-								headerShown: false,
-								contentStyle: { backgroundColor: "#fff" },
-							}}
-						>
-							<Stack.Screen name="(auth)" />
-							<Stack.Screen name="(main)" />
-							<Stack.Screen
-								name="file/[id]"
-								options={{ presentation: "modal" }}
-							/>
-							<Stack.Screen
-								name="agent/index"
-								options={{ presentation: "modal" }}
-							/>
-							<Stack.Screen
-								name="agent/[id]"
-								options={{ presentation: "modal" }}
-							/>
-							<Stack.Screen name="agent/create/index" />
-							<Stack.Screen
-								name="settings"
-								options={{ presentation: "modal" }}
-							/>
-						</Stack>
-					</AppStateProvider>
-					<PortalHost />
-				</PlatformProviders>
-			</QueryClientProvider>
-		</ThemeProvider>
+		<Providers>
+			<Head>
+				<title>myChat</title>
+			</Head>
+			<Stack
+				screenOptions={{
+					headerShown: false,
+					contentStyle: { backgroundColor: "#fff" },
+				}}
+			>
+				<Stack.Screen name="(main)" />
+				<Stack.Screen name="(auth)" />
+				<Stack.Screen name="file/[id]" options={{ presentation: "modal" }} />
+				<Stack.Screen name="agent/index" options={{ presentation: "modal" }} />
+				<Stack.Screen name="agent/[id]" options={{ presentation: "modal" }} />
+				<Stack.Screen name="agent/create/index" />
+				<Stack.Screen name="settings" options={{ presentation: "modal" }} />
+			</Stack>
+			<PortalHost />
+		</Providers>
 	);
 }
 
