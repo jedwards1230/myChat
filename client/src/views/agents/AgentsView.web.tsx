@@ -64,14 +64,22 @@ function AgentButton({ agent }: { agent: Agent }) {
 				</View>
 				<View className="flex flex-row gap-4">
 					<Link asChild href="/agent/create/">
-						<Pressable className="p-1 rounded-full hover:bg-foreground/15">
-							<Octicons name="pencil" size={18} />
+						<Pressable className="group">
+							<Octicons
+								className="group-hover:text-foreground text-foreground/60"
+								name="pencil"
+								size={18}
+							/>
 						</Pressable>
 					</Link>
 
 					<Link asChild href="/agent/create/">
-						<Pressable className="p-1 rounded-full hover:bg-foreground/15">
-							<Octicons name="trash" size={18} />
+						<Pressable className="group">
+							<Octicons
+								className="group-hover:text-foreground text-foreground/60"
+								name="trash"
+								size={18}
+							/>
 						</Pressable>
 					</Link>
 				</View>

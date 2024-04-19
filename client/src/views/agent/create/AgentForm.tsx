@@ -17,7 +17,7 @@ const defaultAgent: AgentCreateSchema = {
 
 export function AgentForm() {
 	const [agent, setAgent] = useState<AgentCreateSchema>(defaultAgent);
-	const { mutate, ...rest } = useAddAgentMutation();
+	const { mutate } = useAddAgentMutation();
 
 	const handleChange = (props: Partial<AgentCreateSchema>) => {
 		setAgent((prev) => ({ ...prev, ...props }));
