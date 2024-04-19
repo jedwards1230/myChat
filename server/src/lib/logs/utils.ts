@@ -26,7 +26,7 @@ const combinedLogFormat = format.printf(
 	}
 );
 const consoleLogFormat = format.printf(
-	({ level, message, timestamp, functionName, error, ...metadata }) => {
+	({ level, message, functionName, error, ...metadata }) => {
 		const functionNameStr = functionName ? `${functionName} - ` : "";
 		let msg = `${level}: ${functionNameStr}${message} `;
 

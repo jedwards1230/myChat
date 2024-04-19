@@ -80,11 +80,11 @@ export async function buildApp(
 
 	// Api Routes
 	await app.register(
-		async (app, opts) => {
+		async (app) => {
 			await app.register(setupUserRoute);
 			await app.register(setupModelsRoute);
 
-			await app.register(async (app, opts) => {
+			await app.register(async (app) => {
 				app.addHook("preHandler", authenticate);
 
 				await app.register(setupAgentsRoute, { prefix: "/agents" });

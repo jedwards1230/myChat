@@ -13,11 +13,7 @@ const commonFormats = format.combine(
 const mergeWithCommonFormats = (...formats: winston.Logform.Format[]) =>
 	format.combine(commonFormats, ...formats);
 
-const fileFormats = format.combine(
-	format.timestamp({
-		format: "YYYY-MM-DD HH:mm:ss",
-	})
-);
+const fileFormats = format.combine(format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }));
 
 const formats = {
 	errorLog: mergeWithCommonFormats(fileFormats, format.prettyPrint()),

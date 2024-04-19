@@ -4,7 +4,7 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import type { Message } from "@/modules/Message/MessageModel";
-import { OpenAIService, type OpenAiModels } from "./Providers/openai";
+import { OpenAIService } from "./Providers/openai";
 import type { ToolConfig } from "./Tools/types";
 
 export type ChatOptions = {

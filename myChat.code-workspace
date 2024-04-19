@@ -1,28 +1,31 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"name": "Server",
-			"path": "server"
-		},
-		{
-			"name": "Client",
-			"path": "client"
-		},
-		{
-			"name": "Logs",
-			"path": "server/logs"
-		},
-		{
-			"name": "Database",
-			"path": "db"
-		}
-	],
-	"settings": {
-		"prettier.printWidth": 90,
-		"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
-		"tailwindCSS.lint.cssConflict": "ignore"
-	}
+    "folders": [
+        {
+            "path": "."
+        },
+        {
+            "name": "Server",
+            "path": "server"
+        },
+        {
+            "name": "Client",
+            "path": "client"
+        },
+        {
+            "name": "Logs",
+            "path": "server/logs"
+        },
+        {
+            "name": "Database",
+            "path": "db"
+        }
+    ],
+    "settings": {
+        "prettier.printWidth": 90,
+        "prettier.useTabs": false,
+        "tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
+        "tailwindCSS.lint.cssConflict": "ignore",
+        "eslint.workingDirectories": ["./client", "./server"],
+        "eslint.useFlatConfig": false
+    }
 }

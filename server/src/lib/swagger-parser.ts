@@ -4,11 +4,10 @@ import logger from "@/lib/logs/logger";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
 
 const sample = "https://apitools.dev/swagger-parser/online/sample/swagger.yaml";
-const sample1 =
-	"https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml";
+// const sample1 = "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml";
 
 function isOAI3(
-	spec: OpenAPI.Document<{}>
+	spec: OpenAPI.Document<object>
 ): spec is OpenAPIV3.Document | OpenAPIV3_1.Document {
 	return "openapi" in spec;
 }
@@ -23,7 +22,7 @@ async function validateSpec(url: string) {
 			parseOAI2(res);
 		}
 	} catch (e: any) {
-		if (e.name === "ResolverError") {
+		if (e && e.name === "ResolverError") {
 			return logger.debug("failed to parse api", { e });
 		}
 		logger.error("failed to parse api", { e });
@@ -40,46 +39,46 @@ function parseOAI3(spec: OpenAPIV3.Document | OpenAPIV3_1.Document) {
 		security: undefined,
 		tags: undefined,
 	});
-	const paths = spec.paths!;
+	/* const paths = spec.paths!;
 	for (const [path, value] of Object.entries(spec.paths!)) {
-		const methods = paths[path];
+		//const methods = paths[path];
 		logger.debug("Found path", {
 			path,
 			//value,
 		});
-		/* for (const method of Object.keys(methods)) {
+		for (const method of Object.keys(methods)) {
 			const data = methods[method];
 			logger.debug("parsed", {
 				path,
 				method,
 				data,
 			});
-		} */
-	}
+		}
+	} */
 }
 
 function parseOAI2(spec: OpenAPIV2.Document) {
-	//logger.debug("openapi 2", spec);
-	const paths = parsePaths(spec.paths!);
+	logger.debug("openapi 2", spec);
+	//const paths = parsePaths(spec.paths!);
 }
 
-function parsePaths(paths: OpenAPIV2.PathsObject<{}>) {
+/* function parsePaths(paths: OpenAPIV2.PathsObject<{}>) {
 	const pathMap = {} as Record<string, any>;
 	for (const [path, value] of Object.entries(paths)) {
 		if (!pathMap[path]) pathMap[path] = [];
 		pathMap[path].push(Object.keys(value));
 		//const methods = paths[path];
 
-		/* for (const method of Object.keys(methods)) {
+		for (const method of Object.keys(methods)) {
 			const data = methods[method];
 			logger.debug("parsed", {
 				path,
 				method,
 				data,
 			});
-		} */
+		}
 	}
 	logger.debug("Found paths", pathMap);
-}
+} */
 
 validateSpec(sample);

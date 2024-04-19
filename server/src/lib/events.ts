@@ -4,19 +4,31 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
 
+interface ResponseJSONReady {
+	agentRunId: string;
+	response: ChatCompletion;
+}
+
+interface ResponseStreamReady {
+	agentRunId: string;
+	response: ChatCompletionStreamingRunner | ChatCompletionStream;
+}
+
+interface ResponseStreamFinished {
+	agentRunId: string;
+	response: ChatCompletionStreamingRunner | ChatCompletionStream;
+}
+
+interface Abort {
+	agentRunId: string;
+	error?: Error;
+}
+
 export interface ChatResponseEmitterEvents {
-	responseJSONReady: {
-		agentRunId: string;
-		response: ChatCompletion;
-	};
-	responseStreamReady: {
-		agentRunId: string;
-		response: ChatCompletionStreamingRunner | ChatCompletionStream;
-	};
-	abort: {
-		agentRunId: string;
-		error?: Error;
-	};
+	responseJSONReady: ResponseJSONReady;
+	responseStreamReady: ResponseStreamReady;
+	responseStreamFinished: ResponseStreamFinished;
+	abort: Abort;
 }
 
 export class ChatResponseEmitter extends EventEmitter {

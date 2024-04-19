@@ -1,7 +1,7 @@
 import logger, { accessLogger as aLogger } from "@/lib/logs/logger";
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-export async function accessLogger(request: FastifyRequest, reply: FastifyReply) {
+export async function accessLogger(request: FastifyRequest) {
 	aLogger.info(`${request.headers.referer} ${request.method} ${request.url}`);
 	logger.info(`Req: ${request.headers.referer} ${request.method} ${request.url}`);
 }

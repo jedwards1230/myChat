@@ -80,18 +80,36 @@ export class AgentRunController {
 				agentRunId,
 				response,
 			}: ChatResponseEmitterEvents["responseStreamReady"]) => {
-				if (agentRunId !== agentRun.id)
+				if (agentRunId !== agentRun.id) {
 					logger.warn("Agent Run ID mismatch", {
 						agentRunId,
 						id: agentRun.id,
 						functionName: "AgentRunController.handleStream",
 					});
+					return;
+				}
 
 				chatResponseEmitter.removeListener("responseStreamReady", streamHandler);
 				resolve(response.toReadableStream());
 			};
 
+			const abortHandler = ({ agentRunId }: ChatResponseEmitterEvents["abort"]) => {
+				if (agentRunId !== agentRun.id) {
+					logger.warn("Agent Run ID mismatch", {
+						agentRunId,
+						id: agentRun.id,
+						functionName: "AgentRunController.handleStream",
+					});
+					return;
+				}
+
+				chatResponseEmitter.removeListener("responseStreamReady", streamHandler);
+				chatResponseEmitter.removeListener("abort", abortHandler);
+				reject();
+			};
+
 			chatResponseEmitter.on("responseStreamReady", streamHandler);
+			chatResponseEmitter.on("abort", abortHandler);
 		});
 	}
 
@@ -118,7 +136,23 @@ export class AgentRunController {
 				resolve(response.choices[0].message);
 			};
 
+			const abortHandler = ({ agentRunId }: ChatResponseEmitterEvents["abort"]) => {
+				if (agentRunId !== agentRun.id) {
+					logger.warn("Agent Run ID mismatch", {
+						agentRunId,
+						id: agentRun.id,
+						functionName: "AgentRunController.handleStream",
+					});
+					return;
+				}
+
+				chatResponseEmitter.removeListener("responseJSONReady", jsonHandler);
+				chatResponseEmitter.removeListener("abort", abortHandler);
+				reject();
+			};
+
 			chatResponseEmitter.on("responseJSONReady", jsonHandler);
+			chatResponseEmitter.on("abort", abortHandler);
 		});
 	}
 }

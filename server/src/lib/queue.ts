@@ -1,4 +1,4 @@
-export default class MessageQueue<T = any> {
+export default class MessageQueue<T = unknown> {
 	public locked = false;
 	private threadMap: Record<string, T[]> = {};
 

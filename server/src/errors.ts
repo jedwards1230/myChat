@@ -11,16 +11,18 @@ export async function errorHandler(
 	reply: FastifyReply
 ) {
 	switch (error.name) {
-		case "RequestValidationError":
-			const validationError = error as ErrorType<ResponseValidationError>;
+		case "RequestValidationError": {
+			const err = error as ErrorType<ResponseValidationError>;
 			logger.error("Response Validation error", {
-				details: validationError.details,
+				details: err.details,
 			});
-			return reply.status(400).send(validationError.details);
-		case "ZodError":
-			const zodError = error as ErrorType<ZodError>;
-			logger.error("Zod error", { errors: zodError.issues });
-			return reply.status(400).send(zodError.issues);
+			return reply.status(400).send(err.details);
+		}
+		case "ZodError": {
+			const err = error as ErrorType<ZodError>;
+			logger.error("Zod error", { errors: err.issues });
+			return reply.status(400).send(err.issues);
+		}
 	}
 	logger.error("Fastify error", {
 		error,

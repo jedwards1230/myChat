@@ -1,4 +1,3 @@
-import logger from "@/lib/logs/logger";
 import { AppDataSource } from "@/lib/pg";
 import { AgentRun } from "./AgentRunModel";
 
