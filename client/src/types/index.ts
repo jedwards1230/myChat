@@ -2,8 +2,8 @@ export type { MessageFileObjectSchema as MessageFile } from "@db/MessageFile/Mes
 export type { MessageObjectSchema as Message } from "@db/Message/MessageSchema";
 
 export type {
-	ThreadSchema as Thread,
-	ThreadSchemaWithoutId as ThreadDelete,
+    ThreadSchema as Thread,
+    ThreadSchemaWithoutId as ThreadDelete,
 } from "@db/Thread/ThreadSchema";
 
 export type { UserSchema as User } from "@db/User/UserSchema";
@@ -11,13 +11,14 @@ export type { UserSchema as User } from "@db/User/UserSchema";
 export type { UserSessionSchema as UserSession } from "@db/User/SessionSchema";
 
 export type {
-	AgentObjectSchema as Agent,
-	AgentToolsSchema as Tool,
-	AgentCreateSchema,
-	AgentUpdateSchema,
+    AgentObjectSchema as Agent,
+    AgentCreateSchema,
+    AgentUpdateSchema,
 } from "@db/Agent/AgentSchema";
 
+export type { ToolName as Tool } from "@db/LLMNexus/Tools";
+
 export type {
-	ModelLiteral as Model,
-	ModelInfoSchema as ModelInformation,
+    ModelLiteral as Model,
+    ModelInfoSchema as ModelInformation,
 } from "@db/Models/ModelsSchema";

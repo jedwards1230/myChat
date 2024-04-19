@@ -43,7 +43,10 @@ export function SystemMessage({ agent }: { agent: Agent }) {
                         </Text>
                     </Text>
                 ) : (
-                    <Text onPress={() => setEditMode(true)} className="text-xs">
+                    <Text
+                        onPress={() => setEditMode(true)}
+                        className="text-xs hover:text-foreground text-foreground/50"
+                    >
                         Edit
                     </Text>
                 )
