@@ -1,10 +1,13 @@
 import z from "zod";
+import { ToolNames } from "../LLMNexus/Tools";
+
+export const AgentToolsSchema = z.enum([ToolNames[0], ...ToolNames]);
 
 export const AgentObjectSchema = z.object({
 	id: z.string(),
 	createdAt: z.date(),
 	name: z.string(),
-	tools: z.array(z.string()),
+	tools: z.array(AgentToolsSchema),
 	toolsEnabled: z.boolean(),
 	systemMessage: z.string(),
 	threads: z.optional(z.array(z.string())),

@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 
 import type { AgentCreateSchema, AgentUpdateSchema } from "./AgentSchema";
 import { Agent } from "./AgentModel";
-import { tools } from "../LLMNexus/Tools";
+import { Tools } from "../LLMNexus/Tools";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
@@ -54,6 +54,6 @@ export class AgentController {
 	}
 
 	static async getTools(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(tools.map((tool) => tool.name));
+		reply.send(Tools.map((tool) => tool.name));
 	}
 }

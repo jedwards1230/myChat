@@ -11,8 +11,7 @@ import {
 } from "typeorm";
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
-
-type ToolType = "browser";
+import { ToolsMap, type ToolName } from "../LLMNexus/Tools";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
@@ -35,7 +34,7 @@ export class Agent extends BaseEntity {
 
 	/** Tools available to the Agent */
 	@Column({ type: "text", array: true, default: defaultAgent.tools })
-	tools: ToolType[] = [];
+	tools: ToolName[] = [];
 
 	/** Whether tools are enabled */
 	@Column({ type: "boolean", default: defaultAgent.toolsEnabled })
@@ -55,4 +54,9 @@ export class Agent extends BaseEntity {
 
 	@VersionColumn()
 	version: number;
+
+	/** Get List of Agent Tools */
+	getTools() {
+		return this.tools.map((tool) => ToolsMap[tool]);
+	}
 }

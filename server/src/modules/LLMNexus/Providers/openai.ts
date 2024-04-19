@@ -8,7 +8,6 @@ import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStr
 import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
 import type { Message } from "../../Message/MessageModel";
-import logger from "@/lib/logs/logger";
 import type { ChatOptions, LLMNexus } from "../LLMInterface";
 import { runnableSaveTitle } from "../Tools/newTitle";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
@@ -37,7 +36,7 @@ export class OpenAIService implements LLMNexus {
 			? openai.beta.chat.completions.runTools({
 					stream,
 					messages,
-					tools,
+					tools: tools.map((tool) => tool.getTools()).flat(),
 					...opts,
 			  })
 			: openai.beta.chat.completions.stream({

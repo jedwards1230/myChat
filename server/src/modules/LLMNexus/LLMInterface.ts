@@ -1,14 +1,14 @@
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner";
 import type { ChatCompletion } from "openai/resources/index";
-import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import type { Message } from "@/modules/Message/MessageModel";
 import { OpenAIService, type OpenAiModels } from "./Providers/openai";
+import type { ToolConfig } from "./Tools/types";
 
 export type ChatOptions = {
-	tools: RunnableToolFunction<any>[];
+	tools: ToolConfig[];
 	model: OpenAiModels;
 	stream: boolean;
 };

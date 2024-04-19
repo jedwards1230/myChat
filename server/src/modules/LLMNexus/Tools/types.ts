@@ -11,3 +11,19 @@ export type LLMTool<T extends string | object> = {
 	) => Promise<string>;
 	runnable: Runner<T>;
 };
+
+export type Runnable<T> = T extends (infer U)[]
+	? U extends { runnable: infer R }
+		? R
+		: never
+	: T extends { runnable: infer R }
+	? R
+	: never;
+
+export type ToolConfig<T = LLMTool<any>[]> = {
+	name: string;
+	tools: T;
+	description: string;
+	systemMessage: string;
+	getTools: () => Runnable<T>[];
+};

@@ -14,7 +14,6 @@ import { getThreadRepo } from "../Thread/ThreadRepo";
 
 import type { AgentRun, AgentRunStatus } from "../AgentRun/AgentRunModel";
 import { NexusServiceRegistry, type LLMNexus, type ChatOptions } from "./LLMInterface";
-import { Browser } from "./Tools/browser/browser";
 import { getAgentRunRepo } from "../AgentRun/AgentRunRepo";
 
 export class LLMNexusController {
@@ -28,7 +27,7 @@ export class LLMNexusController {
 
 		await update("in_progress");
 		const llmServce = NexusServiceRegistry.getService("OpenAIService");
-		const tools = LLMNexusController.getTools(agentRun);
+		const tools = agentRun.agent.getTools();
 		const opts: ChatOptions = {
 			tools,
 			model: "gpt-4-0125-preview",
@@ -148,19 +147,6 @@ export class LLMNexusController {
 				functionName: "LLMNexusController.saveJSONResponse",
 			});
 		}
-	}
-
-	static getTools(agentRun: AgentRun) {
-		return agentRun.agent.tools
-			.map((tool) => {
-				switch (tool) {
-					case "browser":
-						return Browser.getTools();
-					default:
-						return [];
-				}
-			})
-			.flat();
 	}
 }
 

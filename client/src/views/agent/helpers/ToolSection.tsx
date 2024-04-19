@@ -1,11 +1,10 @@
-import { useState } from "react";
-
 import { Agent } from "@/types";
 import { useAgentEditMutation } from "@/hooks/fetchers/Agent/useAgentEditMutation";
 import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { Section, RowItem } from "@/components/ui/Section";
 import { Switch } from "@/components/ui/Switch";
 import { Text } from "@/components/ui/Text";
+import { ToolOption } from "./ToolOption";
 
 export function ToolSection({ agent }: { agent: Agent }) {
 	const { data } = useToolsQuery();
@@ -35,9 +34,7 @@ export function ToolSection({ agent }: { agent: Agent }) {
 			{agent.toolsEnabled &&
 				(data && data.length ? (
 					data.map((tool) => (
-						<RowItem key={tool}>
-							<Text>{tool}</Text>
-						</RowItem>
+						<ToolOption key={tool} agent={agent} tool={tool} />
 					))
 				) : (
 					<Text className="text-red-500">No tools Found</Text>
