@@ -12,12 +12,14 @@ import {
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
 import { ToolsMap, type ToolName } from "../LLMNexus/Tools";
+import { modelMap } from "../Models/data";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
-	tools: [],
-	toolsEnabled: false,
+	tools: [ToolsMap.Browser.name, ToolsMap.Fetcher.name],
+	toolsEnabled: true,
 	systemMessage: "You are a personal assistant.",
+	model: modelMap["gpt-4-turbo"],
 };
 
 @Entity("Agent")
@@ -35,6 +37,10 @@ export class Agent extends BaseEntity {
 	/** Tools available to the Agent */
 	@Column({ type: "text", array: true, default: defaultAgent.tools })
 	tools: ToolName[] = [];
+
+	/** Model API for the Agent */
+	@Column({ type: "jsonb", default: defaultAgent.model })
+	model: ModelApi;
 
 	/** Whether tools are enabled */
 	@Column({ type: "boolean", default: defaultAgent.toolsEnabled })

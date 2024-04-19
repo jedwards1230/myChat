@@ -9,7 +9,7 @@ import type { ToolConfig } from "./Tools/types";
 
 export type ChatOptions = {
 	tools: ToolConfig[];
-	model: OpenAiModels;
+	model: Model;
 	stream: boolean;
 };
 

@@ -1,7 +1,10 @@
 import z from "zod";
 import { ToolNames } from "../LLMNexus/Tools";
+import { constructZodLiteralUnionType } from "@/lib/zod";
 
-export const AgentToolsSchema = z.enum([ToolNames[0], ...ToolNames]);
+export const AgentToolsSchema = constructZodLiteralUnionType(
+	ToolNames.map((t) => z.literal(t))
+);
 export type AgentToolsSchema = z.infer<typeof AgentToolsSchema>;
 
 export const AgentObjectSchema = z.object({

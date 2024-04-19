@@ -30,7 +30,7 @@ export class LLMNexusController {
 		const tools = agentRun.agent.getTools();
 		const opts: ChatOptions = {
 			tools,
-			model: "gpt-4-0125-preview",
+			model: "gpt-4-turbo",
 			stream: agentRun.stream,
 		};
 
