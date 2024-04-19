@@ -5,18 +5,17 @@ import ModalWrapper from "@/components/ui/Modal";
 import { AgentView } from "./AgentView";
 
 export default function AgentModal({
-	agent,
-	edit = false,
+    agent,
+    edit = false,
 }: {
-	agent?: Agent | null;
-	edit?: boolean;
+    agent?: Agent | null;
+    edit?: boolean;
 }) {
-	const [editing, setEditing] = useState(edit);
-	const [newAgent, setNewAgent] = useState<Agent | null>(agent || null);
+    const [newAgent] = useState<Agent | null>(agent || null);
 
-	return (
-		<ModalWrapper title={"Agent"}>
-			<AgentView agent={newAgent} />
-		</ModalWrapper>
-	);
+    return (
+        <ModalWrapper title={"Agent"}>
+            <AgentView agent={newAgent} />
+        </ModalWrapper>
+    );
 }

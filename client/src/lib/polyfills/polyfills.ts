@@ -1,18 +1,19 @@
 import { ReadableStream } from "web-streams-polyfill";
 import { TextEncoder, TextDecoder } from "text-encoding";
 import { setupURLPolyfill } from "react-native-url-polyfill";
+// @ts-ignore
+import { polyfillGlobal } from "react-native/Libraries/Utilities/PolyfillFunctions";
+// @ts-ignore
+import { fetch, Headers, Request, Response } from "react-native-fetch-api";
 
-if (typeof Symbol === undefined || !Symbol.asyncIterator) {
-	Object.defineProperty(Symbol, "asyncIterator", {
-		value: Symbol("Symbol.asyncIterator"),
-		configurable: true,
-		enumerable: false,
-		writable: true,
-	});
+if (typeof Symbol === "undefined" || !Symbol.asyncIterator) {
+    Object.defineProperty(Symbol, "asyncIterator", {
+        value: Symbol("Symbol.asyncIterator"),
+        configurable: true,
+        enumerable: false,
+        writable: true,
+    });
 }
-
-const { polyfillGlobal } = require("react-native/Libraries/Utilities/PolyfillFunctions");
-const { fetch, Headers, Request, Response } = require("react-native-fetch-api");
 
 setupURLPolyfill();
 polyfillGlobal("fetch", () => fetch);

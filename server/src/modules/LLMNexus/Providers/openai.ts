@@ -11,8 +11,14 @@ import type { Message } from "../../Message/MessageModel";
 import type { ChatOptions, LLMNexus } from "../LLMInterface";
 import { runnableSaveTitle } from "../Tools/newTitle";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
+import logger from "@/lib/logs/logger";
 
-export const openai = new OpenAI();
+const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+if (!OPENAI_API_KEY) logger.warn("ENV: OPENAI_API_KEY not found");
+
+export const openai = new OpenAI({
+    apiKey: OPENAI_API_KEY,
+});
 
 export type OpenAiModels = ChatCompletionCreateParamsBase["model"];
 

@@ -3,85 +3,82 @@ import * as Clipboard from "expo-clipboard";
 
 import { useGroupStore } from "../GroupStore";
 import { Message } from "@/types";
-import { useDeleteMessageMutation } from "@/hooks/fetchers/Message/useDeleteMessageMutation";
+import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
 import { MessagePreview } from "./MessagePreview";
 import { ChatMessageGroup } from "../MessageGroup";
 
 const menuConfig: MenuConfig = {
-	menuTitle: "",
-	menuItems: [
-		{
-			actionKey: "edit",
-			actionTitle: "Edit message",
-		},
-		{
-			actionKey: "copy",
-			actionTitle: "Copy message",
-		},
-		{
-			actionKey: "delete",
-			actionTitle: "Delete message",
-		},
-	],
+    menuTitle: "",
+    menuItems: [
+        {
+            actionKey: "edit",
+            actionTitle: "Edit message",
+        },
+        {
+            actionKey: "copy",
+            actionTitle: "Copy message",
+        },
+        {
+            actionKey: "delete",
+            actionTitle: "Delete message",
+        },
+    ],
 };
 
 export function MessageActions({
-	message,
-	group,
-	children,
+    message,
+    group,
+    children,
 }: {
-	message: Message;
-	group: ChatMessageGroup;
-	children?: React.ReactNode;
+    message: Message;
+    group: ChatMessageGroup;
+    children?: React.ReactNode;
 }) {
-	const { setEditId, reset, editMessageId } = useGroupStore();
-	const { mutate: deleteMessage } = useDeleteMessageMutation(
-		group.threadId,
-		message.id
-	);
+    const { setEditId, reset, editMessageId } = useGroupStore();
+    const { mutate: deleteMessage } = useMessageDelete(group.threadId, message.id);
 
-	const editMode = editMessageId === message.id;
+    const editMode = editMessageId === message.id;
 
-	const toggleEditMode = () =>
-		editMode
-			? reset()
-			: setEditId({
-					editGroupId: group.id,
-					editMessageId: message.id,
-			  });
+    const toggleEditMode = () =>
+        editMode
+            ? reset()
+            : setEditId({
+                  editGroupId: group.id,
+                  editMessageId: message.id,
+              });
 
-	const copyToClipboard = () => {
-		if (message.content) {
-			Clipboard.setStringAsync(message.content);
-		}
-	};
+    const copyToClipboard = () => {
+        if (message.content) {
+            Clipboard.setStringAsync(message.content);
+        }
+    };
 
-	const onMenuAction = (actionKey: string) => {
-		switch (actionKey) {
-			case "edit":
-				toggleEditMode();
-				break;
-			case "copy":
-				copyToClipboard();
-				break;
-			case "delete":
-				deleteMessage();
-				break;
-		}
-	};
+    const onMenuAction = (actionKey: string) => {
+        switch (actionKey) {
+            case "edit":
+                toggleEditMode();
+                break;
+            case "copy":
+                copyToClipboard();
+                break;
+            case "delete":
+                deleteMessage();
+                break;
+        }
+    };
 
-	if (editMode) return children;
-	return (
-		<ContextMenuView
-			menuConfig={menuConfig}
-			shouldPreventLongPressGestureFromPropagating={true}
-			renderPreview={() => (
-				<MessagePreview threadId={group.threadId} message={message} />
-			)}
-			previewConfig={{ previewType: "CUSTOM" }}
-			onPressMenuItem={({ nativeEvent }) => onMenuAction(nativeEvent.actionKey)}
-		>
-			{children}
-		</ContextMenuView>
-	);
+    if (editMode) return children;
+    return (
+        <ContextMenuView
+            menuConfig={menuConfig}
+            shouldPreventLongPressGestureFromPropagating={true}
+            renderPreview={() => (
+                <MessagePreview threadId={group.threadId} message={message} />
+            )}
+            previewConfig={{ previewType: "CUSTOM" }}
+            onPressMenuItem={({ nativeEvent }) => onMenuAction(nativeEvent.actionKey)}
+        >
+            {children}
+        </ContextMenuView>
+    );
 }

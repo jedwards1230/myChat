@@ -1,11 +1,14 @@
 import Drawer from "@/components/DrawerNav/Drawer";
-import { useUserData } from "@/hooks/stores/useUserData";
-import { Redirect } from "expo-router";
+import { useUser } from "@/hooks/useUser";
+import { Redirect, useLocalSearchParams } from "expo-router";
 
 export default function HomeLayout() {
-	const session = useUserData.use.session();
-	if (!session) return <Redirect href="/(auth)" />;
-	return <Drawer />;
+    const params = useLocalSearchParams();
+    const { loading, data } = useUser();
+
+    if (loading) return null;
+    if (!data?.session) return <Redirect href={{ pathname: "/(auth)", params }} />;
+    return <Drawer />;
 }
 
 export { ErrorBoundary } from "expo-router";
