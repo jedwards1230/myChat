@@ -1,7 +1,9 @@
 import { useState } from "react";
 
+import { useUser } from "@/hooks/useUser";
 import { useAction } from "@/hooks/useAction";
-import { useAgentStore } from "@/hooks/stores/agentStore";
+import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
+import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 
 import {
@@ -13,11 +15,8 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Text } from "@/components/ui/Text";
-import { AgentDialog } from "@/views/agent/AgentDialog.web";
 import { Entypo } from "@/components/ui/Icon";
-import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
-import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import { useUser } from "@/hooks/useUser";
+import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 export function Dropdown({
 	children,
@@ -34,7 +33,6 @@ export function Dropdown({
 	} = useUser();
 	const currentAgent = threadId ? threadQuery.data?.agent : user?.defaultAgent;
 	const agentQuery = useAgentQuery(currentAgent?.id || "");
-	const { model } = useAgentStore();
 
 	const [open, setOpen] = useState(false);
 	const [agentOpen, setAgentOpen] = useState(false);
@@ -48,8 +46,8 @@ export function Dropdown({
 
 	const actions = [
 		{
-			label: `Tokens: ${tokens} / ${model?.params.maxTokens}`,
-			hidden: !model,
+			label: `Tokens: ${tokens} / ${agentQuery.data?.model?.params.maxTokens}`,
+			hidden: !agentQuery.data?.model,
 		},
 		{
 			label: "View Agent",

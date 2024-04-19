@@ -1,6 +1,6 @@
 import type { Agent } from "@/types";
 import { ModelStats, ToolSection } from "./helpers";
-import { SystemMessage } from "./SystemMessage";
+import { SystemMessage } from "./helpers/SystemMessage";
 
 export function AgentView({ agent }: { agent?: Agent | null }) {
 	if (!agent) {

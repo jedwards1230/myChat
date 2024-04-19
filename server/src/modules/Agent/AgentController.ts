@@ -32,17 +32,18 @@ export class AgentController {
 		const agent = request.agent;
 
 		switch (agentUpdate.type) {
-			case "name":
-				agent.name = agentUpdate.value;
-				break;
 			case "tools":
 				//agent.tools = agentUpdate.value;
 				break;
 			case "toolsEnabled":
-				agent.toolsEnabled = agentUpdate.value;
+				agent[agentUpdate.type] = agentUpdate.value;
 				break;
+			case "model":
+				agent[agentUpdate.type] = agentUpdate.value;
+				break;
+			case "name":
 			case "systemMessage":
-				agent.systemMessage = agentUpdate.value;
+				agent[agentUpdate.type] = agentUpdate.value;
 				break;
 		}
 		const updatedAgent = await agent.save();

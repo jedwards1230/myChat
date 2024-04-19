@@ -1,5 +1,4 @@
 import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
-import { useAgentStore } from "@/hooks/stores/agentStore";
 import {
 	Select,
 	SelectItem,
@@ -8,24 +7,28 @@ import {
 	SelectValue,
 	Option,
 } from "@/components/ui/Select";
-import { ModelInformation } from "@/types";
+import { Agent } from "@/types";
 import { Text } from "@/components/ui/Text";
+import { useAgentEditMutation } from "@/hooks/fetchers/Agent/useAgentEditMutation";
 
 export function ModelSelector({
 	container,
-	modelInfo,
+	agent: { id, model },
 }: {
 	container: HTMLElement | null;
-	modelInfo: ModelInformation | null;
+	agent: Agent;
 }) {
-	const agentStore = useAgentStore();
 	const { data, isPending, isError, error } = useModelsQuery();
+	const agentEditMut = useAgentEditMutation();
 
-	const updateModel = (opt: Option) => {
+	const updateModel = async (opt: Option) => {
 		if (!data || !opt) return console.warn("No data or value");
 		const model = data.find((m) => m.name === opt.value);
 		if (!model) return console.warn("Model not found");
-		agentStore.setModel(model);
+		await agentEditMut.mutateAsync({
+			agentId: id,
+			agentConfig: { type: "model", value: model },
+		});
 	};
 
 	if (isError) {
@@ -37,9 +40,7 @@ export function ModelSelector({
 	return (
 		<Select
 			onValueChange={updateModel}
-			value={
-				modelInfo ? { value: modelInfo.name, label: modelInfo.name } : undefined
-			}
+			value={{ value: model.name, label: model.name }}
 		>
 			<SelectTrigger>
 				<SelectValue placeholder="Select a model" />

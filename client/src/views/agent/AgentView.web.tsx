@@ -2,14 +2,11 @@ import { View } from "react-native";
 import { useRef } from "react";
 
 import type { Agent } from "@/types";
-import { useAgentStore } from "@/hooks/stores/agentStore";
-
-import { SystemMessage } from "./SystemMessage";
+import { SystemMessage } from "./helpers/SystemMessage";
 import { ModelSection, ModelStats, ToolSection } from "./helpers";
 
 export function AgentView({ agent }: { agent: Agent }) {
 	const ViewRef = useRef<HTMLElement>(null);
-	const model = useAgentStore((state) => state.model);
 
 	return (
 		<View
@@ -18,7 +15,7 @@ export function AgentView({ agent }: { agent: Agent }) {
 		>
 			<SystemMessage agent={agent} />
 			<ToolSection agent={agent} />
-			<ModelSection model={model} container={ViewRef.current} />
+			<ModelSection agent={agent} container={ViewRef.current} />
 			<ModelStats agent={agent} />
 		</View>
 	);

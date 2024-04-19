@@ -28,18 +28,19 @@ export function ModelStats({ agent }: { agent: Agent }) {
 }
 
 export function ModelSection({
-	model,
+	agent,
 	container,
 }: {
-	model: ModelInformation | null;
+	agent: Agent;
 	container: HTMLElement | null;
 }) {
+	const { model } = agent;
 	return (
 		<View className="flex w-full gap-2">
 			<View className="flex flex-row items-center justify-between px-4 pb-2">
 				<Text className="text-secondary-foreground">Model</Text>
 			</View>
-			<ModelSelector modelInfo={model} container={container} />
+			<ModelSelector agent={agent} container={container} />
 			{model && (
 				<SectionBlock>
 					<RowItem>
