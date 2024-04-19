@@ -1,4 +1,4 @@
-import { Agent } from "@/types";
+import { Agent, Tool } from "@/types";
 import { useAgentEditMutation } from "@/hooks/fetchers/Agent/useAgentEditMutation";
 import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { Section, RowItem } from "@/components/ui/Section";
@@ -34,11 +34,18 @@ export function ToolSection({ agent }: { agent: Agent }) {
 			{agent.toolsEnabled &&
 				(data && data.length ? (
 					data.map((tool) => (
-						<ToolOption key={tool} agent={agent} tool={tool} />
+						<ToolFilter key={tool} agent={agent} tool={tool} />
 					))
 				) : (
 					<Text className="text-red-500">No tools Found</Text>
 				))}
 		</Section>
 	);
+}
+
+function ToolFilter({ agent, tool }: { agent: Agent; tool: Tool }) {
+	switch (tool) {
+		case "Browser":
+			return <ToolOption agent={agent} tool={tool} />;
+	}
 }

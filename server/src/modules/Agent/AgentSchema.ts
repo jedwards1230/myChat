@@ -2,6 +2,7 @@ import z from "zod";
 import { ToolNames } from "../LLMNexus/Tools";
 
 export const AgentToolsSchema = z.enum([ToolNames[0], ...ToolNames]);
+export type AgentToolsSchema = z.infer<typeof AgentToolsSchema>;
 
 export const AgentObjectSchema = z.object({
 	id: z.string(),

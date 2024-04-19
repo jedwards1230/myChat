@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/Dialog";
 import { AgentView } from "@/views/agent/AgentView";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import Toast from "react-native-toast-message";
 
 export function AgentDialog({
 	existingAgent,
@@ -28,6 +29,11 @@ export function AgentDialog({
 	if (agentQuery.isPending) return null;
 	if (agentQuery.isError) {
 		console.error(agentQuery.error);
+		Toast.show({
+			type: "error",
+			text1: "Error fetching agent",
+			text2: agentQuery.error.message,
+		});
 		return null;
 	}
 	return (
@@ -38,7 +44,7 @@ export function AgentDialog({
 				</DialogTrigger>
 			)}
 
-			<DialogContent className="flex flex-col min-w-[60vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
+			<DialogContent className="flex flex-col min-w-[80vw] md:min-w-[60vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
 				<DialogTitle className="text-center">Agent</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<AgentView agent={agentQuery.data} />

@@ -1,13 +1,13 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { useUserData } from "@/hooks/stores/useUserData";
-import type { Agent } from "@/types";
+import type { Agent, Tool } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
 /** Fetch agent by ID */
 export const agentQueryOptions = (apiKey: string, agentId: string) => {
 	return queryOptions({
-		queryKey: ["agents", agentId],
+		queryKey: ["agents", agentId, apiKey],
 		enabled: !!agentId,
 		queryFn: () => fetcher<Agent>(`/agents/${agentId}`, { apiKey }),
 	});
@@ -16,8 +16,8 @@ export const agentQueryOptions = (apiKey: string, agentId: string) => {
 /** Fetch list of available models */
 export const toolQueryOptions = (apiKey: string) => {
 	return queryOptions({
-		queryKey: ["tools"],
-		queryFn: () => fetcher<string[]>(`/agents/tools`, { apiKey }),
+		queryKey: ["tools", apiKey],
+		queryFn: () => fetcher<Tool[]>(`/agents/tools`, { apiKey }),
 	});
 };
 

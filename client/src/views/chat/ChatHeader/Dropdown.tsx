@@ -13,7 +13,7 @@ import {
 	DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Text } from "@/components/ui/Text";
-import { AgentDialog } from "@/components/Dialogs/AgentDialog.web";
+import { AgentDialog } from "@/views/agent/AgentDialog.web";
 import { Entypo } from "@/components/ui/Icon";
 import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";

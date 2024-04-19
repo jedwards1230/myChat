@@ -12,6 +12,7 @@ export type { UserSessionSchema as UserSession } from "@db/User/SessionSchema";
 
 export type {
 	AgentObjectSchema as Agent,
+	AgentToolsSchema as Tool,
 	AgentCreateSchema,
 	AgentUpdateSchema,
 } from "@db/Agent/AgentSchema";
