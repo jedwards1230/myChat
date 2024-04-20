@@ -11,7 +11,7 @@ services:
         ports:
             - 5432:5432
         volumes:
-            - ./docker-service/pg/:/var/lib/postgresql/data
+            - pg:/var/lib/postgresql/data
         env_file:
             - .env
 
@@ -32,3 +32,6 @@ services:
             - .env
         environment:
             - DB_HOST=postgres
+
+volumes:
+    pg:

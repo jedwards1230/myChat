@@ -10,7 +10,7 @@ services:
         depends_on:
             - tailscale
         volumes:
-            - ${PWD}/docker-service/pg/:/var/lib/postgresql/data
+            - pg:/var/lib/postgresql/data
         env_file:
             - .env
         network_mode: service:tailscale
@@ -50,9 +50,13 @@ services:
         env_file:
             - .env
         volumes:
-            - ${PWD}/docker-service/ts/state:/var/lib/tailscale
-            - ${PWD}/docker-service/ts/config:/config
+            - ts:/var/lib/tailscale
+            - ${PWD}/ts-config:/config
             #- /dev/net/tun:/dev/net/tun
         cap_add:
             - net_admin
             - sys_module
+
+volumes:
+    pg:
+    ts:

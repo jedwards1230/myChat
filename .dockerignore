@@ -1,10 +1,7 @@
 /**/db/
 /server/node_modules/
 /client/node_modules/
-/**/ios/
+/client/ios/
 /**/tests/
-docker-service/*
-
 /server/logs/
 .gitignore
-pg.sh

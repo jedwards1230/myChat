@@ -1,10 +1,3 @@
 docker.sh
-
-/docker-service/pg/
-docker-service/mindsdb/
-docker-service/ts/state
-
 secrets/
-
-
 .env
