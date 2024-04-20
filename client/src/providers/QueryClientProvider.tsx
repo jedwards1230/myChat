@@ -40,11 +40,14 @@ const queryClient = new QueryClient({
     }),
     mutationCache: new MutationCache({
         onError: (error) => {
-            Toast.show({
-                type: "error",
-                text1: error.name,
-                text2: error.message,
-            });
+            if (!isFetchError(error)) return;
+            if (error.status && error.status >= 500) {
+                Toast.show({
+                    type: "error",
+                    text1: error.name,
+                    text2: error.message,
+                });
+            }
         },
     }),
 });

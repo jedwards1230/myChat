@@ -3,6 +3,7 @@ import { useUserData } from "./stores/useUserData";
 import Toast from "react-native-toast-message";
 import { useIsRestoring } from "@tanstack/react-query";
 import { useEffect } from "react";
+import { isFetchError } from "@/lib/fetcher";
 
 export function useUser() {
     const { session, setSession, setUser } = useUserData();
@@ -13,10 +14,21 @@ export function useUser() {
     useEffect(() => {
         if (userQuery.isPending) return;
         if (userQuery.isError) {
+            if (isFetchError(userQuery.error)) {
+                if (userQuery.error.status === 401) {
+                    setUser(null);
+                    setSession(null);
+                    return Toast.show({
+                        type: "error",
+                        text1: "User Error",
+                        text2: "Unauthorized.",
+                    });
+                }
+            }
             return Toast.show({
                 type: "error",
                 text1: "User Error",
-                text2: "Failed to fetch user.",
+                text2: userQuery.error.message,
             });
         }
         if (userQuery.data) {
@@ -27,10 +39,20 @@ export function useUser() {
     useEffect(() => {
         if (userSessionQuery.isPending) return;
         if (userSessionQuery.isError) {
+            if (isFetchError(userQuery.error)) {
+                if (userQuery.error.status === 401) {
+                    setSession(null);
+                    return Toast.show({
+                        type: "error",
+                        text1: "User Error",
+                        text2: "Unauthorized.",
+                    });
+                }
+            }
             return Toast.show({
                 type: "error",
                 text1: "Session Error",
-                text2: "Failed to fetch user session.",
+                text2: userSessionQuery.error.message,
             });
         }
         if (userSessionQuery.data) {
@@ -42,17 +64,15 @@ export function useUser() {
         return { error: "No session" };
     }
 
+    if (loading) return { loading: true } as const;
+
     if (userQuery.isError) {
-        console.log("User Query Error", userQuery.error);
         return { error: userQuery.error };
     }
 
     if (userSessionQuery.isError) {
-        console.log("User Session Query Error", userSessionQuery.error);
         return { error: userSessionQuery.error };
     }
-
-    if (loading) return { loading: true } as const;
 
     if (!userQuery.data || !userSessionQuery.data) {
         return { loading: true } as const;

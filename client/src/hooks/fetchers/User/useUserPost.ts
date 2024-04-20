@@ -8,7 +8,7 @@ import { User } from "@/types";
 type PostOpts = { email: string; password: string };
 
 const postUser = (opts: PostOpts, apiKey: string) =>
-    fetcher<User>(`/user/`, {
+    fetcher<User>(`/user`, {
         method: "POST",
         apiKey,
         body: JSON.stringify(opts),

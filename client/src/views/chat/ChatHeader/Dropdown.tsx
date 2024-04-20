@@ -1,10 +1,10 @@
 import { useState } from "react";
 
-import { useUser } from "@/hooks/useUser";
 import { useAction } from "@/hooks/useAction";
 import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
+import { useUserQuery } from "@/hooks/fetchers/User/useUserQuery";
 
 import {
     DropdownMenu,
@@ -28,8 +28,8 @@ export function Dropdown({
     threadId: string | null;
 }) {
     const threadQuery = useThreadQuery(threadId);
-    const { data } = useUser();
-    const currentAgent = threadId ? threadQuery.data?.agent : data?.user?.defaultAgent;
+    const { data } = useUserQuery();
+    const currentAgent = threadId ? threadQuery.data?.agent : data?.defaultAgent;
     const agentQuery = useAgentQuery(currentAgent?.id || "");
 
     const [open, setOpen] = useState(false);
