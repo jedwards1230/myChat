@@ -2,8 +2,8 @@ import { View } from "react-native";
 
 import { ThreadButton } from "./ThreadButton/ThreadButton";
 import { Thread } from "@/types";
-import { Text } from "@/components/ui/Text";
 import { useMemo } from "react";
+import { Label } from "../ui/Label";
 
 type ThreadGroup = {
     label: string;
@@ -12,7 +12,9 @@ type ThreadGroup = {
 
 export const ThreadGroup = ({ group: { label, threads } }: { group: ThreadGroup }) => (
     <View>
-        <Text>{label}</Text>
+        <Label className="pl-1 mb-1 text-foreground/75" id={"group-label-" + label}>
+            {label}
+        </Label>
         {threads.map((thread) => (
             <ThreadButton key={thread.id} thread={thread} />
         ))}

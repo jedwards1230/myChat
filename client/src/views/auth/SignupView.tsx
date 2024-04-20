@@ -46,7 +46,7 @@ export function SignUpView() {
                 <Text className="text-xl font-semibold text-center">Sign Up</Text>
             </View>
             <View className="flex gap-1">
-                <Label nativeID="Email">Email</Label>
+                <Label id="Email">Email</Label>
                 <Controller
                     control={control}
                     name="email"
@@ -66,7 +66,7 @@ export function SignUpView() {
                 )}
             </View>
             <View className="flex gap-1">
-                <Label nativeID="Password">Password</Label>
+                <Label id="Password">Password</Label>
                 <Controller
                     control={control}
                     name="password"

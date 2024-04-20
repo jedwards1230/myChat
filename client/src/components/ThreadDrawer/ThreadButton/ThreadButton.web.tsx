@@ -8,17 +8,17 @@ import LinkButton from "../LinkButton";
 import { ThreadButtonPopover } from "./ThreadButtonPopover";
 
 export function ThreadButton({ thread }: { thread: Thread }) {
-	return (
-		<View className="relative flex flex-row items-center w-full group">
-			<LinkButton
-				className="pr-8"
-				href={{ pathname: `/(main)/`, params: { c: thread.id } }}
-			>
-				<Text numberOfLines={1} ellipsizeMode="tail">
-					{thread.title}
-				</Text>
-			</LinkButton>
-			<ThreadButtonPopover thread={thread} />
-		</View>
-	);
+    return (
+        <View className="relative flex flex-row items-center w-full group">
+            <LinkButton
+                className="pr-8"
+                href={{ pathname: `/(main)/`, params: { c: thread.id } }}
+            >
+                <Text numberOfLines={1} ellipsizeMode="tail">
+                    {thread.title || "New chat"}
+                </Text>
+            </LinkButton>
+            <ThreadButtonPopover thread={thread} />
+        </View>
+    );
 }
