@@ -25,7 +25,7 @@ export const useThreadManager = (initialThreadId: string | null) => {
         setActiveThreadId(initialThreadId);
     }, [initialThreadId]);
 
-    const fileList = useFileStore((state) => state.fileList);
+    const fileList = useFileStore.use.fileList();
     const messagesQuery = useMessagesQuery(activeThreadId);
     const createThreadMut = useThreadPost();
     const addMessageMut = useMessagePost();
@@ -75,7 +75,7 @@ export const useThreadManager = (initialThreadId: string | null) => {
         if (!res) throw new Error("No message data");
         await messagesQuery.refetch();
 
-        if (fileList.length > 0) {
+        if (fileList && fileList.length > 0) {
             await addMessageFileMut.mutateAsync({
                 threadId,
                 messageId: res.id,

@@ -15,6 +15,20 @@ services:
             - .env
         network_mode: service:tailscale
 
+    mindsdb:
+        image: mindsdb/mindsdb
+        container_name: mindsdb
+        volumes:
+            - mindsdb:/root
+        depends_on:
+            - tailscale
+        network_mode: service:tailscale
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+
     mychat:
         deploy:
             restart_policy:
@@ -41,9 +55,20 @@ services:
                     cpus: "0.50"
                     memory: 1G
         image: tailscale/tailscale:latest
-        hostname: tailscale-mychat
+        hostname: mychat
         container_name: tailscale-mychat
+        # exposing ports here is useful for local network management
+        # mostly for testing outside of the tailscale network
+        #ports:
+        # optionally expose mindsdb ports
+        #- 47334:47334
+        #- 47335:47335
+        # optionally expose postgres ports
+        #- 5432:5432
+        # optionally expose mychat ports
+        #- 3000:3000
         environment:
+            - TS_ACCEPT_DNS=true
             - TS_STATE_DIR=/var/lib/tailscale
             - TS_SERVE_CONFIG=/config/funnel.json
             - TS_USERSPACE=false
@@ -51,7 +76,7 @@ services:
             - .env
         volumes:
             - ts:/var/lib/tailscale
-            - ${PWD}/ts-config:/config
+            - ${PWD}/config:/config
             #- /dev/net/tun:/dev/net/tun
         cap_add:
             - net_admin
@@ -59,4 +84,5 @@ services:
 
 volumes:
     pg:
+    mindsdb:
     ts:

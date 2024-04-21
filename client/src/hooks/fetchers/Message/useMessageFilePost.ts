@@ -2,19 +2,20 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
-import type { Message } from "@/types";
+import type { Message, MessageFile } from "@/types";
 import { useFileStore } from "../../stores/fileStore";
 import { messagesQueryOptions } from "./useMessagesQuery";
-import { FileInformation } from "../../useFileInformation";
+import { FileInformation, toMessageFile } from "../../useFileInformation";
+import { filesQueryOptions } from "./useFilesQuery";
 
-export type PostMessageOptions = {
+export type PostMessageFileOptions = {
     messageId: string;
     threadId: string;
     fileList: FileInformation[];
 };
 
-const postMessage = async (
-    { messageId, threadId, fileList }: PostMessageOptions,
+const postMessageFile = async (
+    { messageId, threadId, fileList }: PostMessageFileOptions,
     apiKey: string
 ): Promise<Message> => {
     const formData = await buildFormData(fileList);
@@ -33,34 +34,69 @@ export const useMessageFilePost = () => {
 
     return useMutation({
         mutationKey: ["postMessageFile"],
-        mutationFn: async (opts: PostMessageOptions) => postMessage(opts, apiKey),
+        mutationFn: async (opts: PostMessageFileOptions) => postMessageFile(opts, apiKey),
         onMutate: async ({ threadId, messageId, fileList }) => {
             const messagesQuery = messagesQueryOptions(apiKey, threadId);
-            const cached = queryClient.getQueryData(messagesQuery.queryKey);
-            queryClient.cancelQueries(messagesQuery);
+            const filesQuery = filesQueryOptions(apiKey, threadId, messageId);
 
-            // verify messageId in cached messages
-            const messageExists = cached?.find((m) => m.id === messageId);
-            if (!messageExists) throw new Error("Message not found");
+            const cacheMessages = async () => {
+                const cached = queryClient.getQueryData(messagesQuery.queryKey);
+                await queryClient.cancelQueries(messagesQuery);
 
-            // Add the files to the message
-            const prevMessages = cached || [];
-            const messages = prevMessages.map((m: Message) =>
-                m.id === messageId ? { ...m, files: fileList } : m
-            ) as Message[];
+                // Add the files to the message
+                const prevMessages = cached || [];
+                const messages = prevMessages.map((m: Message) =>
+                    m.id === messageId ? { ...m, files: fileList } : m
+                ) as Message[];
 
-            queryClient.setQueryData(messagesQuery.queryKey, messages);
+                queryClient.setQueryData(messagesQuery.queryKey, messages);
+
+                return messages;
+            };
+
+            const cacheFiles = async () => {
+                const cached = queryClient.getQueryData(filesQuery.queryKey);
+                await queryClient.cancelQueries(filesQuery);
+
+                // Add the optimistic files to cache
+                const prevFiles = cached || [];
+                const files = fileList.map((f) => toMessageFile(f));
+
+                // Merge prevFiles and files, ensuring each object is unique by id
+                const mergedFiles = [...files, ...prevFiles].reduce((unique, item) => {
+                    return unique.find((file) => file.id === item.id)
+                        ? unique
+                        : [...unique, item];
+                }, [] as MessageFile[]);
+
+                queryClient.setQueryData(filesQuery.queryKey, mergedFiles);
+
+                return mergedFiles;
+            };
+
+            const [prevMessages, mergedFiles] = await Promise.all([
+                cacheMessages(),
+                cacheFiles(),
+            ]);
+
             reset();
-
-            return { prevMessages, fileList };
+            return { prevMessages, fileList, mergedFiles };
         },
-        onError: (error, { fileList, threadId }) => {
-            setFiles(fileList);
-            queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
+        onError: async (error, { fileList, threadId }) => {
             console.error(error);
+            setFiles(fileList);
+            await queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
         },
-        onSettled: (res, err, opts) =>
-            queryClient.invalidateQueries(messagesQueryOptions(apiKey, opts.threadId)),
+        onSettled: async (res, err, opts) => {
+            await Promise.all([
+                queryClient.invalidateQueries(
+                    messagesQueryOptions(apiKey, opts.threadId)
+                ),
+                queryClient.invalidateQueries(
+                    filesQueryOptions(apiKey, opts.threadId, opts.messageId)
+                ),
+            ]);
+        },
     });
 };
 

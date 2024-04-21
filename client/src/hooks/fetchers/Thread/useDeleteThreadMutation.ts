@@ -16,7 +16,7 @@ const deleteThread = (threadId: string, apiKey: string) =>
 
 export function useDeleteThreadMutation() {
     const { threadId: activeThreadId, setThreadId } = useConfigStore();
-    const apiKey = useUserData((s) => s.apiKey);
+    const apiKey = useUserData.use.apiKey();
 
     const router = useRouter();
     const queryClient = useQueryClient();
@@ -24,14 +24,39 @@ export function useDeleteThreadMutation() {
     return useMutation({
         mutationKey: ["deleteThread"],
         mutationFn: (threadId: string) => deleteThread(threadId, apiKey),
-        onSuccess: (_, threadId) => {
-            if (threadId === activeThreadId) {
+        onMutate: async (threadId) => {
+            const sameThread = threadId === activeThreadId;
+            if (sameThread) {
                 setThreadId(null);
                 router.push("/(app)");
-                queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
+                await queryClient.cancelQueries(messagesQueryOptions(apiKey, threadId));
             }
-            queryClient.invalidateQueries(threadListQueryOptions(apiKey));
+            const listQuery = threadListQueryOptions(apiKey);
+            await queryClient.cancelQueries(listQuery);
+
+            const cached = queryClient.getQueryData(listQuery.queryKey);
+            const threads = (cached || []).filter((t) => t.id !== threadId);
+
+            queryClient.setQueryData(listQuery.queryKey, threads);
+            return { activeThreadId, sameThread };
         },
-        onError: (error) => console.error("Failed to delete thread: " + error),
+        onSuccess: async (_, threadId, ctx) => {
+            if (ctx?.sameThread) {
+                setThreadId(null);
+            } else {
+                await queryClient.invalidateQueries(
+                    messagesQueryOptions(apiKey, threadId)
+                );
+            }
+            await queryClient.invalidateQueries(threadListQueryOptions(apiKey));
+        },
+        onError: async (error, threadId, ctx) => {
+            console.error("Failed to delete thread: " + error);
+            setThreadId(threadId || null);
+            if (ctx?.sameThread) {
+                router.setParams({ c: threadId });
+            }
+            await queryClient.invalidateQueries(threadListQueryOptions(apiKey));
+        },
     });
 }

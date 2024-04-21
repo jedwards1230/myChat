@@ -77,7 +77,6 @@ export async function fetcher<T = any>(
         if (error instanceof FetchError) {
             throw error;
         }
-        console.warn(error);
         throw new FetchError(error, "Failed to connect to server!");
     }
 }

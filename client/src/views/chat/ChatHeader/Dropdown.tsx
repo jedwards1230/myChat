@@ -63,9 +63,6 @@ export function Dropdown({
         },
     ];
 
-    if (agentQuery.isError) {
-        console.error(agentQuery.error);
-    }
     return (
         <>
             <DropdownMenu open={open} onOpenChange={(newVal) => setOpen(newVal)}>

@@ -11,6 +11,6 @@ export const threadQueryOptions = (apiKey: string, threadId: string | null) =>
     });
 
 export const useThreadQuery = (threadId: string | null) => {
-    const apiKey = useUserData((s) => s.apiKey);
+    const apiKey = useUserData.use.apiKey();
     return useQuery(threadQueryOptions(apiKey, threadId));
 };

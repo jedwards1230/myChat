@@ -1,0 +1,18 @@
+services:
+    mychat:
+        deploy:
+            restart_policy:
+                condition: on-failure
+                delay: 3s
+                max_attempts: 3
+        image: jedwards1230/mychat:latest
+        container_name: mychat
+        hostname: mychat
+        ports:
+            - 3000:3000
+        depends_on:
+            - postgres
+        env_file:
+            - .env
+        environment:
+            - DB_HOST=postgres

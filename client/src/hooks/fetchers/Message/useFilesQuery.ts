@@ -4,7 +4,7 @@ import { useUserData } from "@/hooks/stores/useUserData";
 import type { MessageFile } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 
-const fileQueryOptions = (apiKey: string, threadId: string, messageId: string) =>
+export const filesQueryOptions = (apiKey: string, threadId: string, messageId: string) =>
     queryOptions({
         queryKey: ["files", threadId, messageId, apiKey],
         enabled: !!threadId && !!messageId,
@@ -15,6 +15,6 @@ const fileQueryOptions = (apiKey: string, threadId: string, messageId: string) =
     });
 
 export const useFilesSuspenseQuery = (threadId: string, messageId: string) => {
-    const apiKey = useUserData((s) => s.apiKey);
-    return useSuspenseQuery(fileQueryOptions(apiKey, threadId, messageId));
+    const apiKey = useUserData.use.apiKey();
+    return useSuspenseQuery(filesQueryOptions(apiKey, threadId, messageId));
 };
