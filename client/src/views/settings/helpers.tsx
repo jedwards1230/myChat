@@ -50,3 +50,13 @@ export function StreamToggle() {
         </RowItem>
     );
 }
+
+export function DebugQueryToggle() {
+    const { debugQuery, setDebugQuery } = useConfigStore();
+    return (
+        <RowItem>
+            <Text>Debug Query</Text>
+            <Switch checked={debugQuery} onCheckedChange={setDebugQuery} />
+        </RowItem>
+    );
+}

@@ -11,6 +11,7 @@ type State = {
     user: User;
     theme: string;
     defaultAgent: Agent;
+    debugQuery: boolean;
 };
 
 interface Actions {
@@ -18,6 +19,7 @@ interface Actions {
     setStream: (stream: boolean) => void;
     setUser: (user: User) => void;
     setTheme: (theme: string) => void;
+    setDebugQuery: (debugQuery: boolean) => void;
 
     reset: () => void;
 }
@@ -28,6 +30,7 @@ const initial: State = {
     user: { id: "user-1" } as User,
     theme: "system",
     defaultAgent: {} as Agent,
+    debugQuery: false,
 };
 
 const name = "config";
@@ -41,6 +44,7 @@ export const useConfigStore = createSelectors(
                 setStream: (stream) => set({ stream }),
                 setUser: (user) => set({ user }),
                 setTheme: (theme) => set({ theme }),
+                setDebugQuery: (debugQuery) => set({ debugQuery }),
 
                 reset: () => set(initial),
             }),

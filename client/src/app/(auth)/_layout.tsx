@@ -1,11 +1,12 @@
 import { Redirect, Stack, useLocalSearchParams } from "expo-router";
 
-import { useUserData } from "@/hooks/stores/useUserData";
+import { useUser } from "@/hooks/useUser";
 
 export default function AuthLayout() {
     const params = useLocalSearchParams();
-    const session = useUserData.use.session();
+    const { loading, data: session } = useUser();
 
+    if (loading) return null;
     if (session) return <Redirect href={{ pathname: "/(main)", params }} />;
     return (
         <Stack screenOptions={{ headerShown: false }}>

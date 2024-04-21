@@ -11,7 +11,12 @@ import {
 } from "@/components/ui/Dialog";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import { ResetDefaultsButton, StreamToggle, ToggleThemeButton } from "./helpers";
+import {
+    DebugQueryToggle,
+    ResetDefaultsButton,
+    StreamToggle,
+    ToggleThemeButton,
+} from "./helpers";
 import { DeviceConfig } from "./helpers/DeviceConfig";
 import { UserConfig } from "./helpers/UserConfig";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
@@ -131,6 +136,9 @@ function GeneralSettings() {
 function DebugSettings() {
     return (
         <>
+            <Section title="Debug">
+                <DebugQueryToggle />
+            </Section>
             <DeviceConfig />
         </>
     );

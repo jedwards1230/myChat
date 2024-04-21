@@ -14,10 +14,7 @@ import { PersistQueryClientProvider as BaseProvider } from "@tanstack/react-quer
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import Toast from "react-native-toast-message";
 import { isFetchError } from "@/lib/fetcher";
-
-const DEBUG =
-    process.env.EXPO_PUBLIC_DEBUG_QUERY === "true" &&
-    process.env.NODE_ENV === "development";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -68,6 +65,7 @@ function onAppStateChange(status: AppStateStatus) {
 }
 
 export function QueryClientProvider(props: { children: React.ReactNode }) {
+    const debugQuery = useConfigStore.use.debugQuery();
     useEffect(() => {
         const subscription = AppState.addEventListener("change", onAppStateChange);
         return () => subscription.remove();
@@ -76,7 +74,7 @@ export function QueryClientProvider(props: { children: React.ReactNode }) {
     return (
         <BaseProvider client={queryClient} persistOptions={{ persister }}>
             {props.children}
-            {DEBUG && <DevToolsBubble />}
+            {debugQuery && <DevToolsBubble />}
         </BaseProvider>
     );
 }
