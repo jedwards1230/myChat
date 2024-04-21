@@ -25,7 +25,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
     const router = useRouter();
 
     const goToThread = () =>
-        router.push({ pathname: `/(main)/`, params: { c: thread.id } });
+        router.push({ pathname: `/(app)/`, params: { c: thread.id } });
 
     const onMenuAction = (actionKey: string) => {
         switch (actionKey) {

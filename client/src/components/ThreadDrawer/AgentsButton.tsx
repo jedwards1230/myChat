@@ -3,16 +3,16 @@ import LinkButton from "./LinkButton";
 import { Ionicons } from "@/components/ui/Icon";
 
 export function AgentsButton() {
-	return (
-		<LinkButton href={{ pathname: "/(main)/agents" }}>
-			<Ionicons
-				name="grid-outline"
-				size={20}
-				className="text-secondary-foreground"
-			/>
-			<Text className="font-medium" numberOfLines={1} ellipsizeMode="tail">
-				Agents
-			</Text>
-		</LinkButton>
-	);
+    return (
+        <LinkButton href={{ pathname: "/(app)/agents" }}>
+            <Ionicons
+                name="grid-outline"
+                size={20}
+                className="text-secondary-foreground"
+            />
+            <Text className="font-medium" numberOfLines={1} ellipsizeMode="tail">
+                Agents
+            </Text>
+        </LinkButton>
+    );
 }

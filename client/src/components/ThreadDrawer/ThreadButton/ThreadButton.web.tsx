@@ -12,7 +12,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
         <View className="relative flex flex-row items-center w-full group">
             <LinkButton
                 className="pr-8"
-                href={{ pathname: `/(main)/`, params: { c: thread.id } }}
+                href={{ pathname: `/(app)/`, params: { c: thread.id } }}
             >
                 <Text numberOfLines={1} ellipsizeMode="tail">
                     {thread.title || "New chat"}
