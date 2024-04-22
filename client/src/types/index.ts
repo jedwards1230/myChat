@@ -14,9 +14,10 @@ export type {
     AgentObjectSchema as Agent,
     AgentCreateSchema,
     AgentUpdateSchema,
+    AgentToolSchema as AgentTool,
 } from "@db/Agent/AgentSchema";
 
-export type { ToolName as Tool } from "@db/LLMNexus/Tools";
+export type { ToolName } from "@db/LLMNexus/Tools";
 
 export type {
     ModelLiteral as Model,

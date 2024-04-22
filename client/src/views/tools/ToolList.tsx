@@ -1,7 +1,7 @@
 import { ScrollView, Pressable, View } from "react-native";
 
 import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import { Agent, Tool } from "@/types";
+import { Agent, ToolName } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
 
@@ -11,8 +11,8 @@ export function ToolList({
     setTool,
 }: {
     agent: Agent;
-    activeTool: Tool | null;
-    setTool: (tool: Tool) => void;
+    activeTool: ToolName | null;
+    setTool: (tool: ToolName) => void;
 }) {
     const { data, isPending, isError } = useToolsQuery();
 
@@ -42,7 +42,7 @@ export function ToolListItem({
     onPress,
     agent,
 }: {
-    tool: Tool;
+    tool: ToolName;
     active: boolean;
     onPress: () => void;
     agent: Agent;
@@ -64,7 +64,7 @@ export function ToolListItem({
                 className={cn(
                     "p-1 m-1 mr-1 rounded-full",
                     agent.toolsEnabled
-                        ? agent.tools.includes(tool)
+                        ? agent.tools?.includes({ toolName: tool })
                             ? "bg-green-500"
                             : "bg-red-500"
                         : "bg-gray-400"

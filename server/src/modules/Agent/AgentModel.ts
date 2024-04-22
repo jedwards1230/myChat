@@ -9,14 +9,15 @@ import {
     CreateDateColumn,
     VersionColumn,
 } from "typeorm";
+
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
-import { ToolsMap, type ToolName } from "../LLMNexus/Tools";
+import { ToolsMap } from "../LLMNexus/Tools";
 import { modelMap } from "../Models/data";
+import { AgentTool } from "./AgentToolModel";
 
 const defaultAgent: Partial<Agent> = {
     name: "myChat Agent",
-    tools: [],
     toolsEnabled: true,
     systemMessage: "You are a personal assistant.",
     model: modelMap["gpt-4-turbo"],
@@ -35,8 +36,8 @@ export class Agent extends BaseEntity {
     name: string = "myChat Agent";
 
     /** Tools available to the Agent */
-    @Column({ type: "text", array: true, default: defaultAgent.tools })
-    tools: ToolName[] = [];
+    @OneToMany(() => AgentTool, (tool) => tool.agent, { eager: true })
+    tools: Relation<AgentTool[]>;
 
     /** Model API for the Agent */
     @Column({ type: "jsonb", default: defaultAgent.model })
@@ -63,6 +64,6 @@ export class Agent extends BaseEntity {
 
     /** Get List of Agent Tools */
     getTools() {
-        return this.tools.map((tool) => ToolsMap[tool]);
+        return this.tools.map((tool) => ToolsMap[tool.toolName]);
     }
 }

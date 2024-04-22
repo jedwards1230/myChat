@@ -3,6 +3,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type { AgentCreateSchema, AgentUpdateSchema } from "./AgentSchema";
 import { Agent } from "./AgentModel";
 import { Tools } from "../LLMNexus/Tools";
+import { AgentTool } from "./AgentToolModel";
 
 export class AgentController {
     static async createAgent(request: FastifyRequest, reply: FastifyReply) {
@@ -32,19 +33,27 @@ export class AgentController {
         const agent = request.agent;
 
         switch (agentUpdate.type) {
-            case "tools":
-                agent.tools = agentUpdate.value;
+            case "tools": {
+                const newTools = await request.server.orm
+                    .getRepository(AgentTool)
+                    .save(agentUpdate.value);
+
+                agent.tools = newTools;
                 break;
-            case "toolsEnabled":
+            }
+            case "toolsEnabled": {
                 agent[agentUpdate.type] = agentUpdate.value;
                 break;
-            case "model":
+            }
+            case "model": {
                 agent[agentUpdate.type] = agentUpdate.value;
                 break;
+            }
             case "name":
-            case "systemMessage":
+            case "systemMessage": {
                 agent[agentUpdate.type] = agentUpdate.value;
                 break;
+            }
         }
         const updatedAgent = await agent.save();
         reply.send(updatedAgent);

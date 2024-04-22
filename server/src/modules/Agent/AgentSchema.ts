@@ -3,17 +3,30 @@ import { ToolNames } from "../LLMNexus/Tools";
 import { constructZodLiteralUnionType } from "@/lib/zod";
 import { ModelInfoSchema } from "../Models/ModelsSchema";
 
-export const AgentToolsSchema = constructZodLiteralUnionType(
+export const AgentToolsNameSchema = constructZodLiteralUnionType(
     ToolNames.map((t) => z.literal(t))
 );
-export type AgentToolsSchema = z.infer<typeof AgentToolsSchema>;
+export type AgentToolsNameSchema = z.infer<typeof AgentToolsNameSchema>;
+
+export const AgentToolSchema = z.object({
+    id: z.string(),
+    createdAt: z.date(),
+    name: z.string(),
+    enabled: z.boolean(),
+    description: z.string(),
+    parameters: z.object({}),
+    toolName: AgentToolsNameSchema,
+    parse: z.string(),
+    version: z.number(),
+});
+export type AgentToolSchema = z.infer<typeof AgentToolSchema>;
 
 export const AgentObjectSchema = z.object({
     id: z.string(),
     createdAt: z.date(),
     name: z.string(),
     model: ModelInfoSchema,
-    tools: z.array(AgentToolsSchema),
+    tools: z.optional(z.array(AgentToolSchema)),
     toolsEnabled: z.boolean(),
     systemMessage: z.string(),
     threads: z.optional(z.array(z.string())),
@@ -38,7 +51,7 @@ export type AgentCreateSchema = z.infer<typeof AgentCreateSchema>;
 export const AgentUpdateSchema = z.discriminatedUnion("type", [
     z.object({ type: z.literal("name"), value: z.string() }),
     z.object({ type: z.literal("model"), value: ModelInfoSchema }),
-    z.object({ type: z.literal("tools"), value: z.array(AgentToolsSchema) }),
+    z.object({ type: z.literal("tools"), value: z.array(AgentToolSchema.partial()) }),
     z.object({ type: z.literal("toolsEnabled"), value: z.boolean() }),
     z.object({ type: z.literal("systemMessage"), value: z.string() }),
 ]);

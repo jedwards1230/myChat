@@ -14,7 +14,10 @@ import {
 
 import { Config } from "./config";
 import { initDb, resetDatabase, AppDataSource } from "./lib/pg";
-import { authenticate } from "./hooks/auth";
+import { errorHandler } from "./errors";
+
+import { getUser } from "./hooks/getUser";
+import { accessErrorLogger, accessLogger } from "./hooks/accessLogger";
 
 import { setupUserRoute } from "./routes/user";
 import { setupAgentsRoute } from "./routes/agents";
@@ -23,8 +26,6 @@ import { setupThreadsRoute } from "./routes/threads/threads";
 import { setupAgentRunsRoute } from "./routes/threads/runs";
 import { setupServerRoute } from "./routes/server";
 import { setupModelsRoute } from "./routes/models";
-import { errorHandler } from "./errors";
-import { accessErrorLogger, accessLogger } from "./hooks/accessLogger";
 
 export const app = Fastify({
     logger: false,
@@ -87,7 +88,7 @@ export async function buildApp(
             await app.register(setupModelsRoute);
 
             await app.register(async (app) => {
-                app.addHook("preHandler", authenticate);
+                app.addHook("preHandler", getUser);
 
                 await app.register(setupAgentsRoute, { prefix: "/agents" });
                 await app.register(setupThreadsRoute, { prefix: "/threads" });

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
-import { Agent, Tool } from "@/types";
+import { Agent, AgentUpdateSchema, ToolName } from "@/types";
 import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
@@ -43,25 +43,25 @@ function ToolList({ agent }: { agent: Agent }) {
     const { data } = useToolsQuery();
 
     return data && data.length ? (
-        data.map((tool) => <ToolOption key={tool} agent={agent} tool={tool} />)
+        data.map((tool) => <ToolOption key={tool} agent={agent} toolName={tool} />)
     ) : (
         <Text className="text-red-500">No tools Found</Text>
     );
 }
 
-export function ToolOption({ agent, tool }: { agent: Agent; tool: Tool }) {
+export function ToolOption({ agent, toolName }: { agent: Agent; toolName: ToolName }) {
     const [open, setOpen] = useState(false);
     const agentEditMut = useAgentPatch();
 
     const onCheckedChange = async (checked: boolean) => {
         try {
             const value = checked
-                ? [...agent.tools, tool]
-                : agent.tools.filter((t) => t !== tool);
+                ? [...(agent.tools ? agent.tools : []), { toolName }]
+                : agent.tools?.filter((t) => t.toolName !== toolName);
 
             await agentEditMut.mutateAsync({
                 agentId: agent.id,
-                agentConfig: { type: "tools", value },
+                agentConfig: { type: "tools", value } as AgentUpdateSchema,
             });
         } catch (error: any) {
             console.error(error);
@@ -79,10 +79,10 @@ export function ToolOption({ agent, tool }: { agent: Agent; tool: Tool }) {
             onPress={() => setOpen(!open)}
         >
             <Checkbox
-                checked={agent.tools.includes(tool)}
+                checked={agent.tools?.includes({ toolName }) ?? false}
                 onCheckedChange={onCheckedChange}
             />
-            <Text className="text-sm">{tool}</Text>
+            <Text className="text-sm">{toolName}</Text>
         </Pressable>
     );
 }

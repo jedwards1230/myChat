@@ -56,10 +56,12 @@ export function Dropdown({
         {
             label: "Delete Thread",
             onPress: () => deleteThread.action(threadId!),
+            hidden: !threadId,
         },
         {
             label: "Share Thread",
             disabled: true,
+            hidden: !threadId,
         },
     ];
 
