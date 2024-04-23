@@ -30,7 +30,6 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRoot
 
         const Component = asChild ? Slot.Pressable : Pressable;
         return (
-            // eslint-disable-next-line jsx-a11y/role-supports-aria-props
             <Component
                 ref={ref}
                 aria-disabled={disabled}

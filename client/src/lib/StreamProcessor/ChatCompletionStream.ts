@@ -181,7 +181,7 @@ export class ChatCompletionStream
             index,
             logprobs = null,
             ...other
-        } of chunk.choices) {
+        } of choices) {
             let choice = snapshot.choices[index];
             if (!choice) {
                 choice = snapshot.choices[index] = {

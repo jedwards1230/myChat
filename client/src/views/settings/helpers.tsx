@@ -15,7 +15,7 @@ export function ToggleThemeButton() {
             <Text>Dark Mode</Text>
             <Switch
                 checked={colorScheme === "dark"}
-                onCheckedChange={async (value) => {
+                onCheckedChange={async () => {
                     toggleColorScheme();
                 }}
             />

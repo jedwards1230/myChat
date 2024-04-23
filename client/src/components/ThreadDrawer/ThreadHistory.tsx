@@ -39,7 +39,7 @@ function ThreadList() {
                 estimatedItemSize={36}
                 extraData={{ status }}
                 initialScrollIndex={threadGroups.length - 1}
-                renderItem={({ item, index }) => <ThreadGroup group={item} />}
+                renderItem={({ item }) => <ThreadGroup group={item} />}
             />
         </View>
     );

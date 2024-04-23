@@ -25,7 +25,7 @@
         "prettier.useTabs": false,
         "tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
         "tailwindCSS.lint.cssConflict": "ignore",
-        "eslint.workingDirectories": ["./client", "./server"],
+        "eslint.options": { "overrideConfigFile": "eslint.config.cjs" },
         "eslint.useFlatConfig": false
     }
 }

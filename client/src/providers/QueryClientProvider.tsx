@@ -68,7 +68,7 @@ const queryClient = new QueryClient({
         },
     }),
     mutationCache: new MutationCache({
-        onError: async (error, vars, ctx, mut) => {
+        onError: async (error) => {
             if (!isFetchError(error)) return;
             if (error.status && error.status >= 500) {
                 Toast.show({

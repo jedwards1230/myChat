@@ -515,7 +515,7 @@ export abstract class AbstractChatCompletionRunner<
         options?: RunnerOptions
     ) {
         const role = "function" as const;
-        const { function_call = "auto", stream, ...restParams } = params;
+        const { function_call = "auto", ...restParams } = params;
         const singleFunctionToCall =
             typeof function_call !== "string" && function_call?.name;
         const { maxChatCompletions = DEFAULT_MAX_CHAT_COMPLETIONS } = options || {};
@@ -603,7 +603,7 @@ export abstract class AbstractChatCompletionRunner<
         options?: RunnerOptions
     ) {
         const role = "tool" as const;
-        const { tool_choice = "auto", stream, ...restParams } = params;
+        const { tool_choice = "auto", ...restParams } = params;
         const singleFunctionToCall =
             typeof tool_choice !== "string" && tool_choice?.function?.name;
         const { maxChatCompletions = DEFAULT_MAX_CHAT_COMPLETIONS } = options || {};

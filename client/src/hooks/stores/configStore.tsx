@@ -38,7 +38,7 @@ const name = "config";
 export const useConfigStore = createSelectors(
     create<State & Actions>()(
         persist(
-            (set, get) => ({
+            (set) => ({
                 ...initial,
                 setThreadId: (threadId) => set({ threadId }),
                 setStream: (stream) => set({ stream }),

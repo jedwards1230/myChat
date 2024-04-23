@@ -1,29 +1,30 @@
 {
-	"compilerOptions": {
-		"lib": ["ESNext", "dom"],
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleDetection": "force",
-		"moduleResolution": "Bundler",
-		"jsx": "react-jsx",
-		"allowJs": true,
-		"emitDecoratorMetadata": true,
-		"esModuleInterop": true,
+    "compilerOptions": {
+        "lib": ["ESNext", "dom"],
+        "target": "ESNext",
+        "module": "ESNext",
+        "moduleDetection": "force",
+        "moduleResolution": "Bundler",
+        "jsx": "react-jsx",
+        "allowJs": true,
+        "emitDecoratorMetadata": true,
+        "esModuleInterop": true,
 
-		"paths": {
-			"@/*": ["./src/*"]
-		},
+        "paths": {
+            "@/*": ["./src/*"]
+        },
 
-		"allowImportingTsExtensions": true,
-		"verbatimModuleSyntax": true,
-		"noEmit": true,
+        "allowImportingTsExtensions": true,
+        "verbatimModuleSyntax": true,
+        "noEmit": true,
 
-		"skipLibCheck": true,
-		"strict": true,
-		"noFallthroughCasesInSwitch": true,
-		"forceConsistentCasingInFileNames": true,
+        "skipLibCheck": true,
+        "strict": true,
+        "noFallthroughCasesInSwitch": true,
+        "forceConsistentCasingInFileNames": true,
 
-		"strictPropertyInitialization": false,
-		"experimentalDecorators": true
-	}
+        "strictPropertyInitialization": false,
+        "experimentalDecorators": true
+    },
+    "include": ["eslint.config.cjs", "scripts/**/*.ts", "src/**/*.ts", "src/**/*.tsx"]
 }

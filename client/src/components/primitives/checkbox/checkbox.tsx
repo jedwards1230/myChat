@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/role-supports-aria-props */
 import * as React from "react";
 import { GestureResponderEvent, Pressable, View } from "react-native";
 import * as Slot from "@/components/primitives/slot";
@@ -16,10 +15,7 @@ interface RootContext extends CheckboxRootProps {
 const CheckboxContext = React.createContext<RootContext | null>(null);
 
 const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRootProps>(
-    (
-        { asChild, disabled = false, checked, onCheckedChange, nativeID, ...props },
-        ref
-    ) => {
+    ({ disabled = false, checked, onCheckedChange, nativeID, ...props }, ref) => {
         return (
             <CheckboxContext.Provider
                 value={{

@@ -243,7 +243,6 @@ const Content = React.forwardRef<
             insets,
             style,
             disablePositioningStyle,
-            position: _position,
             ...props
         },
         ref
@@ -297,7 +296,6 @@ const Content = React.forwardRef<
 
         const Component = asChild ? Slot.View : View;
         return (
-            // eslint-disable-next-line jsx-a11y/role-supports-aria-props
             <Component
                 ref={ref}
                 role="list"
@@ -353,7 +351,6 @@ const Item = React.forwardRef<PressableRef, SlottablePressableProps & SelectItem
         const Component = asChild ? Slot.Pressable : Pressable;
         return (
             <ItemContext.Provider value={{ itemValue, label }}>
-                {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
                 <Component
                     ref={ref}
                     role="option"

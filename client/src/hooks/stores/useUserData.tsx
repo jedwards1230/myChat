@@ -27,7 +27,7 @@ const name = "userData";
 export const useUserData = createSelectors(
     create<State & Actions>()(
         persist(
-            (set, get) => ({
+            (set) => ({
                 ...initial,
                 setUser: (user) => set({ user }),
                 setSession: (session) => set({ session }),

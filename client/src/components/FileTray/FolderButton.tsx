@@ -8,34 +8,32 @@ import { RemoveFileButton } from "./DeleteButton";
 import { RouterChildrenProps, RouterData } from "../FileRouter";
 
 export function FolderButton({
-	baseDir,
-	data,
-	routerComponents,
+    data,
 }: {
-	baseDir: string;
-	data: RouterData;
-	routerComponents?: RouterChildrenProps;
+    baseDir: string;
+    data: RouterData;
+    routerComponents?: RouterChildrenProps;
 }) {
-	const [pressed, setPressed] = useState(false);
-	const router = useRouter();
-	const file = data.files[0];
+    const [pressed, setPressed] = useState(false);
+    const router = useRouter();
+    const file = data.files[0];
 
-	return (
-		<View className="relative">
-			<Pressable
-				onPressIn={() => setPressed(true)}
-				onPress={() => router.push(`/file/${file.name}`)}
-				onPressOut={() => setPressed(false)}
-				className={cn(
-					"transition-all rounded-lg bg-background hover:bg-foreground/20",
-					pressed && "bg-foreground/20"
-				)}
-			>
-				<Text className="px-4 py-2 border-2 rounded border-border text-foreground">
-					{file.name}
-				</Text>
-			</Pressable>
-			<RemoveFileButton file={file} />
-		</View>
-	);
+    return (
+        <View className="relative">
+            <Pressable
+                onPressIn={() => setPressed(true)}
+                onPress={() => router.push(`/file/${file.name}`)}
+                onPressOut={() => setPressed(false)}
+                className={cn(
+                    "transition-all rounded-lg bg-background hover:bg-foreground/20",
+                    pressed && "bg-foreground/20"
+                )}
+            >
+                <Text className="px-4 py-2 border-2 rounded border-border text-foreground">
+                    {file.name}
+                </Text>
+            </Pressable>
+            <RemoveFileButton file={file} />
+        </View>
+    );
 }

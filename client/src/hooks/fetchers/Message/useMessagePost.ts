@@ -44,7 +44,7 @@ export const useMessagePost = () => {
 
             return { prevMessages, message };
         },
-        onError: (error, { threadId, message }, context) => {
+        onError: (error, { threadId }, context) => {
             if (threadId && context?.prevMessages)
                 queryClient.setQueryData(
                     messagesQueryOptions(apiKey, threadId).queryKey,

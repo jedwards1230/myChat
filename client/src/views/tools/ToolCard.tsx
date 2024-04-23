@@ -18,7 +18,7 @@ export function ToolCard({ agentId, toolId }: { agentId: string; toolId: string 
             await agentToolEditMut.mutateAsync({
                 agentId,
                 toolId,
-                agentToolConfig: { type: "enabled", value: !agentTool?.enabled },
+                agentToolConfig: { type: "enabled", value: checked },
             });
         } catch (error: any) {
             console.error(error);

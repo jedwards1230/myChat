@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/Textarea";
 
-export function ToolOption({ agent, tool }: { agent: Agent; tool: ToolName }) {
+export function ToolOption({ tool }: { agent: Agent; tool: ToolName }) {
     const [open, setOpen] = useState(false);
     const [focus, setFocus] = useState(false);
     return (

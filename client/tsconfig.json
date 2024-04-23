@@ -12,6 +12,7 @@
         "experimentalDecorators": true
     },
     "include": [
+        "eslint.config.cjs",
         "**/*.ts",
         "**/*.tsx",
         ".expo/types/**/*.ts",

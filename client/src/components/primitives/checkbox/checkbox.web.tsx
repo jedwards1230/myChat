@@ -20,7 +20,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
             checked,
             onCheckedChange,
             onPress: onPressProp,
-            role: _role,
+            role = "button",
             ...props
         },
         ref
@@ -65,7 +65,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
                 >
                     <Component
                         ref={augmentedRef}
-                        role="button"
+                        role={role}
                         onPress={onPress}
                         disabled={disabled}
                         {...props}

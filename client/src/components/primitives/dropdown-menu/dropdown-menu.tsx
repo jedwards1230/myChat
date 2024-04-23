@@ -1,4 +1,3 @@
-/* eslint-disable jsx-a11y/role-supports-aria-props */
 import * as React from "react";
 import {
     BackHandler,
@@ -251,7 +250,6 @@ const Content = React.forwardRef<
 
         const Component = asChild ? Slot.Pressable : Pressable;
         return (
-            // eslint-disable-next-line jsx-a11y/role-supports-aria-props
             <Component
                 ref={ref}
                 role="menu"
@@ -295,7 +293,6 @@ const Item = React.forwardRef<
 
         const Component = asChild ? Slot.Pressable : Pressable;
         return (
-            // eslint-disable-next-line jsx-a11y/role-supports-aria-props
             <Component
                 ref={ref}
                 role="menuitem"
@@ -372,7 +369,6 @@ const CheckboxItem = React.forwardRef<
         const Component = asChild ? Slot.Pressable : Pressable;
         return (
             <FormItemContext.Provider value={{ checked }}>
-                {/* eslint-disable-next-line jsx-a11y/role-supports-aria-props */}
                 <Component
                     ref={ref}
                     key={`checkbox-${nativeID}-${checked}`}

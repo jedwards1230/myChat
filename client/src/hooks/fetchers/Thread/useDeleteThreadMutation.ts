@@ -12,6 +12,7 @@ const deleteThread = (threadId: string, apiKey: string) =>
     fetcher<ThreadDelete>(`/threads/${threadId}`, {
         apiKey,
         method: "DELETE",
+        stream: true,
     });
 
 export function useDeleteThreadMutation() {

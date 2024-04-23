@@ -81,7 +81,7 @@ export function Dropdown({
                                     disabled={action.disabled}
                                     onPress={
                                         action.onPress
-                                            ? (e) => action.onPress()
+                                            ? () => action.onPress()
                                             : undefined
                                     }
                                 >
