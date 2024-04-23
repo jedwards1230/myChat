@@ -8,12 +8,7 @@ export function SettingsButton() {
     const path = usePathname();
     return (
         <LinkButton active={path === "/settings"} href={{ pathname: "/(app)/settings" }}>
-            <Icon
-                type="MaterialIcons"
-                name="settings"
-                size={20}
-                className="text-secondary-foreground"
-            />
+            <Icon type="MaterialIcons" name="settings" />
             <Text className="font-medium">Settings</Text>
         </LinkButton>
     );

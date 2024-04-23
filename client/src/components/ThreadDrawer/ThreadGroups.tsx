@@ -12,7 +12,10 @@ type ThreadGroup = {
 
 export const ThreadGroup = ({ group: { label, threads } }: { group: ThreadGroup }) => (
     <View>
-        <Label className="pl-1 mb-1 text-foreground/75" id={"group-label-" + label}>
+        <Label
+            className="pl-1 mb-1 text-sm text-foreground/75"
+            id={"group-label-" + label}
+        >
             {label}
         </Label>
         {threads.map((thread) => (

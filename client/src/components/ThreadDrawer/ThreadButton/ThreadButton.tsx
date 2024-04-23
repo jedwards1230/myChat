@@ -1,13 +1,17 @@
-import { ContextMenuView, type MenuConfig } from "react-native-ios-context-menu";
-import { Pressable, View } from "react-native";
+import {
+    ContextMenuView,
+    OnPressMenuItemEvent,
+    type MenuConfig,
+} from "react-native-ios-context-menu";
+import { View } from "react-native";
 import { useRouter } from "expo-router";
 
 import type { Thread } from "@/types";
 import { Text } from "@/components/ui/Text";
 import ChatHistory from "@/components/ChatHistory";
-import { useHoverHelper } from "@/hooks/useHoverHelper";
-import { cn } from "@/lib/utils";
 import { useDeleteActiveThread } from "@/hooks/actions";
+import LinkButton from "../LinkButton";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 const menuConfig: MenuConfig = {
     menuTitle: "",
@@ -20,15 +24,14 @@ const menuConfig: MenuConfig = {
 };
 
 export function ThreadButton({ thread }: { thread: Thread }) {
-    const { isHover, ...helpers } = useHoverHelper();
+    const threadId = useConfigStore.use.threadId();
     const deleteThread = useDeleteActiveThread();
     const router = useRouter();
 
-    const goToThread = () =>
-        router.push({ pathname: `/(app)/`, params: { c: thread.id } });
+    const href = { pathname: `/(app)/`, params: { c: thread.id } } as const;
 
-    const onMenuAction = (actionKey: string) => {
-        switch (actionKey) {
+    const onPressMenuItem: OnPressMenuItemEvent = ({ nativeEvent }) => {
+        switch (nativeEvent.actionKey) {
             case "delete":
                 deleteThread.action(thread.id);
                 break;
@@ -36,22 +39,11 @@ export function ThreadButton({ thread }: { thread: Thread }) {
     };
 
     return (
-        <Pressable
-            {...helpers}
-            className={cn(
-                "flex flex-row items-center justify-start w-full h-10 gap-2 p-2 rounded-md active:bg-primary group active:opacity-90",
-                !isHover
-                    ? "bg-secondary"
-                    : "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
-            )}
-            onPress={goToThread}
-            onLongPress={() => null}
-            delayLongPress={125}
-        >
+        <LinkButton active={thread.id === threadId} href={href}>
             <ContextMenuView
                 menuConfig={menuConfig}
-                onPressMenuItem={({ nativeEvent }) => onMenuAction(nativeEvent.actionKey)}
-                onPressMenuPreview={goToThread}
+                onPressMenuItem={onPressMenuItem}
+                onPressMenuPreview={() => router.push(href)}
                 previewConfig={{ previewType: "CUSTOM" }}
                 renderPreview={() => <ThreadPreview thread={thread} />}
             >
@@ -59,7 +51,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
                     {thread.title || "New chat"}
                 </Text>
             </ContextMenuView>
-        </Pressable>
+        </LinkButton>
     );
 }
 

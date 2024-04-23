@@ -1,8 +1,9 @@
-import { Link, type Href } from "expo-router";
+import { Link, useRouter, type Href } from "expo-router";
 import { Pressable } from "react-native";
 
 import { cn } from "@/lib/utils";
 import { TextClassContext } from "../ui/Text";
+import { useHoverHelper } from "@/hooks/useHoverHelper";
 
 type PathNameProps = { pathname: string };
 
@@ -19,21 +20,31 @@ export default function LinkButton<T extends PathNameProps>({
     className,
     active,
 }: LinkButtonProps<T>) {
+    const router = useRouter();
+    const { isHover, ...helpers } = useHoverHelper();
     return (
-        <TextClassContext.Provider
-            value={
-                "web:whitespace-nowrap text-sm native:text-base group-aria-selected:text-background text-foreground transition-colors text-secondary-foreground"
-            }
-        >
-            <Link asChild href={href} className={cn("w-full", className)}>
-                <Pressable
-                    role="tab"
-                    aria-selected={active}
-                    className="flex flex-row items-center justify-between w-full h-10 gap-2 p-2 transition-colors rounded-md group web:ring-offset-background aria-selected:bg-primary web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 bg-secondary hover:bg-secondary-foreground/10 dark:hover:bg-secondary-foreground/50 active:opacity-90 web:justify-start"
+        <Link href={href} asChild>
+            <Pressable
+                {...helpers}
+                onPress={() => router.push(href)}
+                role="tab"
+                aria-selected={active}
+                className={cn(
+                    "flex flex-row items-center justify-between w-full gap-2 p-2 transition-colors rounded group web:ring-offset-background aria-selected:bg-primary web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 active:opacity-90 web:justify-start",
+                    isHover
+                        ? "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
+                        : "bg-secondary",
+                    className
+                )}
+            >
+                <TextClassContext.Provider
+                    value={
+                        "web:whitespace-nowrap text-sm native:text-base group-aria-selected:text-background text-foreground transition-colors text-secondary-foreground"
+                    }
                 >
                     {children}
-                </Pressable>
-            </Link>
-        </TextClassContext.Provider>
+                </TextClassContext.Provider>
+            </Pressable>
+        </Link>
     );
 }

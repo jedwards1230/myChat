@@ -34,7 +34,7 @@ export function ThreadButtonPopover({ thread }: { thread: Thread }) {
     ];
 
     return (
-        <Popover className="hidden group-hover:flex">
+        <Popover className="hidden group-hover/thread:flex">
             <PopoverTrigger className="absolute top-0 bottom-0 self-center right-1 group">
                 <Icon
                     type="AntDesign"

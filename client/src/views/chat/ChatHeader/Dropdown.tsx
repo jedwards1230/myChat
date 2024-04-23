@@ -76,21 +76,16 @@ export function Dropdown({
                         {actions.map((action, index) =>
                             !action.hidden ? (
                                 <DropdownMenuItem
-                                    className="cursor-pointer"
                                     key={index}
                                     disabled={action.disabled}
-                                    onPress={
-                                        action.onPress
-                                            ? () => action.onPress()
-                                            : undefined
-                                    }
+                                    onPress={() => action.onPress?.()}
                                 >
-                                    <Text>{action.label}</Text>
+                                    <Text className="w-full">{action.label}</Text>
                                     {action.icon && (
                                         <DropdownMenuShortcut>
                                             <Icon
                                                 type={action.icon}
-                                                name={action.iconLabel as any}
+                                                name={action.iconLabel}
                                             />
                                         </DropdownMenuShortcut>
                                     )}

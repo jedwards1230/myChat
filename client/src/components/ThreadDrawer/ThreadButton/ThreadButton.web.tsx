@@ -11,10 +11,10 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 export function ThreadButton({ thread }: { thread: Thread }) {
     const threadId = useConfigStore.use.threadId();
     return (
-        <View className="relative flex flex-row items-center w-full group">
+        <View className="relative flex flex-row items-center w-full group/thread">
             <LinkButton
                 active={thread.id === threadId}
-                className="pr-8"
+                className="w-full pr-4 group-hover/thread:pr-8"
                 href={{ pathname: `/(app)/`, params: { c: thread.id } }}
             >
                 <Text numberOfLines={1} ellipsizeMode="tail">

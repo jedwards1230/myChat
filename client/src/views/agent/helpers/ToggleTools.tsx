@@ -25,7 +25,7 @@ export function ToggleToolsSwitch({ agent }: { agent: Agent }) {
 
     return (
         <Switch
-            className="scale-[70%]"
+            className="scale-[0.7]"
             checked={agent.toolsEnabled}
             onCheckedChange={onCheckedChange}
         />
