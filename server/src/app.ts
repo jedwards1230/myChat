@@ -66,7 +66,7 @@ export async function buildApp({
     });
     await app.register(fastifyRateLimit, {
         max: 100,
-        timeWindow: "1 minute",
+        timeWindow: "30s",
     });
     await app.register(fastifySwaggerUI, { routePrefix: "/docs" });
     await app.register(fastifyCors, { origin: "*" });
