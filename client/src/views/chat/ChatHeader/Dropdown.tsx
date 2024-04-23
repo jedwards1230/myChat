@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { useAction } from "@/hooks/useAction";
+import { useDeleteActiveThread } from "@/hooks/actions";
 import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
@@ -35,7 +35,7 @@ export function Dropdown({
     const [open, setOpen] = useState(false);
     const [agentOpen, setAgentOpen] = useState(false);
 
-    const deleteThread = useAction("deleteThread")();
+    const deleteThread = useDeleteActiveThread();
     const { data: messages } = useMessagesQuery(threadId);
 
     const tokens = messages?.reduce((acc, m) => acc + m.tokenCount || 0, 0) || 0;

@@ -3,29 +3,37 @@ import { Text } from "@/components/ui/Text";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { LogoutButton } from "../helpers";
 import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
+import { Button } from "@/components/ui/Button";
+import { useDeleteAllThreads } from "@/hooks/actions";
 
 export function UserConfig() {
-	const session = useUserData.use.session();
-	const { data: threadList } = useThreadListQuery();
+    const session = useUserData.use.session();
+    const { data: threadList } = useThreadListQuery();
+    const { action: deleteAllThreads } = useDeleteAllThreads();
 
-	return (
-		<>
-			<Section title="Server Data">
-				<RowItem>
-					<Text>Thread Count</Text>
-					<Text>{threadList?.length}</Text>
-				</RowItem>
-			</Section>
-			<Section title="Session Data">
-				{session &&
-					Object.entries(session).map(([k, v], i) => (
-						<RowItem key={i}>
-							<Text>{k}</Text>
-							<Text>{v.toString()}</Text>
-						</RowItem>
-					))}
-			</Section>
-			<LogoutButton />
-		</>
-	);
+    return (
+        <>
+            <Section title="Server Data">
+                <RowItem>
+                    <Text>Thread Count</Text>
+                    <Text>{threadList?.length}</Text>
+                </RowItem>
+                <RowItem>
+                    <Button variant="destructive" onPress={deleteAllThreads}>
+                        <Text>Delete all threads</Text>
+                    </Button>
+                </RowItem>
+            </Section>
+            <Section title="Session Data">
+                {session &&
+                    Object.entries(session).map(([k, v], i) => (
+                        <RowItem key={i}>
+                            <Text>{k}</Text>
+                            <Text>{v.toString()}</Text>
+                        </RowItem>
+                    ))}
+            </Section>
+            <LogoutButton />
+        </>
+    );
 }

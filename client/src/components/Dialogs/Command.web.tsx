@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/Command";
 import { Icon } from "@/components/ui/Icon";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { useAction } from "@/hooks/useAction";
+import { useDeleteActiveThread, useDeleteAllThreads, useResetDb } from "@/hooks/actions";
 
 export function CommandDialog({
     open,
@@ -22,8 +22,9 @@ export function CommandDialog({
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { threadId } = useConfigStore();
-    const deleteThread = useAction("deleteThread")();
-    const resetDb = useAction("resetDb")();
+    const deleteThread = useDeleteActiveThread();
+    const deleteAllThreads = useDeleteAllThreads();
+    const resetDb = useResetDb();
 
     const items = [
         {
@@ -33,6 +34,13 @@ export function CommandDialog({
             iconName: "trash" as const,
             onClick: () => deleteThread.action(threadId!),
             hidden: !threadId,
+        },
+        {
+            label: "Delete All Threads",
+            Icon: Icon,
+            type: "FontAwesome" as const,
+            iconName: "trash" as const,
+            onClick: deleteAllThreads.action,
         },
         {
             label: "Reset DB",

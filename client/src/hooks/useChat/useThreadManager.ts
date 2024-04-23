@@ -20,16 +20,17 @@ export const useThreadManager = (initialThreadId: string | null) => {
     const router = useRouter();
     const [error, setError] = useState<string | null>(null);
     const [activeThreadId, setActiveThreadId] = useState<string | null>(initialThreadId);
-    useEffect(() => {
-        if (initialThreadId !== activeThreadId) return;
-        setActiveThreadId(initialThreadId);
-    }, [initialThreadId]);
 
     const fileList = useFileStore.use.fileList();
     const messagesQuery = useMessagesQuery(activeThreadId);
     const createThreadMut = useThreadPost();
     const addMessageMut = useMessagePost();
     const addMessageFileMut = useMessageFilePost();
+
+    useEffect(() => {
+        if (initialThreadId !== activeThreadId) return;
+        setActiveThreadId(initialThreadId);
+    }, [initialThreadId]);
 
     const isMutating =
         addMessageMut.isPending ||

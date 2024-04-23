@@ -16,8 +16,3 @@ export const useMessagesQuery = (threadId: string | null) => {
     const apiKey = useUserData((s) => s.apiKey);
     return useQuery(messagesQueryOptions(apiKey, threadId));
 };
-
-export const useMessagesQueryOptions = (threadId: string | null) => {
-    const apiKey = useUserData((s) => s.apiKey);
-    return messagesQueryOptions(apiKey, threadId);
-};

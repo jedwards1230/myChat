@@ -3,11 +3,11 @@ import { Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
 
 import type { Thread } from "@/types";
-import { useAction } from "@/hooks/useAction";
 import { Text } from "@/components/ui/Text";
 import ChatHistory from "@/components/ChatHistory";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
 import { cn } from "@/lib/utils";
+import { useDeleteActiveThread } from "@/hooks/actions";
 
 const menuConfig: MenuConfig = {
     menuTitle: "",
@@ -21,7 +21,7 @@ const menuConfig: MenuConfig = {
 
 export function ThreadButton({ thread }: { thread: Thread }) {
     const { isHover, ...helpers } = useHoverHelper();
-    const deleteThread = useAction("deleteThread")();
+    const deleteThread = useDeleteActiveThread();
     const router = useRouter();
 
     const goToThread = () =>

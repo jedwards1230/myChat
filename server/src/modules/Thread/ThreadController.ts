@@ -58,4 +58,19 @@ export class ThreadController {
             });
         }
     }
+
+    /** Delete all threads for a user. */
+    static async deleteAllThreads(request: FastifyRequest, reply: FastifyReply) {
+        const user = request.user;
+
+        try {
+            await Thread.delete({ user });
+            reply.send();
+        } catch (error) {
+            logger.error("Error in DELETE /thread", { err: error });
+            reply.status(500).send({
+                error: "An error occurred while processing your request.",
+            });
+        }
+    }
 }

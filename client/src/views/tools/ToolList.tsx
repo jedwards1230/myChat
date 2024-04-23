@@ -49,15 +49,12 @@ export function ToolListItem({
 }) {
     return (
         <Pressable
-            className="flex flex-row items-center justify-between px-1.5 py-1 rounded hover:bg-foreground/10 aria-disabled:bg-foreground/20 aria-selected:bg-primary aria-selected:text-background"
+            className="flex group flex-row items-center justify-between px-1.5 py-1 rounded hover:bg-foreground/10 aria-disabled:bg-foreground/20 aria-selected:bg-primary"
             disabled={!agent.toolsEnabled}
             aria-selected={active}
             onPress={onPress}
         >
-            <Text
-                aria-disabled={!agent.toolsEnabled}
-                className="aria-disabled:text-foreground/50"
-            >
+            <Text className="group-aria-disabled:text-foreground/50 group-aria-selected:text-background">
                 {tool}
             </Text>
             <View

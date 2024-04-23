@@ -25,6 +25,12 @@ export async function setupThreadsRoute(app: FastifyInstance) {
         handler: ThreadController.createThread,
     });
 
+    // DELETE All Threads for a user
+    app.delete("/", {
+        schema: { description: "Delete all Threads for User.", tags: ["Thread"] },
+        handler: ThreadController.deleteAllThreads,
+    });
+
     await app.register(async (app) => {
         app.addHook("preHandler", getThread());
 

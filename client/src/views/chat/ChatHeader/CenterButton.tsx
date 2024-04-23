@@ -8,7 +8,7 @@ import { useConfigStore } from "@/hooks/stores/configStore";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 import { useTokenCount } from "@/hooks/useTokenCount";
-import { useAction } from "@/hooks/useAction";
+import { useDeleteActiveThread } from "@/hooks/actions";
 
 export function CenterButton({ threadId }: { threadId: string | null }) {
     const router = useRouter();
@@ -16,7 +16,7 @@ export function CenterButton({ threadId }: { threadId: string | null }) {
 
     const { data: messages } = useMessagesQuery(threadId);
     const { data: agent } = useAgentQuery(defaultAgent.id);
-    const deleteThread = useAction("deleteThread")();
+    const deleteThread = useDeleteActiveThread();
 
     const tokenInput = messages?.map((m) => m.content).join(" ") || "";
     const tokens = useTokenCount(tokenInput);
