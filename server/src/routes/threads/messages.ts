@@ -13,6 +13,14 @@ import { MessageController } from "@/modules/Message/MessageController";
 import { MessageFileController } from "@/modules/MessageFile/MessageFileController";
 
 export async function setupMessagesRoute(app: FastifyInstance) {
+    app.addHook(
+        "preHandler",
+        getThread({
+            activeMessage: true,
+            messages: { files: true },
+        })
+    );
+
     // POST Create Message in Thread
     app.post("/", {
         schema: {
@@ -21,7 +29,6 @@ export async function setupMessagesRoute(app: FastifyInstance) {
             body: MessageCreateSchema,
             response: { 200: MessageObjectSchema },
         },
-        preHandler: [getThread(["activeMessage"])],
         handler: MessageController.createMessage,
     });
 
@@ -32,12 +39,6 @@ export async function setupMessagesRoute(app: FastifyInstance) {
             tags: ["Message"],
             response: { 200: MessageListSchema },
         },
-        preHandler: [
-            getThread({
-                activeMessage: true,
-                messages: { files: true },
-            }),
-        ],
         handler: MessageController.getMessageList,
     });
 
@@ -52,50 +53,58 @@ export async function setupMessagesRoute(app: FastifyInstance) {
         handler: async (req, res) => res.send(req.message),
     });
 
-    // PATCH Modify Message
-    app.patch("/:messageId", {
-        schema: {
-            description: "Modify Message.",
-            tags: ["Message"],
-            response: { 200: MessageObjectSchema },
-        },
-        preHandler: [getMessage()],
-        handler: MessageController.modifyMessage,
-    });
+    await app.register(async (app) => {
+        app.addHook(
+            "preHandler",
+            getMessage({
+                parent: true,
+                children: true,
+                files: {
+                    fileData: true,
+                },
+            })
+        );
 
-    // DELETE Message
-    app.delete("/:messageId", {
-        schema: {
-            description: "Delete Message.",
-            tags: ["Message"],
-            response: { 200: MessageSchemaWithoutId },
-        },
-        preHandler: [getMessage(["parent", "children"])],
-        handler: MessageController.deleteMessage,
-    });
+        // PATCH Modify Message
+        app.patch("/:messageId", {
+            schema: {
+                description: "Modify Message.",
+                tags: ["Message"],
+                response: { 200: MessageObjectSchema },
+            },
+            handler: MessageController.modifyMessage,
+        });
 
-    // POST Create a Message File
-    app.post("/:messageId/files", {
-        schema: {
-            description: "Create a Message File.",
-            tags: ["MessageFile"],
-            response: { 200: MessageObjectSchema },
-        },
-        preHandler: [getMessage()],
-        handler: MessageFileController.createMessageFile,
-    });
+        // DELETE Message
+        app.delete("/:messageId", {
+            schema: {
+                description: "Delete Message.",
+                tags: ["Message"],
+                response: { 200: MessageSchemaWithoutId },
+            },
+            handler: MessageController.deleteMessage,
+        });
 
-    // GET list of files for a message
-    app.get("/:messageId/files", {
-        schema: { description: "List Files for a Message.", tags: ["MessageFile"] },
-        preHandler: [getMessage(["files"])],
-        handler: MessageFileController.getMessageFiles,
-    });
+        // POST Create a Message File
+        app.post("/:messageId/files", {
+            schema: {
+                description: "Create a Message File.",
+                tags: ["MessageFile"],
+                response: { 200: MessageObjectSchema },
+            },
+            handler: MessageFileController.createMessageFile,
+        });
 
-    // GET file by message ID
-    app.get("/:messageId/files/:fileId", {
-        schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
-        preHandler: [getMessage({ files: { fileData: true } })],
-        handler: MessageFileController.getMessageFile,
+        // GET list of files for a message
+        app.get("/:messageId/files", {
+            schema: { description: "List Files for a Message.", tags: ["MessageFile"] },
+            handler: MessageFileController.getMessageFiles,
+        });
+
+        // GET file by message ID
+        app.get("/:messageId/files/:fileId", {
+            schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
+            handler: MessageFileController.getMessageFile,
+        });
     });
 }

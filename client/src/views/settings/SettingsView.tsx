@@ -1,27 +1,19 @@
-import { useState } from "react";
 import { Pressable, View } from "react-native";
+import { useState } from "react";
 
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogTitle,
-    DialogTrigger,
-} from "@/components/ui/Dialog";
-import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
+import { Section } from "@/components/ui/Section";
+import { useHoverHelper } from "@/hooks/useHoverHelper";
+import { cn } from "@/lib/utils";
 import {
-    DebugQueryToggle,
-    ResetDefaultsButton,
-    StreamToggle,
     ToggleThemeButton,
+    StreamToggle,
+    ResetDefaultsButton,
+    DebugQueryToggle,
 } from "./helpers";
 import { DeviceConfig } from "./helpers/DeviceConfig";
 import { UserConfig } from "./helpers/UserConfig";
-import { useHoverHelper } from "@/hooks/useHoverHelper";
-import { cn } from "@/lib/utils";
-import { MaterialIcons } from "@expo/vector-icons";
+import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 
 enum SideMenu {
     General = "General",
@@ -35,13 +27,7 @@ const configView = {
     [SideMenu.Debug]: <DebugSettings />,
 };
 
-export default function SettingsDialog({
-    children,
-    className,
-}: {
-    children: React.ReactNode;
-    className?: string;
-}) {
+export function SettingsView() {
     const [activeTab, setActiveTab] = useState<SideMenu>(SideMenu.General);
     const renderNavButtons = () => {
         return Object.values(SideMenu).map((menu, i) => (
@@ -56,37 +42,24 @@ export default function SettingsDialog({
     };
 
     return (
-        <Dialog className="w-full">
-            <DialogTrigger asChild className={className}>
-                {children}
-            </DialogTrigger>
-
-            <DialogContent className="text-foreground">
-                <SettingsHeader />
-                <DialogDescription className="flex flex-row gap-4">
-                    <View className="flex flex-col gap-1 basis-1/5">
-                        {renderNavButtons()}
-                    </View>
-                    <View className="flex flex-col flex-1 gap-4">
-                        {configView[activeTab]}
-                    </View>
-                </DialogDescription>
-            </DialogContent>
-        </Dialog>
+        <DrawerScreenWrapper>
+            <SettingsHeader />
+            <View className="flex flex-row flex-1 w-full gap-4 px-2 py-4">
+                <View className="flex flex-col gap-1 basis-1/5">
+                    {renderNavButtons()}
+                </View>
+                <View className="flex flex-col flex-1 gap-4">
+                    {configView[activeTab]}
+                </View>
+            </View>
+        </DrawerScreenWrapper>
     );
 }
 
 function SettingsHeader() {
     return (
-        <View className="flex flex-row items-center justify-between py-4 border-b border-input">
-            <DialogTitle>Settings</DialogTitle>
-            <DialogClose>
-                <MaterialIcons
-                    name="close"
-                    size={20}
-                    className="text-foreground/40 hover:text-foreground"
-                />
-            </DialogClose>
+        <View className="flex flex-row items-center justify-center w-full py-4 border-b border-input">
+            <Text>Settings</Text>
         </View>
     );
 }

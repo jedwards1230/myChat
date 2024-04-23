@@ -12,7 +12,7 @@ import { FileData, MessageFile } from "@/modules/MessageFile/MessageFileModel";
 import { AgentRun } from "@/modules/AgentRun/AgentRunModel";
 import { ToolCall } from "@/modules/Message/ToolCallModel";
 import { UserSession } from "@/modules/User/SessionModel";
-import { AgentTool } from "@/modules/Agent/AgentToolModel";
+import { AgentTool } from "@/modules/AgentTool/AgentToolModel";
 
 export const AppDataSource = new DataSource({
     ...Config.database,
@@ -30,6 +30,8 @@ export const AppDataSource = new DataSource({
     ],
     synchronize: true,
     logger: new DBLogger(),
+    migrations: ["migrations/*.ts"],
+    migrationsTableName: "migrations",
 });
 
 /** Initialize Database Connection */

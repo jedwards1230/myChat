@@ -2,7 +2,7 @@ import { Pressable, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
 
 import { useGroupStore } from "../GroupStore";
-import { FontAwesome6, Octicons } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
 import { Message } from "@/types";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
 import { ChatMessageGroup } from "../MessageGroup";
@@ -37,21 +37,21 @@ export function MessageActions({
 
     const actions = [
         {
-            IconProvider: Octicons,
+            iconType: "FontAwesome6",
             icon: "pencil",
             onPress: toggleEditMode,
-        },
+        } as const,
         {
-            IconProvider: FontAwesome6,
+            iconType: "FontAwesome6",
             icon: "clipboard",
             onPress: copyToClipboard,
             hidden: message.content === null,
-        },
+        } as const,
         {
-            IconProvider: Octicons,
+            iconType: "FontAwesome6",
             icon: "trash",
             onPress: () => deleteMessage(),
-        },
+        } as const,
     ];
 
     return (
@@ -60,17 +60,18 @@ export function MessageActions({
             {!editMode && (
                 <View className="h-3 pl-6">
                     <View className="flex-row hidden gap-4 group-hover:flex">
-                        {actions.map(({ IconProvider, icon, onPress, hidden }, i) =>
+                        {actions.map(({ icon, iconType, onPress, hidden }, i) =>
                             !hidden ? (
                                 <Pressable
                                     className="transition-all active:scale-110"
                                     key={i}
                                     onPress={onPress}
                                 >
-                                    <IconProvider
+                                    <Icon
+                                        type={iconType}
                                         name={icon}
                                         size={14}
-                                        className="transition-colors text-foreground/30 hover:text-foreground/80"
+                                        className="text-foreground/30 hover:text-foreground/80"
                                     />
                                 </Pressable>
                             ) : null

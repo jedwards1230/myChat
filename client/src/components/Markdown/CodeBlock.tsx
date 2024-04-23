@@ -3,7 +3,7 @@ import * as Clipboard from "expo-clipboard";
 
 import { Text } from "../ui/Text";
 import SyntaxHighlighter from "./SyntaxHighlighter";
-import { Feather } from "../ui/Icon";
+import { Icon } from "../ui/Icon";
 import { useState } from "react";
 
 export function CodeBlock({
@@ -43,7 +43,7 @@ function CopyButton({ content }: { content: string }) {
             className="flex flex-row items-center gap-1 text-secondary-foreground/60 hover:text-secondary-foreground"
         >
             <>
-                <Feather name="clipboard" />{" "}
+                <Icon type="Feather" name="clipboard" />{" "}
             </>
             <Text className="text-sm md:text-xs">{copied ? "Copied!" : "Copy"}</Text>
         </Text>

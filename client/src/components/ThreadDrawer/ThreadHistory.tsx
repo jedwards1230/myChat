@@ -7,6 +7,7 @@ import NewChatButton from "./NewChatButton";
 import { AgentsButton } from "./AgentsButton";
 import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
 import { useThreadGroups, ThreadGroup } from "./ThreadGroups";
+import { ToolsButton } from "./ToolsButton";
 
 export default function ThreadHistory() {
     return (
@@ -14,6 +15,7 @@ export default function ThreadHistory() {
             <View className="w-full">
                 <NewChatButton />
                 <AgentsButton />
+                <ToolsButton />
             </View>
             <HorizontalLine />
             <ThreadList />

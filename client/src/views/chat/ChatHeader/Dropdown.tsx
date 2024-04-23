@@ -15,7 +15,7 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/DropdownMenu";
 import { Text } from "@/components/ui/Text";
-import { Entypo } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
 import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 export function Dropdown({
@@ -50,9 +50,9 @@ export function Dropdown({
         {
             label: "View Agent",
             onPress: openAgentMenu,
-            icon: Entypo,
+            icon: "Entypo",
             iconLabel: "chevron-right",
-        },
+        } as const,
         {
             label: "Delete Thread",
             onPress: () => deleteThread.action(threadId!),
@@ -88,7 +88,10 @@ export function Dropdown({
                                     <Text>{action.label}</Text>
                                     {action.icon && (
                                         <DropdownMenuShortcut>
-                                            <action.icon name={action.iconLabel as any} />
+                                            <Icon
+                                                type={action.icon}
+                                                name={action.iconLabel as any}
+                                            />
                                         </DropdownMenuShortcut>
                                     )}
                                 </DropdownMenuItem>

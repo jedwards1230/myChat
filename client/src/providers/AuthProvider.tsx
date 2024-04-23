@@ -32,12 +32,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
                 return;
             }
         }
-        console.error(error);
-        return Toast.show({
-            type: "error",
-            text1: "User Error",
-            text2: error.message,
-        });
     };
 
     useEffect(() => {

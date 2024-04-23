@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
 
 import { useFileStore } from "@/hooks/stores/fileStore";
-import { Feather, FontAwesome } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
 import { FileRouter } from "../FileRouter";
 import { parseLocalFiles } from "@/hooks/useFileInformation";
 import { FolderButton } from "./FolderButton";
@@ -72,14 +72,24 @@ export function FileInputButton() {
                 onPress={() => fileInputRef.current?.click()}
                 className="absolute left-0 p-1 bg-transparent rounded-full md:left-2"
             >
-                <FontAwesome name="paperclip" size={22} className="text-foreground" />
+                <Icon
+                    type="FontAwesome"
+                    name="paperclip"
+                    size={22}
+                    className="text-foreground"
+                />
             </Pressable>
 
             <Pressable
                 onPress={() => directoryInputRef.current?.click()}
                 className="absolute p-1 bg-transparent rounded-full left-6 md:left-8"
             >
-                <Feather name="folder" size={22} className="text-foreground" />
+                <Icon
+                    type="Feather"
+                    name="folder"
+                    size={22}
+                    className="text-foreground"
+                />
             </Pressable>
         </>
     );

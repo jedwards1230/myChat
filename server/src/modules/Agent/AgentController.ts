@@ -3,14 +3,14 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type { AgentCreateSchema, AgentUpdateSchema } from "./AgentSchema";
 import { Agent } from "./AgentModel";
 import { Tools } from "../LLMNexus/Tools";
-import { AgentTool } from "./AgentToolModel";
+import { AgentTool } from "../AgentTool/AgentToolModel";
 
 export class AgentController {
     static async createAgent(request: FastifyRequest, reply: FastifyReply) {
         const user = request.user;
         const agent = request.body as AgentCreateSchema;
         const savedAgent = await request.server.orm.getRepository(Agent).save({
-            ...(agent as Agent),
+            ...agent,
             owner: user,
         });
         reply.send(savedAgent);
@@ -56,7 +56,11 @@ export class AgentController {
             }
         }
         const updatedAgent = await agent.save();
-        reply.send(updatedAgent);
+        reply.send({
+            ...updatedAgent,
+            threads: updatedAgent.threads.map((thread) => thread.id),
+            owner: updatedAgent.owner.id,
+        });
     }
 
     static async deleteAgent(request: FastifyRequest, reply: FastifyReply) {

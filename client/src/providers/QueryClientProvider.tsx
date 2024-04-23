@@ -22,22 +22,53 @@ const queryClient = new QueryClient({
         queries: {
             retry: false,
             gcTime: 1000 * 60 * 60 * 24, // 24 hours
+            throwOnError: (error) => !isFetchError(error),
         },
     },
     queryCache: new QueryCache({
-        onError: (error) => {
+        onError: async (error, query) => {
             if (!isFetchError(error)) return;
-            if (error.status && error.status >= 500) {
-                Toast.show({
-                    type: "error",
-                    text1: error.name,
-                    text2: error.message,
-                });
+
+            if (error.status) {
+                if (error.status >= 500) {
+                    Toast.show({
+                        type: "error",
+                        text1: `Server Error ${error.status}`,
+                        text2: error.message,
+                    });
+                    await queryClient.cancelQueries();
+                    console.log(`Query Error Code: ${error.status}`);
+                    console.log(`Cancelled query: ${query.options.queryKey}`);
+                } else if (error.status === 429) {
+                    Toast.show({
+                        type: "error",
+                        text1: "Rate Limit Exceeded",
+                        text2: "Retrrying in 1 minute.",
+                    });
+                    await queryClient.cancelQueries();
+                    setTimeout(() => {
+                        console.log(
+                            "Retrying query after rate limit",
+                            query.options.queryKey
+                        );
+                        queryClient.invalidateQueries();
+                    }, 1000 * 60);
+                } else {
+                    Toast.show({
+                        type: "error",
+                        text1: error.name,
+                        text2: error.message,
+                    });
+                    await queryClient.cancelQueries();
+                    console.log("providerCache DEFAULT", { error, query });
+                    console.log(`Query Error Code: ${error.status}`);
+                    console.log(`Cancelled query: ${query.options.queryKey}`);
+                }
             }
         },
     }),
     mutationCache: new MutationCache({
-        onError: (error) => {
+        onError: async (error, vars, ctx, mut) => {
             if (!isFetchError(error)) return;
             if (error.status && error.status >= 500) {
                 Toast.show({

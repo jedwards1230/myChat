@@ -1,25 +1,7 @@
 import z from "zod";
-import { ToolNames } from "../LLMNexus/Tools";
-import { constructZodLiteralUnionType } from "@/lib/zod";
+
 import { ModelInfoSchema } from "../Models/ModelsSchema";
-
-export const AgentToolsNameSchema = constructZodLiteralUnionType(
-    ToolNames.map((t) => z.literal(t))
-);
-export type AgentToolsNameSchema = z.infer<typeof AgentToolsNameSchema>;
-
-export const AgentToolSchema = z.object({
-    id: z.string(),
-    createdAt: z.date(),
-    name: z.string(),
-    enabled: z.boolean(),
-    description: z.string(),
-    parameters: z.object({}),
-    toolName: AgentToolsNameSchema,
-    parse: z.string(),
-    version: z.number(),
-});
-export type AgentToolSchema = z.infer<typeof AgentToolSchema>;
+import { AgentToolSchema } from "../AgentTool/AgentToolSchema";
 
 export const AgentObjectSchema = z.object({
     id: z.string(),

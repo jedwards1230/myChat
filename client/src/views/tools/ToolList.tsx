@@ -1,6 +1,6 @@
 import { ScrollView, Pressable, View } from "react-native";
 
-import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { Agent, ToolName } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";

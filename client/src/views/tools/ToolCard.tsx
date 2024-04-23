@@ -1,31 +1,23 @@
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
 
-import { Agent, AgentTool, AgentUpdateSchema, ToolName } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { Switch } from "@/components/ui/Switch";
-import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
+import { useAgentToolQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+import { useAgentToolPatch } from "@/hooks/fetchers/AgentTool/useAgentToolPatch";
 
-export function ToolCard({
-    agent,
-    toolName,
-    tool,
-}: {
-    agent: Agent;
-    toolName: ToolName;
-    tool?: AgentTool;
-}) {
-    const agentEditMut = useAgentPatch();
+export function ToolCard({ agentId, toolId }: { agentId: string; toolId: string }) {
+    const agentToolQuery = useAgentToolQuery(agentId, toolId);
+    const agentToolEditMut = useAgentToolPatch();
+
+    const agentTool = agentToolQuery.data;
 
     const onCheckedChange = async (checked: boolean) => {
         try {
-            const value = checked
-                ? [...(agent.tools ? agent.tools : []), { toolName }]
-                : agent.tools?.filter((t) => t.toolName !== toolName);
-
-            await agentEditMut.mutateAsync({
-                agentId: agent.id,
-                agentConfig: { type: "tools", value } as AgentUpdateSchema,
+            await agentToolEditMut.mutateAsync({
+                agentId,
+                toolId,
+                agentToolConfig: { type: "enabled", value: !agentTool?.enabled },
             });
         } catch (error: any) {
             console.error(error);
@@ -40,10 +32,12 @@ export function ToolCard({
     return (
         <View className="gap-2 p-2 border rounded-lg border-border">
             <View>
-                <Text className="text-xl font-medium">{toolName}</Text>
+                <Text className="text-xl font-medium">
+                    {typeof agentTool?.name === "string" ? agentTool.name : "Tool Name"}
+                </Text>
                 <Switch
                     className="scale-75"
-                    checked={agent.tools?.includes({ toolName }) ?? false}
+                    checked={agentTool?.enabled ? true : false}
                     onCheckedChange={onCheckedChange}
                 />
             </View>

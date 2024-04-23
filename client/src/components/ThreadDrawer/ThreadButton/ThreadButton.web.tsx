@@ -6,11 +6,14 @@ import { Text } from "@/components/ui/Text";
 
 import LinkButton from "../LinkButton";
 import { ThreadButtonPopover } from "./ThreadButtonPopover";
+import { useConfigStore } from "@/hooks/stores/configStore";
 
 export function ThreadButton({ thread }: { thread: Thread }) {
+    const threadId = useConfigStore.use.threadId();
     return (
         <View className="relative flex flex-row items-center w-full group">
             <LinkButton
+                active={thread.id === threadId}
                 className="pr-8"
                 href={{ pathname: `/(app)/`, params: { c: thread.id } }}
             >

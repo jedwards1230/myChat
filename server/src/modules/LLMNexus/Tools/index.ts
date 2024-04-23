@@ -6,6 +6,13 @@ export * from "./types";
 export const Tools = [Browser, Fetcher] as const satisfies ToolConfig[];
 export type Tools = typeof Tools;
 
+export type ToolConfigs = {
+    [K in (typeof Tools)[number]["name"]]: (typeof Tools)[number];
+};
+
+// union of all toolconfigs
+export type ToolConfigUnion = ToolConfigs[keyof ToolConfigs];
+
 export type ToolName = Tools[number]["name"];
 export const ToolNames = Tools.map((t) => t.name) as [ToolName, ...ToolName[]];
 

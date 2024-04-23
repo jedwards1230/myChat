@@ -7,10 +7,12 @@ import {
     ManyToOne,
     type Relation,
     Entity,
+    ManyToMany,
 } from "typeorm";
 
-import type { ToolName } from "../LLMNexus/Tools";
-import { Agent } from "./AgentModel";
+import type { ToolConfigUnion, ToolName } from "../LLMNexus/Tools";
+import { Agent } from "../Agent/AgentModel";
+import { User } from "../User/UserModel";
 
 @Entity("AgentTool")
 export class AgentTool extends BaseEntity {
@@ -20,6 +22,7 @@ export class AgentTool extends BaseEntity {
     @CreateDateColumn()
     createdAt: Date;
 
+    /** User friendly name */
     @Column({ type: "text" })
     name: string;
 
@@ -32,15 +35,26 @@ export class AgentTool extends BaseEntity {
     @Column({ type: "jsonb" })
     parameters: object;
 
+    /** Tool name for backend */
     @Column({ type: "text" })
     toolName: ToolName;
-
-    @Column({ type: "text" })
-    parse: string;
 
     @VersionColumn()
     version: number;
 
-    @ManyToOne(() => Agent, (agent) => agent.tools)
-    agent: Relation<Agent>;
+    @ManyToMany(() => Agent, (agent) => agent.tools)
+    agents: Relation<Agent[]>;
+
+    @ManyToOne(() => User, (user) => user.tools)
+    owner: Relation<User>;
+}
+
+export function fromToolConfig(tool: ToolConfigUnion): Partial<AgentTool> {
+    return {
+        name: tool.name,
+        description: tool.description,
+        parameters: {},
+        toolName: tool.name,
+        enabled: false,
+    };
 }

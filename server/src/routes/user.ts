@@ -9,18 +9,6 @@ import { Agent } from "@/modules/Agent/AgentModel";
 import { User } from "@/modules/User/UserModel";
 
 export async function setupUserRoute(app: FastifyInstance) {
-    app.get("/user", {
-        schema: {
-            description: "Get the current user",
-            tags: ["User"],
-            response: { 200: UserSchema },
-        },
-        handler: async (request, reply) => {
-            await getUser(request, reply);
-            reply.send(request.user);
-        },
-    });
-
     app.post("/user", {
         schema: {
             description: "Create user",
@@ -61,28 +49,35 @@ export async function setupUserRoute(app: FastifyInstance) {
         },
     });
 
-    app.get("/user/:userId", {
-        schema: {
-            description: "Get user by ID",
-            tags: ["User"],
-            response: { 200: UserSchema },
-        },
-        handler: async (request, reply) => {
-            await getUser(request, reply);
-            return reply.send(request.user);
-        },
-    });
+    await app.register(async (app) => {
+        app.addHook("preHandler", getUser);
 
-    app.get("/user/session", {
-        schema: {
-            description: "Get user session by ID",
-            tags: ["User"],
-            response: { 200: UserSchema },
-        },
-        handler: async (request, reply) => {
-            await getUser(request, reply);
-            return reply.send(request.user);
-        },
+        app.get("/user", {
+            schema: {
+                description: "Get the current user",
+                tags: ["User"],
+                response: { 200: UserSchema },
+            },
+            handler: async (request, reply) => reply.send(request.user),
+        });
+
+        app.get("/user/:userId", {
+            schema: {
+                description: "Get user by ID",
+                tags: ["User"],
+                response: { 200: UserSchema },
+            },
+            handler: async (request, reply) => reply.send(request.user),
+        });
+
+        app.get("/user/session", {
+            schema: {
+                description: "Get user session by ID",
+                tags: ["User"],
+                response: { 200: UserSchema },
+            },
+            handler: async (request, reply) => reply.send(request.user),
+        });
     });
 
     app.post("/user/session", {

@@ -8,13 +8,15 @@ import {
     OneToMany,
     CreateDateColumn,
     VersionColumn,
+    ManyToMany,
+    JoinTable,
 } from "typeorm";
 
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
 import { ToolsMap } from "../LLMNexus/Tools";
 import { modelMap } from "../Models/data";
-import { AgentTool } from "./AgentToolModel";
+import { AgentTool } from "../AgentTool/AgentToolModel";
 
 const defaultAgent: Partial<Agent> = {
     name: "myChat Agent",
@@ -36,7 +38,8 @@ export class Agent extends BaseEntity {
     name: string = "myChat Agent";
 
     /** Tools available to the Agent */
-    @OneToMany(() => AgentTool, (tool) => tool.agent, { eager: true })
+    @ManyToMany(() => AgentTool, (tool) => tool.agents, { eager: true })
+    @JoinTable()
     tools: Relation<AgentTool[]>;
 
     /** Model API for the Agent */

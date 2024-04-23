@@ -2,9 +2,9 @@ import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
 import fastifyStatic from "@fastify/static";
-import fastifyORM from "typeorm-fastify-plugin";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
+import fastifyRateLimit from "@fastify/rate-limit";
 import {
     jsonSchemaTransform,
     serializerCompiler,
@@ -13,11 +13,9 @@ import {
 } from "fastify-type-provider-zod";
 
 import { Config } from "./config";
-import { initDb, resetDatabase, AppDataSource } from "./lib/pg";
-import { errorHandler } from "./errors";
-
 import { getUser } from "./hooks/getUser";
-import { accessErrorLogger, accessLogger } from "./hooks/accessLogger";
+import { setupLogger } from "./hooks/setupLogger";
+import { setupDatabase } from "./hooks/setupDatabase";
 
 import { setupUserRoute } from "./routes/user";
 import { setupAgentsRoute } from "./routes/agents";
@@ -37,26 +35,24 @@ export type BuildAppParams = {
     staticClientFilesDir: string;
 };
 
-export async function buildApp(
-    { resetDbOnInit, staticClientFilesDir }: BuildAppParams | undefined = {
-        resetDbOnInit: Config.resetDbOnInit,
-        staticClientFilesDir: Config.staticClientFilesDir,
-    }
-) {
-    // Connect to Postgres and initialize TypeORM
-    if (resetDbOnInit) {
-        await initDb();
-        await resetDatabase();
-    }
-    await app.register(fastifyORM, { connection: AppDataSource });
+export async function buildApp({
+    resetDbOnInit,
+    staticClientFilesDir,
+}: BuildAppParams | undefined = Config) {
+    // Initialize Database
+    await app.register(setupDatabase, { resetDbOnInit });
 
+    // Access Logger
+    await app.register(setupLogger);
+
+    // Type Providers
     app.setValidatorCompiler(validatorCompiler);
     app.setSerializerCompiler(serializerCompiler);
     app.withTypeProvider<ZodTypeProvider>();
 
     // Hooks
     await app.register(fastifyMultipart);
-    app.register(fastifySwagger, {
+    await app.register(fastifySwagger, {
         openapi: {
             openapi: "3.0.0",
             info: {
@@ -68,17 +64,12 @@ export async function buildApp(
         },
         transform: jsonSchemaTransform,
     });
-
-    app.register(fastifySwaggerUI, {
-        routePrefix: "/docs",
+    await app.register(fastifyRateLimit, {
+        max: 100,
+        timeWindow: "1 minute",
     });
+    await app.register(fastifySwaggerUI, { routePrefix: "/docs" });
     await app.register(fastifyCors, { origin: "*" });
-
-    // Access Logger
-    app.addHook("onRequest", accessLogger);
-    app.addHook("onSend", accessErrorLogger);
-
-    app.setErrorHandler(errorHandler);
 
     // Api Routes
     await app.register(
@@ -87,6 +78,7 @@ export async function buildApp(
             await app.register(setupUserRoute);
             await app.register(setupModelsRoute);
 
+            // authenticated routes
             await app.register(async (app) => {
                 app.addHook("preHandler", getUser);
 

@@ -1,11 +1,12 @@
 import { Text } from "@/components/ui/Text";
 import LinkButton from "./LinkButton";
-import { MaterialIcons } from "@/components/ui/Icon";
+import { Icon } from "@/components/ui/Icon";
 
 export default function NewChatButton() {
     return (
         <LinkButton href={{ pathname: "/(app)/" }}>
-            <MaterialIcons
+            <Icon
+                type="MaterialIcons"
                 name="open-in-new"
                 size={20}
                 className="text-secondary-foreground"

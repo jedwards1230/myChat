@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import { Agent, AgentUpdateSchema, ToolName } from "@/types";
-import { useToolsQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { Checkbox } from "@/components/ui/Checkboz";
