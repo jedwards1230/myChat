@@ -24,8 +24,8 @@ export const setupLogger = fastifyPlugin(async (app: FastifyInstance) => {
         async (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
             logger.warn(`Error handler Status Code: ${error.statusCode || "undefined"}`);
             if (error.statusCode === 429) {
-                reply.code(429);
                 error.message = "You hit the rate limit! Slow down please!";
+                return reply.code(429).send(error);
             }
 
             switch (error.name) {
