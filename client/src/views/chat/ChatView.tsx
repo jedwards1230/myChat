@@ -1,17 +1,23 @@
+import { View } from "react-native";
+import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+
 import { useChat } from "@/hooks/useChat";
 import ChatHistory from "@/components/ChatHistory";
 import { ChatInputContainer } from "@/components/ChatInput";
 import { ChatHeader } from "./ChatHeader";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { Drawer } from "@/app/(app)/_layout";
-import { View } from "react-native";
 
 export function ChatView({ threadId }: { threadId: string | null }) {
     const { loading, handleSubmit, abort } = useChat(threadId);
     return (
         <DrawerScreenWrapper>
             <Drawer.Screen
-                options={{ header: () => <ChatHeader threadId={threadId} /> }}
+                options={{
+                    header: (props: NativeStackHeaderProps) => (
+                        <ChatHeader threadId={threadId} {...props} />
+                    ),
+                }}
             />
             {threadId ? (
                 <ChatHistory isLoading={loading} threadId={threadId} />

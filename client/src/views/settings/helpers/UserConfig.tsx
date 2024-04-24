@@ -18,11 +18,9 @@ export function UserConfig() {
                     <Text>Thread Count</Text>
                     <Text>{threadList?.length}</Text>
                 </RowItem>
-                <RowItem>
-                    <Button variant="destructive" onPress={deleteAllThreads}>
-                        <Text>Delete all threads</Text>
-                    </Button>
-                </RowItem>
+                <Button variant="destructive" onPress={deleteAllThreads}>
+                    <Text>Delete all threads</Text>
+                </Button>
             </Section>
             <Section title="Session Data">
                 {session &&
@@ -32,8 +30,8 @@ export function UserConfig() {
                             <Text>{v.toString()}</Text>
                         </RowItem>
                     ))}
+                <LogoutButton />
             </Section>
-            <LogoutButton />
         </>
     );
 }

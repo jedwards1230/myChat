@@ -1,3 +1,5 @@
+import { useRef } from "react";
+
 import {
     Dialog,
     DialogContent,
@@ -18,8 +20,9 @@ export function ToolDialog({
     open?: boolean;
     onClose?: () => void;
 }) {
+    const container = useRef(null);
     return (
-        <Dialog open={open} onOpenChange={onClose}>
+        <Dialog ref={container} open={open} onOpenChange={onClose}>
             {children && (
                 <DialogTrigger asChild className={className}>
                     {children}
@@ -29,7 +32,7 @@ export function ToolDialog({
             <DialogContent className="flex flex-col min-w-[80vw] md:min-w-[70vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
                 <DialogTitle className="text-center">Tool</DialogTitle>
                 <DialogDescription className="flex flex-col gap-4">
-                    <ToolConfig />
+                    <ToolConfig container={container.current} />
                 </DialogDescription>
             </DialogContent>
         </Dialog>

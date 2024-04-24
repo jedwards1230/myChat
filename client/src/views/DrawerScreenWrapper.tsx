@@ -8,15 +8,16 @@ import {
 
 export function DrawerScreenWrapper({ children }: { children: React.ReactNode }) {
     return (
-        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === "ios" ? "padding" : "height"}
-                className="flex-1 bg-background"
-            >
-                <SafeAreaView className="items-center justify-between flex-1 w-full">
+        <TouchableWithoutFeedback className="mt-8" onPress={Keyboard.dismiss}>
+            <SafeAreaView className="items-center justify-between flex-1 w-full bg-background">
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === "ios" ? "padding" : "height"}
+                    className="flex-1 pt-12"
+                    keyboardVerticalOffset={64}
+                >
                     {children}
-                </SafeAreaView>
-            </KeyboardAvoidingView>
+                </KeyboardAvoidingView>
+            </SafeAreaView>
         </TouchableWithoutFeedback>
     );
 }

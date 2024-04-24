@@ -9,16 +9,14 @@ import {
 } from "@/components/ui/Select";
 import { Text } from "@/components/ui/Text";
 import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
-import { useRef } from "react";
 
-export function ToolConfig() {
+export function ToolConfig({ container }: { container?: HTMLElement | null }) {
     const { data, isPending, isError } = useToolsQuery();
-    const container = useRef(null);
 
     if (isError) return <Text>Error loading tools</Text>;
     if (isPending) return <Text>Loading...</Text>;
     return (
-        <View ref={container}>
+        <View>
             <Text>Dialog Body</Text>
             <Select
             //onValueChange={updateModel}
@@ -27,7 +25,7 @@ export function ToolConfig() {
                 <SelectTrigger>
                     <SelectValue placeholder="Select a model" />
                 </SelectTrigger>
-                <SelectContent container={container.current}>
+                <SelectContent container={container}>
                     {data.map((model, i) => (
                         <SelectItem key={i} label={model.name} value={model.name}>
                             Model: {model.name}
