@@ -22,7 +22,6 @@
     ],
     "settings": {
         "prettier.printWidth": 90,
-        "prettier.useTabs": false,
         "tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
         "tailwindCSS.lint.cssConflict": "ignore",
         "eslint.options": { "overrideConfigFile": "eslint.config.cjs" },

@@ -53,15 +53,13 @@ const SwitchNative = React.forwardRef<
 >(({ className, ...props }, ref) => {
 	const { colorScheme } = useColorScheme();
 	const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
-	const animatedRootStyle = useAnimatedStyle(() => {
-		return {
-			backgroundColor: interpolateColor(
-				translateX.value,
-				[0, 18],
-				[RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary]
-			),
-		};
-	});
+	const animatedRootStyle = useAnimatedStyle(() => ({
+		backgroundColor: interpolateColor(
+			translateX.value,
+			[0, 18],
+			[RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary]
+		),
+	}));
 	const animatedThumbStyle = useAnimatedStyle(() => ({
 		transform: [{ translateX: withTiming(translateX.value, { duration: 200 }) }],
 	}));

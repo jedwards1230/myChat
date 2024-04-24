@@ -7,9 +7,9 @@ export default function AgentPage() {
 	const { id } = useLocalSearchParams<{ id: string }>();
 	const query = useAgentQuery(id);
 	if (query.isError) {
-		console.log(query.error);
+		console.error(query.error);
 		return null;
 	}
 	if (!query.isSuccess) return null;
-	return <AgentModal agent={query.data} />;
+	return <AgentModal existingAgent={query.data} />;
 }

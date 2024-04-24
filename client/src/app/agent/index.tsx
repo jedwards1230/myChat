@@ -1,15 +1,9 @@
-import { useState, useEffect } from "react";
-
 import AgentModal from "@/views/agent/AgentModal";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { Agent } from "@/types";
 
 export default function AgentPage() {
-	const defaultAgent = useConfigStore((state) => state.defaultAgent) as Agent;
-	const [agent, setAgent] = useState<Agent | null>(defaultAgent);
-	useEffect(() => setAgent(defaultAgent), [defaultAgent]);
-
-	return <AgentModal agent={agent} />;
+	const defaultAgent = useConfigStore.use.defaultAgent();
+	return <AgentModal existingAgent={defaultAgent} />;
 }
 
 export { ErrorBoundary } from "expo-router";
