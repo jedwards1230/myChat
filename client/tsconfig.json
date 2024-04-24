@@ -3,13 +3,12 @@
     "compilerOptions": {
         "module": "ESNext",
         "moduleResolution": "bundler",
+        "experimentalDecorators": true,
         "strict": true,
         "paths": {
             "@/*": ["./src/*"],
             "@db/*": ["../server/src/modules/*"]
-        },
-
-        "experimentalDecorators": true
+        }
     },
     "include": [
         "eslint.config.cjs",

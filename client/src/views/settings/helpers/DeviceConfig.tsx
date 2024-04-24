@@ -1,7 +1,8 @@
 import * as Network from "expo-network";
 import * as SystemUI from "expo-system-ui";
+import * as Application from "expo-application";
 import { useEffect, useState } from "react";
-import { ColorValue, View } from "react-native";
+import { ColorValue, Platform, View } from "react-native";
 
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
@@ -29,6 +30,26 @@ export function DeviceConfig() {
 
     return (
         <View className="flex flex-col w-full gap-2 web:gap-4">
+            {Platform.OS !== "web" && (
+                <Section title="App">
+                    <RowItem>
+                        <Text>Application Id</Text>
+                        <Text>{Application.applicationId}</Text>
+                    </RowItem>
+                    <RowItem>
+                        <Text>Application Name</Text>
+                        <Text>{Application.applicationName}</Text>
+                    </RowItem>
+                    <RowItem>
+                        <Text>Native Application Version</Text>
+                        <Text>{Application.nativeApplicationVersion}</Text>
+                    </RowItem>
+                    <RowItem>
+                        <Text>Native Build Version</Text>
+                        <Text>{Application.nativeBuildVersion}</Text>
+                    </RowItem>
+                </Section>
+            )}
             <Section title="Network">
                 <RowItem>
                     <Text>Server Host</Text>

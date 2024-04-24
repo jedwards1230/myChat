@@ -15,14 +15,15 @@ import {
 import { User } from "../User/UserModel";
 import { Thread } from "../Thread/ThreadModel";
 import { ToolsMap } from "../LLMNexus/Tools";
-import { modelMap } from "../Models/data";
+import { ModelMap } from "../Models/data";
 import { AgentTool } from "../AgentTool/AgentToolModel";
+import type { ModelApi } from "../Models/types";
 
 const defaultAgent: Partial<Agent> = {
     name: "myChat Agent",
     toolsEnabled: true,
     systemMessage: "You are a personal assistant.",
-    model: modelMap["gpt-4-turbo"],
+    model: ModelMap["gpt-4-turbo"],
 };
 
 @Entity("Agent")

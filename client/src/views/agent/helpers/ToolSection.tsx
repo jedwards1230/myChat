@@ -6,7 +6,6 @@ import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { Checkbox } from "@/components/ui/Checkboz";
-import { ToolDialog } from "@/views/tools/ToolDialog.web";
 import { ToggleToolsSwitch } from "./ToggleTools";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
 import Toast from "react-native-toast-message";
@@ -20,13 +19,11 @@ export function ToolSection({ agent }: { agent: Agent }) {
                     <View className="flex flex-row items-center">
                         <ToggleToolsSwitch agent={agent} />
                     </View>
-                    <ToolDialog agent={agent}>
-                        <Pressable className="group">
-                            <Text className="text-xs text-foreground/50 group-hover:text-foreground">
-                                Configure
-                            </Text>
-                        </Pressable>
-                    </ToolDialog>
+                    <Pressable className="group">
+                        <Text className="text-xs text-foreground/50 group-hover:text-foreground">
+                            Configure (TODO)
+                        </Text>
+                    </Pressable>
                 </View>
             }
         >

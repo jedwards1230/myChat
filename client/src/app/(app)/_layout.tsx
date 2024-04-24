@@ -21,8 +21,8 @@ export default function HomeLayout() {
     const screenOptions: DrawerNavigationOptions = {
         drawerType: "slide",
         drawerPosition: "left",
-        headerShown: false,
         // TODO: "rgba(0, 0, 0, 0.5)" | "rgba(255, 255, 255, 0.1)"
+        headerLeft: Platform.OS === "web" && bp.md ? () => null : undefined,
         overlayColor: Platform.OS === "web" ? "transparent" : "rgba(0, 0, 0, 0.5)",
         drawerStyle: { ...(Platform.OS === "web" && bp.md && { width: 300 }) },
     };

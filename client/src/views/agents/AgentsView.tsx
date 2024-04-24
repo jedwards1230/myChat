@@ -5,6 +5,7 @@ import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
 import { Link } from "expo-router";
 import { Agent } from "@/types";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
+import { Drawer } from "@/app/(app)/_layout";
 
 export function AgentsView() {
     const { data: agents, isSuccess, error } = useAgentsQuery();
@@ -15,10 +16,8 @@ export function AgentsView() {
     }
     return (
         <DrawerScreenWrapper>
+            <Drawer.Screen options={{ headerTitle: "Agents" }} />
             <View className="items-center flex-1 w-full gap-12 pt-24">
-                <View>
-                    <Text className="text-3xl font-semibold">Agents</Text>
-                </View>
                 <View className="">
                     {agents.length > 0 ? (
                         agents.map((a) => <AgentButton agent={a} key={a.id} />)

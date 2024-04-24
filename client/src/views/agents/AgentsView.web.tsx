@@ -8,6 +8,7 @@ import { Agent } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { AgentDialog } from "@/views/agent/AgentDialog.web";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
+import { Drawer } from "@/app/(app)/_layout";
 
 export function AgentsView() {
     const { data, isSuccess, error } = useAgentsQuery();
@@ -18,10 +19,8 @@ export function AgentsView() {
     const agents = data || [];
     return (
         <DrawerScreenWrapper>
+            <Drawer.Screen options={{ headerTitle: "Agents" }} />
             <View className="flex flex-col w-full gap-4 p-2">
-                <View className="p-2">
-                    <Text className="text-xl font-semibold">Agents</Text>
-                </View>
                 <View className="flex-1">
                     {agents.length > 0 ? (
                         agents.map((a, i) => <AgentButton key={a.id + i} agent={a} />)

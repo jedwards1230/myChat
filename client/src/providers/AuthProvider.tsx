@@ -35,6 +35,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     useEffect(() => {
+        if (session && session.expire < new Date()) {
+            setSession(null);
+            Toast.show({
+                type: "error",
+                text1: "Session Error",
+                text2: "Your session has expired.",
+            });
+        }
+    }, []);
+
+    useEffect(() => {
         if (userQuery.isPending) return;
         if (userQuery.isError) return handleError(userQuery.error);
         if (userQuery.data) setUser(userQuery.data);

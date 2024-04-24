@@ -14,6 +14,7 @@ import {
 import { DeviceConfig } from "./helpers/DeviceConfig";
 import { UserConfig } from "./helpers/UserConfig";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
+import { Drawer } from "@/app/(app)/_layout";
 
 enum SideMenu {
     General = "General",
@@ -43,7 +44,9 @@ export function SettingsView() {
 
     return (
         <DrawerScreenWrapper>
-            <SettingsHeader />
+            <Drawer.Screen
+                options={{ headerTitle: "Settings", headerTitleAlign: "center" }}
+            />
             <View className="flex flex-row flex-1 w-full gap-4 px-2 py-4">
                 <View className="flex flex-col gap-1 basis-1/5">
                     {renderNavButtons()}
@@ -53,14 +56,6 @@ export function SettingsView() {
                 </View>
             </View>
         </DrawerScreenWrapper>
-    );
-}
-
-function SettingsHeader() {
-    return (
-        <View className="flex flex-row items-center justify-center w-full py-4 border-b border-input">
-            <Text>Settings</Text>
-        </View>
     );
 }
 
