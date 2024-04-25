@@ -1,19 +1,35 @@
 {
-	"name": "mychat",
+	"name": "@mychat/monorepo",
 	"version": "1.0.0",
 	"description": "",
-	"main": "index.js",
+	"pruvate": true,
 	"workspaces": [
-		"client/*",
-		"server/*"
+		"packages/*"
 	],
 	"scripts": {
 		"test": "echo \"Error: no test specified\" && exit 1",
 		"build": "docker build -t mychat:local .",
 		"compose": "docker compose",
-		"compose:prod": "docker compose -f production.yml"
+		"lint": "turbo lint",
+		"tsc": "turbo tsc",
+		"export": "turbo export",
+		"dev": "turbo dev",
+		"compose:prod": "docker compose -f production.yml",
+		"postinstall": "patch-package"
 	},
 	"keywords": [],
 	"author": "",
-	"license": "ISC"
+	"license": "MIT",
+	"resolutions": {
+		"@typescript-eslint/eslint-plugin": "^7.7.0",
+		"eslint": "^9.0.0"
+	},
+	"devDependencies": {
+		"patch-package": "^8.0.0",
+		"postinstall-postinstall": "^2.1.0",
+		"turbo": "^1.13.2"
+	},
+	"trustedDependencies": [
+		"postinstall-postinstall"
+	]
 }

@@ -1,7 +1,8 @@
 /**/db/
-/server/node_modules/
-/client/node_modules/
-/client/ios/
+/packages/server/node_modules/
+/packages/server/logs/
+
+/packages/client/node_modules/
+/packages/client/ios/
 /**/tests/
-/server/logs/
 .gitignore

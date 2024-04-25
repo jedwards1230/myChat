@@ -1,0 +1,39 @@
+{
+	"name": "@mychat/shared",
+	"type": "module",
+	"main": "./build/index.js",
+	"types": "./build/index.d.ts",
+	"react-native": "./src/index.ts",
+	"files": [
+		"build",
+		"src"
+	],
+	"exports": {
+		".": {
+			"import": "./build/index.js",
+			"require": "./build/index.js"
+		},
+		"./*": {
+			"import": "./build/*.js",
+			"require": "./build/*.js"
+		}
+	},
+	"scripts": {
+		"dev": "tsc --watch",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"test": "jest",
+		"build": "tsc",
+		"tsc": "tsc"
+	},
+	"devDependencies": {
+		"@mychat/eslint": "workspace:*",
+		"@tsconfig/recommended": "^1.0.6",
+		"@types/bun": "latest"
+	},
+	"peerDependencies": {
+		"typescript": "latest"
+	},
+	"dependencies": {
+		"zod": "^3.23.4"
+	}
+}

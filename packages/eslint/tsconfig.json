@@ -1,0 +1,26 @@
+{
+	"compilerOptions": {
+		"lib": ["ESNext", "dom"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleDetection": "force",
+		"moduleResolution": "Bundler",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+
+		"skipLibCheck": true,
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+
+		"strictPropertyInitialization": false,
+		"experimentalDecorators": true
+	},
+	"include": ["eslint.config.cjs", "index.js"]
+}

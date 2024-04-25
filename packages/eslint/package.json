@@ -1,0 +1,24 @@
+{
+	"private": true,
+	"name": "@mychat/eslint",
+	"version": "1.0.0",
+	"description": "myChat eslint configuration",
+	"license": "MIT",
+	"main": "index.js",
+	"files": [
+		"index.js"
+	],
+	"scripts": {
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint ."
+	},
+	"dependencies": {
+		"@typescript-eslint/eslint-plugin": "^7.7.1",
+		"@typescript-eslint/parser": "^7.7.1",
+		"eslint": "9.1.1",
+		"eslint-config-universe": "^12",
+		"prettier": "^3.2"
+	},
+	"eslintConfig": {
+		"extends": "."
+	}
+}
