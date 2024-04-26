@@ -3,7 +3,7 @@ import { View } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 
 import { Textarea } from "@/components/ui/Textarea";
-import { Message } from "@/types";
+import type { Message } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ErrorMessage, parseError } from "@/views/auth/AuthFormWrapper";
 import { Button } from "@/components/ui/Button";

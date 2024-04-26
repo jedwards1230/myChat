@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 
 import { Input } from "@/components/ui/Input";
-import { ChatInputProps } from "./types";
+import type { ChatInputProps } from "./types";
 
 export default function ChatInput({ threadId, input, setInput }: ChatInputProps) {
 	const ref = useRef<any | null>(null);

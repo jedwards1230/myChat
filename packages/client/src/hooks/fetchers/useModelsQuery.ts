@@ -1,7 +1,7 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
-import { ModelInformation } from "@/types";
+import type { ModelInformation } from "@/types";
 
 export const modelQueryOptions = queryOptions({
     queryKey: ["models"],

@@ -1,19 +1,19 @@
 import type { ReadableStream } from "web-streams-polyfill";
 
-import * as Core from "openai/core.mjs";
+import type * as Core from "openai/core.mjs";
 import { OpenAIError, APIUserAbortError } from "openai";
+import type { Completions } from "openai/resources/chat/completions.mjs";
 import {
-	Completions,
 	type ChatCompletion,
 	type ChatCompletionChunk,
 	type ChatCompletionCreateParams,
 	type ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions.mjs";
-import { ChatCompletionSnapshot } from "openai/lib/ChatCompletionStream.mjs";
+import type { ChatCompletionSnapshot } from "openai/lib/ChatCompletionStream.mjs";
 
 import {
 	AbstractChatCompletionRunner,
-	AbstractChatCompletionRunnerEvents,
+	type AbstractChatCompletionRunnerEvents,
 } from "./AbstractChatCompletionRunner";
 import { getChunksAsync, Stream } from "./Stream";
 
@@ -146,7 +146,7 @@ export class ChatCompletionStream
 			: Stream.fromReadableStream<ChatCompletionChunk>(
 					readableStream,
 					this.controller
-			  );
+				);
 		let chatId;
 		for await (const chunk of stream) {
 			if (chatId && chatId !== chunk.id) {

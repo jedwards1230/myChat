@@ -1,10 +1,10 @@
 import * as React from "react";
-import { ComponentType } from "react";
-import { TextStyle, View } from "react-native";
+import type { ComponentType } from "react";
+import { type TextStyle, View } from "react-native";
 import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
 import {
 	PrismAsync as Highlighter,
-	SyntaxHighlighterProps as DefaultProps,
+	type SyntaxHighlighterProps as DefaultProps,
 } from "react-syntax-highlighter";
 
 import { Text } from "@/components/ui/Text";

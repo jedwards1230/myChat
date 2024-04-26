@@ -1,5 +1,5 @@
 import * as IconProviders from "@expo/vector-icons";
-import { IconProps as baseProps } from "@expo/vector-icons/build/createIconSet";
+import type { IconProps as baseProps } from "@expo/vector-icons/build/createIconSet";
 import { useContext } from "react";
 
 import { TextClassContext } from "./Text";

@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import { agentQueryOptions } from "./useAgentQuery";
-import { Agent, AgentUpdateSchema } from "@/types";
+import type { Agent, AgentUpdateSchema } from "@/types";
 import { agentsQueryOptions } from "./useAgentsQuery";
 
 export type PatchAgentOptions = {

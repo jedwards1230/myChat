@@ -1,6 +1,6 @@
 import * as React from "react";
 import { TextInput } from "react-native";
-import { cva, VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { cn } from "@/lib/utils";

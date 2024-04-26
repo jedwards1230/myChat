@@ -1,34 +1,39 @@
 {
 	"folders": [
 		{
-			"path": "."
+			"path": ".",
 		},
 		{
 			"name": "Server",
-			"path": "packages/server"
+			"path": "packages/server",
 		},
 		{
 			"name": "Client",
-			"path": "packages/client"
+			"path": "packages/client",
 		},
 		{
 			"name": "Shared",
-			"path": "packages/shared"
+			"path": "packages/shared",
 		},
 		{
 			"name": "ESLint",
-			"path": "packages/eslint"
+			"path": "packages/eslint",
+		},
+		{
+			"name": "TSConfig",
+			"path": "packages/tsconfig",
 		},
 		{
 			"name": "Logs",
-			"path": "packages/server/logs"
-		}
+			"path": "packages/server/logs",
+		},
 	],
 	"settings": {
 		"prettier.printWidth": 90,
 		"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
 		"tailwindCSS.lint.cssConflict": "ignore",
 		"eslint.options": { "overrideConfigFile": "eslint.config.cjs" },
-		"eslint.useFlatConfig": false
-	}
+		"eslint.useFlatConfig": false,
+		"typescript.tsdk": "myChat/node_modules/typescript/lib",
+	},
 }

@@ -3,7 +3,7 @@ import { View, Pressable } from "react-native";
 import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
 import { Link } from "expo-router";
-import { Agent } from "@/types";
+import type { Agent } from "@/types";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { Drawer } from "@/app/(app)/_layout";
 

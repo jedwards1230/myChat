@@ -1,18 +1,4 @@
 {
-	"extends": "@tsconfig/recommended/tsconfig.json",
-	"include": ["src"],
-	"compilerOptions": {
-		"outDir": "./build",
-		"rootDir": "./src",
-		"target": "ESNext",
-		"module": "ESNext",
-		"moduleResolution": "Bundler",
-		"jsx": "react-jsx",
-		"declaration": true,
-		"isolatedModules": true,
-		"esModuleInterop": true,
-		"paths": {
-			"@/*": ["./src/*"]
-		}
-	}
+	"extends": "@mychat/tsconfig/base.json",
+	"include": ["**/*.ts", "**/*.tsx"]
 }

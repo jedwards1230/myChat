@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { Icon } from "@/components/ui/Icon";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
-import { FileInformation } from "@/hooks/useFileInformation";
+import type { FileInformation } from "@/hooks/useFileInformation";
 
 export function RemoveFileButton({ file }: { file: FileInformation }) {
     const removeFile = useFileStore((state) => state.removeFile);

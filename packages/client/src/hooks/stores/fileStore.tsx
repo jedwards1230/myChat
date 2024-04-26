@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { FileInformation } from "../useFileInformation";
+import type { FileInformation } from "../useFileInformation";
 import { createSelectors } from "@/lib/zustand";
 
 type State = { fileList: FileInformation[] };

@@ -5,7 +5,7 @@ import { Text } from "@/components/ui/Text";
 import { Switch } from "@/components/ui/Switch";
 import { useAgentToolQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { useAgentToolPatch } from "@/hooks/fetchers/AgentTool/useAgentToolPatch";
-import { AgentTool } from "@/types";
+import type { AgentTool } from "@/types";
 
 export function ToolCard({ agentId, toolId }: { agentId: string; toolId: string }) {
     const agentToolQuery = useAgentToolQuery(agentId, toolId);

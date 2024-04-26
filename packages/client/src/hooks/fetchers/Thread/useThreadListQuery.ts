@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { Thread } from "@/types";
+import type { Thread } from "@/types";
 import { fetcher } from "@/lib/fetcher";
 import { useUserData } from "@/hooks/stores/useUserData";
 

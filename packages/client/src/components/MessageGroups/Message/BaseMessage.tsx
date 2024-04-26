@@ -3,7 +3,7 @@ import { ActivityIndicator, View } from "react-native";
 import type { Message } from "@/types";
 import { MessageActions } from "./MessageActions";
 import { MessageFilter } from "./MessageFilter";
-import { ChatMessageGroup } from "../MessageGroup";
+import type { ChatMessageGroup } from "../MessageGroup";
 
 export function BaseMessage({
 	group,

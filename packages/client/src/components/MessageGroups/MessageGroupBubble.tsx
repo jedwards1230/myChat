@@ -1,7 +1,7 @@
 import { View } from "react-native";
 
 import { BaseMessage } from "./Message/BaseMessage";
-import { ChatMessageGroup } from "./MessageGroup";
+import type { ChatMessageGroup } from "./MessageGroup";
 import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
 import { Avatar } from "./Avatar";

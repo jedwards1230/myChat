@@ -4,7 +4,7 @@ import { Text } from "@/components/ui/Text";
 import { RemoveFolderButton } from "./DeleteButton";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
-import { FileRouter, RouterChildrenProps, RouterData } from "../FileRouter";
+import { FileRouter, type RouterChildrenProps, type RouterData } from "../FileRouter";
 
 export function FolderButton({
 	baseDir,
@@ -26,14 +26,17 @@ export function FolderButton({
 			aria-selected={open}
 			className={cn(
 				"flex flex-row aria-selected:p-1 rounded-lg flex-wrap items-start justify-start flex-shrink gap-2",
-				open ? colorMap[levels][0] : ""
+				open ? colorMap[levels]?.[0] : ""
 			)}
 		>
 			<View className="relative">
 				<Pressable
 					aria-selected={open}
 					onPress={() => setOpen(!open)}
-					className={cn("border-2 rounded border-border", colorMap[levels][1])}
+					className={cn(
+						"border-2 rounded border-border",
+						colorMap[levels]?.[1]
+					)}
 				>
 					<Text className="px-4 py-2 text-foreground">{baseDir}</Text>
 				</Pressable>
@@ -87,4 +90,4 @@ const colorMap = [
 		"bg-foreground/45",
 		"bg-foreground/45 aria-selected:border-foreground/50 hover:bg-foreground/90",
 	],
-];
+] as const;

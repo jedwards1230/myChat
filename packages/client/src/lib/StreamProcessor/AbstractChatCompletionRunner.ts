@@ -1,4 +1,4 @@
-import * as Core from "openai/core.mjs";
+import type * as Core from "openai/core.mjs";
 import { type CompletionUsage } from "openai/resources/completions.mjs";
 import {
 	type Completions,
@@ -17,11 +17,11 @@ import {
 	isRunnableFunctionWithParse,
 	type BaseFunctionsArgs,
 } from "openai/lib/RunnableFunction.mjs";
-import {
+import type {
 	ChatCompletionFunctionRunnerParams,
 	ChatCompletionToolRunnerParams,
 } from "openai/lib/ChatCompletionRunner.mjs";
-import {
+import type {
 	ChatCompletionStreamingFunctionRunnerParams,
 	ChatCompletionStreamingToolRunnerParams,
 } from "openai/lib/ChatCompletionStreamingRunner.mjs";

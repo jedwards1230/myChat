@@ -1,7 +1,7 @@
 import { Redirect, withLayoutContext } from "expo-router";
 import {
 	createDrawerNavigator,
-	DrawerContentComponentProps,
+	type DrawerContentComponentProps,
 } from "@react-navigation/drawer";
 import { Platform } from "react-native";
 import { useEffect } from "react";

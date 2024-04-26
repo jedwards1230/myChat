@@ -1,7 +1,7 @@
 import { Platform, Pressable, View } from "react-native";
 import { useEffect, useState } from "react";
 
-import { FormSubmission } from "@/hooks/useChat";
+import type { FormSubmission } from "@/hooks/useChat";
 import { Icon } from "@/components/ui/Icon";
 import ChatInput from "./ChatInput";
 import { CommandTray } from "../CommandTray";

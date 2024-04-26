@@ -2,10 +2,10 @@ import { ContextMenuView, type MenuConfig } from "react-native-ios-context-menu"
 import * as Clipboard from "expo-clipboard";
 
 import { useGroupStore } from "../GroupStore";
-import { Message } from "@/types";
+import type { Message } from "@/types";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
 import { MessagePreview } from "./MessagePreview";
-import { ChatMessageGroup } from "../MessageGroup";
+import type { ChatMessageGroup } from "../MessageGroup";
 
 const menuConfig: MenuConfig = {
     menuTitle: "",

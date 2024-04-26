@@ -1,0 +1,31 @@
+{
+	"$schema": "https://json.schemastore.org/tsconfig",
+	"extends": "@tsconfig/recommended/tsconfig.json",
+	"display": "Default",
+	"compilerOptions": {
+		"lib": ["ESNext", "dom", "dom.iterable"],
+		"target": "ESNext",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"moduleDetection": "force",
+		"jsx": "react-jsx",
+		"allowJs": true,
+		"emitDecoratorMetadata": true,
+		"esModuleInterop": true,
+		"noErrorTruncation": true,
+
+		"allowImportingTsExtensions": true,
+		"verbatimModuleSyntax": true,
+		"noEmit": true,
+
+		"skipLibCheck": true,
+		"strict": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+		"isolatedModules": true,
+		"noUncheckedIndexedAccess": true,
+		"strictPropertyInitialization": false,
+		"experimentalDecorators": true
+	},
+	"exclude": ["node_modules"]
+}

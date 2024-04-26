@@ -1,10 +1,10 @@
 import * as React from "react";
 import {
-	Image as RNImage,
-	Pressable as RNPressable,
-	Text as RNText,
-	View as RNView,
 	StyleSheet,
+	type Image as RNImage,
+	type Pressable as RNPressable,
+	type Text as RNText,
+	type View as RNView,
 	type PressableStateCallbackType,
 	type ImageProps as RNImageProps,
 	type ImageStyle as RNImageStyle,

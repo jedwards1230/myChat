@@ -1,17 +1,24 @@
 {
 	"$schema": "https://turborepo.org/schema.json",
-	//"experimentalUI": true,
 	"pipeline": {
-		"tsc": {},
 		"lint": {
 			"outputs": []
 		},
+		"tsc": {
+			"dependsOn": ["^tsc", "^lint"],
+			"inputs": ["**/*.{ts,tsx}"],
+			"outputs": []
+		},
+		"build-packages": {
+			"dependsOn": ["^tsc", "^build-packages"],
+			"outputs": ["packages/**"]
+		},
 		"test": {
-			"dependsOn": ["build"],
+			"dependsOn": ["build-packages"],
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
 		"export": {
-			"dependsOn": ["^export"],
+			"dependsOn": ["build-packages", "^export"],
 			"outputs": [
 				"packages/client/dist/**",
 				"packages/client/node_modules/.cache/nativewind/**",
@@ -19,7 +26,7 @@
 			]
 		},
 		"build": {
-			"dependsOn": ["^export", "^build"],
+			"dependsOn": ["^export"],
 			"outputs": ["build/**"]
 		},
 		"dev": {

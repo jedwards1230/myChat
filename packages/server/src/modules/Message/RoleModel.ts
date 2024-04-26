@@ -7,4 +7,4 @@ export enum RoleEnum {
 	Tool = "tool",
 }
 
-export const roleList: Role[] = ["system", "user", "assistant", "tool"];
+export const roleList = ["system", "user", "assistant", "tool"] as const;

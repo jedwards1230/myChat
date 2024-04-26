@@ -7,8 +7,8 @@ import { CodeBlock } from "@/components/Markdown/CodeBlock";
 
 import { FileMetadata } from "./FileMetadata";
 import {
-	FileInformation,
-	FileQueryOpts,
+	type FileInformation,
+	type FileQueryOpts,
 	useFileInformation,
 } from "@/hooks/useFileInformation";
 

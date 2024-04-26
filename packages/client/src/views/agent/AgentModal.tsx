@@ -1,6 +1,6 @@
 import Toast from "react-native-toast-message";
 
-import { Agent } from "@/types";
+import type { Agent } from "@/types";
 import ModalWrapper from "@/components/ui/Modal";
 import { AgentView } from "./AgentView";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";

@@ -3,9 +3,9 @@ import * as Clipboard from "expo-clipboard";
 
 import { useGroupStore } from "../GroupStore";
 import { Icon } from "@/components/ui/Icon";
-import { Message } from "@/types";
+import type { Message } from "@/types";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
-import { ChatMessageGroup } from "../MessageGroup";
+import type { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageActions({
     message,

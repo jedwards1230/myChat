@@ -4,7 +4,7 @@ import { Text } from "@/components/ui/Text";
 import { useUserQuery } from "@/hooks/fetchers/User/useUserQuery";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
-import { Agent, ToolName } from "@/types";
+import type { Agent, ToolName } from "@/types";
 import { cn } from "@/lib/utils";
 import { ToolDialog } from "./[id]/ToolDialog";
 

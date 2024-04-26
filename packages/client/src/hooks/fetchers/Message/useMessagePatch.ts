@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
 import { messagesQueryOptions } from "./useMessagesQuery";
-import { Message } from "@/types";
+import type { Message } from "@/types";
 
 export type PostMessageOptions = {
     threadId: string;

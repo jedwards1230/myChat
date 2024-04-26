@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
 import { FileDialog } from "@/views/file/FileDialog";
-import { FileData } from "@/components/FileRouter";
+import type { FileData } from "@/components/FileRouter";
 
 export const FileMessage = ({ data }: { data: FileData }) => {
 	return (

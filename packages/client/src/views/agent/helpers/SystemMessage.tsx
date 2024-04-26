@@ -4,7 +4,7 @@ import { Section } from "@/components/ui/Section";
 import { Textarea } from "@/components/ui/Textarea";
 import { Text } from "@/components/ui/Text";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
-import { Agent } from "@/types";
+import type { Agent } from "@/types";
 
 export function SystemMessage({ agent }: { agent: Agent }) {
     const [systemMessage, setSystemMessage] = useState(agent?.systemMessage);

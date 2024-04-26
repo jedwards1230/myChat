@@ -5,7 +5,7 @@ import { fetcher } from "@/lib/fetcher";
 import { useConfigStore } from "@/hooks/stores/configStore";
 import { messagesQueryOptions } from "../Message/useMessagesQuery";
 import { threadListQueryOptions } from "./useThreadListQuery";
-import { ThreadDelete } from "@/types";
+import type { ThreadDelete } from "@/types";
 import { useUserData } from "../../stores/useUserData";
 
 const deleteThread = (threadId: string, apiKey: string) =>

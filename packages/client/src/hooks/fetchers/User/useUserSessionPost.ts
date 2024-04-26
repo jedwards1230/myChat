@@ -3,7 +3,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { fetcher } from "@/lib/fetcher";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { userSessionQueryOptions } from "./useUserQuery";
-import { UserSession } from "@/types";
+import type { UserSession } from "@/types";
 
 type PostOpts = { email: string; password: string };
 

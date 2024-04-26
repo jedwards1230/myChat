@@ -1,6 +1,6 @@
 import z from "zod";
-import { ToolNames } from "@/tools/index";
-import { constructZodLiteralUnionType } from "@/lib/zod";
+import { ToolNames } from "../tools/index";
+import { constructZodLiteralUnionType } from "../lib/zod";
 
 export const AgentToolsNameSchema = constructZodLiteralUnionType(ToolNames);
 export type AgentToolsNameSchema = z.infer<typeof AgentToolsNameSchema>;

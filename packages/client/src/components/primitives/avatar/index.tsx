@@ -1,18 +1,18 @@
 import * as React from "react";
 import {
-	ImageErrorEventData,
-	ImageLoadEventData,
-	NativeSyntheticEvent,
+	type ImageErrorEventData,
+	type ImageLoadEventData,
+	type NativeSyntheticEvent,
 	Image as RNImage,
 	View,
 } from "react-native";
 import * as Slot from "@/components/primitives/slot";
-import {
+import type {
 	ComponentPropsWithAsChild,
 	SlottableViewProps,
 	ViewRef,
 } from "@/components/primitives/types";
-import { AvatarImageProps, AvatarRootProps } from "./types";
+import type { AvatarImageProps, AvatarRootProps } from "./types";
 
 type AvatarState = "loading" | "error" | "loaded";
 

@@ -5,7 +5,7 @@ import { View, Pressable } from "react-native";
 import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
 import { RemoveFileButton } from "./DeleteButton";
-import { FileData } from "../FileRouter";
+import type { FileData } from "../FileRouter";
 
 export function FileButton({ data: { file } }: { data: FileData }) {
 	const [pressed, setPressed] = useState(false);

@@ -4,7 +4,7 @@ import { Link } from "expo-router";
 import { Icon } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
-import { Agent } from "@/types";
+import type { Agent } from "@/types";
 import { Button } from "@/components/ui/Button";
 import { AgentDialog } from "@/views/agent/AgentDialog.web";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";

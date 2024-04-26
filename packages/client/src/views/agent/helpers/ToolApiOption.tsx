@@ -1,6 +1,6 @@
 import { Pressable } from "react-native";
 
-import { Agent, ToolName } from "@/types";
+import type { Agent, ToolName } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { useState } from "react";
 import { Textarea } from "@/components/ui/Textarea";

@@ -1,4 +1,4 @@
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
 
 import RightButton from "./RightButton";
 import LeftButton from "./LeftButton";

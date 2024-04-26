@@ -12,7 +12,7 @@ import {
 import { Text } from "@/components/ui/Text";
 import { useToolsSuspenseQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { ToolForm } from "./ToolForm";
-import { ToolName } from "@/types";
+import type { ToolName } from "@/types";
 
 type SelectOption = {
 	label: string;

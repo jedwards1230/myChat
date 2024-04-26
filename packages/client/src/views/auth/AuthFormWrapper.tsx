@@ -2,7 +2,7 @@ import { View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
 import { AuthViewWrapper } from "./AuthViewWrapper";
-import { FieldValues, UseFormSetError } from "react-hook-form";
+import type { FieldValues, UseFormSetError } from "react-hook-form";
 import { isFetchError } from "@/lib/fetcher";
 
 export function AuthFormWrapper({ children }: { children: React.ReactNode }) {

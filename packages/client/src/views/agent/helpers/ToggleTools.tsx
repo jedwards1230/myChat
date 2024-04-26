@@ -1,7 +1,7 @@
 import Toast from "react-native-toast-message";
 
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
-import { Agent } from "@/types";
+import type { Agent } from "@/types";
 import { Switch } from "@/components/ui/Switch";
 
 export function ToggleToolsSwitch({ agent }: { agent: Agent }) {

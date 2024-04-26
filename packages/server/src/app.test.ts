@@ -1,5 +1,3 @@
-import { expect, test } from "bun:test";
-
 import { buildApp } from "./app";
 
 test('requests the "/" route', async () => {

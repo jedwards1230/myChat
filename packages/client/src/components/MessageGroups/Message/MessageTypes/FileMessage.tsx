@@ -2,7 +2,7 @@ import { Pressable, View } from "react-native";
 
 import { Text } from "@/components/ui/Text";
 import { Link } from "expo-router";
-import { FileData } from "@/components/FileRouter";
+import type { FileData } from "@/components/FileRouter";
 
 export const FileMessage = ({ data: { file, query } }: { data: FileData }) => {
 	if ("id" in file) {

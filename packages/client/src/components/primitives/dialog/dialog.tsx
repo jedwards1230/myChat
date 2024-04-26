@@ -10,7 +10,13 @@ import type {
 	ViewRef,
 } from "@/components/primitives/types";
 import * as React from "react";
-import { BackHandler, GestureResponderEvent, Pressable, Text, View } from "react-native";
+import {
+	BackHandler,
+	type GestureResponderEvent,
+	Pressable,
+	Text,
+	View,
+} from "react-native";
 import type {
 	DialogContentProps,
 	DialogOverlayProps,

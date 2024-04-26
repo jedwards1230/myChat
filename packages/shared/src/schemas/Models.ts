@@ -1,7 +1,7 @@
 import z from "zod";
 
 //import { OpenAiModels } from "./types";
-import { constructZodLiteralUnionType } from "@/lib/zod";
+import { constructZodLiteralUnionType } from "../lib/zod";
 
 const GPT3 = ["gpt-3.5-turbo-1106", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"] as const;
 type GPT3 = (typeof GPT3)[number];

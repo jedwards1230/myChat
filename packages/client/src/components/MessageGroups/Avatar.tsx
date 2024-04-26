@@ -17,7 +17,7 @@ export function Avatar({ role, name }: { role: "assistant" | "user"; name: strin
 					role === "user" ? "text-primary" : "text-secondary-foreground"
 				)}
 			>
-				{name[0].toUpperCase() || "?"}
+				{name[0]?.toUpperCase() || "?"}
 			</Text>
 		</View>
 	);

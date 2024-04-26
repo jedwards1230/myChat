@@ -2,7 +2,7 @@ import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 import { chromium } from "playwright";
 
 import type { LLMTool } from "../types";
-import { MessageObjectSchema } from "@mychat/shared/schemas/Message";
+import type { MessageObjectSchema } from "@mychat/shared/schemas/Message";
 
 type MClickProps = { ids: string[] };
 type MClickResult = { url: string; content: string };
@@ -51,7 +51,9 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 		throw new Error("No search results found");
 
 	const searchResults: SearchResult[] = JSON.parse(searchResultsMsg.content);
-	const requestedResults = ids.map((id) => searchResults[parseInt(id)]);
+	const requestedResults = ids
+		.map((id) => searchResults[parseInt(id)])
+		.filter((id) => id !== undefined);
 
 	const browser = await chromium.launch({ headless: true });
 	const results: MClickResult[] = await Promise.all(

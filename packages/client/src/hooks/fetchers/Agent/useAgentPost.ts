@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { fetcher } from "@/lib/fetcher";
-import { AgentCreateSchema } from "@/types";
+import type { AgentCreateSchema } from "@/types";
 import { agentsQueryOptions } from "./useAgentsQuery";
 import { useUserData } from "../../stores/useUserData";
 

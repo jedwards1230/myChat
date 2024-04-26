@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "expo-router";
 
-import { Message } from "@/types";
+import type { Message } from "@/types";
 import { useFileStore } from "../stores/fileStore";
 import { useMessagePost } from "../fetchers/Message/useMessagePost";
 import { useThreadPost } from "../fetchers/Thread/useThreadPost";

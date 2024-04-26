@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 
-import { ChatInputProps } from "./types";
+import type { ChatInputProps } from "./types";
 import { Textarea } from "../ui/Textarea";
 
 export default function ChatInput({

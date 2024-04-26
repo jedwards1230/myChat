@@ -7,29 +7,28 @@
 		"packages/*"
 	],
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1",
-		"build": "docker build -t mychat:local .",
+		"export:docker": "docker build -t mychat:local .",
 		"compose": "docker compose",
 		"lint": "turbo lint",
 		"tsc": "turbo tsc",
 		"export": "turbo export",
-		"dev": "turbo dev",
-		"compose:prod": "docker compose -f production.yml",
-		"postinstall": "patch-package"
+		"build-packages": "turbo build-packages",
+		"build": "turbo build",
+		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
+		"compose:prod": "docker compose -f production.yml"
 	},
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^7.7.0",
-		"eslint": "^9.0.0"
+		"@typescript-eslint/eslint-plugin": "^7.7.1",
+		"entities": "^4.2.0",
+		"eslint": "^9.1.1",
+		"markdown-it": "14.0.0",
+		"react-native": "^0.74"
 	},
 	"devDependencies": {
-		"patch-package": "^8.0.0",
-		"postinstall-postinstall": "^2.1.0",
 		"turbo": "^1.13.2"
 	},
-	"trustedDependencies": [
-		"postinstall-postinstall"
-	]
+	"packageManager": "yarn@4.1.1"
 }

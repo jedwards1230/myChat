@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { NativeStackHeaderProps } from "@react-navigation/native-stack";
+import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
 
 import { useChat } from "@/hooks/useChat";
 import ChatHistory from "@/components/ChatHistory";

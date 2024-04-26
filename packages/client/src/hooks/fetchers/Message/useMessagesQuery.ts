@@ -2,7 +2,7 @@ import { queryOptions, useQuery } from "@tanstack/react-query";
 
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
-import { Message } from "@/types";
+import type { Message } from "@/types";
 
 export const messagesQueryOptions = (apiKey: string, threadId: string | null) =>
     queryOptions({

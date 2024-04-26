@@ -10,7 +10,7 @@ module.exports = {
 	parserOptions: { project: ["./tsconfig.json"] },
 	plugins: ["@typescript-eslint"],
 	rules: {
-		//"prettier/prettier": ["error", { endOfLine: "auto" }],
+		"prettier/prettier": ["error", { endOfLine: "auto" }],
 		"@typescript-eslint/strict-boolean-expressions": 0,
 		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/ban-ts-comment": 0,
