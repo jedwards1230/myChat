@@ -1,6 +1,6 @@
 import logger from "@/lib/logs/logger";
 import { LLMNexusController } from "../LLMNexus/LLMNexusController";
-import { AgentRun } from "./AgentRunModel";
+import type { AgentRun } from "./AgentRunModel";
 import { getAgentRunRepo } from "./AgentRunRepo";
 import MessageQueue from "@/lib/queue";
 

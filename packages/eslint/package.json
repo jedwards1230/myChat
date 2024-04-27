@@ -26,6 +26,9 @@
 		"eslint-plugin-import": "^2.29.1",
 		"prettier": "^3.2"
 	},
+	"resolutions": {
+		"eslint": "9.1.1"
+	},
 	"eslintConfig": {
 		"root": true,
 		"extends": "."

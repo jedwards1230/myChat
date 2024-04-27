@@ -5,7 +5,6 @@
 /packages/client/node_modules/
 /packages/client/ios/
 /**/tests/
-.gitignore
 node_modules/
 .turbo/
 .github/

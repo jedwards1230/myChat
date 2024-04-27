@@ -2,9 +2,9 @@ import type { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
 import logger, { streamLogger } from "@/lib/logs/logger";
-import MessageQueue from "@/lib/queue";
+import type MessageQueue from "@/lib/queue";
 
-import { Thread } from "@/modules/Thread/ThreadModel";
+import type { Thread } from "@/modules/Thread/ThreadModel";
 import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Message } from "../Message/MessageModel";
 import { getToolCallRepo, getMessageRepo } from "../Message/MessageRepo";
@@ -19,8 +19,8 @@ export class StreamResponseController {
 		response
 			.on("abort", (e) => streamLogger.warn("ABORTED", { e }))
 			.on("chunk", async (chunk) => {
-				const delta = chunk.choices[0].delta;
-				if (delta.role) {
+				const delta = chunk.choices[0]?.delta;
+				if (delta?.role) {
 					newMessage = getMessageRepo().create(delta);
 					newMessage = await getMessageRepo().save(newMessage);
 					streamLogger.info("added message", { delta, chunk, newMessage });

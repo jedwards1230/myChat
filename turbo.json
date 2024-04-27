@@ -9,25 +9,16 @@
 			"inputs": ["**/*.{ts,tsx}"],
 			"outputs": []
 		},
-		"build-packages": {
-			"dependsOn": ["^tsc", "^build-packages"],
-			"outputs": ["packages/**"]
-		},
 		"test": {
-			"dependsOn": ["build-packages"],
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
-		"export": {
-			"dependsOn": ["build-packages", "^export"],
+		"build": {
+			"dependsOn": ["^tsc", "tsc", "^build"],
 			"outputs": [
 				"packages/client/dist/**",
 				"packages/client/node_modules/.cache/nativewind/**",
 				"node_modules/.cache/metro/**"
 			]
-		},
-		"build": {
-			"dependsOn": ["^export"],
-			"outputs": ["build/**"]
 		},
 		"dev": {
 			"dependsOn": ["^build"],

@@ -2,7 +2,7 @@
 	"name": "@mychat/monorepo",
 	"version": "1.0.0",
 	"description": "",
-	"pruvate": true,
+	"private": true,
 	"workspaces": [
 		"packages/*"
 	],
@@ -12,7 +12,6 @@
 		"lint": "turbo lint",
 		"tsc": "turbo tsc",
 		"export": "turbo export",
-		"build-packages": "turbo build-packages",
 		"build": "turbo build",
 		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
 		"compose:prod": "docker compose -f production.yml"
@@ -21,14 +20,12 @@
 	"author": "",
 	"license": "MIT",
 	"resolutions": {
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"entities": "^4.2.0",
-		"eslint": "^9.1.1",
+		"eslint": "9.1.1",
 		"markdown-it": "14.0.0",
-		"react-native": "^0.74"
+		"react-native-svg": "15.2.0"
 	},
 	"devDependencies": {
 		"turbo": "^1.13.2"
 	},
-	"packageManager": "yarn@4.1.1"
+	"packageManager": "yarn@4.1.1+sha512.ec40d0639bb307441b945d9467139cbb88d14394baac760b52eca038b330d16542d66fef61574271534ace5a200518dabf3b53a85f1f9e4bfa37141b538a9590"
 }

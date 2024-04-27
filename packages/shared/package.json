@@ -1,5 +1,6 @@
 {
 	"name": "@mychat/shared",
+	"version": "1.0.0",
 	"main": "./src/index.ts",
 	"react-native": "./src/index.ts",
 	"files": [
@@ -15,7 +16,6 @@
 		"dev": "tsc --watch",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
 		"test": "jest",
-		"build-packages": "tsc",
 		"tsc": "tsc"
 	},
 	"devDependencies": {
@@ -25,6 +25,7 @@
 		"typescript": "5.5.0-beta"
 	},
 	"dependencies": {
+		"playwright": "^1.43.1",
 		"zod": "^3.23.4"
 	}
 }

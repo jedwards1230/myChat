@@ -1,15 +1,14 @@
 {
 	"name": "@mychat/client",
-	"main": "expo-router/entry",
 	"version": "1.0.0",
+	"main": "expo-router/entry",
 	"scripts": {
-		"start": "APP_VARIANT=development expo start",
 		"dev": "APP_VARIANT=development expo start -c",
 		"android": "expo run:android",
 		"ios": "expo run:ios",
 		"web": "expo start --web",
 		"test": "jest --watchAll",
-		"export": "expo export -p web",
+		"build": "expo export -p web",
 		"build:dev": "APP_VARIANT=development expo run:ios --device --no-build-cache",
 		"build:prev": "APP_VARIANT=preview expo run:ios --device --no-build-cache",
 		"build:sign": "APP_VARIANT=preview eas build -e preview -p ios",
@@ -114,8 +113,6 @@
 		"@types/react-dom": "^18.2.25",
 		"@types/react-syntax-highlighter": "^15.5.11",
 		"@types/text-encoding": "^0.0.39",
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
 		"ajv": "^8.12.0",
 		"eslint": "9.1.1",
 		"eslint-config-react-app": "^7.0.1",
@@ -126,8 +123,8 @@
 		"typescript": "5.5.0-beta"
 	},
 	"resolutions": {
-		"react": "^18.2",
-		"react-native": "^0.74",
+		"markdown-it": "14.0.0",
+		"react-native": "^0.74.0",
 		"react-native-svg": "^15.2.0"
 	},
 	"private": true
