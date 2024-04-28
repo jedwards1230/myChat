@@ -42,12 +42,16 @@ COPY --from=server_builder /app/out/full/ .
 RUN yarn turbo run build --filter=server...
 
 ## Runner
-FROM base AS runner
-RUN addgroup --system --gid 1001 nodejs
-RUN adduser --system --uid 1001 mychat
-USER mychat
-COPY --from=server_installer /app/packages/server/. .
-COPY --from=server_installer /app/packages/server/package.json .
-COPY --from=client_installer --chown=mychat:nodejs /app/packages/client/dist/ ./web/
+FROM oven/bun:latest AS runner
+ENV NODE_ENV=production
+ENV CLIENT_BUILD_DIR=web
 
-CMD yarn start
+WORKDIR /app
+USER bun
+COPY --from=server_installer --chown=bun:bun /app/ .
+
+WORKDIR /app/packages/server
+COPY --from=client_installer --chown=bun:bun /app/packages/client/dist/ ./web/
+
+#CMD bun run src/index.ts
+CMD tail -f /dev/null

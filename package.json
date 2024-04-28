@@ -8,7 +8,8 @@
 	],
 	"scripts": {
 		"export:docker": "docker build -t mychat:local .",
-		"compose": "docker compose",
+		"compose": "docker compose -f compose.yml",
+		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
 		"lint": "turbo lint",
 		"tsc": "turbo tsc",
 		"export": "turbo export",

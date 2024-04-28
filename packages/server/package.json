@@ -22,7 +22,6 @@
 		"@fastify/swagger-ui": "^3.0.0",
 		"@mychat/shared": "workspace:*",
 		"@readme/openapi-parser": "^2.5.1",
-		"bun": "^1.1.5",
 		"fastify": "^4.26.2",
 		"fastify-plugin": "^4.5.1",
 		"fastify-type-provider-zod": "^1.1.9",

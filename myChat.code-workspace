@@ -35,5 +35,8 @@
 		"eslint.options": { "overrideConfigFile": "eslint.config.cjs" },
 		"eslint.useFlatConfig": false,
 		"typescript.tsdk": "myChat/node_modules/typescript/lib",
+		"yaml.schemas": {
+			"https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "file:///Users/justin/Projects/myChat/compose.test.yml",
+		},
 	},
 }

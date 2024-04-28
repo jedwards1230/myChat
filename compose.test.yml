@@ -5,7 +5,7 @@ services:
                 condition: on-failure
                 delay: 3s
                 max_attempts: 3
-        image: jedwards1230/mychat:latest
+        image: mychat:local
         container_name: mychat
         hostname: mychat
         ports:
