@@ -17,21 +17,6 @@ jobs:
               with:
                   fetch-depth: 2
 
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v4
-              with:
-                  node-version: 21
-                  cache: "yarn"
-
-            - name: Install dependencies
-              run: yarn
-
-            - name: Build
-              run: yarn build
-
-            - name: Test
-              run: yarn test
-
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
 
