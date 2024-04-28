@@ -1,3 +1,4 @@
+import "react-native-gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 import NativeHapticsProvider from "@/providers/HapticsProvider";

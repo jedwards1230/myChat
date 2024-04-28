@@ -5,8 +5,8 @@ import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 
 export default function AgentPage() {
 	const { id } = useLocalSearchParams<{ id: string }>();
-	const query = useAgentQuery(id);
-	if (query.isError) {
+	const query = useAgentQuery(id ?? "");
+	if (id === undefined || query.isError) {
 		console.error(query.error);
 		return null;
 	}

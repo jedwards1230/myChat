@@ -14,9 +14,7 @@
 		},
 		"build": {
 			"dependsOn": ["^tsc", "tsc", "^build"],
-			"outputs": [
-				"node_modules/.cache/metro/**"
-			]
+			"outputs": ["node_modules/.cache/metro/**"]
 		},
 		"dev": {
 			"dependsOn": ["^build"],
@@ -29,6 +27,9 @@
 		},
 		"start:prod": {
 			"dependsOn": ["^build"]
+		},
+		"clean": {
+			"cache": false
 		}
 	}
 }

@@ -16,7 +16,8 @@
 		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
-		"compose:prod": "docker compose -f production.yml"
+		"compose:prod": "docker compose -f production.yml",
+		"clean": "turbo clean && rm -rf node_modules && yarn cache clean"
 	},
 	"keywords": [],
 	"author": "",

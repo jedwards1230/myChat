@@ -1,17 +1,16 @@
 {
-    "extends": ["//"],
-    "pipeline": {
-		"build": {
-			"outputs": [
-				"dist/**",
-				"node_modules/.cache/nativewind/**"
-			]
+	"extends": ["//"],
+	"pipeline": {
+		"build:css": {
+			"outputs": ["node_modules/.cache/nativewind/**"]
 		},
-        "start": {
-            "dependsOn": ["^build"],
-            "outputs": [
-                "packages/server/logs/**"
-            ]
-        }
-    }
-  }
+		"build": {
+			"dependsOn": ["build:css"],
+			"outputs": ["dist/**"]
+		},
+		"start": {
+			"dependsOn": ["^build"],
+			"outputs": ["packages/server/logs/**"]
+		}
+	}
+}

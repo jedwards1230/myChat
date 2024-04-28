@@ -16,7 +16,8 @@
 		"dev": "tsc --watch",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
 		"test": "jest",
-		"tsc": "tsc"
+		"tsc": "tsc",
+		"clean": "rm -rf .turbo"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",

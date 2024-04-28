@@ -9,7 +9,8 @@
 		"dev": "bun --watch run src/index.ts",
 		"dev:clean": "DEBUG_RESET_DB=true bun --watch run src/index.ts",
 		"test": "export TEST_ENV=true jest",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs"
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"clean": "rm -rf .turbo logs"
 	},
 	"dependencies": {
 		"@expo/server": "^0.3.1",

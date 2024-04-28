@@ -9,6 +9,7 @@ export default function FilePage() {
 		threadId?: string;
 	}>();
 
+	if (!id) throw new Error("File ID is required");
 	if (!messageId) throw new Error("Message ID is required");
 	if (!threadId) throw new Error("Thread ID is required");
 

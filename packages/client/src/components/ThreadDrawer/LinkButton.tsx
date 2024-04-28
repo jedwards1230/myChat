@@ -1,25 +1,23 @@
-import { Link, useRouter, type Href } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { Pressable } from "react-native";
 
 import { cn } from "@/lib/utils";
 import { TextClassContext } from "../ui/Text";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
 
-type PathNameProps = { pathname: string };
-
-interface LinkButtonProps<T extends PathNameProps> {
-    href: Href<T>;
+interface LinkButtonProps {
+    href: Parameters<typeof Link>[0]["href"]
     children?: React.ReactNode;
     className?: string;
     active?: boolean;
 }
 
-export default function LinkButton<T extends PathNameProps>({
+export default function LinkButton({
     href,
     children,
     className,
     active,
-}: LinkButtonProps<T>) {
+}: LinkButtonProps) {
     const router = useRouter();
     const { isHover, ...helpers } = useHoverHelper();
     return (

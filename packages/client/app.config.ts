@@ -41,6 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		favicon: "./assets/images/favicon.png",
 	},
 	plugins: [
+		"expo-font",
 		["expo-router", { asyncRoutes: false }],
 		["expo-document-picker", { iCloudContainerEnvironment: "Production" }],
 		["expo-updates", { username: "account-username" }],
