@@ -3386,7 +3386,7 @@ __metadata:
     expo-image: "npm:~1.12.4"
     expo-linking: "npm:~6.3.1"
     expo-network: "npm:~6.0.1"
-    expo-router: "npm:3.5.3"
+    expo-router: "npm:3.5.4"
     expo-splash-screen: "npm:~0.27.2"
     expo-status-bar: "npm:~1.12.1"
     expo-system-ui: "npm:~3.0.2"
@@ -3408,7 +3408,7 @@ __metadata:
     react-native-ios-utilities: "npm:^4.4.5"
     react-native-markdown-display: "npm:^7.0.2"
     react-native-react-query-devtools: "npm:^1.1.0"
-    react-native-reanimated: "npm:3.9.0-rc.1"
+    react-native-reanimated: "npm:3.9.0"
     react-native-root-siblings: "npm:^5.0.1"
     react-native-safe-area-context: "npm:4.10.1"
     react-native-screens: "npm:^3.31.1"
@@ -3425,7 +3425,7 @@ __metadata:
     tailwindcss: "npm:^3.4.3"
     tailwindcss-animate: "npm:^1.0.7"
     text-encoding: "npm:^0.7.0"
-    typescript: "npm:5.5.0-dev.20240427"
+    typescript: "npm:5.5.0-dev.20240428"
     update-browserslist-db: "npm:1.0.13"
     web-streams-polyfill: "npm:^4.0.0"
     zod: "npm:^3.23.4"
@@ -3453,6 +3453,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@mychat/monorepo@workspace:."
   dependencies:
+    "@mychat/tsconfig": "workspace:*"
     turbo: "npm:^1.13.3"
   languageName: unknown
   linkType: soft
@@ -3478,7 +3479,6 @@ __metadata:
     "@types/json-stringify-safe": "npm:^5.0.3"
     "@types/morgan": "npm:^1.9.9"
     "@types/supertest": "npm:^6.0.2"
-    bun: "npm:1.1.4"
     eslint: "npm:9.1.1"
     fastify: "npm:^4.26.2"
     fastify-plugin: "npm:^4.5.1"
@@ -3498,7 +3498,7 @@ __metadata:
     tsconfig-paths: "npm:^4.2.0"
     typeorm: "npm:^0.3.20"
     typeorm-fastify-plugin: "npm:^1.0.5"
-    typescript: "npm:5.5.0-dev.20240427"
+    typescript: "npm:5.5.0-dev.20240428"
     winston: "npm:^3.13.0"
     zod: "npm:^3.23.4"
   languageName: unknown
@@ -3512,7 +3512,7 @@ __metadata:
     "@mychat/tsconfig": "workspace:*"
     eslint: "npm:^9.1.1"
     playwright: "npm:^1.43.1"
-    typescript: "npm:5.5.0-dev.20240427"
+    typescript: "npm:5.5.0-dev.20240428"
     zod: "npm:^3.23.4"
   languageName: unknown
   linkType: soft
@@ -3600,62 +3600,6 @@ __metadata:
     mkdirp: "npm:^1.0.4"
     rimraf: "npm:^3.0.2"
   checksum: 10c0/02e946f3dafcc6743132fe2e0e2b585a96ca7265653a38df5a3e53fcf26c7c7a57fc0f861d7c689a23fdb6d6836c7eea5050c8086abf3c994feb2208d1514ff0
-  languageName: node
-  linkType: hard
-
-"@oven/bun-darwin-aarch64@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-darwin-aarch64@npm:1.1.4"
-  conditions: os=darwin & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-darwin-x64-baseline@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-darwin-x64-baseline@npm:1.1.4"
-  conditions: os=darwin & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-darwin-x64@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-darwin-x64@npm:1.1.4"
-  conditions: os=darwin & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-linux-aarch64@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-linux-aarch64@npm:1.1.4"
-  conditions: os=linux & cpu=arm64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-linux-x64-baseline@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-linux-x64-baseline@npm:1.1.4"
-  conditions: os=linux & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-linux-x64@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-linux-x64@npm:1.1.4"
-  conditions: os=linux & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-windows-x64-baseline@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-windows-x64-baseline@npm:1.1.4"
-  conditions: os=win32 & cpu=x64
-  languageName: node
-  linkType: hard
-
-"@oven/bun-windows-x64@npm:1.1.4":
-  version: 1.1.4
-  resolution: "@oven/bun-windows-x64@npm:1.1.4"
-  conditions: os=win32 & cpu=x64
   languageName: node
   linkType: hard
 
@@ -7141,43 +7085,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"bun@npm:1.1.4":
-  version: 1.1.4
-  resolution: "bun@npm:1.1.4"
-  dependencies:
-    "@oven/bun-darwin-aarch64": "npm:1.1.4"
-    "@oven/bun-darwin-x64": "npm:1.1.4"
-    "@oven/bun-darwin-x64-baseline": "npm:1.1.4"
-    "@oven/bun-linux-aarch64": "npm:1.1.4"
-    "@oven/bun-linux-x64": "npm:1.1.4"
-    "@oven/bun-linux-x64-baseline": "npm:1.1.4"
-    "@oven/bun-windows-x64": "npm:1.1.4"
-    "@oven/bun-windows-x64-baseline": "npm:1.1.4"
-  dependenciesMeta:
-    "@oven/bun-darwin-aarch64":
-      optional: true
-    "@oven/bun-darwin-x64":
-      optional: true
-    "@oven/bun-darwin-x64-baseline":
-      optional: true
-    "@oven/bun-linux-aarch64":
-      optional: true
-    "@oven/bun-linux-x64":
-      optional: true
-    "@oven/bun-linux-x64-baseline":
-      optional: true
-    "@oven/bun-windows-x64":
-      optional: true
-    "@oven/bun-windows-x64-baseline":
-      optional: true
-  bin:
-    bun: bin/bun.exe
-    bunx: bin/bun.exe
-  checksum: 10c0/40d5260aa163bcc6951a5da53f2a549dee2dc4c1880e0da6070d8ce2ca08222eae97cd4af02ab128d202417f046a17f6816e3cacc608042a1f6aff243b792f89
-  conditions: (os=darwin | os=linux | os=win32) & (cpu=arm64 | cpu=x64)
-  languageName: node
-  linkType: hard
-
 "bytes@npm:3.0.0":
   version: 3.0.0
   resolution: "bytes@npm:3.0.0"
@@ -9616,9 +9523,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"expo-router@npm:3.5.3":
-  version: 3.5.3
-  resolution: "expo-router@npm:3.5.3"
+"expo-router@npm:3.5.4":
+  version: 3.5.4
+  resolution: "expo-router@npm:3.5.4"
   dependencies:
     "@expo/metro-runtime": "npm:3.2.1"
     "@expo/server": "npm:^0.4.0"
@@ -9645,7 +9552,7 @@ __metadata:
       optional: true
     react-native-reanimated:
       optional: true
-  checksum: 10c0/5f4f130bdecd10eef8b54fd9cf3b6839f91ce4e4b1c45eb1f2647bb12e0d58b98f9811391ba4f2bfd637be007d49d6b5e9e93d3d39eda347e320b9299e144b43
+  checksum: 10c0/d4a735d5a54b3a7431e7287c5c919cd2771d37f004753b47e0d282102401d7058f1ab5648c557ac755140a5e67fb42ebee6fec734c7fb029d5db6eca93235774
   languageName: node
   linkType: hard
 
@@ -15634,9 +15541,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-reanimated@npm:3.9.0-rc.1":
-  version: 3.9.0-rc.1
-  resolution: "react-native-reanimated@npm:3.9.0-rc.1"
+"react-native-reanimated@npm:3.9.0":
+  version: 3.9.0
+  resolution: "react-native-reanimated@npm:3.9.0"
   dependencies:
     "@babel/plugin-transform-arrow-functions": "npm:^7.0.0-0"
     "@babel/plugin-transform-nullish-coalescing-operator": "npm:^7.0.0-0"
@@ -15650,7 +15557,7 @@ __metadata:
     "@babel/core": ^7.0.0-0
     react: "*"
     react-native: "*"
-  checksum: 10c0/727fa6519e43fbfb3c640632ef22380297a042d993e343e65794cc73b245263d6408a2f67f4e002647376872fbcbcca10861240cc5315f2dedbfcf1cf7e13a97
+  checksum: 10c0/f4c44e1fe509b73db1587ab3a8f654ee9b3a4f0fc5b4678e2dee300fefc44a96d05a5bf57e9b5f7516724ea670af027743fd134ba90ccaa1628ad1d89169ad03
   languageName: node
   linkType: hard
 
@@ -18211,23 +18118,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.5.0-dev.20240427":
-  version: 5.5.0-dev.20240427
-  resolution: "typescript@npm:5.5.0-dev.20240427"
+"typescript@npm:5.5.0-dev.20240428":
+  version: 5.5.0-dev.20240428
+  resolution: "typescript@npm:5.5.0-dev.20240428"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/8d737c6d21906096e674f8b41eceed85e86fd314620426f829b2703d339d75180d3e715d6491fcf0abe516e06b1d05072435abc88a544327698d492198c68b85
+  checksum: 10c0/0ca7ab8e91a24968932a3669435e7e5e6fc88bfa4e44f9b85f7cb054034eca768b154828854e07ea7e46a70bd303c5b4d59ecc00518f73363a4cc4aacbfe0258
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.5.0-dev.20240427#optional!builtin<compat/typescript>":
-  version: 5.5.0-dev.20240427
-  resolution: "typescript@patch:typescript@npm%3A5.5.0-dev.20240427#optional!builtin<compat/typescript>::version=5.5.0-dev.20240427&hash=5adc0c"
+"typescript@patch:typescript@npm%3A5.5.0-dev.20240428#optional!builtin<compat/typescript>":
+  version: 5.5.0-dev.20240428
+  resolution: "typescript@patch:typescript@npm%3A5.5.0-dev.20240428#optional!builtin<compat/typescript>::version=5.5.0-dev.20240428&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/ab5eeab19310416816c97ff17f1a991d3ef86b619c7baac8ddafe2db045417fcf9bcd2037ba4da632aa2d06f7fda9791ed7fba13b8116e3f2e609ffba0c95124
+  checksum: 10c0/14f6937475aae6cab6854ccd682d506aeeb171a80427c81b62651dbb5056e3e0b8d58d85dade2422f7ef28f4887c71bb0692f188330c2f7baa7d7bcf8ddd2f7d
   languageName: node
   linkType: hard
 

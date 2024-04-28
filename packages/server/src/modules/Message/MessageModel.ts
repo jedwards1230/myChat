@@ -89,7 +89,7 @@ export class Message extends BaseEntity {
 	}
 }
 
-export class UserMessage extends Message {
+/* export class UserMessage extends Message {
 	@Column({
 		default: "user",
 		readonly: true,
@@ -119,4 +119,4 @@ export class ToolMessage extends Message {
 		readonly: true,
 	})
 	role: Role = "tool";
-}
+} */

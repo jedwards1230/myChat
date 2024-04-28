@@ -5,7 +5,7 @@
 			"outputs": []
 		},
 		"tsc": {
-			"dependsOn": ["^tsc", "^lint"],
+			"dependsOn": ["^lint", "^tsc"],
 			"inputs": ["**/*.{ts,tsx}"],
 			"outputs": []
 		},
@@ -28,8 +28,6 @@
 		"start:prod": {
 			"dependsOn": ["^build"]
 		},
-		"clean": {
-			"cache": false
-		}
+		"clean": {}
 	}
 }
