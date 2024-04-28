@@ -9,7 +9,7 @@ import {
 
 import { Thread } from "../Thread/ThreadModel";
 import { Agent } from "../Agent/AgentModel";
-import type { ModelApi } from "@/types/models";
+import type { ModelApi } from "@/modules/Models/types";
 
 export type RunType = "getChat" | "getTitle";
 

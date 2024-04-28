@@ -145,7 +145,8 @@ export class LLMNexusController {
                 agentRunId: agentRun.id,
                 response,
             });
-            const responseMsg = response.choices[0].message;
+            const responseMsg = response.choices[0]?.message;
+            if (!responseMsg) throw new Error("No response message");
             await getThreadRepo().addMessage(thread, {
                 role: responseMsg.role as Role,
                 content: responseMsg.content,

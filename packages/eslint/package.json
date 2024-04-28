@@ -22,9 +22,9 @@
 		"eslint": "9.1.1",
 		"eslint-config-prettier": "^9.1.0",
 		"eslint-config-turbo": "^1.13.3",
-		"eslint-config-universe": "^12",
+		"eslint-config-universe": "^12.1.0",
 		"eslint-plugin-import": "^2.29.1",
-		"prettier": "^3.2"
+		"prettier": "^3.2.5"
 	},
 	"resolutions": {
 		"eslint": "9.1.1"

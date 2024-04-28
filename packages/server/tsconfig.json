@@ -3,9 +3,11 @@
 	"compilerOptions": {
 		"emitDecoratorMetadata": true,
 		"baseUrl": ".",
+		"allowImportingTsExtensions": false,
+		"noEmit": false,
 		"paths": {
 			"@/*": ["./src/*"]
 		}
 	},
-	"include": ["eslint.config.cjs", "scripts/**/*.ts", "src/**/*.ts", "src/**/*.tsx"]
+	"include": ["src/**/*.ts", "src/**/*.tsx"]
 }

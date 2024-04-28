@@ -1,38 +1,36 @@
 {
-	"version": "0.2.0",
-	"configurations": [
-		{
-			"name": "Debug with Bun",
-			"type": "bun",
+    "version": "0.2.0",
+
+    "configurations": [
+        {
+			"name": "tsx",
+			"type": "node",
 			"request": "launch",
-
-			// The path to a JavaScript or TypeScript file to run.
-			"program": "${workspaceFolder}/server/src/index.ts",
-			"args": [],
-			"cwd": "${workspaceFolder}/server",
-
-			// The environment variables to pass to the program.
-			"env": {},
-
-			"watchMode": true,
-
-			// The path to the `bun` executable, defaults to your `PATH` environment variable.
-			"runtime": "bun",
-
-			// The arguments to pass to the `bun` executable, if any.
-			// Unlike `args`, these are passed to the executable itself, not the program.
-			"runtimeArgs": []
-
-			// "preLaunchTask": "prelaunch"
-		},
-		{
-			"type": "bun",
-			"request": "attach",
-			"name": "Attach to Bun",
-
-			// The URL of the WebSocket inspector to attach to.
-			// This value can be retrieved by using `bun --inspect`.
-			"url": "ws://localhost:6499/"
+		
+			// Debug current file in VSCode
+			"program": "${file}",
+		
+			/*
+			Path to tsx binary
+			Assuming locally installed
+			*/
+			"runtimeExecutable": "${workspaceRoot}/node_modules/.bin/tsx",
+		
+			/*
+			Open terminal when debugging starts (Optional)
+			Useful to see console.logs
+			*/
+			"console": "integratedTerminal",
+			"internalConsoleOptions": "neverOpen",
+		
+			// Files to exclude from debugger (e.g. call stack)
+			"skipFiles": [
+				// Node.js internal core modules
+				"<node_internals>/**",
+		
+				// Ignore all dependencies (optional)
+				"${workspaceFolder}/node_modules/**",
+			],
 		}
-	]
+    ],
 }

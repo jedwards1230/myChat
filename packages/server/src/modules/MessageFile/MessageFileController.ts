@@ -60,7 +60,9 @@ export class MessageFileController {
             const files: PreppedFile[] = [];
             for (let i = 0; i < filesRaw.length; i++) {
                 const file = filesRaw[i];
+                if (!file) throw new Error("No file found");
                 const metadata = metadataRaw[i];
+                if (!metadata) throw new Error("No metadata found");
                 const res = await MessageFileController.tokenizeFile(file);
                 files.push({ ...res, file, metadata });
             }

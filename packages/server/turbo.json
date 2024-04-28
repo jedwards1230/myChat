@@ -1,0 +1,17 @@
+{
+    "extends": ["//"],
+    "pipeline": {
+      "start": {
+        "dependsOn": ["@mychat/client#build"],
+        "outputs": [
+            "packages/server/logs/**"
+        ]
+      },
+      "start:prod": {
+        "dependsOn": ["@mychat/client#build"],
+        "outputs": [
+            "packages/server/logs/**"
+        ]
+      }
+    }
+  }

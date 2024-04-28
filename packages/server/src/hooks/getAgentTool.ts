@@ -7,10 +7,9 @@ import { AgentTool } from "@/modules/AgentTool/AgentToolModel";
 export function getAgentTool(relations?: FindOneOptions<AgentTool>["relations"]) {
     return async function getAgent(request: FastifyRequest, reply: FastifyReply) {
         try {
-            const { agent } = request;
             const { agentToolId } = request.params as { agentToolId: string };
             const agentTool = await request.server.orm.getRepository(AgentTool).findOne({
-                where: { id: agentToolId, agent: { id: agent.id } },
+                where: { id: agentToolId,  },
                 relations,
             });
             if (!agentTool) {

@@ -137,7 +137,10 @@ export class AgentRunController {
 					});
 
 				chatResponseEmitter.removeListener("responseJSONReady", jsonHandler);
-				resolve(response.choices[0].message);
+				if (response.choices.length === 0) return reject();
+				const msg = response.choices[0]?.message;
+				if (msg === undefined) return reject()
+				resolve(msg);
 			};
 
 			const abortHandler = ({ agentRunId }: ChatResponseEmitterEvents["abort"]) => {

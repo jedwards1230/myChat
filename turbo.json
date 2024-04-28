@@ -15,8 +15,6 @@
 		"build": {
 			"dependsOn": ["^tsc", "tsc", "^build"],
 			"outputs": [
-				"packages/client/dist/**",
-				"packages/client/node_modules/.cache/nativewind/**",
 				"node_modules/.cache/metro/**"
 			]
 		},
@@ -25,6 +23,12 @@
 			"cache": false,
 			"interactive": true,
 			"persistent": true
+		},
+		"start": {
+			"dependsOn": ["^build"]
+		},
+		"start:prod": {
+			"dependsOn": ["^build"]
 		}
 	}
 }

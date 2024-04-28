@@ -1,0 +1,17 @@
+{
+    "extends": ["//"],
+    "pipeline": {
+		"build": {
+			"outputs": [
+				"dist/**",
+				"node_modules/.cache/nativewind/**"
+			]
+		},
+        "start": {
+            "dependsOn": ["^build"],
+            "outputs": [
+                "packages/server/logs/**"
+            ]
+        }
+    }
+  }
