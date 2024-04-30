@@ -81,7 +81,7 @@
 		"react-native": "0.74.0",
 		"react-native-drawer-layout": "^3.3.0",
 		"react-native-fetch-api": "^3.0.0",
-		"react-native-gesture-handler": "~2.16.0",
+		"react-native-gesture-handler": "~2.16.1",
 		"react-native-ios-context-menu": "^2.5.1",
 		"react-native-ios-utilities": "^4.4.5",
 		"react-native-markdown-display": "^7.0.2",
@@ -122,7 +122,7 @@
 		"jest-expo": "~50.0.4",
 		"react-test-renderer": "18.3.1",
 		"source-map-explorer": "^2.5.3",
-		"typescript": "5.5.0-dev.20240428",
+		"typescript": "beta",
 		"update-browserslist-db": "1.0.13"
 	},
 	"resolutions": {

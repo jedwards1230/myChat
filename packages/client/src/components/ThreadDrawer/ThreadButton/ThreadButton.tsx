@@ -11,7 +11,6 @@ import { Text } from "@/components/ui/Text";
 import ChatHistory from "@/components/ChatHistory";
 import { useDeleteActiveThread } from "@/hooks/actions";
 import LinkButton from "../LinkButton";
-import { useConfigStore } from "@/hooks/stores/configStore";
 
 const menuConfig: MenuConfig = {
 	menuTitle: "",
@@ -24,7 +23,6 @@ const menuConfig: MenuConfig = {
 };
 
 export function ThreadButton({ thread }: { thread: Thread }) {
-	const threadId = useConfigStore.use.threadId();
 	const deleteThread = useDeleteActiveThread();
 	const router = useRouter();
 
@@ -39,7 +37,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 	};
 
 	return (
-		<LinkButton active={thread.id === threadId} href={href}>
+		<LinkButton isActive={({ threadId }) => threadId === thread.id} href={href}>
 			<ContextMenuView
 				menuConfig={menuConfig}
 				onPressMenuItem={onPressMenuItem}

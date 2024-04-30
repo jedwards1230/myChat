@@ -53,7 +53,7 @@
 		"ts-jest": "^29.1.2",
 		"ts-mockito": "^2.6.1",
 		"tsconfig-paths": "^4.2.0",
-		"typescript": "5.5.0-dev.20240428"
+		"typescript": "beta"
 	},
 	"resolutions": {
 		"eslint": "^9.1.1"

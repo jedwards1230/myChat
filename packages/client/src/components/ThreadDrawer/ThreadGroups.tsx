@@ -13,7 +13,7 @@ type ThreadGroup = {
 export const ThreadGroup = ({ group: { label, threads } }: { group: ThreadGroup }) => (
 	<View>
 		<Label
-			className="pl-1 mb-1 text-sm text-foreground/75"
+			className="pl-1 mb-1 mt-2 !text-xs text-foreground/75"
 			id={"group-label-" + label}
 		>
 			{label}

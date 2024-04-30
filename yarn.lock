@@ -3403,7 +3403,7 @@ __metadata:
     react-native: "npm:0.74.0"
     react-native-drawer-layout: "npm:^3.3.0"
     react-native-fetch-api: "npm:^3.0.0"
-    react-native-gesture-handler: "npm:~2.16.0"
+    react-native-gesture-handler: "npm:~2.16.1"
     react-native-ios-context-menu: "npm:^2.5.1"
     react-native-ios-utilities: "npm:^4.4.5"
     react-native-markdown-display: "npm:^7.0.2"
@@ -3425,7 +3425,7 @@ __metadata:
     tailwindcss: "npm:^3.4.3"
     tailwindcss-animate: "npm:^1.0.7"
     text-encoding: "npm:^0.7.0"
-    typescript: "npm:5.5.0-dev.20240428"
+    typescript: "npm:beta"
     update-browserslist-db: "npm:1.0.13"
     web-streams-polyfill: "npm:^4.0.0"
     zod: "npm:^3.23.4"
@@ -3446,6 +3446,7 @@ __metadata:
     eslint-config-universe: "npm:^12.1.0"
     eslint-plugin-import: "npm:^2.29.1"
     prettier: "npm:^3.2.5"
+    typescript: "npm:beta"
   languageName: unknown
   linkType: soft
 
@@ -3498,7 +3499,7 @@ __metadata:
     tsconfig-paths: "npm:^4.2.0"
     typeorm: "npm:^0.3.20"
     typeorm-fastify-plugin: "npm:^1.0.5"
-    typescript: "npm:5.5.0-dev.20240428"
+    typescript: "npm:beta"
     winston: "npm:^3.13.0"
     zod: "npm:^3.23.4"
   languageName: unknown
@@ -3512,7 +3513,7 @@ __metadata:
     "@mychat/tsconfig": "workspace:*"
     eslint: "npm:^9.1.1"
     playwright: "npm:^1.43.1"
-    typescript: "npm:5.5.0-dev.20240428"
+    typescript: "npm:beta"
     zod: "npm:^3.23.4"
   languageName: unknown
   linkType: soft
@@ -15470,9 +15471,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-gesture-handler@npm:~2.16.0":
-  version: 2.16.0
-  resolution: "react-native-gesture-handler@npm:2.16.0"
+"react-native-gesture-handler@npm:~2.16.1":
+  version: 2.16.1
+  resolution: "react-native-gesture-handler@npm:2.16.1"
   dependencies:
     "@egjs/hammerjs": "npm:^2.0.17"
     hoist-non-react-statics: "npm:^3.3.0"
@@ -15482,7 +15483,7 @@ __metadata:
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: 10c0/7cb16990e9b20a737b92f26444a058069f5fb011f6a621eeb755df77d66c92877a1eb5215b846af4f4d9a8a8b473ae362631bd96aa78ed971dd08c9c2ae75f2e
+  checksum: 10c0/fea9cc67b645ec77f26c61b10edf379adf3084d4280ea76c7986cf1b175c2957c53fa4b880d0a67232fd6cdc260057e3b97752ccb028c1d635b8db87a79bad27
   languageName: node
   linkType: hard
 
@@ -18118,23 +18119,23 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:5.5.0-dev.20240428":
-  version: 5.5.0-dev.20240428
-  resolution: "typescript@npm:5.5.0-dev.20240428"
+"typescript@npm:beta":
+  version: 5.5.0-beta
+  resolution: "typescript@npm:5.5.0-beta"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/0ca7ab8e91a24968932a3669435e7e5e6fc88bfa4e44f9b85f7cb054034eca768b154828854e07ea7e46a70bd303c5b4d59ecc00518f73363a4cc4aacbfe0258
+  checksum: 10c0/e4b029678d6e77514355a79bb2b30e80784712b58cdb1391e07d2282aefceaff7850edf16814f6b4b9d4f23c84372afdfc6165cb628adc5303274fff8a795ce5
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A5.5.0-dev.20240428#optional!builtin<compat/typescript>":
-  version: 5.5.0-dev.20240428
-  resolution: "typescript@patch:typescript@npm%3A5.5.0-dev.20240428#optional!builtin<compat/typescript>::version=5.5.0-dev.20240428&hash=5adc0c"
+"typescript@patch:typescript@npm%3Abeta#optional!builtin<compat/typescript>":
+  version: 5.5.0-beta
+  resolution: "typescript@patch:typescript@npm%3A5.5.0-beta#optional!builtin<compat/typescript>::version=5.5.0-beta&hash=5adc0c"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
-  checksum: 10c0/14f6937475aae6cab6854ccd682d506aeeb171a80427c81b62651dbb5056e3e0b8d58d85dade2422f7ef28f4887c71bb0692f188330c2f7baa7d7bcf8ddd2f7d
+  checksum: 10c0/acf3385e77938238a216dfd8eb39c583253c6184ffba66ffd6232cc3c931bbc7023e522bf09c5389e327ce5c9a6335fca5be082dd3365ed95c35b89ea21aa388
   languageName: node
   linkType: hard
 
