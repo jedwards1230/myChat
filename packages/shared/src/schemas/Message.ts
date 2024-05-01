@@ -22,6 +22,8 @@ export const MessageObjectSchema = z.object({
 	tool_call_id: z.optional(z.any()),
 	tool_calls: z.optional(z.array(z.any())),
 	files: z.optional(MessageFileListSchema),
+	parent: z.optional(z.string()),
+	children: z.optional(z.array(z.string())),
 });
 export type MessageObjectSchema = z.infer<typeof MessageObjectSchema>;
 

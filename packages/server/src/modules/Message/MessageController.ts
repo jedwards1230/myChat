@@ -1,10 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
+import type { MessageCreateSchema } from "@mychat/shared/schemas/Message";
+
 import logger from "@/lib/logs/logger";
 import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
 import type { Role } from "./RoleModel";
 import { getMessageRepo } from "./MessageRepo";
-import type { MessageCreateSchema } from "@mychat/shared/schemas/Message";
+import { Message } from "./MessageModel";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -12,31 +14,45 @@ export class MessageController {
 		const message = request.body as MessageCreateSchema;
 
 		try {
-			const newThread = await getThreadRepo().addMessage(thread, {
+			const { newMsg } = await getThreadRepo().addMessage(thread, {
 				role: message.role as Role,
 				content: message.content?.toString(),
 			});
 
-			reply.send(newThread.activeMessage);
+			await newMsg.reload();
+			if (!newMsg) {
+				return reply.status(500).send({
+					error: "Error creating message.",
+				});
+			}
+
+			reply.send(newMsg.toJSON());
 		} catch (error) {
 			logger.error("Error in POST /message", {
 				error,
 				functionName: "setupmessageRoute.post(/message)",
 			});
-			reply.status(500).send({
-				error: "An error occurred while processing your request.",
-			});
+			reply.status(500).send(error);
 		}
 	}
 
-	static async modifyMessage(request: FastifyRequest, reply: FastifyReply) {
-		const { message } = request;
+	static async patchMessage(request: FastifyRequest, reply: FastifyReply) {
+		const { message, thread } = request;
 		const { content } = request.body as { content: string };
 
-		message.content = content;
-		await message.save();
+		const repo = request.server.orm.getTreeRepository(Message);
+		const updatedMessage = repo.create({
+			...message,
+			content,
+			parent: message.parent,
+		});
 
-		reply.send(message);
+		await repo.save(updatedMessage);
+
+		thread.activeMessage = updatedMessage;
+		await thread.save();
+
+		reply.send(updatedMessage.toJSON());
 	}
 
 	static async deleteMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -54,7 +70,7 @@ export class MessageController {
 		}
 
 		const msg = await message.remove();
-		reply.send(msg);
+		reply.send(msg.toJSON());
 	}
 
 	static async getMessageList(request: FastifyRequest, reply: FastifyReply) {
@@ -69,6 +85,6 @@ export class MessageController {
 			thread.activeMessage
 		);
 
-		reply.send(messages);
+		reply.send(messages.map((msg) => msg.toJSON()));
 	}
 }

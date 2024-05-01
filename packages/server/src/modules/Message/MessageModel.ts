@@ -87,36 +87,20 @@ export class Message extends BaseEntity {
 			this.tokenCount = tokenizer.estimateTokenCount(this.content);
 		}
 	}
-}
 
-/* export class UserMessage extends Message {
-	@Column({
-		default: "user",
-		readonly: true,
-	})
-	role: Role = "user";
+	toJSON() {
+		return {
+			id: this.id,
+			role: this.role,
+			createdAt: this.createdAt,
+			tokenCount: this.tokenCount,
+			name: this.name,
+			content: this.content,
+			tool_call_id: this.tool_call_id,
+			tool_calls: this.tool_calls,
+			files: this.files,
+			parent: this.parent?.id,
+			children: this.children?.map((child) => child.id),
+		};
+	}
 }
-
-export class AssistantMessage extends Message {
-	@Column({
-		default: "assistant",
-		readonly: true,
-	})
-	role: Role = "assistant";
-}
-
-export class SystemMessage extends Message {
-	@Column({
-		default: "system",
-		readonly: true,
-	})
-	role: Role = "system";
-}
-
-export class ToolMessage extends Message {
-	@Column({
-		default: "tool",
-		readonly: true,
-	})
-	role: Role = "tool";
-} */

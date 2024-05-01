@@ -65,14 +65,14 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 			})
 		);
 
-		// PATCH Modify Message
+		// PATCH Message
 		app.patch("/:messageId", {
 			schema: {
 				description: "Modify Message.",
 				tags: ["Message"],
 				response: { 200: MessageObjectSchema },
 			},
-			handler: MessageController.modifyMessage,
+			handler: MessageController.patchMessage,
 		});
 
 		// DELETE Message
