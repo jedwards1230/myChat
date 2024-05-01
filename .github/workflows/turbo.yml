@@ -36,7 +36,11 @@ jobs:
 
             - name: Get commit hash
               id: git_hash
-              run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+              run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+
+            - name: Get repo URL
+              id: repo_url
+              run: echo "REPO_URL=https://github.com/${{ github.repository }}" >> "$GITHUB_OUTPUT"
 
             - name: Build and push
               uses: docker/build-push-action@v5
@@ -45,4 +49,4 @@ jobs:
                   context: .
                   push: true
                   tags: ${{steps.repo_name.outputs.REPO}}:latest
-                  build-args: COMMIT_HASH=${{ env.COMMIT_HASH }}
+                  build-args: COMMIT_HASH=${{ steps.git_hash.outputs.COMMIT_HASH }},REPO_URL=${{ steps.repo_url.outputs.REPO_URL }}
