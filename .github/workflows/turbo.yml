@@ -42,9 +42,9 @@ jobs:
 
             - name: Debug
               run: |
-                  - echo "DEBUG=${GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
-                  - tree .
-                  - ls -al
+                  echo "DEBUG=${GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
+                  tree .
+                  ls -al
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
