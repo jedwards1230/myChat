@@ -21,5 +21,8 @@ spawnCommands=(
     "$output.$platform.css"
 )
 
+export BROWSERSLIST="last 1 version"
+export BROWSERSLIST_ENV="native"
+
 # Execute the command
 "${spawnCommands[@]}"

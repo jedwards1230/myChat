@@ -34,6 +34,10 @@ jobs:
               run: |
                   echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
 
+            - name: Get commit hash
+              id: git_hash
+              run: echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> $GITHUB_ENV
+
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
@@ -41,3 +45,4 @@ jobs:
                   context: .
                   push: true
                   tags: ${{steps.repo_name.outputs.REPO}}:latest
+                  build-args: COMMIT_HASH=${{ env.COMMIT_HASH }}

@@ -29,16 +29,16 @@
 		"install": "^0.13.0",
 		"json-stringify-safe": "^5.0.1",
 		"langchain": "^0.1.36",
-		"openai": "^4.38.5",
+		"openai": "^4.39.1",
 		"pg": "^8.11.5",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "^0.3.20",
 		"typeorm-fastify-plugin": "^1.0.5",
 		"winston": "^3.13.0",
-		"zod": "^3.23.4"
+		"zod": "^3.23.5"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.24.4",
+		"@babel/core": "^7.24.5",
 		"@babel/preset-typescript": "^7.24.1",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",

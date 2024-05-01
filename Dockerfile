@@ -13,6 +13,9 @@ RUN yarn build
 
 ## Runner
 FROM oven/bun:latest AS runner
+ARG COMMIT_HASH
+
+ENV EXPO_PUBLIC_COMMIT_HASH=$COMMIT_HASH
 ENV NODE_ENV=production
 ENV CLIENT_BUILD_DIR=web
 
