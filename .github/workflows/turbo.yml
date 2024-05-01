@@ -17,6 +17,14 @@ jobs:
               with:
                   fetch-depth: 2
 
+            - name: Cache turbo build setup
+              uses: actions/cache@v4
+              with:
+                  path: .turbo
+                  key: ${{ runner.os }}-turbo-${{ github.sha }}
+                  restore-keys: |
+                      ${{ runner.os }}-turbo-
+
             - name: Enable corepack
               run: corepack enable
 
@@ -31,6 +39,12 @@ jobs:
 
             - name: Build
               run: yarn build
+
+            - name: Debug
+              run: |
+                  - echo "DEBUG=${GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
+                  - tree .
+                  - ls -al
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
