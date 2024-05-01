@@ -1,0 +1,17 @@
+FROM oven/bun:latest AS base
+ARG COMMIT_HASH
+ARG REPO_URL
+
+ENV EXPO_PUBLIC_COMMIT_HASH=$COMMIT_HASH
+ENV EXPO_PUBLIC_GITHUB_REPO_URL=$REPO_URL
+ENV NODE_ENV=production
+ENV CLIENT_BUILD_DIR=web
+
+COPY --chown=bun:bun . .
+COPY --chown=bun:bun ./packages/client/dist/ ./packages/server/web/
+
+WORKDIR /app
+USER bun
+
+WORKDIR /app/packages/server
+CMD bun run src/index.ts

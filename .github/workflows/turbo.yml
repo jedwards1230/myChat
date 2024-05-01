@@ -8,7 +8,7 @@ on:
 
 jobs:
     build:
-        name: Build and Test
+        name: Build and Push
         timeout-minutes: 30
         runs-on: ubuntu-latest
         steps:
@@ -16,6 +16,18 @@ jobs:
               uses: actions/checkout@v4
               with:
                   fetch-depth: 2
+
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v4
+              with:
+                  node-version: 21
+                  cache: "yarn"
+
+            - name: Install dependencies
+              run: yarn
+
+            - name: Build
+              run: yarn build
 
             - name: Set up QEMU
               uses: docker/setup-qemu-action@v3
@@ -47,6 +59,9 @@ jobs:
               with:
                   platforms: linux/amd64,linux/arm64
                   context: .
+                  file: ./Dockerfile.gh
                   push: true
                   tags: ${{steps.repo_name.outputs.REPO}}:latest
-                  build-args: COMMIT_HASH=${{ steps.git_hash.outputs.COMMIT_HASH }},REPO_URL=${{ steps.repo_url.outputs.REPO_URL }}
+                  build-args: |
+                      COMMIT_HASH=${{ steps.git_hash.outputs.COMMIT_HASH }}
+                      REPO_URL=${{ steps.repo_url.outputs.REPO_URL }}
