@@ -29,34 +29,38 @@ export default function LinkButton({
 	const router = useRouter();
 	const { isHover, ...helpers } = useHoverHelper();
 	return (
-		<Link href={href} asChild>
-			<Pressable
-				{...helpers}
-				onPress={() => router.push(href)}
-				role="tab"
-				aria-selected={isActive?.({ threadId, path })}
-				className={cn(
-					"flex flex-row items-center justify-between w-full gap-2 p-2 transition-colors rounded group web:ring-offset-background aria-selected:bg-primary web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 active:opacity-90 web:justify-start",
-					isHover
-						? "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
-						: "bg-secondary",
-					className
-				)}
-			>
-				<TextClassContext.Provider
-					value={
-						"web:whitespace-nowrap text-sm native:text-base group-aria-selected:text-background text-foreground transition-colors text-secondary-foreground"
-					}
+		<TextClassContext.Provider
+			value={
+				"text-sm native:text-base group-aria-selected:text-background text-foreground transition-colors text-secondary-foreground"
+			}
+		>
+			<Link href={href} asChild>
+				<Pressable
+					{...helpers}
+					onPress={() => router.push(href)}
+					role="tab"
+					aria-selected={isActive?.({ threadId, path })}
+					className={cn(
+						"flex flex-row items-center justify-between w-full gap-2 p-2 transition-colors rounded group web:ring-offset-background aria-selected:bg-primary web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 active:opacity-90 web:justify-start",
+						isHover
+							? "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
+							: "bg-secondary",
+						className
+					)}
 				>
 					{icon}
 					{label && (
-						<Text className="font-medium" ellipsizeMode="tail">
+						<Text
+							className="font-medium"
+							numberOfLines={1}
+							ellipsizeMode="tail"
+						>
 							{label}
 						</Text>
 					)}
 					{children}
-				</TextClassContext.Provider>
-			</Pressable>
-		</Link>
+				</Pressable>
+			</Link>
+		</TextClassContext.Provider>
 	);
 }
