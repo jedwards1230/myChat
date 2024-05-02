@@ -42,8 +42,7 @@ jobs:
 
             - name: Debug
               run: |
-                  echo "DEBUG=${GITHUB_WORKSPACE}" >> "$GITHUB_OUTPUT"
-                  tree .
+                  echo ${GITHUB_WORKSPACE}
                   ls -al
 
             - name: Set up QEMU
