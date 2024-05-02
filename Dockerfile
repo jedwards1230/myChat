@@ -25,7 +25,7 @@ ENV CLIENT_BUILD_DIR=web
 WORKDIR /app
 USER bun
 
-RUN apk add --no-cache tree
+RUN apt-get update && apt-get install -y tree
 RUN tree .
 
 COPY --from=installer --chown=bun:bun /app/ .
