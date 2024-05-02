@@ -7,6 +7,7 @@ ENV TURBO_TELEMETRY_DISABLED=1
 
 ## Installer
 FROM base AS installer
+ENV EXPO_USE_FAST_RESOLVER=1
 COPY . .
 RUN yarn install
 RUN yarn build
@@ -23,6 +24,8 @@ ENV CLIENT_BUILD_DIR=web
 
 WORKDIR /app
 USER bun
+RUN tree .
+
 COPY --from=installer --chown=bun:bun /app/ .
 COPY --from=installer --chown=bun:bun /app/packages/client/dist/ ./packages/server/web/
 

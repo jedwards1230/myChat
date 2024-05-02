@@ -11,6 +11,8 @@ ENV CLIENT_BUILD_DIR=web
 COPY --chown=bun:bun . .
 COPY --chown=bun:bun ./packages/client/dist/ ./packages/server/web/
 
+RUN tree .
+
 USER bun
 
 WORKDIR /app/packages/server
