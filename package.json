@@ -13,7 +13,7 @@
 		"lint": "turbo lint",
 		"tsc": "turbo tsc",
 		"export": "turbo export",
-		"build": "turbo build",
+		"build": "turbo build --cache-dir=.turbo",
 		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
