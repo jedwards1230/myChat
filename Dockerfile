@@ -23,11 +23,11 @@ ENV NODE_ENV=production
 ENV CLIENT_BUILD_DIR=web
 
 WORKDIR /app
-USER bun
 
 RUN apt-get update && apt-get install -y tree
 RUN tree .
 
+USER bun
 COPY --from=installer --chown=bun:bun /app/ .
 COPY --from=installer --chown=bun:bun /app/packages/client/dist/ ./packages/server/web/
 
