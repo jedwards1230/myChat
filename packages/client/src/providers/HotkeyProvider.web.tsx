@@ -1,15 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 
 import { CommandDialog } from "@/components/Dialogs/Command.web";
+import { useCmdDialog } from "@/hooks/stores/cmdDialogStore";
 
 export function HotkeyProvider({ children }: { children: React.ReactNode }) {
-	const [cmdDialogOpen, setCmdDialogOpen] = useState(false);
+	const { isOpen, setOpen, toggleDialog } = useCmdDialog();
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
+			console.log("keydown.web", e);
 			if (e.metaKey && e.key === "k") {
 				e.preventDefault();
-				setCmdDialogOpen(!cmdDialogOpen);
+				toggleDialog();
 			}
 		};
 
@@ -19,7 +21,7 @@ export function HotkeyProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<>
-			<CommandDialog open={cmdDialogOpen} setOpen={setCmdDialogOpen} />
+			<CommandDialog open={isOpen} setOpen={setOpen} />
 			{children}
 		</>
 	);

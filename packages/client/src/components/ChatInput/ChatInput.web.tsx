@@ -1,23 +1,9 @@
-import { useEffect, useRef } from "react";
-
 import type { ChatInputProps } from "./types";
 import { Textarea } from "../ui/Textarea";
 
-export default function ChatInput({
-	threadId,
-	input,
-	setInput,
-	handleSubmit,
-}: ChatInputProps) {
-	const ref = useRef<(typeof Textarea)["prototype"] | null>(null);
-
-	useEffect(() => {
-		if (ref.current) ref.current.focus();
-	}, [threadId]);
-
+export default function ChatInput({ input, setInput, handleSubmit }: ChatInputProps) {
 	return (
 		<Textarea
-			ref={ref}
 			variant={"chat"}
 			size={"chat"}
 			value={input}
@@ -25,7 +11,6 @@ export default function ChatInput({
 			onChangeText={setInput}
 			onSubmit={handleSubmit}
 			multiline
-			autoFocus
 		/>
 	);
 }

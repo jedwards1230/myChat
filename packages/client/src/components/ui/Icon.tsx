@@ -10,7 +10,7 @@ type IconType = keyof IconProviders;
 
 // Discriminated Union Type
 type IconComponentType = {
-    [K in IconType]: { type: K; name: keyof IconProviders[K]["glyphMap"] };
+	[K in IconType]: { type: K; name: keyof IconProviders[K]["glyphMap"] };
 }[IconType];
 
 export type IconProps = IconComponentType & baseProps<string>;
@@ -22,16 +22,16 @@ export type IconProps = IconComponentType & baseProps<string>;
  * @param props - Icon props
  * */
 export function Icon({ type, name, className, size = 20, ...props }: IconProps) {
-    const IconProvider = IconProviders[type];
-    const textClass = useContext(TextClassContext);
-    return (
-        <IconProvider
-            name={name}
-            size={size}
-            className={cn("transition-colors text-foreground", textClass, className)}
-            {...props}
-        />
-    );
+	const IconProvider = IconProviders[type];
+	const textClass = useContext(TextClassContext);
+	return (
+		<IconProvider
+			name={name}
+			size={size}
+			className={cn("transition-colors text-foreground", textClass, className)}
+			{...props}
+		/>
+	);
 }
 
 // test types

@@ -1,24 +1,11 @@
-import { useEffect, useRef } from "react";
-
 import { Input } from "@/components/ui/Input";
 import type { ChatInputProps } from "./types";
 
-export default function ChatInput({ threadId, input, setInput }: ChatInputProps) {
-	const ref = useRef<any | null>(null);
-
-	useEffect(() => {
-		if (ref.current) {
-			ref.current.focus();
-		}
-	}, [threadId]);
-
+export default function ChatInput({ input, setInput }: ChatInputProps) {
 	return (
 		<Input
-			ref={ref}
-			autoFocus
 			variant="chat"
 			size="chat"
-			//className="pl-8"
 			value={input}
 			onChangeText={setInput}
 			multiline
