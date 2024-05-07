@@ -18,7 +18,7 @@ export function MessagePreview({
 	return (
 		<View className="min-w-full px-2 py-4 border rounded bg-background">
 			<View className="flex flex-row items-center gap-2">
-				<Avatar role={role} name={name} />
+				<Avatar group={{ role, name }} />
 				<Text className="font-bold">{name}</Text>
 			</View>
 			<View className="w-full">

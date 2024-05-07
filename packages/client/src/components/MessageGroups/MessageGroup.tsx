@@ -7,104 +7,116 @@ import { MessageGroupBubble } from "./MessageGroupBubble";
 import { useMessages } from "@/hooks/useMessages";
 
 export type ChatMessageGroup = {
-    id: string;
-    threadId: string;
-    messages: Message[];
-    name: string;
-    role: "user" | "assistant";
+	id: string;
+	threadId: string;
+	messages: Message[];
+	name: string;
+	role: "user" | "assistant";
+	siblings?: Record<string, string[]>;
 };
 
 export const MessageGroup = ({
-    item,
-    index,
-    isLoading,
-    messageGroups,
+	item,
+	index,
+	isLoading,
+	messageGroups,
 }: {
-    item: ChatMessageGroup;
-    index: number;
-    isLoading: boolean;
-    messageGroups: ChatMessageGroup[];
+	item: ChatMessageGroup;
+	index: number;
+	isLoading: boolean;
+	messageGroups: ChatMessageGroup[];
 }) => {
-    const isLastMessageGroup = index === messageGroups.length - 1;
-    const editGroupId = useGroupStore((s) => s.editGroupId);
-    const editMode = editGroupId === item.id;
+	const isLastMessageGroup = index === messageGroups.length - 1;
+	const editGroupId = useGroupStore((s) => s.editGroupId);
+	const editMode = editGroupId === item.id;
 
-    return (
-        <View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
-            <MessageGroupBubble
-                editMode={editMode}
-                group={item}
-                isLoading={isLoading && isLastMessageGroup}
-            />
-        </View>
-    );
+	return (
+		<View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
+			<MessageGroupBubble
+				editMode={editMode}
+				group={item}
+				isLoading={isLoading && isLastMessageGroup}
+			/>
+		</View>
+	);
 };
 
 export function useGroupedMessages(threadId: string) {
-    const { data, isError, isSuccess, isFetched } = useMessages(threadId!);
-    const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
-        groupMessages(threadId, data)
-    );
+	const { data, isError, isSuccess, isFetched } = useMessages(threadId!);
+	const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
+		groupMessages(threadId, data)
+	);
 
-    useEffect(() => {
-        if (isSuccess && isFetched) {
-            setMessageGroups(groupMessages(threadId, data));
-        }
-    }, [data]);
+	useEffect(() => {
+		if (isSuccess && isFetched) {
+			setMessageGroups(groupMessages(threadId, data));
+		}
+	}, [data]);
 
-    return { messageGroups, isError };
+	return { messageGroups, isError };
 }
 
 const groupMessages = (threadId: string, messages: Message[] | undefined) => {
-    if (!messages) return [];
-    const grouped: ChatMessageGroup[] = [];
+	if (!messages) return [];
+	const grouped: ChatMessageGroup[] = [];
 
-    const resetGroup = (): ChatMessageGroup => ({
-        messages: [],
-        name: "user",
-        role: "user",
-        threadId,
-        id: "",
-    });
+	const siblings = messages.reduce(
+		(acc, message) => {
+			if (message.children?.length) {
+				acc[message.id] = message.children;
+			}
+			return acc;
+		},
+		{} as Record<string, string[]>
+	);
 
-    let currentGroup: ChatMessageGroup = resetGroup();
-    let lastRole = "";
+	const resetGroup = (): ChatMessageGroup => ({
+		messages: [],
+		name: "user",
+		role: "user",
+		threadId,
+		id: "",
+		siblings,
+	});
 
-    messages.forEach((message, index) => {
-        if (
-            // Finish group if the role changes and the current group has messages
-            message.role !== lastRole &&
-            currentGroup.messages.length > 0 &&
-            // Assistant and Tool messages should be grouped together
-            !(
-                (message.role === "assistant" && lastRole === "tool") ||
-                (message.role === "tool" && lastRole === "assistant")
-            )
-        ) {
-            grouped.push(currentGroup);
-            currentGroup = resetGroup();
-        }
+	let currentGroup: ChatMessageGroup = resetGroup();
+	let lastRole = "";
 
-        currentGroup.role = message.role === "user" ? "user" : "assistant";
-        lastRole = message.role;
+	messages.forEach((message, index) => {
+		if (
+			// Finish group if the role changes and the current group has messages
+			message.role !== lastRole &&
+			currentGroup.messages.length > 0 &&
+			// Assistant and Tool messages should be grouped together
+			!(
+				(message.role === "assistant" && lastRole === "tool") ||
+				(message.role === "tool" && lastRole === "assistant")
+			)
+		) {
+			grouped.push(currentGroup);
+			currentGroup = resetGroup();
+		}
 
-        // Set the group name to the sender
-        if (message.role !== "tool") {
-            currentGroup.name = message.name || message.role;
-            currentGroup.id = message.id;
-        }
+		currentGroup.role = message.role === "user" ? "user" : "assistant";
+		lastRole = message.role;
 
-        // Add the message to the group
-        if (message.content !== null) {
-            if (message.role === "system") return;
-            currentGroup.messages.push(message);
-        }
+		// Set the group name to the sender
+		if (message.role !== "tool") {
+			currentGroup.name = message.name || message.role;
+			currentGroup.id = message.id;
+		}
 
-        // Finish the group if this is the last message
-        if (index === messages.length - 1) {
-            grouped.push(currentGroup);
-        }
-    });
+		// Add the message to the group
+		if (message.content !== null) {
+			if (message.role === "system") return;
+			currentGroup.messages.push(message);
+		}
 
-    return grouped;
+		// Finish the group if this is the last message
+		if (index === messages.length - 1) {
+			grouped.push(currentGroup);
+		}
+	});
+
+	return grouped;
 };

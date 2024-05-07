@@ -12,7 +12,8 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 			tags: ["Thread"],
 			response: { 200: ThreadListSchema },
 		},
-		handler: async (request, reply) => reply.send(request.user.threads),
+		handler: async (request, reply) =>
+			reply.send(request.user.threads.map((t) => t.toJSON())),
 	});
 
 	// POST Create a new thread
@@ -32,7 +33,13 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 	});
 
 	await app.register(async (app) => {
-		app.addHook("preHandler", getThread());
+		app.addHook(
+			"preHandler",
+			getThread({
+				activeMessage: true,
+				messages: { parent: true, children: true },
+			})
+		);
 
 		// GET Thread by ID
 		app.get("/:threadId", {
@@ -41,7 +48,7 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 				tags: ["Thread"],
 				response: { 200: ThreadSchema },
 			},
-			handler: async (req, res) => res.send(req.thread),
+			handler: async (req, res) => res.send(req.thread.toJSON()),
 		});
 
 		// POST Update a thread by ID

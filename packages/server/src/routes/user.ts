@@ -5,8 +5,7 @@ import { getUser } from "@/hooks/getUser";
 import { AuthInputSchema, UserSchema } from "@mychat/shared/schemas/User";
 import { UserSessionSchema } from "@mychat/shared/schemas/Session";
 import { UserSession } from "@/modules/User/SessionModel";
-import { Agent } from "@/modules/Agent/AgentModel";
-import { User } from "@/modules/User/UserModel";
+import { pgRepo } from "@/lib/pg";
 
 export async function setupUserRoute(app: FastifyInstance) {
 	app.post("/user", {
@@ -20,7 +19,7 @@ export async function setupUserRoute(app: FastifyInstance) {
 			const { email, password } = request.body as AuthInputSchema;
 
 			try {
-				const emailedAlreadyStored = await app.orm.getRepository(User).findOne({
+				const emailedAlreadyStored = await pgRepo["User"].findOne({
 					where: { email },
 				});
 				if (emailedAlreadyStored)
@@ -28,10 +27,10 @@ export async function setupUserRoute(app: FastifyInstance) {
 						.code(409)
 						.send({ error: "User with this email already exists" });
 
-				const agent = await app.orm.getRepository(Agent).save({});
+				const agent = await pgRepo["Agent"].save({});
 				if (!agent) throw new Error("Cannot load default agent");
 
-				const baseUser = await app.orm.getRepository(User).save({
+				const baseUser = await pgRepo["User"].save({
 					apiKey: "user-1",
 					email,
 					password,
@@ -90,14 +89,12 @@ export async function setupUserRoute(app: FastifyInstance) {
 			const { email, password } = request.body as AuthInputSchema;
 
 			// Validate user credentials
-			const user = await app.orm
-				.getRepository(User)
-				.findOne({ where: { email, password } });
+			const user = await pgRepo["User"].findOne({ where: { email, password } });
 			if (!user) {
 				return reply.status(401).send({ error: "Invalid credentials" });
 			}
 
-			const session = await app.orm.getRepository(UserSession).save({
+			const session = await pgRepo["UserSession"].save({
 				user,
 				createdAt: new Date(),
 				expire: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000), // 30 days

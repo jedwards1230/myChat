@@ -2,14 +2,15 @@ import type { FindOneOptions } from "typeorm";
 import type { FastifyRequest, FastifyReply } from "fastify";
 
 import logger from "@/lib/logs/logger";
-import { Agent } from "@/modules/Agent/AgentModel";
+import type { Agent } from "@/modules/Agent/AgentModel";
+import { pgRepo } from "@/lib/pg";
 
 export function getAgent(relations?: FindOneOptions<Agent>["relations"]) {
 	return async function getAgent(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { user } = request;
 			const { agentId } = request.params as { agentId: string };
-			const agent = await request.server.orm.getRepository(Agent).findOne({
+			const agent = await pgRepo["Agent"].findOne({
 				where: { id: agentId, owner: { id: user.id } },
 				relations,
 			});

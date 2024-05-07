@@ -4,15 +4,15 @@ import { useEffect } from "react";
 import { useMessagesQuery } from "./fetchers/Message/useMessagesQuery";
 
 export function useMessages(threadId: string) {
-    const router = useRouter();
-    const { isError, error, ...rest } = useMessagesQuery(threadId!);
+	const router = useRouter();
+	const { isError, error, ...rest } = useMessagesQuery(threadId!);
 
-    useEffect(() => {
-        if (isError) {
-            console.warn("Error fetching messages", error);
-            router.push("/(app)");
-        }
-    }, [isError]);
+	useEffect(() => {
+		if (isError) {
+			console.warn("Error fetching messages", error);
+			router.push("/(app)");
+		}
+	}, [isError]);
 
-    return { isError, ...rest };
+	return { isError, ...rest };
 }

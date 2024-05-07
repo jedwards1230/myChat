@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 
 import { Message } from "@/modules/Message/MessageModel";
+import type { MessageFileObjectSchema } from "@mychat/shared/schemas/MessageFile";
 
 @Entity("FileData")
 export class FileData extends BaseEntity {
@@ -77,4 +78,18 @@ export class MessageFile extends BaseEntity {
 		onDelete: "CASCADE",
 	})
 	message: Relation<Message>;
+
+	toJSON(): MessageFileObjectSchema {
+		return {
+			id: this.id,
+			name: this.name,
+			path: this.path,
+			lastModified: this.lastModified || null,
+			uploadDate: this.uploadDate,
+			size: this.size.toString(),
+			mimetype: this.mimetype,
+			tokenCount: this.tokenCount || undefined,
+			extension: this.extension,
+		};
+	}
 }

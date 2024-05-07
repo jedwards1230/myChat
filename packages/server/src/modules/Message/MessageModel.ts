@@ -12,15 +12,19 @@ import {
 	CreateDateColumn,
 	JoinColumn,
 	OneToOne,
-	VersionColumn,
 	BeforeUpdate,
 } from "typeorm";
 
 import { Thread } from "../Thread/ThreadModel";
-import { type Role, roleList } from "./RoleModel";
 import { ToolCall } from "./ToolCallModel";
 import { MessageFile } from "../MessageFile/MessageFileModel";
 import tokenizer from "@/lib/tokenizer";
+import {
+	RoleEnum,
+	roleList,
+	type MessageObjectSchema,
+	type Role,
+} from "@mychat/shared/schemas/Message";
 
 @Entity("Message")
 @Tree("closure-table")
@@ -76,10 +80,7 @@ export class Message extends BaseEntity {
 	tokenCount: number;
 
 	@TreeParent()
-	parent: Message;
-
-	@VersionColumn()
-	version: number;
+	parent: Message | null;
 
 	@BeforeUpdate()
 	setTokenCountUpdate() {
@@ -88,17 +89,17 @@ export class Message extends BaseEntity {
 		}
 	}
 
-	toJSON() {
+	toJSON(): MessageObjectSchema {
 		return {
 			id: this.id,
-			role: this.role,
+			role: this.role as RoleEnum,
 			createdAt: this.createdAt,
 			tokenCount: this.tokenCount,
-			name: this.name,
-			content: this.content,
+			name: this.name || null,
+			content: this.content || undefined,
 			tool_call_id: this.tool_call_id,
 			tool_calls: this.tool_calls,
-			files: this.files,
+			files: this.files?.map((file) => file.toJSON()),
 			parent: this.parent?.id,
 			children: this.children?.map((child) => child.id),
 		};

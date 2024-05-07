@@ -1,8 +1,8 @@
 import logger from "@/lib/logs/logger";
 import { LLMNexusController } from "../LLMNexus/LLMNexusController";
 import type { AgentRun } from "./AgentRunModel";
-import { getAgentRunRepo } from "./AgentRunRepo";
 import MessageQueue from "@/lib/queue";
+import { pgRepo } from "@/lib/pg";
 
 export type AddMessageQueue = MessageQueue<AgentRun>;
 
@@ -28,7 +28,7 @@ export class AgentRunQueue {
 						error,
 						functionName: "AgentRunQueue.processQueue",
 					});
-					await getAgentRunRepo().update({ id: run.id }, { status: "failed" });
+					await pgRepo["AgentRun"].update({ id: run.id }, { status: "failed" });
 				}
 			}
 		} catch (error) {

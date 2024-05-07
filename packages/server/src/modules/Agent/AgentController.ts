@@ -1,15 +1,14 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { Agent } from "./AgentModel";
-import { AgentTool } from "../AgentTool/AgentToolModel";
 import { Tools } from "@mychat/shared/tools/index";
 import type { AgentCreateSchema, AgentUpdateSchema } from "@mychat/shared/schemas/Agent";
+import { pgRepo } from "@/lib/pg";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
 		const agent = request.body as AgentCreateSchema;
-		const savedAgent = await request.server.orm.getRepository(Agent).save({
+		const savedAgent = await pgRepo["Agent"].save({
 			...agent,
 			owner: { id: user.id },
 		});
@@ -21,11 +20,7 @@ export class AgentController {
 	}
 
 	static async getAgent(request: FastifyRequest, reply: FastifyReply) {
-		reply.send({
-			...request.agent,
-			threads: request.agent.threads.map((thread) => thread.id),
-			owner: request.agent.owner.id,
-		});
+		reply.send(request.agent.toJSON());
 	}
 
 	static async updateAgent(request: FastifyRequest, reply: FastifyReply) {
@@ -34,9 +29,7 @@ export class AgentController {
 
 		switch (agentUpdate.type) {
 			case "tools": {
-				const newTools = await request.server.orm
-					.getRepository(AgentTool)
-					.save(agentUpdate.value);
+				const newTools = await pgRepo["AgentTool"].save(agentUpdate.value);
 
 				agent.tools = newTools;
 				break;
@@ -56,11 +49,7 @@ export class AgentController {
 			}
 		}
 		const updatedAgent = await agent.save();
-		reply.send({
-			...updatedAgent,
-			threads: updatedAgent.threads.map((thread) => thread.id),
-			owner: updatedAgent.owner.id,
-		});
+		reply.send(updatedAgent.toJSON());
 	}
 
 	static async deleteAgent(request: FastifyRequest, reply: FastifyReply) {

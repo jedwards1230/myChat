@@ -16,6 +16,7 @@ import {
 import { User } from "../User/UserModel";
 import { Agent } from "../Agent/AgentModel";
 import { Message } from "../Message/MessageModel";
+import type { ThreadSchema } from "@mychat/shared/schemas/Thread";
 
 @Entity("Thread")
 export class Thread extends BaseEntity {
@@ -71,4 +72,16 @@ export class Thread extends BaseEntity {
 
 	@VersionColumn()
 	version: number;
+
+	toJSON(): ThreadSchema {
+		return {
+			id: this.id,
+			created: this.created,
+			lastModified: this.lastModified,
+			activeMessage: this.activeMessage?.toJSON?.(),
+			messages: this.messages?.map((message) => message.toJSON?.()),
+			title: this.title,
+			agent: this.agent.toJSON(),
+		};
+	}
 }

@@ -17,7 +17,7 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 		"preHandler",
 		getThread({
 			activeMessage: true,
-			messages: { files: true },
+			messages: { parent: true, children: true, files: true },
 		})
 	);
 
@@ -42,28 +42,24 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 		handler: MessageController.getMessageList,
 	});
 
-	// GET Message
-	app.get("/:messageId", {
-		schema: {
-			description: "Get Message.",
-			tags: ["Message"],
-			response: { 200: MessageObjectSchema },
-		},
-		preHandler: [getMessage()],
-		handler: async (req, res) => res.send(req.message),
-	});
-
 	await app.register(async (app) => {
 		app.addHook(
 			"preHandler",
 			getMessage({
 				parent: true,
 				children: true,
-				files: {
-					fileData: true,
-				},
 			})
 		);
+
+		// GET Message
+		app.get("/:messageId", {
+			schema: {
+				description: "Get Message.",
+				tags: ["Message"],
+				response: { 200: MessageObjectSchema },
+			},
+			handler: async (req, res) => res.send(req.message),
+		});
 
 		// PATCH Message
 		app.patch("/:messageId", {
@@ -95,16 +91,32 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 			handler: MessageFileController.createMessageFile,
 		});
 
-		// GET list of files for a message
-		app.get("/:messageId/files", {
-			schema: { description: "List Files for a Message.", tags: ["MessageFile"] },
-			handler: MessageFileController.getMessageFiles,
-		});
+		await app.register(async (app) => {
+			app.addHook(
+				"preHandler",
+				getMessage({
+					parent: true,
+					children: true,
+					files: {
+						fileData: true,
+					},
+				})
+			);
 
-		// GET file by message ID
-		app.get("/:messageId/files/:fileId", {
-			schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
-			handler: MessageFileController.getMessageFile,
+			// GET list of files for a message
+			app.get("/:messageId/files", {
+				schema: {
+					description: "List Files for a Message.",
+					tags: ["MessageFile"],
+				},
+				handler: MessageFileController.getMessageFiles,
+			});
+
+			// GET file by message ID
+			app.get("/:messageId/files/:fileId", {
+				schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
+				handler: MessageFileController.getMessageFile,
+			});
 		});
 	});
 }

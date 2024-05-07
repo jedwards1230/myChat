@@ -1,12 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import type { MessageCreateSchema } from "@mychat/shared/schemas/Message";
+import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
 
 import logger from "@/lib/logs/logger";
-import { getThreadRepo } from "@/modules/Thread/ThreadRepo";
-import type { Role } from "./RoleModel";
-import { getMessageRepo } from "./MessageRepo";
-import { Message } from "./MessageModel";
+import type { Message } from "./MessageModel";
+import { MessageFileController } from "../MessageFile/MessageFileController";
+import { pgRepo } from "@/lib/pg";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -14,19 +13,18 @@ export class MessageController {
 		const message = request.body as MessageCreateSchema;
 
 		try {
-			const { newMsg } = await getThreadRepo().addMessage(thread, {
+			const newMsg = await pgRepo["Thread"].addMessage(thread, {
 				role: message.role as Role,
 				content: message.content?.toString(),
 			});
 
-			await newMsg.reload();
 			if (!newMsg) {
 				return reply.status(500).send({
 					error: "Error creating message.",
 				});
 			}
-
-			reply.send(newMsg.toJSON());
+			await newMsg.reload();
+			reply.send(newMsg.toJSON?.());
 		} catch (error) {
 			logger.error("Error in POST /message", {
 				error,
@@ -40,19 +38,29 @@ export class MessageController {
 		const { message, thread } = request;
 		const { content } = request.body as { content: string };
 
-		const repo = request.server.orm.getTreeRepository(Message);
-		const updatedMessage = repo.create({
-			...message,
+		const updatedMessage = pgRepo["Message"].create({
+			thread: { id: thread.id },
+			role: message.role,
+			tool_calls: message.tool_calls,
+			tool_call_id: message.tool_call_id,
+			files: message.files,
+			tokenCount: message.tokenCount,
 			content,
-			parent: message.parent,
 		});
+		logger.debug("Updating message", { msg: message, updatedMessage });
 
-		await repo.save(updatedMessage);
+		const newMsg = await pgRepo["Thread"].addMessage(
+			thread,
+			updatedMessage,
+			message.parent?.id
+		);
 
-		thread.activeMessage = updatedMessage;
-		await thread.save();
+		await newMsg.reload();
+		if (!newMsg) return reply.status(500).send({ error: "Error creating message." });
 
-		reply.send(updatedMessage.toJSON());
+		logger.debug("Updated message", { newMsg });
+
+		reply.send(newMsg.toJSON());
 	}
 
 	static async deleteMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -81,10 +89,31 @@ export class MessageController {
 			});
 		}
 
-		const messages = await getMessageRepo().getMessageHistoryList(
-			thread.activeMessage
-		);
+		const messages = (
+			await pgRepo["Message"].findAncestors(thread.activeMessage, {
+				relations: ["tool_calls", "tool_call_id", "files", "parent", "children"],
+			})
+		).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
 		reply.send(messages.map((msg) => msg.toJSON()));
+	}
+
+	static async injectFileContent(message: Message) {
+		if (message.files) {
+			const files = await MessageFileController.parseFiles(message.files);
+
+			message.content = `${message.content}\n${files}`;
+		}
+		return message;
+	}
+
+	static async injectFilesContent(messages: Message[]) {
+		const parsed = messages.map(async (message) => {
+			return await MessageController.injectFileContent(message);
+		});
+
+		return (await Promise.all(parsed)).sort(
+			(a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+		);
 	}
 }

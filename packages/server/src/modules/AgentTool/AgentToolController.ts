@@ -6,12 +6,13 @@ import type {
 	AgentToolCreateSchema,
 	AgentToolUpdateSchema,
 } from "@mychat/shared/schemas/AgentTool";
+import { pgRepo } from "@/lib/pg";
 
 export class AgentToolController {
 	static async createAgentTool(request: FastifyRequest, reply: FastifyReply) {
 		const { agent } = request;
 		const agentTool = request.body as AgentToolCreateSchema;
-		const savedAgent = await request.server.orm.getRepository(AgentTool).save({
+		const savedAgent = await pgRepo["AgentTool"].save({
 			...agentTool,
 			agent,
 		});
@@ -29,9 +30,9 @@ export class AgentToolController {
 
 	static async getAgentTool(request: FastifyRequest, reply: FastifyReply) {
 		const { agentToolId } = request.params as { agentToolId: string };
-		const agentTool = await request.server.orm
-			.getRepository(AgentTool)
-			.findOne({ where: { id: agentToolId } });
+		const agentTool = await pgRepo["AgentTool"].findOne({
+			where: { id: agentToolId },
+		});
 		reply.send(agentTool);
 	}
 

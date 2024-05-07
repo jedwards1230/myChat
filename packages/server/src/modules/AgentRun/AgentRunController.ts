@@ -6,10 +6,10 @@ import logger from "@/lib/logs/logger";
 import type { Thread } from "../Thread/ThreadModel";
 
 import { AgentRunQueue } from "./AgentRunQueue";
-import { getAgentRunRepo } from "./AgentRunRepo";
 import type { AgentRun, RunType } from "./AgentRunModel";
 import type { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
 import type { ModelApi } from "../Models/types";
+import { pgRepo } from "@/lib/pg";
 
 export class AgentRunController {
 	/** Create an Agent Run and add it to the Queue */
@@ -26,7 +26,7 @@ export class AgentRunController {
 	}) {
 		try {
 			if (!thread?.activeMessage) throw new Error("No active message found");
-			const run = await getAgentRunRepo().save({
+			const run = await pgRepo["AgentRun"].save({
 				thread: { id: thread.id, activeMessage: thread.activeMessage },
 				agent: thread.agent,
 				stream,
@@ -139,7 +139,7 @@ export class AgentRunController {
 				chatResponseEmitter.removeListener("responseJSONReady", jsonHandler);
 				if (response.choices.length === 0) return reject();
 				const msg = response.choices[0]?.message;
-				if (msg === undefined) return reject()
+				if (msg === undefined) return reject();
 				resolve(msg);
 			};
 

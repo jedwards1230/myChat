@@ -13,6 +13,8 @@ export const UserSchema = z.object({
 	id: z.string(),
 	apiKey: z.string(),
 	name: z.string(),
+	email: z.string(),
+	profilePicture: z.optional(z.string()),
 	threads: z.optional(z.array(ThreadSchema)),
 	agents: z.optional(z.array(AgentObjectSchema)),
 	tools: z.optional(z.array(z.any())),

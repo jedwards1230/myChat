@@ -18,6 +18,7 @@ import { ModelMap } from "../Models/data";
 import { AgentTool } from "../AgentTool/AgentToolModel";
 import type { ModelApi } from "../Models/types";
 import { ToolsMap } from "@mychat/shared/tools/index";
+import type { AgentObjectSchema } from "@mychat/shared/schemas/Agent";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
@@ -69,5 +70,18 @@ export class Agent extends BaseEntity {
 	/** Get List of Agent Tools */
 	getTools() {
 		return this.tools.map((tool) => ToolsMap[tool.toolName]);
+	}
+
+	toJSON(): AgentObjectSchema {
+		return {
+			id: this.id,
+			createdAt: this.createdAt,
+			name: this.name,
+			model: this.model,
+			toolsEnabled: this.toolsEnabled,
+			systemMessage: this.systemMessage,
+			threads: this.threads?.map((thread) => thread.id) ?? [],
+			owner: this.owner?.id,
+		};
 	}
 }

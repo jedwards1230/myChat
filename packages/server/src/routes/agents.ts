@@ -34,7 +34,15 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 	});
 
 	await app.register(async (app) => {
-		app.addHook("preHandler", getAgent(["threads", "owner"]));
+		app.addHook(
+			"preHandler",
+			getAgent({
+				threads: {
+					messages: { parent: true, children: true },
+				},
+				owner: true,
+			})
+		);
 
 		// GET Agent by ID
 		app.get("/:agentId", {
@@ -64,8 +72,6 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 		});
 
 		await app.register(async (app) => {
-			app.addHook("preHandler", getAgent(["threads", "owner"]));
-
 			// GET Agent by ID
 			app.get("/:agentId/tool/:toolId", {
 				schema: {

@@ -8,7 +8,6 @@ export function HotkeyProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
-			console.log("keydown.web", e);
 			if (e.metaKey && e.key === "k") {
 				e.preventDefault();
 				toggleDialog();

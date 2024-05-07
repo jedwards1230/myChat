@@ -107,15 +107,19 @@ const buildFormData = async (fileList: FileInformation[]) => {
 	const formData = new FormData();
 	fileList.forEach((f, index) => {
 		if (!f.file) throw new Error("File not found");
-		// Append file buffer
-		formData.append(`file${index}`, f.file, f.name);
+		try {
+			// Append file buffer
+			formData.append(`file${index}`, f.file, f.name);
 
-		// Clone to avoid mutating original object when deleting file key
-		const metadata = { ...f };
-		delete metadata.buffer; // Remove the file object
+			// Clone to avoid mutating original object when deleting file key
+			const metadata = { ...f };
+			delete metadata.buffer; // Remove the file object
 
-		// Append metadata as a JSON string
-		formData.append(`metadata${index}`, JSON.stringify(metadata));
+			// Append metadata as a JSON string
+			formData.append(`metadata${index}`, JSON.stringify(metadata));
+		} catch (error) {
+			console.error("Error building form data", error);
+		}
 	});
 	return formData;
 };
