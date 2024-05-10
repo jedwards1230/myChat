@@ -1,4 +1,4 @@
-import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
+import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 
 import { useUserData } from "@/hooks/stores/useUserData";
 import type { MessageFile } from "@/types";
@@ -24,10 +24,10 @@ export const fileQueryOptions = (
 	});
 };
 
-export const useFileQuery = (threadId: string, messageId: string, fileId: string) => {
+/* export const useFileQuery = (threadId: string, messageId: string, fileId: string) => {
 	const apiKey = useUserData((s) => s.apiKey);
 	return useQuery(fileQueryOptions(apiKey, threadId, messageId, fileId));
-};
+}; */
 
 export const useFileSuspenseQuery = (
 	threadId: string,

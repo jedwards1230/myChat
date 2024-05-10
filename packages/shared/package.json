@@ -28,6 +28,6 @@
 	"dependencies": {
 		"langchain": "^0.1.36",
 		"playwright": "^1.44.0",
-		"zod": "^3.23.6"
+		"zod": "^3.23.8"
 	}
 }

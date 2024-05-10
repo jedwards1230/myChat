@@ -1,6 +1,6 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 
-import { AgentTool } from "./AgentToolModel";
+import type { AgentTool } from "./AgentToolModel";
 import { Tools } from "@mychat/shared/tools/index";
 import type {
 	AgentToolCreateSchema,
