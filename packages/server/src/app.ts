@@ -20,9 +20,9 @@ import { setupDatabase } from "./hooks/setupDatabase";
 
 import { setupUserRoute } from "./routes/user";
 import { setupAgentsRoute } from "./routes/agents";
-import { setupMessagesRoute } from "./routes/threads/messages";
-import { setupThreadsRoute } from "./routes/threads/threads";
-import { setupAgentRunsRoute } from "./routes/threads/runs";
+import { setupMessagesRoute } from "./routes/messages";
+import { setupThreadsRoute } from "./routes/threads";
+import { setupAgentRunsRoute } from "./routes/runs";
 import { setupServerRoute } from "./routes/server";
 import { setupModelsRoute } from "./routes/models";
 

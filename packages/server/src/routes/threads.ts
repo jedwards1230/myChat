@@ -1,11 +1,14 @@
 import type { FastifyInstance } from "fastify";
 
 import { getThread } from "@/hooks/getThread";
-import { ThreadSchema, ThreadListSchema } from "@mychat/shared/schemas/Thread";
+import {
+	ThreadSchema,
+	ThreadListSchema,
+	ThreadPatchSchema,
+} from "@mychat/shared/schemas/Thread";
 import { ThreadController } from "@/modules/Thread/ThreadController";
 
 export async function setupThreadsRoute(app: FastifyInstance) {
-	// GET Thread History for user
 	app.get("/", {
 		schema: {
 			description: "List Threads for User.",
@@ -16,7 +19,6 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 			reply.send(request.user.threads.map((t) => t.toJSON())),
 	});
 
-	// POST Create a new thread
 	app.post("/", {
 		schema: {
 			description: "Create new Thread.",
@@ -26,7 +28,6 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 		handler: ThreadController.createThread,
 	});
 
-	// DELETE All Threads for a user
 	app.delete("/", {
 		schema: { description: "Delete all Threads for User.", tags: ["Thread"] },
 		handler: ThreadController.deleteAllThreads,
@@ -41,7 +42,6 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 			})
 		);
 
-		// GET Thread by ID
 		app.get("/:threadId", {
 			schema: {
 				description: "Get Thread by ID.",
@@ -51,17 +51,16 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 			handler: async (req, res) => res.send(req.thread.toJSON()),
 		});
 
-		// POST Update a thread by ID
-		app.post("/:threadId", {
+		app.patch("/:threadId", {
 			schema: {
-				description: "Update Thread by ID.",
+				description: "Patch Thread by ID.",
 				tags: ["Thread"],
+				body: ThreadPatchSchema,
 				response: { 200: ThreadSchema },
 			},
 			handler: ThreadController.updateThread,
 		});
 
-		// DELETE Thread by ID
 		app.delete("/:threadId", {
 			schema: { description: "Delete Thread by ID.", tags: ["Thread"] },
 			handler: ThreadController.deleteThread,
