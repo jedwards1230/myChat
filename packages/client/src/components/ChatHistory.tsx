@@ -55,7 +55,7 @@ export default function ChatHistory({
 				>
 					{messageGroups.map((item, index) => (
 						<MessageGroup
-							key={index.toString()}
+							key={index.toString() + item.messages.length}
 							item={item}
 							index={index}
 							isLoading={isLoading}
