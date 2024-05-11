@@ -28,7 +28,7 @@
 		"gpt4-tokenizer": "^1.3.0",
 		"install": "^0.13.0",
 		"json-stringify-safe": "^5.0.1",
-		"openai": "^4.44.0",
+		"openai": "^4.45.0",
 		"pg": "^8.11.5",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "^0.3.20",
