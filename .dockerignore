@@ -1,9 +1,9 @@
-/**/db/
 /packages/server/node_modules/
 /packages/server/logs/
 
 /packages/client/node_modules/
 /packages/client/ios/
+/packages/client/dist/
 /**/tests/
 node_modules/
 .turbo/

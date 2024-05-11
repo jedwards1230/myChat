@@ -18,7 +18,8 @@
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
 		"compose:prod": "docker compose -f production.yml",
-		"clean": "turbo clean && rm -rf node_modules && yarn cache clean"
+		"clean": "turbo clean && rm -rf node_modules && yarn cache clean",
+		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8"
 	},
 	"keywords": [],
 	"author": "",
