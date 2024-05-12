@@ -7,6 +7,7 @@ import tokenizer from "@/lib/tokenizer";
 
 import type { MessageFile } from "./MessageFileModel";
 import { pgRepo } from "@/lib/pg";
+//import vectorstore from "@/lib/langchain/vectorstore";
 
 export type MessageFileMetadata = {
 	name: string;
@@ -19,6 +20,7 @@ export type PreppedFile = {
 	buffer?: Buffer;
 	file: MultipartFile;
 	metadata: MessageFileMetadata;
+	text?: string;
 	tokens?: number;
 };
 
@@ -49,7 +51,6 @@ export class MessageFileController {
 			return res.status(400).send({ error: "Request must be multipart." });
 		}
 		try {
-			const message = req.message;
 			const parts = req.parts();
 			const filesRaw: MultipartFile[] = [];
 			const metadataRaw: MessageFileMetadata[] = [];
@@ -77,7 +78,12 @@ export class MessageFileController {
 				files.push({ ...res, file, metadata });
 			}
 
-			const newMsg = await pgRepo["MessageFile"].addFileList(files, message);
+			const newMsg = await pgRepo["MessageFile"].addFileList(files, req.message);
+			/* await MessageFileController.saveToVectorStore(files, {
+				userId: req.user.id,
+				messageId: newMsg.id,
+				threadId: req.thread.id,
+			}); */
 
 			res.send(newMsg);
 		} catch (error) {
@@ -89,12 +95,37 @@ export class MessageFileController {
 		}
 	}
 
+	/* private static isParsable(file: PreppedFile): file is PreppedFile & { text: string } {
+		return file.text !== undefined;
+	} */
+
+	/* private static async saveToVectorStore(
+		files: PreppedFile[],
+		meta: { userId: string; messageId: string; threadId: string }
+	) {
+		vectorstore.addDocuments(
+			...files.filter(MessageFileController.isParsable).map((file) => ({
+				pageContent: file.text,
+				metadata: {
+					...file.metadata,
+					...meta,
+					name: file.metadata.name,
+					href: file.metadata.relativePath,
+					file: undefined,
+					id: undefined,
+					local: undefined,
+					text: undefined,
+				},
+			}))
+		);
+	} */
+
 	private static async tokenizeFile(file: MultipartFile) {
 		try {
 			const buffer = await file.toBuffer();
 			const text = buffer.toString("utf-8");
 			const tokens = tokenizer.estimateTokenCount(text);
-			return { buffer, tokens };
+			return { buffer, text, tokens };
 		} catch (error) {
 			logger.error("Error tokenizing file", {
 				error,
@@ -117,23 +148,32 @@ export class MessageFileController {
     */
 	static async parseFiles(files: MessageFile[]) {
 		try {
+			if (!files.length) throw new Error("No files found");
+			const readyFiles = files.filter((file) => file.parsedText);
+			const nonReadyFiles = files.filter((file) => !file.parsedText);
+
 			// get fileData for all files
 			const loadedFiles = await pgRepo["MessageFile"].find({
-				where: { id: In(files.map((file) => file.id)) },
+				where: { id: In(nonReadyFiles.map((file) => file.id)) },
 				relations: ["fileData"],
 			});
 
 			const parsableFiles: MessageFile[] = [];
 
+			const formatText = (file: MessageFile) =>
+				`// ${file.path || file.name}\n\`\`\`\n${file.parsedText}\n\`\`\``;
+
 			const parsedFiles = loadedFiles
 				.map((file) => {
 					const text = file.fileData.blob.toString("utf-8");
 					if (!text) return;
-					file.parsable = true;
+					file.parsedText = text;
 					parsableFiles.push(file);
-					return `// ${file.path || file.name}\n\`\`\`\n${text}\n\`\`\``;
+					return file;
 				})
-				.filter((file) => file !== undefined);
+				.filter((file) => file !== undefined)
+				.concat(readyFiles)
+				.map(formatText);
 
 			await pgRepo["MessageFile"].save(parsableFiles);
 

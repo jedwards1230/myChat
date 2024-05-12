@@ -3125,6 +3125,300 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@langchain/community@npm:^0.0.56":
+  version: 0.0.56
+  resolution: "@langchain/community@npm:0.0.56"
+  dependencies:
+    "@langchain/core": "npm:~0.1.60"
+    "@langchain/openai": "npm:~0.0.28"
+    expr-eval: "npm:^2.0.2"
+    flat: "npm:^5.0.2"
+    langsmith: "npm:~0.1.1"
+    uuid: "npm:^9.0.0"
+    zod: "npm:^3.22.3"
+    zod-to-json-schema: "npm:^3.22.5"
+  peerDependencies:
+    "@aws-crypto/sha256-js": ^5.0.0
+    "@aws-sdk/client-bedrock-agent-runtime": ^3.485.0
+    "@aws-sdk/client-bedrock-runtime": ^3.422.0
+    "@aws-sdk/client-dynamodb": ^3.310.0
+    "@aws-sdk/client-kendra": ^3.352.0
+    "@aws-sdk/client-lambda": ^3.310.0
+    "@aws-sdk/client-sagemaker-runtime": ^3.310.0
+    "@aws-sdk/client-sfn": ^3.310.0
+    "@aws-sdk/credential-provider-node": ^3.388.0
+    "@azure/search-documents": ^12.0.0
+    "@clickhouse/client": ^0.2.5
+    "@cloudflare/ai": "*"
+    "@datastax/astra-db-ts": ^1.0.0
+    "@elastic/elasticsearch": ^8.4.0
+    "@getmetal/metal-sdk": "*"
+    "@getzep/zep-js": ^0.9.0
+    "@gomomento/sdk": ^1.51.1
+    "@gomomento/sdk-core": ^1.51.1
+    "@google-ai/generativelanguage": ^0.2.1
+    "@gradientai/nodejs-sdk": ^1.2.0
+    "@huggingface/inference": ^2.6.4
+    "@mozilla/readability": "*"
+    "@neondatabase/serverless": "*"
+    "@opensearch-project/opensearch": "*"
+    "@pinecone-database/pinecone": "*"
+    "@planetscale/database": ^1.8.0
+    "@premai/prem-sdk": ^0.3.25
+    "@qdrant/js-client-rest": ^1.8.2
+    "@raycast/api": ^1.55.2
+    "@rockset/client": ^0.9.1
+    "@smithy/eventstream-codec": ^2.0.5
+    "@smithy/protocol-http": ^3.0.6
+    "@smithy/signature-v4": ^2.0.10
+    "@smithy/util-utf8": ^2.0.0
+    "@supabase/postgrest-js": ^1.1.1
+    "@supabase/supabase-js": ^2.10.0
+    "@tensorflow-models/universal-sentence-encoder": "*"
+    "@tensorflow/tfjs-converter": "*"
+    "@tensorflow/tfjs-core": "*"
+    "@upstash/redis": ^1.20.6
+    "@upstash/vector": ^1.0.7
+    "@vercel/kv": ^0.2.3
+    "@vercel/postgres": ^0.5.0
+    "@writerai/writer-sdk": ^0.40.2
+    "@xata.io/client": ^0.28.0
+    "@xenova/transformers": ^2.5.4
+    "@zilliz/milvus2-sdk-node": ">=2.2.7"
+    better-sqlite3: ^9.4.0
+    cassandra-driver: ^4.7.2
+    cborg: ^4.1.1
+    chromadb: "*"
+    closevector-common: 0.1.3
+    closevector-node: 0.1.6
+    closevector-web: 0.1.6
+    cohere-ai: "*"
+    convex: ^1.3.1
+    couchbase: ^4.3.0
+    discord.js: ^14.14.1
+    dria: ^0.0.3
+    duck-duck-scrape: ^2.2.5
+    faiss-node: ^0.5.1
+    firebase-admin: ^11.9.0 || ^12.0.0
+    google-auth-library: ^8.9.0
+    googleapis: ^126.0.1
+    hnswlib-node: ^3.0.0
+    html-to-text: ^9.0.5
+    interface-datastore: ^8.2.11
+    ioredis: ^5.3.2
+    it-all: ^3.0.4
+    jsdom: "*"
+    jsonwebtoken: ^9.0.2
+    llmonitor: ^0.5.9
+    lodash: ^4.17.21
+    lunary: ^0.6.11
+    mongodb: ">=5.2.0"
+    mysql2: ^3.3.3
+    neo4j-driver: "*"
+    node-llama-cpp: "*"
+    pg: ^8.11.0
+    pg-copy-streams: ^6.0.5
+    pickleparser: ^0.2.1
+    portkey-ai: ^0.1.11
+    redis: "*"
+    replicate: ^0.18.0
+    typeorm: ^0.3.12
+    typesense: ^1.5.3
+    usearch: ^1.1.1
+    vectordb: ^0.1.4
+    voy-search: 0.6.2
+    weaviate-ts-client: "*"
+    web-auth-library: ^1.0.3
+    ws: ^8.14.2
+  peerDependenciesMeta:
+    "@aws-crypto/sha256-js":
+      optional: true
+    "@aws-sdk/client-bedrock-agent-runtime":
+      optional: true
+    "@aws-sdk/client-bedrock-runtime":
+      optional: true
+    "@aws-sdk/client-dynamodb":
+      optional: true
+    "@aws-sdk/client-kendra":
+      optional: true
+    "@aws-sdk/client-lambda":
+      optional: true
+    "@aws-sdk/client-sagemaker-runtime":
+      optional: true
+    "@aws-sdk/client-sfn":
+      optional: true
+    "@aws-sdk/credential-provider-node":
+      optional: true
+    "@azure/search-documents":
+      optional: true
+    "@clickhouse/client":
+      optional: true
+    "@cloudflare/ai":
+      optional: true
+    "@datastax/astra-db-ts":
+      optional: true
+    "@elastic/elasticsearch":
+      optional: true
+    "@getmetal/metal-sdk":
+      optional: true
+    "@getzep/zep-js":
+      optional: true
+    "@gomomento/sdk":
+      optional: true
+    "@gomomento/sdk-core":
+      optional: true
+    "@google-ai/generativelanguage":
+      optional: true
+    "@gradientai/nodejs-sdk":
+      optional: true
+    "@huggingface/inference":
+      optional: true
+    "@mozilla/readability":
+      optional: true
+    "@neondatabase/serverless":
+      optional: true
+    "@opensearch-project/opensearch":
+      optional: true
+    "@pinecone-database/pinecone":
+      optional: true
+    "@planetscale/database":
+      optional: true
+    "@premai/prem-sdk":
+      optional: true
+    "@qdrant/js-client-rest":
+      optional: true
+    "@raycast/api":
+      optional: true
+    "@rockset/client":
+      optional: true
+    "@smithy/eventstream-codec":
+      optional: true
+    "@smithy/protocol-http":
+      optional: true
+    "@smithy/signature-v4":
+      optional: true
+    "@smithy/util-utf8":
+      optional: true
+    "@supabase/postgrest-js":
+      optional: true
+    "@supabase/supabase-js":
+      optional: true
+    "@tensorflow-models/universal-sentence-encoder":
+      optional: true
+    "@tensorflow/tfjs-converter":
+      optional: true
+    "@tensorflow/tfjs-core":
+      optional: true
+    "@upstash/redis":
+      optional: true
+    "@upstash/vector":
+      optional: true
+    "@vercel/kv":
+      optional: true
+    "@vercel/postgres":
+      optional: true
+    "@writerai/writer-sdk":
+      optional: true
+    "@xata.io/client":
+      optional: true
+    "@xenova/transformers":
+      optional: true
+    "@zilliz/milvus2-sdk-node":
+      optional: true
+    better-sqlite3:
+      optional: true
+    cassandra-driver:
+      optional: true
+    cborg:
+      optional: true
+    chromadb:
+      optional: true
+    closevector-common:
+      optional: true
+    closevector-node:
+      optional: true
+    closevector-web:
+      optional: true
+    cohere-ai:
+      optional: true
+    convex:
+      optional: true
+    couchbase:
+      optional: true
+    discord.js:
+      optional: true
+    dria:
+      optional: true
+    duck-duck-scrape:
+      optional: true
+    faiss-node:
+      optional: true
+    firebase-admin:
+      optional: true
+    google-auth-library:
+      optional: true
+    googleapis:
+      optional: true
+    hnswlib-node:
+      optional: true
+    html-to-text:
+      optional: true
+    interface-datastore:
+      optional: true
+    ioredis:
+      optional: true
+    it-all:
+      optional: true
+    jsdom:
+      optional: true
+    jsonwebtoken:
+      optional: true
+    llmonitor:
+      optional: true
+    lodash:
+      optional: true
+    lunary:
+      optional: true
+    mongodb:
+      optional: true
+    mysql2:
+      optional: true
+    neo4j-driver:
+      optional: true
+    node-llama-cpp:
+      optional: true
+    pg:
+      optional: true
+    pg-copy-streams:
+      optional: true
+    pickleparser:
+      optional: true
+    portkey-ai:
+      optional: true
+    redis:
+      optional: true
+    replicate:
+      optional: true
+    typeorm:
+      optional: true
+    typesense:
+      optional: true
+    usearch:
+      optional: true
+    vectordb:
+      optional: true
+    voy-search:
+      optional: true
+    weaviate-ts-client:
+      optional: true
+    web-auth-library:
+      optional: true
+    ws:
+      optional: true
+  checksum: 10c0/2206682c3bed853c38807b0cf8916b72bc013cab4f7635c7c45340ced1e58dabf697339e78cc304117067249e2f634234323f94238e0f751f623cc1e6742719a
+  languageName: node
+  linkType: hard
+
 "@langchain/community@npm:~0.0.47":
   version: 0.0.53
   resolution: "@langchain/community@npm:0.0.53"
@@ -3439,7 +3733,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/openai@npm:~0.0.28":
+"@langchain/openai@npm:^0.0.28, @langchain/openai@npm:~0.0.28":
   version: 0.0.28
   resolution: "@langchain/openai@npm:0.0.28"
   dependencies:
@@ -3507,7 +3801,7 @@ __metadata:
     "@radix-ui/react-select": "npm:^2.0.0"
     "@radix-ui/react-switch": "npm:^1.0.3"
     "@react-native-async-storage/async-storage": "npm:1.23.1"
-    "@react-native-community/netinfo": "npm:^11.3.1"
+    "@react-native-community/netinfo": "npm:^11.3.2"
     "@react-native-picker/picker": "npm:^2.7.5"
     "@react-navigation/drawer": "patch:@react-navigation/drawer@npm%3A6.6.15#~/.yarn/patches/@react-navigation-drawer-npm-6.6.15-71d68eeb0b.patch"
     "@react-navigation/elements": "npm:^1.3.30"
@@ -3515,10 +3809,10 @@ __metadata:
     "@react-navigation/native-stack": "npm:^6.9.26"
     "@react-navigation/routers": "patch:@react-navigation/routers@npm%3A6.1.9#~/.yarn/patches/@react-navigation-routers-npm-6.1.9-b734e539f1.patch"
     "@shopify/flash-list": "npm:^1.6.4"
-    "@tanstack/eslint-plugin-query": "npm:^5.32.1"
-    "@tanstack/query-async-storage-persister": "npm:^5.35.5"
-    "@tanstack/react-query": "npm:^5.35.5"
-    "@tanstack/react-query-persist-client": "npm:^5.35.5"
+    "@tanstack/eslint-plugin-query": "npm:^5.35.6"
+    "@tanstack/query-async-storage-persister": "npm:^5.36.0"
+    "@tanstack/react-query": "npm:^5.36.0"
+    "@tanstack/react-query-persist-client": "npm:^5.36.0"
     "@types/babel__plugin-transform-runtime": "npm:^7.9.5"
     "@types/react": "npm:~18.3.2"
     "@types/react-dom": "npm:^18.3.0"
@@ -3627,6 +3921,8 @@ __metadata:
     "@fastify/static": "npm:^7.0.4"
     "@fastify/swagger": "npm:^8.14.0"
     "@fastify/swagger-ui": "npm:^3.0.0"
+    "@langchain/community": "npm:^0.0.56"
+    "@langchain/openai": "npm:^0.0.28"
     "@mychat/eslint-config": "workspace:*"
     "@mychat/shared": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
@@ -3643,6 +3939,7 @@ __metadata:
     install: "npm:^0.13.0"
     jest: "npm:^29.7.0"
     json-stringify-safe: "npm:^5.0.1"
+    langchain: "npm:^0.1.37"
     openai: "npm:^4.45.0"
     openapi-types: "npm:^12.1.3"
     pg: "npm:^8.11.5"
@@ -4711,12 +5008,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@react-native-community/netinfo@npm:^11.3.1":
-  version: 11.3.1
-  resolution: "@react-native-community/netinfo@npm:11.3.1"
+"@react-native-community/netinfo@npm:^11.3.2":
+  version: 11.3.2
+  resolution: "@react-native-community/netinfo@npm:11.3.2"
   peerDependencies:
     react-native: ">=0.59"
-  checksum: 10c0/a74348321b262e6a99d01e5fa71473b34c12319845139cdf8e95fcd474b4022f9a3f50e506acecd7538ca44afbd75df09fce048184b1ea322edf45ed21ab134a
+  checksum: 10c0/1f54960ca49edbc226e48e7b7788e457e25d1a0770501c09f63e587873a905b80168231ebd13f4013bb34c865f5a36f26e330058c3e1be84e865c21b5aca92b6
   languageName: node
   linkType: hard
 
@@ -5330,62 +5627,62 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tanstack/eslint-plugin-query@npm:^5.32.1":
-  version: 5.32.1
-  resolution: "@tanstack/eslint-plugin-query@npm:5.32.1"
+"@tanstack/eslint-plugin-query@npm:^5.35.6":
+  version: 5.35.6
+  resolution: "@tanstack/eslint-plugin-query@npm:5.35.6"
   dependencies:
     "@typescript-eslint/utils": "npm:^6.20.0"
   peerDependencies:
     eslint: ^8.0.0
-  checksum: 10c0/9be7a43f44be6d4ee7595e9239fc2a8072c20cf0039644431ea9f1023cf0d3a1afebfb4fc33151cf1618e213c5b3bc240d4f69fcc07471c3f49f2c3121ed99f6
+  checksum: 10c0/6a61d93a8864d18d502717d4166af57c18480149dc801a6384d9b445222ef5506c3b974281cad6a6905c100a27f500ccab23b50f3ad57097f5597596524b28e2
   languageName: node
   linkType: hard
 
-"@tanstack/query-async-storage-persister@npm:^5.35.5":
-  version: 5.35.5
-  resolution: "@tanstack/query-async-storage-persister@npm:5.35.5"
+"@tanstack/query-async-storage-persister@npm:^5.36.0":
+  version: 5.36.0
+  resolution: "@tanstack/query-async-storage-persister@npm:5.36.0"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.35.5"
-  checksum: 10c0/62e209647197cb06b268180c93c5698d1fa0cd79542bdf8763c7377e22125acd1007e532926dfb2384d173e8f15e3b7c6f90f3b6d168d0cfde1ad70251918d02
+    "@tanstack/query-persist-client-core": "npm:5.36.0"
+  checksum: 10c0/373fd77c394ccb55cdd55b65d2fdb34eef768804e550a77f40bbb2075b7be1f909039825f5c1d646e6be6eac66d4856c11332ad84b3e3802f555c9deeea2225d
   languageName: node
   linkType: hard
 
-"@tanstack/query-core@npm:5.35.5":
-  version: 5.35.5
-  resolution: "@tanstack/query-core@npm:5.35.5"
-  checksum: 10c0/9c201a7ba2883f6fbab1b229311b249191780bccf46998232ec1e49e43fb4fc605caf37a9a8c8807f5a7c5ea9147925ce77d66357173b313994b2d33fc7c28d0
+"@tanstack/query-core@npm:5.36.0":
+  version: 5.36.0
+  resolution: "@tanstack/query-core@npm:5.36.0"
+  checksum: 10c0/e68b44eba933bcfb2a3f31ffd5db56c4102396e9598c9bf6e93ef924e625b755e21e4e3dcd919f158dc161dcc83e8249ddba20b71e6717d7d3db896c399f00f4
   languageName: node
   linkType: hard
 
-"@tanstack/query-persist-client-core@npm:5.35.5":
-  version: 5.35.5
-  resolution: "@tanstack/query-persist-client-core@npm:5.35.5"
+"@tanstack/query-persist-client-core@npm:5.36.0":
+  version: 5.36.0
+  resolution: "@tanstack/query-persist-client-core@npm:5.36.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.35.5"
-  checksum: 10c0/c471ea2e98b608b63c150199915a74917f204f5a8354af97d26edd64b31ff93f52778e896dfb55c32d856655c240daf1a4b311877e4d83d983e6d651f970fbc3
+    "@tanstack/query-core": "npm:5.36.0"
+  checksum: 10c0/b97ada20d69b24d960d6fbe60016878f1932208f72bac038dd3b1891c94bda3ca71fd71ee01f9c5405a6fa2b82ec378664d0bfe7e1a71a830d8a341bc5d71177
   languageName: node
   linkType: hard
 
-"@tanstack/react-query-persist-client@npm:^5.35.5":
-  version: 5.35.5
-  resolution: "@tanstack/react-query-persist-client@npm:5.35.5"
+"@tanstack/react-query-persist-client@npm:^5.36.0":
+  version: 5.36.0
+  resolution: "@tanstack/react-query-persist-client@npm:5.36.0"
   dependencies:
-    "@tanstack/query-persist-client-core": "npm:5.35.5"
+    "@tanstack/query-persist-client-core": "npm:5.36.0"
   peerDependencies:
-    "@tanstack/react-query": ^5.35.5
+    "@tanstack/react-query": ^5.36.0
     react: ^18.0.0
-  checksum: 10c0/684b5d30a24a9d340cc1f7fd7a18fb45263a31804a1081a9d859d57b49064c01fa63c5d5e031d1692ae605d06f2b1438e1aae48b462dc7feba5593cba3d1dace
+  checksum: 10c0/08d0ff2ae63e5c989f3c7eba30fa609f2a6446e1b1ae293ed2d038f1c60933ac9f2651135842b93d13901c26b192374bce17de1488f9cbe72a09c19487f68d5f
   languageName: node
   linkType: hard
 
-"@tanstack/react-query@npm:^5.35.5":
-  version: 5.35.5
-  resolution: "@tanstack/react-query@npm:5.35.5"
+"@tanstack/react-query@npm:^5.36.0":
+  version: 5.36.0
+  resolution: "@tanstack/react-query@npm:5.36.0"
   dependencies:
-    "@tanstack/query-core": "npm:5.35.5"
+    "@tanstack/query-core": "npm:5.36.0"
   peerDependencies:
     react: ^18.0.0
-  checksum: 10c0/171c3192edfb2bbe7d79908fa0f035774453fc55d1f5917c9ede9b7d93cc2b61f5e9a822559e89798af9fc2274b581fc9b5ec1a2dd204dc79d6e54439d85f410
+  checksum: 10c0/d6372ad8d956b1ee578afad3a062a1c8011c4cd72a659d99f626a94e1d3f5d73116c77709fdb8e332fe3f846770f76bf97f7415e32bca644bdb48a27da9c50f5
   languageName: node
   linkType: hard
 

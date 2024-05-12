@@ -27,6 +27,14 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	ios: {
 		supportsTablet: true,
 		bundleIdentifier: PACKAGE_BUNDLE,
+		privacyManifests: {
+			NSPrivacyAccessedAPITypes: [
+				{
+					NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryUserDefaults",
+					NSPrivacyAccessedAPITypeReasons: ["CA92.1"],
+				},
+			],
+		},
 	},
 	android: {
 		package: PACKAGE_BUNDLE,
@@ -48,5 +56,5 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 	],
 	experiments: { typedRoutes: true },
 	owner: OWNER,
-	extra: { eas: { projectId: PROJECT_ID } },
+	extra: { eas: { projectId: "6dd9e755-8579-4148-8591-94a3d882d7f5" } },
 });

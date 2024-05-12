@@ -2,7 +2,7 @@ import stringify from "json-stringify-safe";
 import { format } from "winston";
 import fs from "fs";
 import path from "path";
-import { Config } from "@/config";
+//import { Config } from "@/config";
 
 const DIR_NAME = "logs";
 const LOGS_DIR = path.normalize(path.join(process.cwd(), DIR_NAME));
@@ -75,4 +75,5 @@ function purgeLogFiles() {
 	return LOGS_DIR;
 }
 
-export const getLogsDir = () => (Config.isProd ? purgeLogFiles() : LOGS_DIR);
+//export const getLogsDir = () => (Config.isProd ? purgeLogFiles() : LOGS_DIR);
+export const getLogsDir = () => purgeLogFiles();

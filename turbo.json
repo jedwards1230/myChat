@@ -5,7 +5,7 @@
 			"outputs": []
 		},
 		"tsc": {
-			"dependsOn": ["^lint", "^tsc"],
+			"dependsOn": ["^lint", "lint", "^tsc"],
 			"inputs": ["**/*.{ts,tsx}"],
 			"outputs": []
 		},

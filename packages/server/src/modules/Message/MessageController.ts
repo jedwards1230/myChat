@@ -99,18 +99,17 @@ export class MessageController {
 	}
 
 	static async injectFileContent(message: Message) {
-		if (message.files) {
+		if (message.files && message.files.length > 0) {
 			const files = await MessageFileController.parseFiles(message.files);
-
 			message.content = `${message.content}\n${files}`;
 		}
 		return message;
 	}
 
 	static async injectFilesContent(messages: Message[]) {
-		const parsed = messages.map(async (message) => {
-			return await MessageController.injectFileContent(message);
-		});
+		const parsed = messages.map(async (message) =>
+			MessageController.injectFileContent(message)
+		);
 
 		return (await Promise.all(parsed)).sort(
 			(a, b) => a.createdAt.getTime() - b.createdAt.getTime()

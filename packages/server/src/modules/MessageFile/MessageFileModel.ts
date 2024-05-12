@@ -69,9 +69,9 @@ export class MessageFile extends BaseEntity {
 	@JoinColumn()
 	fileData: Relation<FileData>;
 
-	/** Verified parsable */
-	@Column({ type: "boolean", default: false })
-	parsable: boolean;
+	/** Parsed Text */
+	@Column({ type: "text", nullable: true })
+	parsedText?: string;
 
 	// relation to Message.
 	@ManyToOne(() => Message, (message) => message.files, {
