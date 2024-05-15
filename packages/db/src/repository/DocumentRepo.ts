@@ -24,21 +24,21 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 	return ds.getRepository(DatabaseDocument).extend({
 		async addDocuments(...docs: DocumentInsertParams[]): Promise<DatabaseDocument[]> {
 			const embeddings = await generateEmbeddings(docs.map((doc) => doc.decoded));
-			const docsPromise = docs.map((doc, i) => {
-				try {
-					const embedding = embedItemRepo.create({
-						embedding: pgvector.toSql(embeddings[i]),
-					});
-					return this.create({ ...doc, embedding: { id: embedding.id } });
-				} catch (error) {
-					logger.error("Error adding document", {
-						error,
-						functionName: "extendedDocumentRepo.addDocuments",
-					});
-					throw error;
-				}
-			});
-			return Promise.all(docsPromise);
+
+			const savedEmbeddings = await embedItemRepo.save(
+				embeddings.map((e) =>
+					embedItemRepo.create({ embedding: pgvector.toSql(e) })
+				)
+			);
+
+			const savedDocs = await this.save(
+				docs.map((doc, i) => ({
+					...doc,
+					embedding: savedEmbeddings[i],
+				}))
+			);
+
+			return savedDocs;
 		},
 
 		async searchDocuments(

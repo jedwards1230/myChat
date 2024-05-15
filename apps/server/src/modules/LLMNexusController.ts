@@ -107,12 +107,6 @@ export class LLMNexusController {
 					`\n\nThe following are your memories, influenced by recent conversation:\n\n` +
 					JSON.stringify(ragRes.map((d) => d.metadata));
 
-			logger.debug("Generating chat response", {
-				activeMessageContent,
-				systemMessage,
-				functionName: "LLMNexusController.generateChatResponse",
-			});
-
 			const completion = await llmServce.createChatCompletion(
 				messages.map((m) => m.toJSON()),
 				opts

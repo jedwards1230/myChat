@@ -5,16 +5,14 @@ export class TypeormOverride1715762548551 implements MigrationInterface {
 
 	public async up(queryRunner: QueryRunner): Promise<void> {
 		await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS vector;`);
-		await queryRunner.query(`DROP TABLE IF EXISTS embed_item;`);
 		await queryRunner.query(
-			`CREATE TABLE embed_item (id bigserial PRIMARY KEY, embedding vector(1536) NOT NULL)`
+			`ALTER TABLE embed_item ALTER COLUMN embedding TYPE vector(1536) USING embedding::vector(1536);`
 		);
 	}
 
 	public async down(queryRunner: QueryRunner): Promise<void> {
-		await queryRunner.query(`DROP TABLE IF EXISTS embed_item;`);
 		await queryRunner.query(
-			`CREATE TABLE embed_item (id bigserial PRIMARY KEY, embedding text NOT NULL)`
+			`ALTER TABLE embed_item ALTER COLUMN embedding TYPE text USING embedding::text;`
 		);
 	}
 }
