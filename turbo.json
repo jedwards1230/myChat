@@ -12,21 +12,24 @@
 		"test": {
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
+		"migration:run": {
+			"outputs": []
+		},
 		"build": {
 			"dependsOn": ["^tsc", "tsc", "^build"],
 			"outputs": ["node_modules/.cache/metro/**"]
 		},
 		"dev": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["^build", "migration:run"],
 			"cache": false,
 			"interactive": true,
 			"persistent": true
 		},
 		"start": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "migration:run"]
 		},
 		"start:prod": {
-			"dependsOn": ["^build"]
+			"dependsOn": ["^build", "migration:run"]
 		},
 		"clean": {}
 	}

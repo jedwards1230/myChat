@@ -1,7 +1,7 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
 
-import { dbLogger } from "./logger";
+import { typeormLogger } from "./logger";
 
 import { User } from "./entity/User";
 import { Agent } from "./entity/Agent";
@@ -36,7 +36,7 @@ export const AppDataSource = new DataSource({
 		DatabaseDocument,
 		AgentRun,
 	],
-	logger: dbLogger,
-	migrations: ["migrations/*.ts"],
+	logger: process.env.ENABLE_DB_LOGGER ? typeormLogger : undefined,
+	migrations: [`${__dirname}/**/migration/*.{ts,js}`],
 	subscribers: [],
 });

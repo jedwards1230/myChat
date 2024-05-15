@@ -1,19 +1,19 @@
 import winston from "winston";
-import { getLogsDir } from "./utils";
+import { purgeLogFiles } from "./utils";
 import { formats } from "./formats";
 import { buildLogger } from "./logger";
 
-export function buildServerLogger() {
-	const { SERVER_LOGS_DIR } = getLogsDir("server");
+export function buildServerLogger(path: string) {
+	purgeLogFiles(path);
 
-	const logger = buildLogger(SERVER_LOGS_DIR);
+	const logger = buildLogger(path);
 
 	const streamLogger = winston.createLogger({
 		level: "debug",
 		format: formats.streamLog,
 		transports: [
 			new winston.transports.File({
-				filename: SERVER_LOGS_DIR + "/stream.log",
+				filename: path + "/stream.log",
 			}),
 		],
 	});
@@ -23,7 +23,7 @@ export function buildServerLogger() {
 		format: formats.accessLog,
 		transports: [
 			new winston.transports.File({
-				filename: SERVER_LOGS_DIR + "/access.log",
+				filename: path + "/access.log",
 			}),
 		],
 	});

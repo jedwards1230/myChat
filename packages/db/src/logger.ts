@@ -1,8 +1,7 @@
-import { DBLogger, buildDbLogger } from "@mychat/logger/db";
+import { buildDbLogger } from "@mychat/logger/db";
+import path from "path";
 
-const baseLogger = buildDbLogger();
+const DIR_NAME = "../logs";
+const LOGS_DIR = path.normalize(path.join(__dirname, DIR_NAME));
 
-export const { logger, dbLogger } = {
-	...baseLogger,
-	dbLogger: new DBLogger(baseLogger.dbLogger),
-};
+export const { logger, typeormLogger } = buildDbLogger(LOGS_DIR);

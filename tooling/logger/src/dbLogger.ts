@@ -1,32 +1,32 @@
 import type { Logger as TypeORMLogger } from "typeorm";
 import winston from "winston";
 
-import { getLogsDir } from "./utils";
+import { purgeLogFiles } from "./utils";
 import { formats } from "./formats";
 import { buildLogger } from "./logger";
 
-export function buildDbLogger() {
-	const { DB_LOGS_DIR } = getLogsDir("db");
+export function buildDbLogger(path: string) {
+	purgeLogFiles(path);
 
-	const logger = buildLogger(DB_LOGS_DIR);
+	const logger = buildLogger(path);
 
 	const dbLogger = winston.createLogger({
 		level: "debug",
 		format: formats.combinedLog,
 		transports: [
 			new winston.transports.File({
-				filename: DB_LOGS_DIR + "/db.log",
+				filename: path + "/db.log",
 			}),
 		],
 	});
 
 	return {
 		logger,
-		dbLogger,
+		typeormLogger: new DBLogger(dbLogger),
 	};
 }
 
-export class DBLogger implements TypeORMLogger {
+class DBLogger implements TypeORMLogger {
 	constructor(private dbLogger: winston.Logger) {}
 
 	logQuery(query: string, parameters?: any[] | undefined) {

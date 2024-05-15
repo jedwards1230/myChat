@@ -16,6 +16,7 @@
 		"tsc": "turbo tsc",
 		"export": "turbo export",
 		"build": "turbo build --cache-dir=.turbo",
+		"migration:run": "turbo migration:run",
 		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",

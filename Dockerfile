@@ -2,16 +2,21 @@ FROM node:21-alpine AS base
 RUN corepack enable
 RUN apk add --no-cache bash libc6-compat
 RUN apk update && yarn global add turbo
-WORKDIR /app
+WORKDIR /web
 ENV TURBO_TELEMETRY_DISABLED=1
 
 ## Dependencies
 FROM base AS dependencies
 COPY package.json yarn.lock ./
-COPY packages packages
-COPY .yarn .yarn
+COPY .yarn/patches .yarn/patches
 COPY .yarnrc.yml .yarnrc.yml
+COPY apps apps
+COPY packages packages
+COPY tooling tooling
+RUN find apps -type f ! -name 'package.json' -delete
 RUN find packages -type f ! -name 'package.json' -delete
+RUN find tooling -type f ! -name 'package.json' -delete
+
 RUN yarn install
 
 ## Builder
@@ -22,7 +27,7 @@ ENV EXPO_PUBLIC_COMMIT_HASH=$COMMIT_HASH
 ENV EXPO_PUBLIC_GITHUB_REPO_URL=$REPO_URL
 ENV EXPO_USE_FAST_RESOLVER=1
 COPY . .
-COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=dependencies /web/node_modules ./node_modules
 RUN yarn build
 
 ## Runner
@@ -30,11 +35,11 @@ FROM oven/bun:latest AS runner
 ENV NODE_ENV=production
 ENV CLIENT_BUILD_DIR=web
 
-WORKDIR /app
+WORKDIR /web
 USER bun
 
-COPY --from=builder --chown=bun:bun /app/ .
-COPY --from=builder --chown=bun:bun /app/packages/client/dist/ ./packages/server/web/
+COPY --from=builder --chown=bun:bun /web/ .
+COPY --from=builder --chown=bun:bun /web/apps/client/dist/ ./apps/server/web/
 
-WORKDIR /app/packages/server
+WORKDIR /web/apps/server
 CMD bun run src/index.ts

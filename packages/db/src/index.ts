@@ -1,6 +1,5 @@
 import { AppDataSource } from "./data-source.js";
 import { logger } from "./logger";
-import { documentQuery } from "./entity/Document";
 
 /** Initialize Database Connection */
 const initDb = async () => {
@@ -10,9 +9,6 @@ const initDb = async () => {
 		});
 		process.exit(1);
 	});
-
-	await AppDataSource.query(documentQuery.initExtension);
-	await AppDataSource.query(documentQuery.fixField);
 
 	logger.info("Connected to Postgres database", { functionName: "initDb" });
 };

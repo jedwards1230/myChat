@@ -25,9 +25,10 @@
 	},
 	"scripts": {
 		"start": "node --loader ts-node/esm src/index.ts",
-		"migration": "typeorm-ts-node-commonjs migration:generate ./src/migration/$MIGRATION_NAME -d src/data-source.ts",
+		"migration:generate": "yarn typeorm migration:generate ./src/migration/$MIGRATION_NAME",
 		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$MIGRATION_NAME",
-		"migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
-		"typeorm": "typeorm-ts-node-commonjs"
+		"migration:show": "yarn typeorm migration:show",
+		"migration:run": "yarn typeorm migration:run",
+		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts"
 	}
 }

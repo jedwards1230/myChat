@@ -16,7 +16,7 @@ export type DocumentMetaParams = {
 };
 
 export type DocumentInsertParams = Pick<DatabaseDocument, "decoded" | "metadata"> &
-	Partial<Pick<DatabaseDocument, "embeddingId">> &
+	Partial<Pick<DatabaseDocument, "embedding">> &
 	DocumentMetaParams;
 
 export const extendedDocumentRepo = (ds: DataSource) => {
@@ -29,7 +29,7 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 					const embedding = embedItemRepo.create({
 						embedding: pgvector.toSql(embeddings[i]),
 					});
-					return this.create({ ...doc, embeddingId: embedding.id });
+					return this.create({ ...doc, embedding: { id: embedding.id } });
 				} catch (error) {
 					logger.error("Error adding document", {
 						error,
@@ -50,7 +50,7 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 			}
 		): Promise<DatabaseDocument[]> {
 			const { topK, threshold } = {
-				...{ topK: 5, threshold: 0.0 },
+				...{ topK: 5, threshold: -1 },
 				...opts?.search,
 			};
 
@@ -74,7 +74,7 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 
 			const docIds = res.map((item: any) => item.id);
 			const docs = await this.find({
-				where: { embeddingId: In(docIds), ...opts?.filterRelation },
+				where: { embedding: { id: In(docIds) }, ...opts?.filterRelation },
 			});
 
 			return docs;

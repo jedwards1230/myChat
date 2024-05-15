@@ -1,17 +1,13 @@
 {
-    "extends": ["//"],
-    "pipeline": {
-      "start": {
-        "dependsOn": ["@mychat/client#build"],
-        "outputs": [
-            "packages/server/logs/**"
-        ]
-      },
-      "start:prod": {
-        "dependsOn": ["@mychat/client#build"],
-        "outputs": [
-            "packages/server/logs/**"
-        ]
-      }
-    }
-  }
+	"extends": ["//"],
+	"pipeline": {
+		"start": {
+			"dependsOn": ["@mychat/db#migration:run", "@mychat/client#build"],
+			"outputs": ["apps/server/logs/**"]
+		},
+		"start:prod": {
+			"dependsOn": ["@mychat/db#migration:run", "@mychat/client#build"],
+			"outputs": ["apps/server/logs/**"]
+		}
+	}
+}

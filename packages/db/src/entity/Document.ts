@@ -1,11 +1,4 @@
-import {
-	BaseEntity,
-	Column,
-	Entity,
-	EntitySchema,
-	ManyToOne,
-	PrimaryGeneratedColumn,
-} from "typeorm";
+import { BaseEntity, Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 import { User } from "./User";
 import { Message } from "./Message";
@@ -27,21 +20,7 @@ export interface EmbedItem {
 	embedding: string;
 }
 
-export const EmbedItem = new EntitySchema<EmbedItem>({
-	name: "embed_item",
-	columns: {
-		id: {
-			type: Number,
-			primary: true,
-			generated: true,
-		},
-		embedding: {
-			type: String,
-		},
-	},
-});
-
-/* @Entity("embed_item")
+@Entity("embed_item")
 export class EmbedItem extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	id: number;
@@ -49,7 +28,6 @@ export class EmbedItem extends BaseEntity {
 	@Column("text", { nullable: false })
 	embedding: string;
 }
- */
 
 @Entity("document")
 export class DatabaseDocument extends BaseEntity {
@@ -62,8 +40,8 @@ export class DatabaseDocument extends BaseEntity {
 	@Column("jsonb")
 	metadata: object;
 
-	@Column({ type: "int" })
-	embeddingId: number;
+	@Column(() => EmbedItem)
+	embedding: EmbedItem;
 
 	@ManyToOne(() => Thread, (thread) => thread.documents)
 	thread: Thread;

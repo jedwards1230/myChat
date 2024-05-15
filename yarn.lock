@@ -3280,6 +3280,7 @@ __metadata:
   resolution: "@mychat/agents@workspace:packages/agents"
   dependencies:
     "@mychat/eslint-config": "workspace:*"
+    "@mychat/logger": "workspace:*"
     "@mychat/shared": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
     eslint: "npm:^9.2.0"
