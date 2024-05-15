@@ -6,12 +6,12 @@ export const MessageFileObjectSchema = z.object({
 	uploadDate: z.date(),
 	mimetype: z.string(),
 	extension: z.string(),
-	size: z.string(),
+	size: z.number(),
 	path: z.optional(z.string()),
 	lastModified: z.union([z.number(), z.null()]),
 	tokenCount: z.optional(z.number()),
 	fileData: z.optional(z.any()),
-	parsable: z.optional(z.boolean()),
+	parsedText: z.optional(z.string()),
 });
 export type MessageFileObjectSchema = z.infer<typeof MessageFileObjectSchema>;
 

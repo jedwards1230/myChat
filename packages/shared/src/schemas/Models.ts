@@ -5,7 +5,13 @@ import { constructZodLiteralUnionType } from "../lib/zod";
 
 const GPT3 = ["gpt-3.5-turbo-1106", "gpt-3.5-turbo", "gpt-3.5-turbo-16k"] as const;
 type GPT3 = (typeof GPT3)[number];
-const GPT4 = ["gpt-4-turbo", "gpt-4-vision-preview", "gpt-4", "gpt-4-0613"] as const;
+const GPT4 = [
+	"gpt-4o",
+	"gpt-4-turbo",
+	"gpt-4-vision-preview",
+	"gpt-4",
+	"gpt-4-0613",
+] as const;
 type GPT4 = (typeof GPT4)[number];
 
 export const OpenAiModels = [...GPT3, ...GPT4] as const;
@@ -38,11 +44,16 @@ const ModelParams = z.object({
 
 const OpenAiApiInfo = z.object({
 	name: OpenAiModelLiteral,
+	serviceName: z.literal("OpenAIService"),
 	api: z.literal("openai"),
 });
 export type OpenAiApiInfo = z.infer<typeof OpenAiApiInfo>;
 
-const LlamaApiInfo = z.object({ name: LlamaModelLiteral, api: z.literal("llama") });
+const LlamaApiInfo = z.object({
+	name: LlamaModelLiteral,
+	serviceName: z.literal("LlamaService"),
+	api: z.literal("llama"),
+});
 export type LlamaApiInfo = z.infer<typeof LlamaApiInfo>;
 
 export const ModelInfoSchema = z.intersection(

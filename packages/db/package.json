@@ -1,0 +1,33 @@
+{
+	"name": "@mychat/db",
+	"version": "0.0.1",
+	"description": "Awesome project developed with TypeORM.",
+	"main": "./src/index.ts",
+	"exports": {
+		".": "./src",
+		"./*": "./src/*.ts",
+		"./entity/*": "./src/entity/*.ts"
+	},
+	"devDependencies": {
+		"@types/node": "^20.12.12",
+		"ts-node": "10.9.2",
+		"typescript": "beta"
+	},
+	"dependencies": {
+		"@mychat/agents": "workspace:^",
+		"@mychat/logger": "workspace:^",
+		"@mychat/shared": "workspace:*",
+		"openai": "^4.47.1",
+		"pg": "^8.11.5",
+		"pgvector": "^0.1.8",
+		"reflect-metadata": "^0.2.2",
+		"typeorm": "0.3.20"
+	},
+	"scripts": {
+		"start": "node --loader ts-node/esm src/index.ts",
+		"migration": "typeorm-ts-node-commonjs migration:generate ./src/migration/$MIGRATION_NAME -d src/data-source.ts",
+		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$MIGRATION_NAME",
+		"migration:run": "typeorm-ts-node-commonjs migration:run -d src/data-source.ts",
+		"typeorm": "typeorm-ts-node-commonjs"
+	}
+}

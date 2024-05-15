@@ -3,4 +3,5 @@ secrets/
 .env
 node_modules/
 .turbo
-pods/env-configmap.yaml
+.yarn/*
+!.yarn/patches/

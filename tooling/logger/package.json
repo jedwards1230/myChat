@@ -1,0 +1,11 @@
+{
+	"name": "@mychat/logger",
+	"version": "1.0.0",
+	"exports": {
+		"./server": "./src/serverLogger.ts",
+		"./db": "./src/dbLogger.ts"
+	},
+	"dependencies": {
+		"winston": "^3.13.0"
+	}
+}

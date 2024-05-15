@@ -1,20 +1,19 @@
 import z from "zod";
 import { MessageFileListSchema } from "./MessageFile";
 
-export type Role = "system" | "user" | "assistant" | "tool";
-
-export enum RoleEnum {
-	System = "system",
-	User = "user",
-	Assistant = "assistant",
-	Tool = "tool",
-}
+export const RoleSchema = z.union([
+	z.literal("system"),
+	z.literal("user"),
+	z.literal("assistant"),
+	z.literal("tool"),
+]);
+export type Role = z.infer<typeof RoleSchema>;
 
 export const roleList: Role[] = ["system", "user", "assistant", "tool"];
 
 export const MessageObjectSchema = z.object({
 	id: z.string(),
-	role: z.nativeEnum(RoleEnum),
+	role: RoleSchema,
 	createdAt: z.date(),
 	tokenCount: z.number(),
 	name: z.union([z.string(), z.null()]),

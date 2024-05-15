@@ -4,28 +4,16 @@
 			"path": ".",
 		},
 		{
-			"name": "Server",
-			"path": "packages/server",
+			"name": "Apps",
+			"path": "apps",
 		},
 		{
-			"name": "Client",
-			"path": "packages/client",
+			"name": "Packages",
+			"path": "packages",
 		},
 		{
-			"name": "Shared",
-			"path": "packages/shared",
-		},
-		{
-			"name": "ESLint",
-			"path": "packages/eslint",
-		},
-		{
-			"name": "TSConfig",
-			"path": "packages/tsconfig",
-		},
-		{
-			"name": "Logs",
-			"path": "packages/server/logs",
+			"name": "Tooling",
+			"path": "tooling",
 		},
 	],
 	"settings": {

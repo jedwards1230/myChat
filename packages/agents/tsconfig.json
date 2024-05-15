@@ -1,0 +1,10 @@
+{
+	"extends": "@mychat/tsconfig/base.json",
+	"include": ["**/*.ts", "**/*.tsx"],
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"]
+		}
+	}
+}
