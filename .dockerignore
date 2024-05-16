@@ -10,6 +10,7 @@ node_modules/
 .github/
 .vscode/
 docs/
+docker/**/*.yml
 
 secrets/
 .env

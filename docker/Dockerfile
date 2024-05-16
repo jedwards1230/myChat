@@ -1,7 +1,7 @@
 FROM node:21-alpine AS base
-RUN corepack enable
-RUN apk add --no-cache bash libc6-compat
-RUN apk update && yarn global add turbo
+RUN corepack enable \
+    && apk add --no-cache bash libc6-compat \
+    && apk update && yarn global add turbo
 WORKDIR /web
 ENV TURBO_TELEMETRY_DISABLED=1
 
@@ -14,12 +14,11 @@ COPY apps apps
 COPY packages packages
 COPY tooling tooling
 
-# Remove all files except package.json
-RUN find apps -type f ! -name 'package.json' -delete
-RUN find packages -type f ! -name 'package.json' -delete
-RUN find tooling -type f ! -name 'package.json' -delete
-
-RUN yarn install
+# Remove all files except package.json to optimize cache usage
+RUN find apps -type f ! -name 'package.json' -delete \
+    && find packages -type f ! -name 'package.json' -delete \
+    && find tooling -type f ! -name 'package.json' -delete \
+    && yarn install
 
 ## Builder
 FROM dependencies AS builder
@@ -43,9 +42,10 @@ WORKDIR /web/
 ENV NODE_ENV=production
 ENV CLIENT_BUILD_DIR=web
 
-# install node
-RUN apt-get update && apt-get install -y curl
-RUN curl -fsSL https://deb.nodesource.com/setup_22.x | /bin/bash - && apt-get install -y nodejs
+# Install node
+RUN apt-get update && apt-get install -y curl \
+    && curl -fsSL https://deb.nodesource.com/setup_22.x | bash - \
+    && apt-get install -y nodejs
 
 COPY docker/entrypoint.sh /web/entrypoint.sh
 COPY --from=builder /web/ .
