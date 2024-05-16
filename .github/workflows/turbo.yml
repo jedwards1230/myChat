@@ -3,8 +3,6 @@ name: CI
 on:
     push:
         branches: ["main"]
-    pull_request:
-        types: [opened, synchronize]
 
 jobs:
     build:
@@ -44,5 +42,7 @@ jobs:
                   build-args: |
                       COMMIT_HASH=${{ steps.repo_details.outputs.COMMIT_HASH }}
                       REPO_URL=${{ steps.repo_details.outputs.REPO_URL }}
+                      TURBO_TOKEN=${{ secrets.TURBO_TOKEN }}
+                      TURBO_TEAM=${{ secrets.TURBO_TEAM }}
                   cache-from: type=gha
                   cache-to: type=gha,mode=max

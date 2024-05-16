@@ -4,6 +4,10 @@ RUN corepack enable \
     && apk update && yarn global add turbo
 WORKDIR /web
 ENV TURBO_TELEMETRY_DISABLED=1
+ARG TURBO_TOKEN
+ARG TURBO_TEAM
+ENV TURBO_TOKEN=$TURBO_TOKEN
+ENV TURBO_TEAM=$TURBO_TEAM
 
 ## Dependencies
 FROM base AS dependencies

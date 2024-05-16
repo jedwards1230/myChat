@@ -2439,11 +2439,11 @@ __metadata:
   linkType: hard
 
 "@floating-ui/core@npm:^1.0.0":
-  version: 1.6.1
-  resolution: "@floating-ui/core@npm:1.6.1"
+  version: 1.6.2
+  resolution: "@floating-ui/core@npm:1.6.2"
   dependencies:
     "@floating-ui/utils": "npm:^0.2.0"
-  checksum: 10c0/7d78b3788d438807d3c1a52477ee1693a29b8a4416dd6e13761427925d9fba1d45c849527752d8fd9776842182d919fddf7ecbc34f3bf2de3bafa1717619a56f
+  checksum: 10c0/db2621dc682e7f043d6f118d087ae6a6bfdacf40b26ede561760dd53548c16e2e7c59031e013e37283801fa307b55e6de65bf3b316b96a054e4a6a7cb937c59e
   languageName: node
   linkType: hard
 
@@ -3215,7 +3215,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/core@npm:~0.1, @langchain/core@npm:~0.1.56, @langchain/core@npm:~0.1.60":
+"@langchain/core@npm:<0.3.0 || >0.1.0, @langchain/core@npm:~0.1.56, @langchain/core@npm:~0.1.60":
   version: 0.1.63
   resolution: "@langchain/core@npm:0.1.63"
   dependencies:
@@ -3235,7 +3235,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/openai@npm:^0.0.31":
+"@langchain/openai@npm:^0.0.31, @langchain/openai@npm:~0.0.28":
   version: 0.0.31
   resolution: "@langchain/openai@npm:0.0.31"
   dependencies:
@@ -3248,26 +3248,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/openai@npm:~0.0.28":
-  version: 0.0.29
-  resolution: "@langchain/openai@npm:0.0.29"
-  dependencies:
-    "@langchain/core": "npm:~0.1.56"
-    js-tiktoken: "npm:^1.0.7"
-    openai: "npm:^4.41.1"
-    zod: "npm:^3.22.4"
-    zod-to-json-schema: "npm:^3.22.3"
-  checksum: 10c0/461b15259cf8ff4dd4293c0e42270da6364e9b9b53c6c94dea4830e64aec6ca704778462f581ab6eaab57330838d14699014796014965fecd9ee9ef6c2bacdbf
-  languageName: node
-  linkType: hard
-
 "@langchain/textsplitters@npm:~0.0.0":
-  version: 0.0.0
-  resolution: "@langchain/textsplitters@npm:0.0.0"
+  version: 0.0.1
+  resolution: "@langchain/textsplitters@npm:0.0.1"
   dependencies:
-    "@langchain/core": "npm:~0.1"
-    js-tiktoken: "npm:^1.0.11"
-  checksum: 10c0/ca7009b4383abb7bc3799409f3719c4df71414d2201f17ff7b9ea37c323c7802f0c0f91484e38ce740cf08307d290f2493fb944a4bf80720bb1ba0dd9a1537e5
+    "@langchain/core": "npm:<0.3.0 || >0.1.0"
+    js-tiktoken: "npm:^1.0.12"
+  checksum: 10c0/1e2ad7a3adaaf2e4cb8b31475ee0e614011b87cb691b9eb0ef5e17a9d7c7db892859cfc57d96a1bde9b5da026a797db50c2ea864a3953cf892c3a03637ff2b1a
   languageName: node
   linkType: hard
 
@@ -8443,9 +8430,9 @@ __metadata:
   linkType: hard
 
 "electron-to-chromium@npm:^1.4.668":
-  version: 1.4.768
-  resolution: "electron-to-chromium@npm:1.4.768"
-  checksum: 10c0/c22bbc29c2054a0f9c21d6fb710b74eabb82093e079d904c2b74d92c3d0cdc577171c58692ba7bab81e5926302ccdd8f67bb12dd20e96f3edbfc2f4ee841c426
+  version: 1.4.771
+  resolution: "electron-to-chromium@npm:1.4.771"
+  checksum: 10c0/e43c7e0c0abb38747ff95ee26e9655125f1ec7745e7b1be2e396e3ab919a30c4fb7a943c63d4a54918ba22dcc3c2c82242c804f24337590c5887213fe427ece3
   languageName: node
   linkType: hard
 
@@ -12127,7 +12114,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tiktoken@npm:^1.0.11, js-tiktoken@npm:^1.0.12, js-tiktoken@npm:^1.0.7":
+"js-tiktoken@npm:^1.0.12, js-tiktoken@npm:^1.0.7":
   version: 1.0.12
   resolution: "js-tiktoken@npm:1.0.12"
   dependencies:
