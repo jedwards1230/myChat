@@ -1,3 +1,4 @@
+import { createSelectors } from "@/lib/zustand";
 import { create } from "zustand";
 
 type State = {
@@ -20,11 +21,13 @@ const initial: State = {
 	loadingMessageId: null,
 };
 
-export const useGroupStore = create<State & Actions>()((set, get) => ({
-	...initial,
-	setEditId: (ids) => set(ids),
-	isEditMode: (messageId) => get().editMessageId === messageId,
-	setLoading: (messageId) => set({ loadingMessageId: messageId }),
-	isLoading: (messageId) => get().loadingMessageId === messageId,
-	reset: () => set(initial),
-}));
+export const useGroupStore = createSelectors(
+	create<State & Actions>()((set, get) => ({
+		...initial,
+		setEditId: (ids) => set(ids),
+		isEditMode: (messageId) => get().editMessageId === messageId,
+		setLoading: (messageId) => set({ loadingMessageId: messageId }),
+		isLoading: (messageId) => get().loadingMessageId === messageId,
+		reset: () => set(initial),
+	}))
+);

@@ -93,7 +93,16 @@ export class LLMNexusController {
 			const activeMessageContent =
 				thread.activeMessage.content ||
 				thread.activeMessage.files?.map((f) => f.name).join(", ");
-			if (!activeMessageContent) throw new Error("No active message content found");
+
+			logger.debug("Active message content", {
+				activeMessageContent,
+				activeMessage: thread.activeMessage,
+				functionName: "LLMNexusController.generateChatResponse",
+			});
+			if (!activeMessageContent)
+				throw new Error(
+					`No active message content found for thread ${thread.id}`
+				);
 
 			// inject rag metadata and decoded params into the system message
 			const ragRes = await pgRepo["Document"].searchDocuments(activeMessageContent);

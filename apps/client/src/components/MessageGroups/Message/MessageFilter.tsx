@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { useMemo } from "react";
 
 import type { Message } from "@/types";
 import Markdown from "@/components/Markdown/Markdown";
@@ -15,8 +14,8 @@ export function MessageFilter({
 	message: Message;
 	threadId: string;
 }) {
-	const { editMessageId, isEditMode } = useGroupStore();
-	const editMode = useMemo(() => isEditMode(message.id), [message.id, editMessageId]);
+	const isEditMode = useGroupStore.use.isEditMode();
+	const editMode = isEditMode(message.id);
 
 	if (editMode) return <EditableMessage message={message} threadId={threadId} />;
 

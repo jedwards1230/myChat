@@ -1,4 +1,3 @@
-import "reflect-metadata";
 import Fastify from "fastify";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
@@ -14,17 +13,10 @@ import {
 } from "fastify-type-provider-zod";
 
 import { Config } from "./config";
-import { getUser } from "./hooks/getUser";
+import { setupRoutes } from "./routes";
+
 import { setupLogger } from "./hooks/setupLogger";
 import { setupDatabase } from "./hooks/setupDatabase";
-
-import { setupUserRoute } from "./routes/user";
-import { setupAgentsRoute } from "./routes/agents";
-import { setupMessagesRoute } from "./routes/messages";
-import { setupThreadsRoute } from "./routes/threads";
-import { setupAgentRunsRoute } from "./routes/runs";
-import { setupServerRoute } from "./routes/server";
-import { setupModelsRoute } from "./routes/models";
 
 export const app = Fastify({
 	logger: false,
@@ -58,7 +50,7 @@ export async function buildApp({
 			openapi: "3.0.0",
 			info: {
 				title: "myChat API",
-				description: "Sample backend service",
+				description: "Fastify based API for myChat",
 				version: "0.1.0",
 			},
 			servers: [],
@@ -73,26 +65,7 @@ export async function buildApp({
 	await app.register(fastifyCors, { origin: "*" });
 
 	// Api Routes
-	await app.register(
-		async (app) => {
-			await app.register(setupServerRoute);
-			await app.register(setupUserRoute);
-			await app.register(setupModelsRoute);
-
-			// authenticated routes
-			await app.register(async (app) => {
-				app.addHook("preHandler", getUser);
-
-				await app.register(setupAgentsRoute, { prefix: "/agents" });
-				await app.register(setupThreadsRoute, { prefix: "/threads" });
-				await app.register(setupAgentRunsRoute, { prefix: "/threads" });
-				await app.register(setupMessagesRoute, {
-					prefix: "threads/:threadId/messages",
-				});
-			});
-		},
-		{ prefix: "/api" }
-	);
+	await app.register(async (app) => setupRoutes(app), { prefix: "/api" });
 
 	await app.register(fastifyStatic, {
 		root: staticClientFilesDir,

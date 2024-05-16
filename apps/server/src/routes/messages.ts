@@ -10,7 +10,6 @@ import {
 	MessageSchemaWithoutId,
 } from "@mychat/shared/schemas/Message";
 import { MessageController } from "@/modules/MessageController";
-import { MessageFileController } from "@/modules/MessageFileController";
 
 export async function setupMessagesRoute(app: FastifyInstance) {
 	app.addHook(
@@ -64,7 +63,7 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 		// PATCH Message
 		app.patch("/:messageId", {
 			schema: {
-				description: "Modify Message.",
+				description: "Patch a Message.",
 				tags: ["Message"],
 				response: { 200: MessageObjectSchema },
 			},
@@ -79,44 +78,6 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 				response: { 200: MessageSchemaWithoutId },
 			},
 			handler: MessageController.deleteMessage,
-		});
-
-		// POST Create a Message File
-		app.post("/:messageId/files", {
-			schema: {
-				description: "Create a Message File.",
-				tags: ["MessageFile"],
-				response: { 200: MessageObjectSchema },
-			},
-			handler: MessageFileController.createMessageFile,
-		});
-
-		await app.register(async (app) => {
-			app.addHook(
-				"preHandler",
-				getMessage({
-					parent: true,
-					children: true,
-					files: {
-						fileData: true,
-					},
-				})
-			);
-
-			// GET list of files for a message
-			app.get("/:messageId/files", {
-				schema: {
-					description: "List Files for a Message.",
-					tags: ["MessageFile"],
-				},
-				handler: MessageFileController.getMessageFiles,
-			});
-
-			// GET file by message ID
-			app.get("/:messageId/files/:fileId", {
-				schema: { description: "Get File by Message ID.", tags: ["MessageFile"] },
-				handler: MessageFileController.getMessageFile,
-			});
 		});
 	});
 }

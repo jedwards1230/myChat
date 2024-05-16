@@ -3380,7 +3380,7 @@ __metadata:
     react-native-root-siblings: "npm:^5.0.1"
     react-native-safe-area-context: "npm:4.10.1"
     react-native-screens: "npm:^3.31.1"
-    react-native-svg: "npm:^15.2.0"
+    react-native-svg: "npm:^15.3.0"
     react-native-toast-message: "npm:^2.2.0"
     react-native-url-polyfill: "npm:^2.0.0"
     react-native-vector-icons: "npm:^10.1.0"
