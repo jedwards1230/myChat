@@ -1,5 +1,8 @@
 services:
     mychat:
+        build:
+            context: ../
+            dockerfile: docker/Dockerfile
         deploy:
             restart_policy:
                 condition: on-failure
@@ -13,6 +16,6 @@ services:
         depends_on:
             - postgres
         env_file:
-            - .env
+            - ../.env
         environment:
             - DB_HOST=postgres

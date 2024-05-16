@@ -1,5 +1,4 @@
 docker.sh
-secrets/
 .env
 node_modules/
 .turbo

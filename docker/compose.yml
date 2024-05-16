@@ -7,7 +7,7 @@ services:
         volumes:
             - pg:/var/lib/postgresql/data
         env_file:
-            - .env
+            - ../.env
         deploy:
             restart_policy:
                 condition: on-failure

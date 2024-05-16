@@ -21,7 +21,7 @@
 		"@fastify/swagger": "^8.14.0",
 		"@fastify/swagger-ui": "^3.0.0",
 		"@langchain/community": "^0.0.57",
-		"@langchain/openai": "^0.0.29",
+		"@langchain/openai": "^0.0.31",
 		"@mychat/db": "workspace:*",
 		"@mychat/logger": "workspace:*",
 		"@mychat/shared": "workspace:*",
