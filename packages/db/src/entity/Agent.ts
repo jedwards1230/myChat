@@ -18,14 +18,14 @@ import { AgentTool } from "./AgentTool";
 
 import type { AgentObjectSchema } from "@mychat/shared/schemas/Agent";
 
-import { ModelMap, type ModelApi } from "@mychat/agents/models/index";
+import { ChatModelMap, type ModelApi } from "@mychat/agents/models/index";
 import { ToolsMap } from "@mychat/agents/tools/index";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
 	toolsEnabled: true,
 	systemMessage: "You are a personal assistant.",
-	model: ModelMap["gpt-4o"],
+	model: ChatModelMap["gpt-4o"],
 };
 
 @Entity("Agent")

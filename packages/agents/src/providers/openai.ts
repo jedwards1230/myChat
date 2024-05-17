@@ -11,7 +11,9 @@ import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 import type { ChatOptions, LLMNexus } from "../LLMInterface";
 import { logger } from "../logger";
 import { runnableSaveTitle } from "../tools/newTitle";
+
 import type { MessageObjectSchema as Message } from "@mychat/shared/schemas/Message";
+import type { OpenAiEmbeddingParams } from "@mychat/shared/schemas/models";
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
 if (!OPENAI_API_KEY) logger.warn("ENV: OPENAI_API_KEY not found");
@@ -95,20 +97,28 @@ export class OpenAIService implements LLMNexus {
 	}
 }
 
-export async function generateEmbeddings(texts: string[]): Promise<number[][]> {
+type EmbedData = number[];
+
+export async function generateEmbeddings(
+	texts: string[],
+	opts: OpenAiEmbeddingParams
+): Promise<EmbedData[][]> {
 	const response = await openai.embeddings.create({
 		input: texts,
-		model: "text-embedding-3-small",
+		model: opts.name,
 	});
-	return response.data.map((v) => v.embedding);
+	return [response.data.map((v) => v.embedding)];
 }
 
-export async function generateEmbedding(input: string): Promise<number[]> {
+export async function generateEmbedding(
+	input: string,
+	opts: OpenAiEmbeddingParams
+): Promise<EmbedData[]> {
 	const response = await openai.embeddings.create({
 		input,
-		model: "text-embedding-3-small",
+		model: opts.name,
 	});
 	const embedding = response.data[0]?.embedding;
 	if (!embedding) throw new Error("Failed to generate embedding for input");
-	return embedding;
+	return [embedding];
 }

@@ -1,7 +1,7 @@
-import {
+import type {
 	LlamaChatParams,
-	type ModelApi,
-	type ModelParams,
+	ModelApi,
+	ModelParams,
 	OpenAiChatParams,
 } from "@mychat/shared/schemas/models";
 
@@ -94,7 +94,7 @@ const llama2: LlamaChatParams = {
 	},
 };
 
-export const ModelMap = {
+export const ChatModelMap = {
 	"gpt-4o": gpt4Omni,
 	"gpt-4-turbo": gpt4Turbo,
 	"gpt-4-vision-preview": gpt4Vision,
@@ -105,6 +105,6 @@ export const ModelMap = {
 	"gpt-3.5-turbo-16k": gpt35Turbo16k,
 	"llama-2-7b-chat-int8": llama2,
 } as const;
-export type ModelMap = typeof ModelMap;
+export type ChatModelMap = typeof ChatModelMap;
 
-export const modelList = Object.values(ModelMap) as ModelApi[];
+export const modelList = Object.values(ChatModelMap) as ModelApi[];

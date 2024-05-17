@@ -20,10 +20,10 @@ const embedding3Large: OpenAiEmbeddingParams = {
 	},
 };
 
-export const ModelMap = {
+export const EmbeddingModelMap = {
 	"text-embedding-3-small": embedding3Small,
 	"text-embedding-3-large": embedding3Large,
 } as const;
-export type ModelMap = typeof ModelMap;
+export type EmbeddingModelMap = typeof EmbeddingModelMap;
 
-export const modelList = Object.values(ModelMap) as OpenAiEmbeddingParams[];
+export const modelList = Object.values(EmbeddingModelMap) as OpenAiEmbeddingParams[];

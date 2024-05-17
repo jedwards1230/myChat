@@ -9,6 +9,7 @@ import { DatabaseDocument, EmbedItem } from "../entity/Document";
 import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
 import tokenizer from "@mychat/agents/tokenizer";
 import { logger } from "../logger";
+import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
 
 export type DocumentMetaParams = {
 	user?: Pick<User, "id">;
@@ -31,22 +32,29 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 	return ds.getRepository(DatabaseDocument).extend({
 		async addDocuments(...docs: DocumentInsertParams[]): Promise<DatabaseDocument[]> {
 			try {
-				const embeddings = await generateEmbeddings(
-					docs.map((doc) => doc.decoded)
+				const embeddingsBatch = await generateEmbeddings(
+					docs.map((doc) => doc.decoded),
+					EmbeddingModelMap["text-embedding-3-small"]
 				);
 
-				const savedEmbeddings = await embedItemRepo.save(
-					embeddings.map((e) =>
-						embedItemRepo.create({ embedding: pgvector.toSql(e) })
+				const promisedEmbeddings = embeddingsBatch.map((item) =>
+					embedItemRepo.save(
+						item.map((e) =>
+							embedItemRepo.create({ embedding: pgvector.toSql(e) })
+						)
 					)
 				);
 
+				const savedEmbeddings = await Promise.all(promisedEmbeddings);
+
 				const savedDocs = await this.save(
-					docs.map((doc, i) => ({
-						...doc,
-						tokenCount: tokenizer.estimateTokenCount(doc.decoded),
-						embedding: savedEmbeddings[i],
-					}))
+					docs.map((doc, i) =>
+						this.create({
+							...doc,
+							tokenCount: tokenizer.estimateTokenCount(doc.decoded),
+							embeddings: savedEmbeddings[i],
+						})
+					)
 				);
 
 				return savedDocs;
@@ -69,7 +77,10 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 					...opts?.search,
 				};
 
-				const inputEmbedding = await generateEmbedding(input);
+				const inputEmbedding = await generateEmbedding(
+					input,
+					EmbeddingModelMap["text-embedding-3-small"]
+				);
 				const res = await ds.query(
 					`
 					SELECT *
