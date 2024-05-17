@@ -11,9 +11,8 @@ ENV TURBO_TEAM=$TURBO_TEAM
 
 ## Dependencies
 FROM base AS dependencies
-COPY package.json yarn.lock ./
-COPY .yarnrc.yml turbo.json ./
-COPY .yarn/ .yarn/
+COPY package.json yarn.lock .yarnrc.yml turbo.json ./
+COPY .yarn .yarn
 COPY apps apps
 COPY packages packages
 COPY tooling tooling
@@ -31,13 +30,14 @@ ARG REPO_URL
 ENV EXPO_PUBLIC_COMMIT_HASH=$COMMIT_HASH
 ENV EXPO_PUBLIC_GITHUB_REPO_URL=$REPO_URL
 ENV EXPO_USE_FAST_RESOLVER=1
-COPY apps/ apps/
-COPY packages/ packages/
-COPY tooling/ tooling/
-COPY .yarn/ .yarn/
-COPY package.json yarn.lock ./
-COPY .yarnrc.yml turbo.json ./
+
+COPY apps apps
+COPY packages packages
+COPY tooling tooling
+COPY .yarn .yarn
+COPY package.json yarn.lock .yarnrc.yml turbo.json ./
 COPY --from=dependencies /web/node_modules ./node_modules
+
 RUN yarn build
 
 ## Runner

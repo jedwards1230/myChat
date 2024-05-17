@@ -16,7 +16,6 @@ const config = {
 	},
 	plugins: ["@typescript-eslint", "import"],
 	rules: {
-		"turbo/no-undeclared-env-vars": "off",
 		"@typescript-eslint/no-unused-vars": [
 			"error",
 			{ argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
@@ -26,11 +25,13 @@ const config = {
 			{ prefer: "type-imports", fixStyle: "separate-type-imports" },
 		],
 		"@typescript-eslint/no-misused-promises": "off",
-		"import/consistent-type-specifier-style": "off",
+		"@typescript-eslint/no-empty-object-type": "off",
 		"@typescript-eslint/strict-boolean-expressions": 0,
 		"@typescript-eslint/no-explicit-any": 0,
 		"@typescript-eslint/ban-ts-comment": 0,
 		"@typescript-eslint/no-redeclare": "off",
+		"import/consistent-type-specifier-style": "off",
+		"turbo/no-undeclared-env-vars": "off",
 	},
 	ignorePatterns: [
 		"**/.eslintrc.cjs",
