@@ -3,8 +3,6 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
 
 import { logger } from "@/lib/logger";
-import type { Message } from "@mychat/db/entity/Message";
-import { MessageFileController } from "./MessageFileController";
 import { pgRepo } from "@/lib/pg";
 
 export class MessageController {
@@ -101,23 +99,5 @@ export class MessageController {
 		).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
 		reply.send(messages.map((msg) => msg.toJSON()));
-	}
-
-	static async injectFileContent(message: Message) {
-		if (message.files && message.files.length > 0) {
-			const files = await MessageFileController.parseFiles(message.files);
-			message.content = `${message.content}\n${files}`;
-		}
-		return message;
-	}
-
-	static async injectFilesContent(messages: Message[]) {
-		const parsed = messages.map(async (message) =>
-			MessageController.injectFileContent(message)
-		);
-
-		return (await Promise.all(parsed)).sort(
-			(a, b) => a.createdAt.getTime() - b.createdAt.getTime()
-		);
 	}
 }

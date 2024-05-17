@@ -1,7 +1,7 @@
 import type { FastifyInstance } from "fastify";
 
-import { ModelListSchema } from "@mychat/shared/schemas/Models";
-import { modelList } from "@mychat/agents/models/data";
+import { ModelListSchema } from "@mychat/shared/schemas/models";
+import { modelList } from "@mychat/agents/models/chat";
 
 export async function setupModelsRoute(app: FastifyInstance) {
 	app.get("/models", {

@@ -1,8 +1,5 @@
-import path from "path";
+import { getLogger } from "@mychat/logger";
 
-import { buildServerLogger } from "@mychat/logger/server";
+const prefix = "agents";
 
-const DIR_NAME = "../logs";
-const LOGS_DIR = path.normalize(path.join(__dirname, DIR_NAME));
-
-export const { logger, streamLogger, accessLogger } = buildServerLogger(LOGS_DIR);
+export const logger = getLogger({ type: "common", prefix });

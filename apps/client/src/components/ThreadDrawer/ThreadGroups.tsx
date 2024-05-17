@@ -25,7 +25,7 @@ export const ThreadGroup = ({ group: { label, threads } }: { group: ThreadGroup 
 );
 
 export function useThreadGroups(threads: Thread[] = []): ThreadGroup[] {
-	const groups = useMemo(() => {
+	return useMemo(() => {
 		const labels = [
 			{ label: "Today", days: 1 },
 			{ label: "Yesterday", days: 2 },
@@ -56,6 +56,4 @@ export function useThreadGroups(threads: Thread[] = []): ThreadGroup[] {
 
 		return groups.filter((group) => group.threads.length > 0);
 	}, [threads]);
-
-	return groups;
 }

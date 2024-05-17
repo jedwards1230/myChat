@@ -1,7 +1,7 @@
-import { buildServerLogger } from "@mychat/logger/server";
-import path from "path";
+import { getLogger } from "@mychat/logger";
 
-const DIR_NAME = "../../logs";
-const SERVER_LOGS_DIR = path.normalize(path.join(__dirname, DIR_NAME));
+const prefix = "server";
 
-export const { logger, streamLogger, accessLogger } = buildServerLogger(SERVER_LOGS_DIR);
+export const logger = getLogger({ type: "common", prefix });
+export const streamLogger = getLogger({ type: "stream", prefix });
+export const accessLogger = getLogger({ type: "access", prefix });

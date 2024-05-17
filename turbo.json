@@ -13,6 +13,7 @@
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
 		"migration:run": {
+			"dependsOn": ["tsc"],
 			"outputs": []
 		},
 		"build": {

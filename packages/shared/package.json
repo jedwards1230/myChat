@@ -9,8 +9,10 @@
 	],
 	"types": "./src/*.ts",
 	"exports": {
-		".": "./src",
-		"./*": "./src/*.ts"
+		".": "./src/index.ts",
+		"./*": "./src/*.ts",
+		"./schemas": "./src/schemas/index.ts",
+		"./schemas/models": "./src/schemas/models/index.ts"
 	},
 	"scripts": {
 		"dev": "tsc --watch",

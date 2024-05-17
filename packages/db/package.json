@@ -9,7 +9,10 @@
 		"./entity/*": "./src/entity/*.ts"
 	},
 	"devDependencies": {
+		"@mychat/eslint-config": "workspace:*",
+		"@mychat/tsconfig": "workspace:*",
 		"@types/node": "^20.12.12",
+		"eslint": "^9.2.0",
 		"ts-node": "10.9.2",
 		"typescript": "beta"
 	},
@@ -25,10 +28,14 @@
 	},
 	"scripts": {
 		"start": "node --loader ts-node/esm src/index.ts",
-		"migration:generate": "yarn typeorm migration:generate ./src/migration/$MIGRATION_NAME",
-		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$MIGRATION_NAME",
+		"migration:generate": "yarn typeorm migration:generate ./src/migration/$NAME",
+		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$NAME",
 		"migration:show": "yarn typeorm migration:show",
 		"migration:run": "yarn typeorm migration:run",
-		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts"
+		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"test": "jest",
+		"tsc": "tsc",
+		"clean": "rm -rf logs .turbo"
 	}
 }

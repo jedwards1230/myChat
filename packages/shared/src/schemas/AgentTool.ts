@@ -1,8 +1,11 @@
 import z from "zod";
-import { ToolNames } from "../../../agents/src/tools/index";
-import { constructZodLiteralUnionType } from "../lib/zod";
 
-export const AgentToolsNameSchema = constructZodLiteralUnionType(ToolNames);
+export const AgentToolsNameSchema = z.union([
+	z.literal("Browser"),
+	z.literal("Fetcher"),
+	//z.literal("Code"),
+	//z.literal("DatabaseSearch"),
+]);
 export type AgentToolsNameSchema = z.infer<typeof AgentToolsNameSchema>;
 
 export const AgentToolSchema = z.object({

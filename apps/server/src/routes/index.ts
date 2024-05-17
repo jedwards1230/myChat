@@ -24,10 +24,10 @@ export async function setupRoutes(app: FastifyInstance) {
 		await app.register(setupThreadsRoute, { prefix: "/threads" });
 		await app.register(setupAgentRunsRoute, { prefix: "/threads" });
 		await app.register(setupMessagesRoute, {
-			prefix: "threads/:threadId/messages",
+			prefix: "/threads/:threadId/messages",
 		});
 		await app.register(setupMessageFilesRoute, {
-			prefix: "threads/:threadId/messages/:messageId/files",
+			prefix: "/threads/:threadId/messages/:messageId/files",
 		});
 	});
 }

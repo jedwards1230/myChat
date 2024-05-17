@@ -19,8 +19,8 @@ export class AgentRunQueue {
 	private static async processQueue(runId: string) {
 		try {
 			while (!this.queue.isEmpty(runId)) {
-				const run = this.queue.dequeue(runId);
-				if (!run) throw new Error("No run in queue");
+				const run = await pgRepo["AgentRun"].getRunForProcessing(runId);
+				this.queue.dequeue(runId);
 
 				try {
 					await LLMNexusController.processResponse(run);

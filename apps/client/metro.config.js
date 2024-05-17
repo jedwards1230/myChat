@@ -33,6 +33,8 @@ config.cacheStores = [
 	new FileStore({ root: path.join(workspaceRoot, "node_modules", ".cache", "metro") }),
 ];
 
+config.resolver.unstable_enableSymlinks = true;
+
 module.exports = withNativeWind(config, {
 	input: path.resolve(projectRoot, "src/app/global.css"),
 });

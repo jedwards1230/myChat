@@ -11,6 +11,7 @@ import { Thread } from "./Thread";
 import { Agent } from "./Agent";
 
 import type { ModelApi } from "../../../agents/src/models/index";
+import { DatabaseDocument } from "./Document";
 
 export type RunType = "getChat" | "getTitle";
 
@@ -57,6 +58,10 @@ export class AgentRun extends BaseEntity {
 	/** Run Type */
 	@Column({ type: "text" })
 	type: RunType;
+
+	/** Files summoned in RAG */
+	@ManyToOne(() => DatabaseDocument)
+	files: DatabaseDocument[];
 
 	/** Should response be streamed */
 	@Column({ type: "boolean", default: true })

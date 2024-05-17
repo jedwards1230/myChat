@@ -5,9 +5,16 @@ export const mergeWithCommonFormats = (...formats: winston.Logform.Format[]) =>
 	format.combine(commonFormats, ...formats);
 
 const combinedLogFormat = format.printf(
-	({ level, message, timestamp, functionName, error, ...metadata }) => {
-		const functionNameStr = functionName ? `${functionName} - ` : "";
-		let msg = `${timestamp} [${level}]: ${functionNameStr}${message} `;
+	({ level, prefix, message, timestamp, functionName, error, ...metadata }) => {
+		let msg = [
+			timestamp,
+			`[${level}]:`,
+			prefix ? `(${prefix})` : "",
+			functionName ? `${functionName} - ` : "",
+			message,
+		]
+			.filter(Boolean)
+			.join(" ");
 
 		if (error) {
 			msg += `\nError: ${error.stack || error.message || stringify(error)}`;
@@ -20,9 +27,13 @@ const combinedLogFormat = format.printf(
 	}
 );
 const consoleLogFormat = format.printf(
-	({ level, message, functionName, error, ...metadata }) => {
-		const functionNameStr = functionName ? `${functionName} - ` : "";
-		let msg = `${level}: ${functionNameStr}${message} `;
+	({ level, prefix = "", message, functionName, error, ...metadata }) => {
+		let msg = [
+			`[${level}]:`,
+			prefix ? `(${prefix})` : "",
+			functionName ? `${functionName} - ` : "",
+			message,
+		].join(" ");
 
 		if (error) {
 			msg += `\nError: ${error.stack || error.message || stringify(error)}`;
@@ -35,9 +46,14 @@ const consoleLogFormat = format.printf(
 	}
 );
 const simpleLogFormat = format.printf(
-	({ level, message, timestamp, functionName, error, ...metadata }) => {
-		const functionNameStr = functionName ? `${functionName} - ` : "";
-		let msg = `${timestamp} [${level}]: ${functionNameStr}${message} `;
+	({ level, prefix = "", message, timestamp, functionName, error, ...metadata }) => {
+		let msg = [
+			timestamp,
+			`[${level}]:`,
+			prefix ? `(${prefix})` : "",
+			functionName ? `${functionName} - ` : "",
+			message,
+		].join(" ");
 
 		msg += stringify({
 			...metadata,

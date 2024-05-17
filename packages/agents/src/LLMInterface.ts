@@ -4,7 +4,7 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
 import type { MessageObjectSchema as Message } from "@mychat/shared/schemas/Message";
-import type { Model } from "@mychat/shared/schemas/Models";
+import type { ChatModel } from "@mychat/shared/schemas/models";
 
 import { OpenAIService } from "@mychat/agents/providers/openai";
 import type { ToolConfig } from "@mychat/agents/tools/types";
@@ -12,7 +12,7 @@ import type { ModelApi } from "@mychat/agents/models/types";
 
 export type ChatOptions = {
 	tools: ToolConfig[];
-	model: Model;
+	model: ChatModel;
 	stream: boolean;
 };
 

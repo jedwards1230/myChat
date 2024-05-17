@@ -1,10 +1,9 @@
-import type {
-	ApiProviders,
-	LlamaModelInfo,
-	ModelApi,
-	ModelParams,
-	OpenAiModelInfo,
-} from "./types";
+import {
+	LlamaChatParams,
+	type ModelApi,
+	type ModelParams,
+	OpenAiChatParams,
+} from "@mychat/shared/schemas/models";
 
 const gpt4TurboParams: ModelParams = {
 	temperature: 0.7,
@@ -14,19 +13,19 @@ const gpt4TurboParams: ModelParams = {
 	frequencyPenalty: 0,
 	presencePenalty: 0,
 };
-const gpt4Omni: OpenAiModelInfo = {
+const gpt4Omni: OpenAiChatParams = {
 	name: "gpt-4o",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt4TurboParams,
 };
-const gpt4Turbo: OpenAiModelInfo = {
+const gpt4Turbo: OpenAiChatParams = {
 	name: "gpt-4-turbo",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt4TurboParams,
 };
-const gpt4Vision: OpenAiModelInfo = {
+const gpt4Vision: OpenAiChatParams = {
 	name: "gpt-4-vision-preview",
 	serviceName: "OpenAIService",
 	api: "openai",
@@ -41,13 +40,13 @@ const gpt4Params: ModelParams = {
 	frequencyPenalty: 0,
 	presencePenalty: 0,
 };
-const gpt4: OpenAiModelInfo = {
+const gpt4: OpenAiChatParams = {
 	name: "gpt-4",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt4Params,
 };
-const gpt4_0613: OpenAiModelInfo = {
+const gpt4_0613: OpenAiChatParams = {
 	name: "gpt-4-0613",
 	serviceName: "OpenAIService",
 	api: "openai",
@@ -62,26 +61,26 @@ const gpt35TurboParams: ModelParams = {
 	frequencyPenalty: 0,
 	presencePenalty: 0,
 };
-const gpt35TurboBeta: OpenAiModelInfo = {
+const gpt35TurboBeta: OpenAiChatParams = {
 	name: "gpt-3.5-turbo-1106",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt35TurboParams,
 };
-const gpt35Turbo: OpenAiModelInfo = {
+const gpt35Turbo: OpenAiChatParams = {
 	name: "gpt-3.5-turbo",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt35TurboParams,
 };
-const gpt35Turbo16k: OpenAiModelInfo = {
+const gpt35Turbo16k: OpenAiChatParams = {
 	name: "gpt-3.5-turbo-16k",
 	serviceName: "OpenAIService",
 	api: "openai",
 	params: gpt35TurboParams,
 };
 
-const llama2: LlamaModelInfo = {
+const llama2: LlamaChatParams = {
 	name: "llama-2-7b-chat-int8",
 	serviceName: "LlamaService",
 	api: "llama",
@@ -108,20 +107,4 @@ export const ModelMap = {
 } as const;
 export type ModelMap = typeof ModelMap;
 
-export const modelList = Object.values(ModelMap);
-
-function isProvider<T extends ApiProviders>(
-	api: T,
-	model: ModelApi
-): model is Extract<ModelApi, { api: T }> {
-	return model.api === api;
-}
-
-type SpecificModelApi<T extends ApiProviders> = Extract<ModelApi, { api: T }>;
-
-/** Get list of models. Includes type narrowing by provider. */
-export function getListByApi<T extends ApiProviders>(api: T): SpecificModelApi<T>[] {
-	return modelList.filter((model): model is SpecificModelApi<T> =>
-		isProvider(api, model)
-	);
-}
+export const modelList = Object.values(ModelMap) as ModelApi[];

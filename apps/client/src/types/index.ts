@@ -22,8 +22,3 @@ export type {
 } from "@mychat/shared/schemas/AgentTool";
 
 export type { ToolName } from "@mychat/agents/tools/index";
-
-export type {
-	ModelLiteral as Model,
-	ModelInfoSchema as ModelInformation,
-} from "@mychat/shared/schemas/Models";

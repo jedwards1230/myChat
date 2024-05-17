@@ -59,7 +59,7 @@ export function MessageActions({
 		<>
 			{children}
 			{!editMode && (
-				<View className="flex-row items-center h-3 gap-4 pl-6">
+				<View className="flex-row items-center h-3 gap-4 pt-4 pl-6">
 					<MessageSwitcher message={message} group={group} />
 					<View className="flex-row items-center hidden gap-4 group-hover:flex">
 						{actions.map(({ icon, iconType, onPress, hidden }, i) =>

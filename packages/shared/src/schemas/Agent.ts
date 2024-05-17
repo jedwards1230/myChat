@@ -1,13 +1,13 @@
 import z from "zod";
 
-import { ModelInfoSchema } from "./Models";
+import { ModelApi } from "./models";
 import { AgentToolSchema } from "./AgentTool";
 
 export const AgentObjectSchema = z.object({
 	id: z.string(),
 	createdAt: z.date(),
 	name: z.string(),
-	model: ModelInfoSchema,
+	model: ModelApi,
 	tools: z.optional(z.array(AgentToolSchema)),
 	toolsEnabled: z.boolean(),
 	systemMessage: z.string(),
@@ -32,7 +32,7 @@ export type AgentCreateSchema = z.infer<typeof AgentCreateSchema>;
 // Discriminated union schema options
 export const AgentUpdateSchema = z.discriminatedUnion("type", [
 	z.object({ type: z.literal("name"), value: z.string() }),
-	z.object({ type: z.literal("model"), value: ModelInfoSchema }),
+	z.object({ type: z.literal("model"), value: ModelApi }),
 	z.object({ type: z.literal("tools"), value: z.array(AgentToolSchema.partial()) }),
 	z.object({ type: z.literal("toolsEnabled"), value: z.boolean() }),
 	z.object({ type: z.literal("systemMessage"), value: z.string() }),

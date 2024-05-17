@@ -27,8 +27,8 @@ export class AgentRunController {
 		try {
 			if (!thread?.activeMessage) throw new Error("No active message found");
 			const run = await pgRepo["AgentRun"].save({
-				thread,
-				agent: thread.agent,
+				thread: { id: thread.id },
+				agent: { id: thread.agent.id },
 				stream,
 				type,
 				model,

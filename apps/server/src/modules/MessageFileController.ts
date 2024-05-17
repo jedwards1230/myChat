@@ -1,4 +1,3 @@
-import { In } from "typeorm";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { MultipartFile } from "@fastify/multipart";
 
@@ -6,7 +5,6 @@ import { logger } from "@/lib/logger";
 import tokenizer from "@mychat/agents/tokenizer";
 import { pgRepo } from "@/lib/pg";
 
-import type { MessageFile } from "@mychat/db/entity/MessageFile";
 import type { DocumentMetaParams } from "@mychat/db/repository/DocumentRepo";
 
 export type MessageFileMetadata = {
@@ -50,6 +48,9 @@ export class MessageFileController {
 		if (!req.isMultipart()) {
 			return res.status(400).send({ error: "Request must be multipart." });
 		}
+		logger.debug("Creating message file", {
+			functionName: "MessageFileController.createMessageFile",
+		});
 		try {
 			const parts = req.parts();
 			const filesRaw: MultipartFile[] = [];
@@ -147,54 +148,5 @@ export class MessageFileController {
 
 	static async getMessageFiles(req: FastifyRequest, res: FastifyReply) {
 		return res.send(req.message.files?.map((f) => f.toJSON()));
-	}
-
-	/** 
-        Files are parsed to a string in the following format:
-
-        ```txt
-        {name}.{extension}\n
-        {text}
-        ```
-    */
-	static async parseFiles(files: MessageFile[]) {
-		try {
-			if (!files.length) throw new Error("No files found");
-			const readyFiles = files.filter((file) => file.parsedText);
-			const nonReadyFiles = files.filter((file) => !file.parsedText);
-
-			// get fileData for all files
-			const loadedFiles = await pgRepo["MessageFile"].find({
-				where: { id: In(nonReadyFiles.map((file) => file.id)) },
-				relations: ["fileData"],
-			});
-
-			const parsableFiles: MessageFile[] = [];
-
-			const formatText = (file: MessageFile) =>
-				`// ${file.path || file.name}\n\`\`\`\n${file.parsedText}\n\`\`\``;
-
-			const parsedFiles = loadedFiles
-				.map((file) => {
-					const text = file.fileData.blob.toString("utf-8");
-					if (!text) return;
-					file.parsedText = text;
-					parsableFiles.push(file);
-					return file;
-				})
-				.filter((file) => file !== undefined)
-				.concat(readyFiles)
-				.map(formatText);
-
-			await pgRepo["MessageFile"].save(parsableFiles);
-
-			return parsedFiles.join("\n\n");
-		} catch (error) {
-			logger.error("Error parsing Files", {
-				error,
-				functionName: "MessageFileController.parseFiles",
-			});
-			throw error;
-		}
 	}
 }

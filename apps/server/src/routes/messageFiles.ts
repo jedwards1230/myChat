@@ -15,16 +15,18 @@ export async function setupMessageFilesRoute(app: FastifyInstance) {
 		})
 	);
 
-	app.addHook("preHandler", getMessage({ parent: true, children: true }));
+	await app.register(async (app) => {
+		app.addHook("preHandler", getMessage({ parent: true, children: true }));
 
-	// POST Create a Message File
-	app.post("/", {
-		schema: {
-			description: "Create a Message File.",
-			tags: ["MessageFile"],
-			response: { 200: MessageObjectSchema },
-		},
-		handler: MessageFileController.createMessageFile,
+		// POST Create a Message File
+		app.post("/", {
+			schema: {
+				description: "Create a Message File.",
+				tags: ["MessageFile"],
+				response: { 200: MessageObjectSchema },
+			},
+			handler: MessageFileController.createMessageFile,
+		});
 	});
 
 	await app.register(async (app) => {

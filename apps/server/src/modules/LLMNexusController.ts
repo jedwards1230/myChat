@@ -6,7 +6,6 @@ import { chatResponseEmitter } from "@/lib/events";
 import { pgRepo } from "@/lib/pg";
 
 import { StreamResponseController } from "./StreamResponseController";
-import { MessageController } from "./MessageController";
 
 import type { AgentRun, AgentRunStatus } from "@mychat/db/entity/AgentRun";
 import type { Message } from "@mychat/db/entity/Message";
@@ -71,12 +70,12 @@ export class LLMNexusController {
 				relations: ["tool_calls", "tool_call_id", "files"],
 			})
 		).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-		const messages = await MessageController.injectFilesContent(messagesWithoutFiles);
+		const messages = await pgRepo["Message"].injectFilesContent(messagesWithoutFiles);
 		return messages;
 	}
 
 	private static async generateChatResponse({
-		agentRun: { thread },
+		agentRun,
 		opts,
 		llmServce,
 	}: {
@@ -84,37 +83,8 @@ export class LLMNexusController {
 		opts: ChatOptions;
 		llmServce: LLMNexus;
 	}) {
-		if (!thread.activeMessage) throw new Error("No active message found");
 		try {
-			const messages = await this.getMessages(thread.activeMessage);
-			const systemMessage = messages.find((m) => m.role === "system");
-			if (!systemMessage) throw new Error("No system message found");
-
-			const activeMessageContent =
-				thread.activeMessage.content ||
-				thread.activeMessage.files?.map((f) => f.name).join(", ");
-
-			logger.debug("Active message content", {
-				activeMessageContent,
-				activeMessage: thread.activeMessage,
-				functionName: "LLMNexusController.generateChatResponse",
-			});
-			if (!activeMessageContent)
-				throw new Error(
-					`No active message content found for thread ${thread.id}`
-				);
-
-			// inject rag metadata and decoded params into the system message
-			const ragRes = await pgRepo["Document"].searchDocuments(activeMessageContent);
-			logger.debug("Searched documents", {
-				ragRes: ragRes.map((d) => d.metadata),
-				functionName: "AgentRunQueue.processQueue",
-			});
-
-			if (ragRes.length)
-				systemMessage.content +=
-					`\n\nThe following are your memories, influenced by recent conversation:\n\n` +
-					JSON.stringify(ragRes.map((d) => d.metadata));
+			const messages = await pgRepo["AgentRun"].generateRagContent(agentRun.id);
 
 			const completion = await llmServce.createChatCompletion(
 				messages.map((m) => m.toJSON()),
@@ -221,7 +191,7 @@ export class LLMNexusController {
 	}) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 		try {
-			const messages = await LLMNexusController.getMessages(thread.activeMessage);
+			const messages = await pgRepo["Message"].getMessages(thread.activeMessage);
 
 			const SYSTEM_MESSAGE = `Generate a thread title for the provided conversation history. 
 			Only respond with the title. 

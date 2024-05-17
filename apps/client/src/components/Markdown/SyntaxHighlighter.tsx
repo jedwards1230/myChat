@@ -31,9 +31,8 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 	props
 ) => {
 	const colorScheme = props.colorScheme;
-	const theme = React.useMemo(
-		() => Object.entries((colorScheme === "light" ? vs : vscDarkPlus) as StyleSheet),
-		[colorScheme]
+	const theme = Object.entries(
+		(colorScheme === "light" ? vs : vscDarkPlus) as StyleSheet
 	);
 
 	const cleanStyle = (style: TextStyle): TextStyle => ({

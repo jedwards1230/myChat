@@ -3,6 +3,8 @@ import { Equal } from "typeorm";
 import tokenizer from "@mychat/agents/tokenizer";
 import { logger } from "@/lib/logger";
 
+import type { PreppedFile } from "@/modules/MessageFileController";
+
 import { AppDataSource } from "@mychat/db/index";
 import { User } from "@mychat/db/entity/User";
 import { Agent } from "@mychat/db/entity/Agent";
@@ -10,13 +12,14 @@ import { Thread } from "@mychat/db/entity/Thread";
 import { Message } from "@mychat/db/entity/Message";
 import { EmbedItem } from "@mychat/db/entity/Document";
 import { FileData, MessageFile } from "@mychat/db/entity/MessageFile";
-import { AgentRun } from "@mychat/db/entity/AgentRun";
 import { ToolCall } from "@mychat/db/entity/ToolCall";
 import { UserSession } from "@mychat/db/entity/Session";
 import { AgentTool } from "@mychat/db/entity/AgentTool";
 
-import type { PreppedFile } from "@/modules/MessageFileController";
 import { extendedDocumentRepo } from "@mychat/db/repository/DocumentRepo";
+import { extendedAgentRunRepo } from "@mychat/db/repository/AgentRun";
+import { extendedMessageRepo } from "@mychat/db/repository/Message";
+import { extendedMessageFileRepo } from "@mychat/db/repository/MessageFile";
 
 export const pgRepo = {
 	User: AppDataSource.getRepository(User),
@@ -64,11 +67,11 @@ export const pgRepo = {
 			return res;
 		},
 	}),
-	Message: AppDataSource.getTreeRepository(Message),
+	Message: extendedMessageRepo(AppDataSource),
 	Document: extendedDocumentRepo(AppDataSource),
 	EmbedItem: AppDataSource.getRepository(EmbedItem),
 	FileData: AppDataSource.getRepository(FileData),
-	MessageFile: AppDataSource.getRepository(MessageFile).extend({
+	MessageFile: extendedMessageFileRepo(AppDataSource).extend({
 		/** Add a list of files to the database. */
 		async addFileList(fileList: PreppedFile[], message: Message): Promise<Message> {
 			try {
@@ -116,7 +119,7 @@ export const pgRepo = {
 			}
 		},
 	}),
-	AgentRun: AppDataSource.getRepository(AgentRun),
+	AgentRun: extendedAgentRunRepo(AppDataSource),
 	ToolCall: AppDataSource.getRepository(ToolCall),
 	UserSession: AppDataSource.getRepository(UserSession),
 	AgentTool: AppDataSource.getRepository(AgentTool),

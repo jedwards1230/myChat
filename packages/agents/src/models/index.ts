@@ -1,2 +1,2 @@
-export * from "./data";
+export * from "./chat";
 export * from "./types";
