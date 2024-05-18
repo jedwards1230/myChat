@@ -4,8 +4,8 @@
 		"lint": {
 			"outputs": []
 		},
-		"tsc": {
-			"dependsOn": ["^lint", "lint", "^tsc"],
+		"typecheck": {
+			"dependsOn": ["^lint", "lint", "^typecheck"],
 			"inputs": ["**/*.{ts,tsx}"],
 			"outputs": []
 		},
@@ -13,11 +13,11 @@
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
 		"migration:run": {
-			"dependsOn": ["tsc"],
+			"dependsOn": ["typecheck"],
 			"outputs": []
 		},
 		"build": {
-			"dependsOn": ["^tsc", "tsc", "^build"],
+			"dependsOn": ["^typecheck", "typecheck", "^build"],
 			"outputs": ["node_modules/.cache/metro/**"]
 		},
 		"dev": {
@@ -32,6 +32,11 @@
 		"start:prod": {
 			"dependsOn": ["^build", "migration:run"]
 		},
-		"clean": {}
+		"clean": {
+			"cache": false
+		},
+		"//#clean": {
+			"cache": false
+		}
 	}
 }

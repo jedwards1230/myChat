@@ -1,7 +1,7 @@
 {
 	"name": "@mychat/db",
 	"version": "0.0.1",
-	"description": "Awesome project developed with TypeORM.",
+	"description": "Database managed with TypeORM.",
 	"main": "./src/index.ts",
 	"exports": {
 		".": "./src",
@@ -35,7 +35,7 @@
 		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
 		"test": "jest",
-		"tsc": "tsc",
+		"typecheck": "tsc",
 		"clean": "rm -rf logs .turbo"
 	}
 }

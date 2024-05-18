@@ -1,44 +1,41 @@
 {
-	"folders": [
-		{
-			"path": ".",
-		},
-		{
-			"name": "Apps",
-			"path": "apps",
-		},
-		{
-			"name": "Packages",
-			"path": "packages",
-		},
-		{
-			"name": "Tooling",
-			"path": "tooling",
-		},
-		{
-			"name": "Logs",
-			"path": "logs",
-		},
-	],
-	"settings": {
-		"prettier.printWidth": 90,
-		"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
-		"tailwindCSS.lint.cssConflict": "ignore",
-		"xeslint.options": { "overrideConfigFile": "eslint.config.js" },
-		"eslint.useFlatConfig": false,
-		"eslint.workingDirectories": [
-			{ "pattern": "./apps/native/*/" },
-			{ "pattern": "./apps/web/*/" },
-			{ "pattern": "./apps/server/*/" },
-			{ "pattern": "./packages/agents/*/" },
-			{ "pattern": "./packages/db/*/" },
-			{ "pattern": "./packages/shared/*/" },
-			{ "pattern": "./tooling/logger/*/" },
-			{ "pattern": "./tooling/eslint/*/" },
-		],
-		"typescript.tsdk": "myChat/node_modules/typescript/lib",
-		"yaml.schemas": {
-			"https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "file:///Users/justin/Projects/myChat/compose.test.yml",
-		},
-	},
+  "folders": [
+    {
+      "path": ".",
+    },
+    {
+      "name": "Apps",
+      "path": "apps",
+    },
+    {
+      "name": "Packages",
+      "path": "packages",
+    },
+    {
+      "name": "Tooling",
+      "path": "tooling",
+    },
+    {
+      "name": "Logs",
+      "path": "logs",
+    },
+  ],
+  "settings": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
+    "tailwindCSS.lint.cssConflict": "ignore",
+    "xeslint.options": { "overrideConfigFile": "eslint.config.js" },
+    "eslint.useFlatConfig": false,
+    "eslint.workingDirectories": [
+      { "pattern": "apps/*/" },
+      { "pattern": "packages/*/" },
+      { "pattern": "tooling/*/" },
+    ],
+    "typescript.tsdk": "myChat/node_modules/typescript/lib",
+    "typescript.enablePromptUseWorkspaceTsdk": true,
+    "yaml.schemas": {
+      "https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "file:///Users/justin/Projects/myChat/compose.test.yml",
+    },
+  },
 }

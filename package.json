@@ -13,7 +13,7 @@
 		"compose": "docker compose -f compose.yml",
 		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
 		"lint": "turbo lint",
-		"tsc": "turbo tsc",
+		"typecheck": "turbo typecheck",
 		"export": "turbo export",
 		"build": "turbo build --cache-dir=.turbo",
 		"migration:run": "turbo migration:run",
@@ -21,7 +21,8 @@
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
 		"compose:prod": "docker compose -f production.yml",
-		"clean": "turbo clean && yarn cache clean && rm -rf node_modules yarn.lock ./logs",
+		"clean": "git clean -xdf node_modules && yarn cache clean && rm -rf ./logs",
+		"clean:workspaces": "turbo clean",
 		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8"
 	},
 	"keywords": [],
@@ -31,8 +32,11 @@
 		"markdown-it": "14.0.0"
 	},
 	"devDependencies": {
+		"@mychat/prettier-config": "workspace:^",
 		"@mychat/tsconfig": "workspace:*",
+		"@turbo/gen": "^1.13.3",
 		"turbo": "^1.13.3"
 	},
-	"packageManager": "yarn@4.2.2"
+	"packageManager": "yarn@4.2.2",
+	"prettier": "@mychat/prettier-config"
 }

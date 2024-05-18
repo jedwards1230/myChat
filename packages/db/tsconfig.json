@@ -5,6 +5,7 @@
 		"outDir": "./build",
 		"emitDecoratorMetadata": true,
 		"experimentalDecorators": true,
-		"sourceMap": true
+		"sourceMap": true,
+		"tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo.json"
 	}
 }

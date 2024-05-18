@@ -15,7 +15,7 @@
 		"build:sign": "APP_VARIANT=preview eas build -e preview -p ios",
 		"analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
 		"analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
-		"tsc": "tsc",
+		"typecheck": "tsc",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
 		"clean": "rm -rf .turbo dist node_modules"
 	},

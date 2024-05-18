@@ -1,40 +1,50 @@
-//import eslintConfig from "@typescript-eslint";
+/// <reference types="./types.d.ts" />
 
-module.exports = {
-	extends: [
-		"eslint:recommended",
-		"plugin:@typescript-eslint/recommended",
-		"eslint-config-universe",
-	],
-	parser: "@typescript-eslint/parser",
-	parserOptions: { project: ["./tsconfig.json"] },
-	plugins: ["@typescript-eslint"],
-	rules: {
-		"prettier/prettier": ["error", { endOfLine: "auto" }],
-		"@typescript-eslint/strict-boolean-expressions": 0,
-		"@typescript-eslint/no-explicit-any": 0,
-		"@typescript-eslint/ban-ts-comment": 0,
-	},
-	// Disable import/namespace due to https://github.com/facebook/react-native/issues/28549
-	// By setting delimiters to `\|/`, this ignore is supported on Windows too
-	settings: {
-		"import/ignore": ["node_modules(\\\\|/)react-native(\\\\|/)index\\.js$"],
-	},
-};
+import eslint from "@eslint/js";
+import importPlugin from "eslint-plugin-import";
+import tseslint from "typescript-eslint";
 
-/* const plugin = {
-	name: "@mychat/eslint-plugin",
-	configs: {},
-	rules: {
-		//"prettier/prettier": ["error", { endOfLine: "auto" }],
-		"@typescript-eslint/strict-boolean-expressions": 0,
-		"@typescript-eslint/no-explicit-any": 0,
-		"@typescript-eslint/ban-ts-comment": 0,
-	},
-	plugins: {
-		eslintConfig,
-	},
-	processors: {},
-};
-
-export default plugin; */
+export default tseslint.config(
+  {
+    // Globally ignored files
+    ignores: ["**/*.config.*"],
+  },
+  {
+    files: ["**/*.js", "**/*.ts", "**/*.tsx"],
+    plugins: {
+      import: importPlugin,
+    },
+    extends: [
+      eslint.configs.recommended,
+      ...tseslint.configs.recommended,
+      ...tseslint.configs.recommendedTypeChecked,
+      ...tseslint.configs.stylisticTypeChecked,
+    ],
+    rules: {
+      "@typescript-eslint/no-unused-vars": [
+        "error",
+        { argsIgnorePattern: "^_", varsIgnorePattern: "^_" },
+      ],
+      "@typescript-eslint/consistent-type-imports": [
+        "warn",
+        { prefer: "type-imports", fixStyle: "separate-type-imports" },
+      ],
+      "@typescript-eslint/no-misused-promises": [
+        2,
+        { checksVoidReturn: { attributes: false } },
+      ],
+      "@typescript-eslint/no-unnecessary-condition": [
+        "error",
+        {
+          allowConstantLoopConditions: true,
+        },
+      ],
+      "@typescript-eslint/no-non-null-assertion": "error",
+      "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
+    },
+  },
+  {
+    linterOptions: { reportUnusedDisableDirectives: true },
+    languageOptions: { parserOptions: { project: true } },
+  },
+);

@@ -5,7 +5,7 @@
 	"scripts": {
 		"start": "bun run src/index.ts",
 		"start:prod": "bun run src/index.ts",
-		"tsc": "tsc --noEmit",
+		"typecheck": "tsc --noEmit",
 		"dev": "bun --watch run src/index.ts",
 		"dev:clean": "DEBUG_RESET_DB=true bun --watch run src/index.ts",
 		"test": "export TEST_ENV=true jest",

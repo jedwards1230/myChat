@@ -4,7 +4,8 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"]
-		}
+		},
+		"tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo.json"
 	},
 	"include": [
 		"**/*.ts",

@@ -6,7 +6,7 @@
 	},
 	"scripts": {
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
-		"tsc": "tsc"
+		"typecheck": "tsc"
 	},
 	"dependencies": {
 		"winston": "^3.13.0"

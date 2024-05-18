@@ -23,7 +23,7 @@
 	"scripts": {
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
 		"test": "jest",
-		"tsc": "tsc",
+		"typecheck": "tsc",
 		"clean": "rm -rf logs .turbo"
 	}
 }
