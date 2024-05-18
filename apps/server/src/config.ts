@@ -7,7 +7,7 @@ const sessionSecret = process.env.SESSION_SECRET || "secret";
 
 const staticClientFilesDir = path.resolve(
 	process.cwd(),
-	process.env.CLIENT_BUILD_DIR || "../client/dist"
+	process.env.CLIENT_BUILD_DIR || "../native/dist"
 );
 
 const SSL_ENABLED = process.env.SSL_ENABLED === "true";

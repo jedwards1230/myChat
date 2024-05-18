@@ -1,5 +1,5 @@
 import type { Logger as TypeORMLogger } from "typeorm";
-import winston from "winston";
+import type winston from "winston";
 
 export class DBLogger implements TypeORMLogger {
 	constructor(private dbLogger: winston.Logger) {}

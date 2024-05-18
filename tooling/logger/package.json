@@ -4,7 +4,17 @@
 	"exports": {
 		".": "./src/index.ts"
 	},
+	"scripts": {
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
+		"tsc": "tsc"
+	},
 	"dependencies": {
 		"winston": "^3.13.0"
+	},
+	"devDependencies": {
+		"@mychat/eslint-config": "workspace:*",
+		"@mychat/tsconfig": "workspace:*",
+		"eslint": "^9.2.0",
+		"typescript": "beta"
 	}
 }

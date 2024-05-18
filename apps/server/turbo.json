@@ -2,11 +2,19 @@
 	"extends": ["//"],
 	"pipeline": {
 		"start": {
-			"dependsOn": ["@mychat/db#migration:run", "@mychat/client#build"],
+			"dependsOn": [
+				"@mychat/db#migration:run",
+				"@mychat/native#build",
+				"@mychat/web#build"
+			],
 			"outputs": ["apps/server/logs/**"]
 		},
 		"start:prod": {
-			"dependsOn": ["@mychat/db#migration:run", "@mychat/client#build"],
+			"dependsOn": [
+				"@mychat/db#migration:run",
+				"@mychat/native#build",
+				"@mychat/web#build"
+			],
 			"outputs": ["apps/server/logs/**"]
 		}
 	}

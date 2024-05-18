@@ -1,4 +1,4 @@
 {
 	"extends": "@mychat/tsconfig/base.json",
-	"include": ["eslint.config.cjs", "index.js"]
+	"include": ["eslint.config.js", "index.js"]
 }

@@ -16,7 +16,7 @@
 	},
 	"scripts": {
 		"dev": "tsc --watch",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
 		"test": "jest",
 		"tsc": "tsc",
 		"clean": "rm -rf .turbo"

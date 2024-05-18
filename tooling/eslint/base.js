@@ -33,14 +33,7 @@ const config = {
 		"import/consistent-type-specifier-style": "off",
 		"turbo/no-undeclared-env-vars": "off",
 	},
-	ignorePatterns: [
-		"**/.eslintrc.cjs",
-		"**/*.config.js",
-		"**/*.config.cjs",
-		"dist",
-		"yarn.lock",
-		".turbo",
-	],
+	ignorePatterns: ["**/.eslintrc.js", "**/*.config.js", "dist", "yarn.lock", ".turbo"],
 	reportUnusedDisableDirectives: true,
 };
 

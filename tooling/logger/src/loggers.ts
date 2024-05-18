@@ -4,9 +4,7 @@ import { isProd, logsDir } from "./utils";
 
 export type Loggers = "common" | "stream" | "access" | "db";
 
-export type BuildOpts = { type: Loggers; prefix: string };
-
-export function buildLoggers({ prefix, type }: BuildOpts) {
+export function buildLoggers(type: Loggers) {
 	const dirname = logsDir;
 	switch (type) {
 		case "common":

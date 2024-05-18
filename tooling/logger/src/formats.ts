@@ -1,7 +1,7 @@
 import stringify from "json-stringify-safe";
-import winston, { format } from "winston";
+import { format, type Logform } from "winston";
 
-export const mergeWithCommonFormats = (...formats: winston.Logform.Format[]) =>
+export const mergeWithCommonFormats = (...formats: Logform.Format[]) =>
 	format.combine(commonFormats, ...formats);
 
 const combinedLogFormat = format.printf(

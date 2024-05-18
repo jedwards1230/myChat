@@ -1,9 +1,9 @@
 /apps/server/node_modules/
 /apps/server/logs/
 
-/apps/client/node_modules/
-/apps/client/ios/
-/apps/client/dist/
+/apps/native/node_modules/
+/apps/native/ios/
+/apps/native/dist/
 /**/tests/
 node_modules/
 .turbo/

@@ -1,11 +1,12 @@
 import { purgeLogFiles } from "./utils";
-import { buildLoggers, type BuildOpts } from "./loggers";
+import { buildLoggers, type Loggers } from "./loggers";
 
-export function getLogger(opts: BuildOpts) {
+export type BuildOpts = { type: Loggers; prefix: string };
+
+export function getLogger({ prefix, type }: BuildOpts) {
 	purgeLogFiles();
 
-	const { prefix } = opts;
-	const logger = buildLoggers(opts);
+	const logger = buildLoggers(type);
 	return prefix ? logger.child({ prefix }) : logger;
 }
 

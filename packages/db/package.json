@@ -33,7 +33,7 @@
 		"migration:show": "yarn typeorm migration:show",
 		"migration:run": "yarn typeorm migration:run",
 		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
 		"test": "jest",
 		"tsc": "tsc",
 		"clean": "rm -rf logs .turbo"

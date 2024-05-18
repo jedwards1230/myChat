@@ -47,7 +47,7 @@ These can be modified for local build contexts, but I generally only use docker 
 - The Dockerfile compiles the main backend and serves a Postgres DB.
   - Note: Generally best to just run the PG DB alone and run fastify form the CLI
   - TODO: Add dev mode so docker watches for changes and restarts the server.
-- Run `yarn run export` from the `./client` directory to export the web client to the `./client/dist` directory. The Dockerfile has an ENV variable to point to this directory.
+- Run `yarn run export` from the `./native` directory to export the web client to the `./native/dist` directory. The Dockerfile has an ENV variable to point to this directory.
 
 ## Features
 

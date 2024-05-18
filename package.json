@@ -28,9 +28,7 @@
 	"author": "",
 	"license": "MIT",
 	"resolutions": {
-		"eslint": "9.1.1",
-		"markdown-it": "14.0.0",
-		"react-native-svg": "15.2.0"
+		"markdown-it": "14.0.0"
 	},
 	"devDependencies": {
 		"@mychat/tsconfig": "workspace:*",
