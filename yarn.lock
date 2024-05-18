@@ -34,23 +34,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@anthropic-ai/sdk@npm:^0.9.1":
-  version: 0.9.1
-  resolution: "@anthropic-ai/sdk@npm:0.9.1"
-  dependencies:
-    "@types/node": "npm:^18.11.18"
-    "@types/node-fetch": "npm:^2.6.4"
-    abort-controller: "npm:^3.0.0"
-    agentkeepalive: "npm:^4.2.1"
-    digest-fetch: "npm:^1.3.0"
-    form-data-encoder: "npm:1.7.2"
-    formdata-node: "npm:^4.3.2"
-    node-fetch: "npm:^2.6.7"
-    web-streams-polyfill: "npm:^3.2.1"
-  checksum: 10c0/de00ec551a5731a30254e9a3a3ed76f05c0865da6cddf32d4010659f72ca2d25985dff7173af850f92ede1e3695e00105f9689aeb875f0e82dc93f1597be0d05
-  languageName: node
-  linkType: hard
-
 "@apidevtools/openapi-schemas@npm:^2.1.0":
   version: 2.1.0
   resolution: "@apidevtools/openapi-schemas@npm:2.1.0"
@@ -1881,9 +1864,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/eslintrc@npm:^3.0.2":
-  version: 3.0.2
-  resolution: "@eslint/eslintrc@npm:3.0.2"
+"@eslint/eslintrc@npm:^3.1.0":
+  version: 3.1.0
+  resolution: "@eslint/eslintrc@npm:3.1.0"
   dependencies:
     ajv: "npm:^6.12.4"
     debug: "npm:^4.3.2"
@@ -1894,7 +1877,7 @@ __metadata:
     js-yaml: "npm:^4.1.0"
     minimatch: "npm:^3.1.2"
     strip-json-comments: "npm:^3.1.1"
-  checksum: 10c0/d8c92f06bdf8e2be9fcc0eeac4a9351745174adfcc72571ef3d179101cb55e19f15f6385c2a4f4945a3ba9245802d3371208e2e1e4f00f6bcf6b8711656af85a
+  checksum: 10c0/5b7332ed781edcfc98caa8dedbbb843abfb9bda2e86538529c843473f580e40c69eb894410eddc6702f487e9ee8f8cfa8df83213d43a8fdb549f23ce06699167
   languageName: node
   linkType: hard
 
@@ -1905,10 +1888,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:9.2.0":
-  version: 9.2.0
-  resolution: "@eslint/js@npm:9.2.0"
-  checksum: 10c0/89632466d329d9dd68c6ec24290e407f0950ca8c4b7f3750b82457daa7f6233799ccbc956cd84231f9544efbefddd69833ee82658883ca673cfca9e4b8e0713a
+"@eslint/js@npm:9.3.0":
+  version: 9.3.0
+  resolution: "@eslint/js@npm:9.3.0"
+  checksum: 10c0/1550c68922eb17c3ce541d9ffbb687e656bc0d4e2fff2d9cb0a75101a9cdb6184b7af7378ccf46c6ca750b280d25d45cc5e7374a83a4ee89d404d3717502fd9d
   languageName: node
   linkType: hard
 
@@ -2598,10 +2581,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@humanwhocodes/retry@npm:^0.2.3":
-  version: 0.2.4
-  resolution: "@humanwhocodes/retry@npm:0.2.4"
-  checksum: 10c0/d0e3fe9c353f97fea6a9d0a4022b0f8813d68b646c0fa99718ec703b085fd66dd84154d947670291914bc1ab2d1fe77f0093d99d3a5fe9f56eef65360e7c6c86
+"@humanwhocodes/retry@npm:^0.3.0":
+  version: 0.3.0
+  resolution: "@humanwhocodes/retry@npm:0.3.0"
+  checksum: 10c0/7111ec4e098b1a428459b4e3be5a5d2a13b02905f805a2468f4fa628d072f0de2da26a27d04f65ea2846f73ba51f4204661709f05bfccff645e3cedef8781bb6
   languageName: node
   linkType: hard
 
@@ -2967,14 +2950,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/community@npm:^0.0.57, @langchain/community@npm:~0.0.47":
-  version: 0.0.57
-  resolution: "@langchain/community@npm:0.0.57"
+"@langchain/community@npm:^0.2.0":
+  version: 0.2.0
+  resolution: "@langchain/community@npm:0.2.0"
   dependencies:
-    "@langchain/core": "npm:~0.1.60"
+    "@langchain/core": "npm:~0.2.0"
     "@langchain/openai": "npm:~0.0.28"
+    binary-extensions: "npm:^2.2.0"
     expr-eval: "npm:^2.0.2"
     flat: "npm:^5.0.2"
+    js-yaml: "npm:^4.1.0"
+    langchain: "npm:~0.2.0"
     langsmith: "npm:~0.1.1"
     uuid: "npm:^9.0.0"
     zod: "npm:^3.22.3"
@@ -2986,10 +2972,12 @@ __metadata:
     "@aws-sdk/client-dynamodb": ^3.310.0
     "@aws-sdk/client-kendra": ^3.352.0
     "@aws-sdk/client-lambda": ^3.310.0
+    "@aws-sdk/client-s3": ^3.310.0
     "@aws-sdk/client-sagemaker-runtime": ^3.310.0
     "@aws-sdk/client-sfn": ^3.310.0
     "@aws-sdk/credential-provider-node": ^3.388.0
     "@azure/search-documents": ^12.0.0
+    "@azure/storage-blob": ^12.15.0
     "@clickhouse/client": ^0.2.5
     "@cloudflare/ai": "*"
     "@datastax/astra-db-ts": ^1.0.0
@@ -2999,11 +2987,14 @@ __metadata:
     "@gomomento/sdk": ^1.51.1
     "@gomomento/sdk-core": ^1.51.1
     "@google-ai/generativelanguage": ^0.2.1
+    "@google-cloud/storage": ^6.10.1 || ^7.7.0
     "@gradientai/nodejs-sdk": ^1.2.0
     "@huggingface/inference": ^2.6.4
+    "@mendable/firecrawl-js": ^0.0.13
     "@mlc-ai/web-llm": ^0.2.35
     "@mozilla/readability": "*"
     "@neondatabase/serverless": "*"
+    "@notionhq/client": ^2.2.10
     "@opensearch-project/opensearch": "*"
     "@pinecone-database/pinecone": "*"
     "@planetscale/database": ^1.8.0
@@ -3028,9 +3019,12 @@ __metadata:
     "@xata.io/client": ^0.28.0
     "@xenova/transformers": ^2.5.4
     "@zilliz/milvus2-sdk-node": ">=2.2.7"
+    apify-client: ^2.7.1
+    assemblyai: ^4.0.0
     better-sqlite3: ^9.4.0
     cassandra-driver: ^4.7.2
     cborg: ^4.1.1
+    cheerio: ^1.0.0-rc.12
     chromadb: "*"
     closevector-common: 0.1.3
     closevector-node: 0.1.6
@@ -3038,15 +3032,18 @@ __metadata:
     cohere-ai: "*"
     convex: ^1.3.1
     couchbase: ^4.3.0
+    d3-dsv: ^2.0.0
     discord.js: ^14.14.1
     dria: ^0.0.3
     duck-duck-scrape: ^2.2.5
+    epub2: ^3.0.1
     faiss-node: ^0.5.1
     firebase-admin: ^11.9.0 || ^12.0.0
     google-auth-library: ^8.9.0
     googleapis: ^126.0.1
     hnswlib-node: ^3.0.0
     html-to-text: ^9.0.5
+    ignore: ^5.2.0
     interface-datastore: ^8.2.11
     ioredis: ^5.3.2
     it-all: ^3.0.4
@@ -3055,16 +3052,24 @@ __metadata:
     llmonitor: ^0.5.9
     lodash: ^4.17.21
     lunary: ^0.6.11
+    mammoth: ^1.6.0
     mongodb: ">=5.2.0"
     mysql2: ^3.3.3
     neo4j-driver: "*"
     node-llama-cpp: "*"
+    notion-to-md: ^3.1.0
+    officeparser: ^4.0.4
+    pdf-parse: 1.1.1
     pg: ^8.11.0
     pg-copy-streams: ^6.0.5
     pickleparser: ^0.2.1
+    playwright: ^1.32.1
     portkey-ai: ^0.1.11
+    puppeteer: ^19.7.2
     redis: "*"
     replicate: ^0.18.0
+    sonix-speech-recognition: ^2.1.1
+    srt-parser-2: ^1.2.3
     typeorm: ^0.3.12
     typesense: ^1.5.3
     usearch: ^1.1.1
@@ -3073,6 +3078,8 @@ __metadata:
     weaviate-ts-client: "*"
     web-auth-library: ^1.0.3
     ws: ^8.14.2
+    youtube-transcript: ^1.0.6
+    youtubei.js: ^9.1.0
   peerDependenciesMeta:
     "@aws-crypto/sha256-js":
       optional: true
@@ -3086,6 +3093,8 @@ __metadata:
       optional: true
     "@aws-sdk/client-lambda":
       optional: true
+    "@aws-sdk/client-s3":
+      optional: true
     "@aws-sdk/client-sagemaker-runtime":
       optional: true
     "@aws-sdk/client-sfn":
@@ -3093,6 +3102,8 @@ __metadata:
     "@aws-sdk/credential-provider-node":
       optional: true
     "@azure/search-documents":
+      optional: true
+    "@azure/storage-blob":
       optional: true
     "@clickhouse/client":
       optional: true
@@ -3112,15 +3123,21 @@ __metadata:
       optional: true
     "@google-ai/generativelanguage":
       optional: true
+    "@google-cloud/storage":
+      optional: true
     "@gradientai/nodejs-sdk":
       optional: true
     "@huggingface/inference":
+      optional: true
+    "@mendable/firecrawl-js":
       optional: true
     "@mlc-ai/web-llm":
       optional: true
     "@mozilla/readability":
       optional: true
     "@neondatabase/serverless":
+      optional: true
+    "@notionhq/client":
       optional: true
     "@opensearch-project/opensearch":
       optional: true
@@ -3170,11 +3187,17 @@ __metadata:
       optional: true
     "@zilliz/milvus2-sdk-node":
       optional: true
+    apify-client:
+      optional: true
+    assemblyai:
+      optional: true
     better-sqlite3:
       optional: true
     cassandra-driver:
       optional: true
     cborg:
+      optional: true
+    cheerio:
       optional: true
     chromadb:
       optional: true
@@ -3190,11 +3213,15 @@ __metadata:
       optional: true
     couchbase:
       optional: true
+    d3-dsv:
+      optional: true
     discord.js:
       optional: true
     dria:
       optional: true
     duck-duck-scrape:
+      optional: true
+    epub2:
       optional: true
     faiss-node:
       optional: true
@@ -3207,6 +3234,8 @@ __metadata:
     hnswlib-node:
       optional: true
     html-to-text:
+      optional: true
+    ignore:
       optional: true
     interface-datastore:
       optional: true
@@ -3224,6 +3253,8 @@ __metadata:
       optional: true
     lunary:
       optional: true
+    mammoth:
+      optional: true
     mongodb:
       optional: true
     mysql2:
@@ -3232,17 +3263,31 @@ __metadata:
       optional: true
     node-llama-cpp:
       optional: true
+    notion-to-md:
+      optional: true
+    officeparser:
+      optional: true
+    pdf-parse:
+      optional: true
     pg:
       optional: true
     pg-copy-streams:
       optional: true
     pickleparser:
       optional: true
+    playwright:
+      optional: true
     portkey-ai:
+      optional: true
+    puppeteer:
       optional: true
     redis:
       optional: true
     replicate:
+      optional: true
+    sonix-speech-recognition:
+      optional: true
+    srt-parser-2:
       optional: true
     typeorm:
       optional: true
@@ -3260,11 +3305,15 @@ __metadata:
       optional: true
     ws:
       optional: true
-  checksum: 10c0/7d42470c5c42d97c9e9b4925de3fa8a558d785e2c96c347d4a48f97f6396c64e54f3730340c2d262e09440fc664ef44496a9ce09894e75b2e4362017e6bc478c
+    youtube-transcript:
+      optional: true
+    youtubei.js:
+      optional: true
+  checksum: 10c0/b69c85e396307408c29f1515ffba560a0806dc1f0f60df35d8c314f98e30d8d2311f25d0dd88745eea1452e320f66f739919fa620e85815a8acd741d5af40963
   languageName: node
   linkType: hard
 
-"@langchain/core@npm:<0.3.0 || >0.1.0, @langchain/core@npm:~0.1.56, @langchain/core@npm:~0.1.60":
+"@langchain/core@npm:<0.3.0 || >0.1.0, @langchain/core@npm:~0.1.56":
   version: 0.1.63
   resolution: "@langchain/core@npm:0.1.63"
   dependencies:
@@ -3284,7 +3333,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@langchain/openai@npm:^0.0.31, @langchain/openai@npm:~0.0.28":
+"@langchain/core@npm:>0.1.56  <0.3.0, @langchain/core@npm:~0.2.0":
+  version: 0.2.0
+  resolution: "@langchain/core@npm:0.2.0"
+  dependencies:
+    ansi-styles: "npm:^5.0.0"
+    camelcase: "npm:6"
+    decamelize: "npm:1.2.0"
+    js-tiktoken: "npm:^1.0.12"
+    langsmith: "npm:~0.1.7"
+    ml-distance: "npm:^4.0.0"
+    mustache: "npm:^4.2.0"
+    p-queue: "npm:^6.6.2"
+    p-retry: "npm:4"
+    uuid: "npm:^9.0.0"
+    zod: "npm:^3.22.4"
+    zod-to-json-schema: "npm:^3.22.3"
+  checksum: 10c0/408ecc311635de1ce51fef8123e1a465a8b6a4fda8f997ac306087d9f29855cb3cd96a86f295a7708dc416bf1c2583b68bf9cb7a6bf95b4c0453f9f3d528dbe8
+  languageName: node
+  linkType: hard
+
+"@langchain/openai@npm:^0.0.32":
+  version: 0.0.32
+  resolution: "@langchain/openai@npm:0.0.32"
+  dependencies:
+    "@langchain/core": "npm:>0.1.56  <0.3.0"
+    js-tiktoken: "npm:^1.0.12"
+    openai: "npm:^4.41.1"
+    zod: "npm:^3.22.4"
+    zod-to-json-schema: "npm:^3.22.3"
+  checksum: 10c0/ea032b344cd7135895647c1eaee8efbbe7a1d3f012472170ad7e4424398cfb203a4edff60c4d345bebeed02099b88a8372546a96a5356fe326e76a0d93f8f659
+  languageName: node
+  linkType: hard
+
+"@langchain/openai@npm:~0.0.28":
   version: 0.0.31
   resolution: "@langchain/openai@npm:0.0.31"
   dependencies:
@@ -3332,9 +3414,9 @@ __metadata:
     "@mychat/logger": "workspace:*"
     "@mychat/shared": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
-    eslint: "npm:^9.2.0"
+    eslint: "npm:^9.3.0"
     gpt4-tokenizer: "npm:^1.3.0"
-    langchain: "npm:^0.1.37"
+    langchain: "npm:^0.2.0"
     openai: "npm:^4.47.1"
     playwright: "npm:^1.44.0"
     typescript: "npm:beta"
@@ -3351,7 +3433,7 @@ __metadata:
     "@mychat/shared": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
     "@types/node": "npm:^20.12.12"
-    eslint: "npm:^9.2.0"
+    eslint: "npm:^9.3.0"
     openai: "npm:^4.47.1"
     pg: "npm:^8.11.5"
     pgvector: "npm:^0.1.8"
@@ -3369,7 +3451,7 @@ __metadata:
     "@mychat/tsconfig": "workspace:*"
     "@typescript-eslint/eslint-plugin": "npm:8.0.0-alpha.13"
     "@typescript-eslint/parser": "npm:8.0.0-alpha.13"
-    eslint: "npm:9.2.0"
+    eslint: "npm:9.3.0"
     eslint-config-prettier: "npm:^9.1.0"
     eslint-config-turbo: "npm:^1.13.3"
     eslint-config-universe: "npm:^12.1.0"
@@ -3386,7 +3468,7 @@ __metadata:
   dependencies:
     "@mychat/eslint-config": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
-    eslint: "npm:^9.2.0"
+    eslint: "npm:^9.3.0"
     typescript: "npm:beta"
     winston: "npm:^3.13.0"
   languageName: unknown
@@ -3450,7 +3532,7 @@ __metadata:
     class-variance-authority: "npm:^0.7.0"
     clsx: "npm:^2.1.1"
     cmdk: "npm:^1.0.0"
-    eslint: "npm:9.2.0"
+    eslint: "npm:9.3.0"
     eslint-config-react-app: "npm:^7.0.1"
     expo: "npm:^51.0.8"
     expo-application: "npm:~5.9.1"
@@ -3523,8 +3605,8 @@ __metadata:
     "@fastify/static": "npm:^7.0.4"
     "@fastify/swagger": "npm:^8.14.0"
     "@fastify/swagger-ui": "npm:^3.0.0"
-    "@langchain/community": "npm:^0.0.57"
-    "@langchain/openai": "npm:^0.0.31"
+    "@langchain/community": "npm:^0.2.0"
+    "@langchain/openai": "npm:^0.0.32"
     "@mychat/db": "workspace:*"
     "@mychat/eslint-config": "workspace:*"
     "@mychat/logger": "workspace:*"
@@ -3536,7 +3618,7 @@ __metadata:
     "@types/morgan": "npm:^1.9.9"
     "@types/node": "npm:^20.12.12"
     "@types/supertest": "npm:^6.0.2"
-    eslint: "npm:9.2.0"
+    eslint: "npm:9.3.0"
     fastify: "npm:^4.27.0"
     fastify-plugin: "npm:^4.5.1"
     fastify-type-provider-zod: "npm:^1.1.9"
@@ -3561,7 +3643,7 @@ __metadata:
   dependencies:
     "@mychat/eslint-config": "workspace:*"
     "@mychat/tsconfig": "workspace:*"
-    eslint: "npm:^9.2.0"
+    eslint: "npm:^9.3.0"
     typescript: "npm:beta"
     zod: "npm:^3.23.8"
   languageName: unknown
@@ -7083,13 +7165,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base-64@npm:^0.1.0":
-  version: 0.1.0
-  resolution: "base-64@npm:0.1.0"
-  checksum: 10c0/fe0dcf076e823f04db7ee9b02495be08a91c445fbc6db03cb9913be9680e2fcc0af8b74459041fe08ad16800b1f65a549501d8f08696a8a6d32880789b7de69d
-  languageName: node
-  linkType: hard
-
 "base64-js@npm:^1.2.3, base64-js@npm:^1.3.1, base64-js@npm:^1.5.1":
   version: 1.5.1
   resolution: "base64-js@npm:1.5.1"
@@ -8509,16 +8584,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"digest-fetch@npm:^1.3.0":
-  version: 1.3.0
-  resolution: "digest-fetch@npm:1.3.0"
-  dependencies:
-    base-64: "npm:^0.1.0"
-    md5: "npm:^2.3.0"
-  checksum: 10c0/0fb389e33b9c6baf5e6a9ed287aa9d0d8b373d59b49d49c62c261e1ab24eaaf1d5aea3a105c1b31ba4a23e29e129365d839ce4c5974fa004a85d1a4568bc3585
-  languageName: node
-  linkType: hard
-
 "dir-glob@npm:^3.0.1":
   version: 3.0.1
   resolution: "dir-glob@npm:3.0.1"
@@ -9392,17 +9457,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:9.2.0, eslint@npm:^9.2.0":
-  version: 9.2.0
-  resolution: "eslint@npm:9.2.0"
+"eslint@npm:9.3.0, eslint@npm:^9.3.0":
+  version: 9.3.0
+  resolution: "eslint@npm:9.3.0"
   dependencies:
     "@eslint-community/eslint-utils": "npm:^4.2.0"
     "@eslint-community/regexpp": "npm:^4.6.1"
-    "@eslint/eslintrc": "npm:^3.0.2"
-    "@eslint/js": "npm:9.2.0"
+    "@eslint/eslintrc": "npm:^3.1.0"
+    "@eslint/js": "npm:9.3.0"
     "@humanwhocodes/config-array": "npm:^0.13.0"
     "@humanwhocodes/module-importer": "npm:^1.0.1"
-    "@humanwhocodes/retry": "npm:^0.2.3"
+    "@humanwhocodes/retry": "npm:^0.3.0"
     "@nodelib/fs.walk": "npm:^1.2.8"
     ajv: "npm:^6.12.4"
     chalk: "npm:^4.0.0"
@@ -9432,7 +9497,7 @@ __metadata:
     text-table: "npm:^0.2.0"
   bin:
     eslint: bin/eslint.js
-  checksum: 10c0/eab3265100a359a486e40e1d9d4d3ecff936d2f4d952f4ab107d404e0684fffbe186ecd0fb41791af5bcb13570a27032ddf9a2e628927ed33473f64255b0037b
+  checksum: 10c0/d0cf1923408ce720f2fa0dde39094dbee6b03a71d5e6466402bbeb29c08a618713f7a1e8cfc4b4d50dbe3750ce68adf614a0e973dea6fa36ddc428dfb89d4cac
   languageName: node
   linkType: hard
 
@@ -12515,7 +12580,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"js-tiktoken@npm:^1.0.12, js-tiktoken@npm:^1.0.7":
+"js-tiktoken@npm:^1.0.12":
   version: 1.0.12
   resolution: "js-tiktoken@npm:1.0.12"
   dependencies:
@@ -12852,17 +12917,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"langchain@npm:^0.1.37":
-  version: 0.1.37
-  resolution: "langchain@npm:0.1.37"
+"langchain@npm:^0.2.0, langchain@npm:~0.2.0":
+  version: 0.2.0
+  resolution: "langchain@npm:0.2.0"
   dependencies:
-    "@anthropic-ai/sdk": "npm:^0.9.1"
-    "@langchain/community": "npm:~0.0.47"
-    "@langchain/core": "npm:~0.1.60"
+    "@langchain/core": "npm:~0.2.0"
     "@langchain/openai": "npm:~0.0.28"
     "@langchain/textsplitters": "npm:~0.0.0"
     binary-extensions: "npm:^2.2.0"
-    js-tiktoken: "npm:^1.0.7"
+    js-tiktoken: "npm:^1.0.12"
     js-yaml: "npm:^4.1.0"
     jsonpointer: "npm:^5.0.1"
     langchainhub: "npm:~0.0.8"
@@ -12885,7 +12948,6 @@ __metadata:
     "@gomomento/sdk-core": ^1.51.1
     "@gomomento/sdk-web": ^1.51.1
     "@google-ai/generativelanguage": ^0.2.1
-    "@google-cloud/storage": ^6.10.1 || ^7.7.0
     "@mendable/firecrawl-js": ^0.0.13
     "@notionhq/client": ^2.2.10
     "@pinecone-database/pinecone": "*"
@@ -12902,7 +12964,6 @@ __metadata:
     d3-dsv: ^2.0.0
     epub2: ^3.0.1
     fast-xml-parser: "*"
-    google-auth-library: ^8.9.0
     handlebars: ^4.7.8
     html-to-text: ^9.0.5
     ignore: ^5.2.0
@@ -12948,8 +13009,6 @@ __metadata:
       optional: true
     "@google-ai/generativelanguage":
       optional: true
-    "@google-cloud/storage":
-      optional: true
     "@mendable/firecrawl-js":
       optional: true
     "@notionhq/client":
@@ -12983,8 +13042,6 @@ __metadata:
     faiss-node:
       optional: true
     fast-xml-parser:
-      optional: true
-    google-auth-library:
       optional: true
     handlebars:
       optional: true
@@ -13034,7 +13091,7 @@ __metadata:
       optional: true
     youtubei.js:
       optional: true
-  checksum: 10c0/ce0d2093fe3e624f5c872dd494b58a958e1ba79238dd22508591a0f207c1caf0e7ca16f4cc2af4e447f261fe50682da18d3c891710d702d8057d9b3ee33598c7
+  checksum: 10c0/d60214cc6386f1208bf9e1f780758e66d6f57f1697dced9dcd529cc93e56acb32fdca574678441aaeffe88bcd7c8d11b3a41d26bee5d7e2e0eccfe81c316fb83
   languageName: node
   linkType: hard
 
@@ -13588,7 +13645,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"md5@npm:^2.2.1, md5@npm:^2.3.0":
+"md5@npm:^2.2.1":
   version: 2.3.0
   resolution: "md5@npm:2.3.0"
   dependencies:
