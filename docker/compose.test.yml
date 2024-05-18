@@ -12,7 +12,7 @@ services:
         container_name: mychat
         hostname: mychat
         ports:
-            - 3000:3000
+            - 3050:3050
         depends_on:
             - postgres
         env_file:

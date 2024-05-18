@@ -7,8 +7,12 @@ import { fileURLToPath } from "url";
 /** @type { PrettierConfig | SortImportsConfig | TailwindConfig } */
 const config = {
   printWidth: 90,
+  tabWidth: 4,
+  useTabs: true,
   plugins: ["@ianvs/prettier-plugin-sort-imports", "prettier-plugin-tailwindcss"],
-  tailwindConfig: fileURLToPath(new URL("../../tooling/tailwind/web.ts", import.meta.url)),
+  tailwindConfig: fileURLToPath(
+    new URL("../../tooling/tailwind/web.ts", import.meta.url),
+  ),
   tailwindFunctions: ["cn", "cva"],
   importOrder: [
     "<TYPES>",

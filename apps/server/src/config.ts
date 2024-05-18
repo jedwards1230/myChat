@@ -2,12 +2,12 @@ import path from "path";
 
 const isProd = process.env.NODE_ENV === "production";
 const resetDbOnInit = process.env.DEBUG_RESET_DB === "true";
-const port = process.env.PORT ? parseInt(process.env.PORT) : 3000;
+const port = process.env.PORT ? parseInt(process.env.PORT) : 3050;
 const sessionSecret = process.env.SESSION_SECRET || "secret";
 
 const staticClientFilesDir = path.resolve(
 	process.cwd(),
-	process.env.CLIENT_BUILD_DIR || "../native/dist"
+	process.env.CLIENT_BUILD_DIR || "../native/dist",
 );
 
 const SSL_ENABLED = process.env.SSL_ENABLED === "true";

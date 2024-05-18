@@ -29,7 +29,7 @@ These can be modified for local build contexts, but I generally only use docker 
 #### Compose.yml
 
 - Docker Compose will serve:
-  - Fastify server with static web client on port 3000
+  - Fastify server with static web client on port 3050
   - Postgres DB
 - This is mostly used for local development and testing
 
