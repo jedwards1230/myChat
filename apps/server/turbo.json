@@ -3,7 +3,7 @@
 	"pipeline": {
 		"start": {
 			"dependsOn": [
-				"@mychat/db#migration:run",
+				"@mychat/db#migrate",
 				"@mychat/native#build",
 				"@mychat/web#build"
 			],
@@ -11,7 +11,7 @@
 		},
 		"start:prod": {
 			"dependsOn": [
-				"@mychat/db#migration:run",
+				"@mychat/db#migrate",
 				"@mychat/native#build",
 				"@mychat/web#build"
 			],

@@ -7,7 +7,8 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
-import type { ModelApi } from "../../../agents/src/models/index";
+import type { ModelApi } from "@mychat/agents/src/models";
+
 import { Agent } from "./Agent";
 import { DatabaseDocument } from "./Document";
 import { Thread } from "./Thread";

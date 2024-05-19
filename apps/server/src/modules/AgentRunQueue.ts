@@ -2,7 +2,7 @@ import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 import MessageQueue from "@/lib/queue";
 
-import type { AgentRun } from "@mychat/db/entity/AgentRun";
+import type { AgentRun } from "@mychat/db/schema/agentRun";
 
 import { LLMNexusController } from "./LLMNexusController";
 

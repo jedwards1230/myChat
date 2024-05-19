@@ -1,7 +1,7 @@
 #!/bin/sh
 
 cd /web/packages/db
-yarn run migration:run
+yarn run migrate
 
 cd /web/apps/server
 bun run src/index.ts

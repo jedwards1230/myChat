@@ -6,9 +6,9 @@ import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
 import type { ModelApi } from "@mychat/agents/models/types";
-import type { AgentRun, RunType } from "@mychat/db/entity/AgentRun";
-import type { Thread } from "@mychat/db/entity/Thread";
-import type { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
+import type { AgentRun, RunType } from "@mychat/db/schema/agentRun";
+import type { Thread } from "@mychat/db/schema/thread";
+import type { CreateRunBody } from "@mychat/shared/schema/agentRun";
 
 import { AgentRunQueue } from "./AgentRunQueue";
 

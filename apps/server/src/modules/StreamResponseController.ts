@@ -4,9 +4,11 @@ import type { ChatCompletionMessageParam } from "openai/resources/index.mjs";
 import { logger, streamLogger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import type { Message } from "@mychat/db/entity/Message";
-import type { Thread } from "@mychat/db/entity/Thread";
-import type { ToolCall } from "@mychat/db/entity/ToolCall";
+import type {
+	SelectMessage as Message,
+	SelectThread as Thread,
+	SelectToolCall as ToolCall,
+} from "@mychat/db/schema";
 
 type QueueItem = ChatCompletionMessageParam;
 export type AddMessageQueue = MessageQueue<QueueItem>;

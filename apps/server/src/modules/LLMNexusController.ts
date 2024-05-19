@@ -6,10 +6,13 @@ import { pgRepo } from "@/lib/pg";
 import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
 import type { ChatOptions, LLMNexus } from "@mychat/agents/LLMInterface";
-import type { AgentRun, AgentRunStatus } from "@mychat/db/entity/AgentRun";
-import type { Message } from "@mychat/db/entity/Message";
-import type { Thread } from "@mychat/db/entity/Thread";
-import type { Role } from "@mychat/shared/schemas/Message";
+import type {
+	AgentRun,
+	AgentRunStatus,
+	Message,
+	MessageRole,
+	Thread,
+} from "@mychat/db/schema";
 import { NexusServiceRegistry } from "@mychat/agents/LLMInterface";
 
 import { StreamResponseController } from "./StreamResponseController";
@@ -163,7 +166,7 @@ export class LLMNexusController {
 			const responseMsg = response.choices[0]?.message;
 			if (!responseMsg) throw new Error("No response message");
 			await pgRepo.Thread.addMessage(thread, {
-				role: responseMsg.role as Role,
+				role: responseMsg.role as MessageRole,
 				content: responseMsg.content,
 				parent: thread.activeMessage,
 			});

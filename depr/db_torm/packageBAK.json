@@ -1,0 +1,47 @@
+{
+	"name": "@mychat/db_torm",
+	"version": "0.0.1",
+	"description": "Database managed with TypeORM.",
+	"main": "./src/index.ts",
+	"type": "module",
+	"exports": {
+		".": "./src",
+		"./*": "./src/*.ts",
+		"./entity/*": "./src/entity/*.ts"
+	},
+	"devDependencies": {
+		"@mychat/eslint-config": "workspace:*",
+		"@mychat/tsconfig": "workspace:*",
+		"@types/node": "^20.12.12",
+		"drizzle-kit": "^0.21.2",
+		"eslint": "^9.3.0",
+		"prettier": "^3.2.5",
+		"ts-node": "^10.9.2",
+		"typescript": "beta"
+	},
+	"dependencies": {
+		"@mychat/agents": "workspace:^",
+		"@mychat/logger": "workspace:^",
+		"@mychat/shared": "workspace:*",
+		"drizzle-orm": "^0.30.10",
+		"drizzle-zod": "^0.5.1",
+		"openai": "^4.47.1",
+		"pg": "^8.11.5",
+		"pgvector": "^0.1.8",
+		"postgres": "^3.4.4",
+		"reflect-metadata": "^0.2.2",
+		"typeorm": "0.3.20"
+	},
+	"scripts": {
+		"start": "node --loader ts-node/esm src/index.ts",
+		"generate": "drizzle-kit generate",
+		"migrate": "drizzle-kit migrate",
+		"studio": "drizzle-kit studio",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"lint": "eslint",
+		"test": "jest",
+		"typecheck": "tsc",
+		"clean": "rm -rf logs .turbo"
+	},
+	"prettier": "@mychat/prettier-config"
+}

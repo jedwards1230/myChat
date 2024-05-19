@@ -4,7 +4,7 @@
 		"test": {
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
-		"migration:run": {
+		"migrate": {
 			"dependsOn": ["typecheck"],
 			"outputs": []
 		},
@@ -13,7 +13,7 @@
 			"outputs": ["node_modules/.cache/metro/**"]
 		},
 		"dev": {
-			"dependsOn": ["^build", "migration:run"],
+			"dependsOn": ["^build", "migrate"],
 			"cache": false,
 			"interactive": true,
 			"persistent": true
@@ -33,10 +33,10 @@
 			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
 		},
 		"start": {
-			"dependsOn": ["^build", "migration:run"]
+			"dependsOn": ["^build", "migrate"]
 		},
 		"start:prod": {
-			"dependsOn": ["^build", "migration:run"]
+			"dependsOn": ["^build", "migrate"]
 		},
 		"clean": {
 			"cache": false

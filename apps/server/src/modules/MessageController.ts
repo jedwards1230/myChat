@@ -2,7 +2,7 @@ import type { FastifyReply, FastifyRequest } from "fastify";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
+import type { MessageCreateSchema, Role } from "@mychat/shared/schema/message";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {

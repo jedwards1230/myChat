@@ -1,0 +1,1034 @@
+{
+	"id": "2127fd7a-eedf-40c2-a11d-51f6c7c72d8e",
+	"prevId": "e6ee960b-6f6f-4e0f-96df-a0a35e98d8f1",
+	"version": "6",
+	"dialect": "postgresql",
+	"tables": {
+		"public.Agent": {
+			"name": "Agent",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'myChat Agent'"
+				},
+				"model": {
+					"name": "model",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'{\"api\":\"openai\",\"name\":\"gpt-4o\",\"params\":{\"N\":1,\"topP\":1,\"maxTokens\":128000,\"temperature\":0.7,\"presencePenalty\":0,\"frequencyPenalty\":0},\"serviceName\":\"OpenAIService\"}'::jsonb"
+				},
+				"toolsEnabled": {
+					"name": "toolsEnabled",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": true
+				},
+				"systemMessage": {
+					"name": "systemMessage",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'You are a personal assistant.'"
+				},
+				"version": {
+					"name": "version",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"ownerId": {
+					"name": "ownerId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"Agent_ownerId_user_id_fk": {
+					"name": "Agent_ownerId_user_id_fk",
+					"tableFrom": "Agent",
+					"tableTo": "user",
+					"columnsFrom": ["ownerId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.AgentRun": {
+			"name": "AgentRun",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"model": {
+					"name": "model",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"status": {
+					"name": "status",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'queued'"
+				},
+				"type": {
+					"name": "type",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"stream": {
+					"name": "stream",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": true
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"threadId": {
+					"name": "threadId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"agentId": {
+					"name": "agentId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"filesId": {
+					"name": "filesId",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"AgentRun_threadId_Thread_id_fk": {
+					"name": "AgentRun_threadId_Thread_id_fk",
+					"tableFrom": "AgentRun",
+					"tableTo": "Thread",
+					"columnsFrom": ["threadId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"AgentRun_agentId_Agent_id_fk": {
+					"name": "AgentRun_agentId_Agent_id_fk",
+					"tableFrom": "AgentRun",
+					"tableTo": "Agent",
+					"columnsFrom": ["agentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"AgentRun_filesId_db_document_id_fk": {
+					"name": "AgentRun_filesId_db_document_id_fk",
+					"tableFrom": "AgentRun",
+					"tableTo": "db_document",
+					"columnsFrom": ["filesId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.AgentTool": {
+			"name": "AgentTool",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"enabled": {
+					"name": "enabled",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"description": {
+					"name": "description",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"parameters": {
+					"name": "parameters",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"toolName": {
+					"name": "toolName",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"version": {
+					"name": "version",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"ownerId": {
+					"name": "ownerId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"AgentTool_ownerId_user_id_fk": {
+					"name": "AgentTool_ownerId_user_id_fk",
+					"tableFrom": "AgentTool",
+					"tableTo": "user",
+					"columnsFrom": ["ownerId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.agent_tools_agent_tool": {
+			"name": "agent_tools_agent_tool",
+			"schema": "",
+			"columns": {
+				"agentId": {
+					"name": "agentId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"agentToolId": {
+					"name": "agentToolId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {
+				"IDX_adabee28ab05d5e8eb77010915": {
+					"name": "IDX_adabee28ab05d5e8eb77010915",
+					"columns": ["agentId"],
+					"isUnique": false
+				},
+				"IDX_7faea4e95f26d2f121c9624389": {
+					"name": "IDX_7faea4e95f26d2f121c9624389",
+					"columns": ["agentToolId"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"agent_tools_agent_tool_agentId_Agent_id_fk": {
+					"name": "agent_tools_agent_tool_agentId_Agent_id_fk",
+					"tableFrom": "agent_tools_agent_tool",
+					"tableTo": "Agent",
+					"columnsFrom": ["agentId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "cascade"
+				},
+				"agent_tools_agent_tool_agentToolId_AgentTool_id_fk": {
+					"name": "agent_tools_agent_tool_agentToolId_AgentTool_id_fk",
+					"tableFrom": "agent_tools_agent_tool",
+					"tableTo": "AgentTool",
+					"columnsFrom": ["agentToolId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"PK_a3f4e7c952796e91f6c6509146b": {
+					"name": "PK_a3f4e7c952796e91f6c6509146b",
+					"columns": ["agentId", "agentToolId"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"public.db_document": {
+			"name": "db_document",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"decoded": {
+					"name": "decoded",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"metadata": {
+					"name": "metadata",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"tokenCount": {
+					"name": "tokenCount",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"threadId": {
+					"name": "threadId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"messageId": {
+					"name": "messageId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"db_document_threadId_Thread_id_fk": {
+					"name": "db_document_threadId_Thread_id_fk",
+					"tableFrom": "db_document",
+					"tableTo": "Thread",
+					"columnsFrom": ["threadId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"db_document_userId_user_id_fk": {
+					"name": "db_document_userId_user_id_fk",
+					"tableFrom": "db_document",
+					"tableTo": "user",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"db_document_messageId_Message_id_fk": {
+					"name": "db_document_messageId_Message_id_fk",
+					"tableFrom": "db_document",
+					"tableTo": "Message",
+					"columnsFrom": ["messageId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.embed_item": {
+			"name": "embed_item",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "serial",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"embedding": {
+					"name": "embedding",
+					"type": "vector(1536)",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.Message": {
+			"name": "Message",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"content": {
+					"name": "content",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"role": {
+					"name": "role",
+					"type": "message_role_enum",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"tokenCount": {
+					"name": "tokenCount",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true,
+					"default": 0
+				},
+				"threadId": {
+					"name": "threadId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"toolCallIdId": {
+					"name": "toolCallIdId",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"parentId": {
+					"name": "parentId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"Message_threadId_Thread_id_fk": {
+					"name": "Message_threadId_Thread_id_fk",
+					"tableFrom": "Message",
+					"tableTo": "Thread",
+					"columnsFrom": ["threadId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"Message_toolCallIdId_ToolCall_id_fk": {
+					"name": "Message_toolCallIdId_ToolCall_id_fk",
+					"tableFrom": "Message",
+					"tableTo": "ToolCall",
+					"columnsFrom": ["toolCallIdId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"FK_46dd2ddc370017214fef302ca8f": {
+					"name": "FK_46dd2ddc370017214fef302ca8f",
+					"tableFrom": "Message",
+					"tableTo": "Message",
+					"columnsFrom": ["parentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"REL_8b38a933c77f4398908d09febe": {
+					"name": "REL_8b38a933c77f4398908d09febe",
+					"nullsNotDistinct": false,
+					"columns": ["toolCallIdId"]
+				}
+			}
+		},
+		"public.Message_closure": {
+			"name": "Message_closure",
+			"schema": "",
+			"columns": {
+				"id_ancestor": {
+					"name": "id_ancestor",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"id_descendant": {
+					"name": "id_descendant",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": true
+				}
+			},
+			"indexes": {
+				"IDX_941ea848f09d43306b75ea9791": {
+					"name": "IDX_941ea848f09d43306b75ea9791",
+					"columns": ["id_ancestor"],
+					"isUnique": false
+				},
+				"IDX_090362f69add0ffff1dcc98539": {
+					"name": "IDX_090362f69add0ffff1dcc98539",
+					"columns": ["id_descendant"],
+					"isUnique": false
+				}
+			},
+			"foreignKeys": {
+				"Message_closure_id_ancestor_Message_id_fk": {
+					"name": "Message_closure_id_ancestor_Message_id_fk",
+					"tableFrom": "Message_closure",
+					"tableTo": "Message",
+					"columnsFrom": ["id_ancestor"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				},
+				"Message_closure_id_descendant_Message_id_fk": {
+					"name": "Message_closure_id_descendant_Message_id_fk",
+					"tableFrom": "Message_closure",
+					"tableTo": "Message",
+					"columnsFrom": ["id_descendant"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {
+				"PK_883bac06f134fb892a0a01d72c0": {
+					"name": "PK_883bac06f134fb892a0a01d72c0",
+					"columns": ["id_ancestor", "id_descendant"]
+				}
+			},
+			"uniqueConstraints": {}
+		},
+		"public.FileData": {
+			"name": "FileData",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"blob": {
+					"name": "blob",
+					"type": "bytea",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"messageFileId": {
+					"name": "messageFileId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"FileData_messageFileId_MessageFile_id_fk": {
+					"name": "FileData_messageFileId_MessageFile_id_fk",
+					"tableFrom": "FileData",
+					"tableTo": "MessageFile",
+					"columnsFrom": ["messageFileId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"REL_bb4c5813ed4c9713c3068289a7": {
+					"name": "REL_bb4c5813ed4c9713c3068289a7",
+					"nullsNotDistinct": false,
+					"columns": ["messageFileId"]
+				}
+			}
+		},
+		"public.MessageFile": {
+			"name": "MessageFile",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"path": {
+					"name": "path",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"lastModified": {
+					"name": "lastModified",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"uploadDate": {
+					"name": "uploadDate",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"size": {
+					"name": "size",
+					"type": "bigint",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"mimetype": {
+					"name": "mimetype",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"tokenCount": {
+					"name": "tokenCount",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"extension": {
+					"name": "extension",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"parsedText": {
+					"name": "parsedText",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"fileDataId": {
+					"name": "fileDataId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"messageId": {
+					"name": "messageId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"MessageFile_fileDataId_FileData_id_fk": {
+					"name": "MessageFile_fileDataId_FileData_id_fk",
+					"tableFrom": "MessageFile",
+					"tableTo": "FileData",
+					"columnsFrom": ["fileDataId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"MessageFile_messageId_Message_id_fk": {
+					"name": "MessageFile_messageId_Message_id_fk",
+					"tableFrom": "MessageFile",
+					"tableTo": "Message",
+					"columnsFrom": ["messageId"],
+					"columnsTo": ["id"],
+					"onDelete": "cascade",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"REL_251e73e4405200edd05f962ef0": {
+					"name": "REL_251e73e4405200edd05f962ef0",
+					"nullsNotDistinct": false,
+					"columns": ["fileDataId"]
+				}
+			}
+		},
+		"public.Thread": {
+			"name": "Thread",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"created": {
+					"name": "created",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"lastModified": {
+					"name": "lastModified",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"title": {
+					"name": "title",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"version": {
+					"name": "version",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"activeMessageId": {
+					"name": "activeMessageId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"agentId": {
+					"name": "agentId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"Thread_activeMessageId_Message_id_fk": {
+					"name": "Thread_activeMessageId_Message_id_fk",
+					"tableFrom": "Thread",
+					"tableTo": "Message",
+					"columnsFrom": ["activeMessageId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"Thread_agentId_Agent_id_fk": {
+					"name": "Thread_agentId_Agent_id_fk",
+					"tableFrom": "Thread",
+					"tableTo": "Agent",
+					"columnsFrom": ["agentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				},
+				"Thread_userId_user_id_fk": {
+					"name": "Thread_userId_user_id_fk",
+					"tableFrom": "Thread",
+					"tableTo": "user",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"REL_e890a2d3645547f7bf2e204d63": {
+					"name": "REL_e890a2d3645547f7bf2e204d63",
+					"nullsNotDistinct": false,
+					"columns": ["activeMessageId"]
+				}
+			}
+		},
+		"public.ToolCall": {
+			"name": "ToolCall",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "text",
+					"primaryKey": true,
+					"notNull": true
+				},
+				"function": {
+					"name": "function",
+					"type": "jsonb",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"content": {
+					"name": "content",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"type": {
+					"name": "type",
+					"type": "toolCall_type_enum",
+					"typeSchema": "public",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "'function'"
+				},
+				"version": {
+					"name": "version",
+					"type": "integer",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"assistantMessageId": {
+					"name": "assistantMessageId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"ToolCall_assistantMessageId_Message_id_fk": {
+					"name": "ToolCall_assistantMessageId_Message_id_fk",
+					"tableFrom": "ToolCall",
+					"tableTo": "Message",
+					"columnsFrom": ["assistantMessageId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		},
+		"public.user": {
+			"name": "user",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"name": {
+					"name": "name",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"email": {
+					"name": "email",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"password": {
+					"name": "password",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "''"
+				},
+				"apiKey": {
+					"name": "apiKey",
+					"type": "varchar(255)",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"profilePicture": {
+					"name": "profilePicture",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "''"
+				},
+				"defaultAgentId": {
+					"name": "defaultAgentId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_defaultAgentId_Agent_id_fk": {
+					"name": "user_defaultAgentId_Agent_id_fk",
+					"tableFrom": "user",
+					"tableTo": "Agent",
+					"columnsFrom": ["defaultAgentId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {
+				"UQ_4a257d2c9837248d70640b3e36e": {
+					"name": "UQ_4a257d2c9837248d70640b3e36e",
+					"nullsNotDistinct": false,
+					"columns": ["email"]
+				}
+			}
+		},
+		"public.user_session": {
+			"name": "user_session",
+			"schema": "",
+			"columns": {
+				"id": {
+					"name": "id",
+					"type": "uuid",
+					"primaryKey": true,
+					"notNull": true,
+					"default": "gen_random_uuid()"
+				},
+				"createdAt": {
+					"name": "createdAt",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true,
+					"default": "now()"
+				},
+				"expire": {
+					"name": "expire",
+					"type": "timestamp",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"provider": {
+					"name": "provider",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": true
+				},
+				"ip": {
+					"name": "ip",
+					"type": "text",
+					"primaryKey": false,
+					"notNull": false
+				},
+				"current": {
+					"name": "current",
+					"type": "boolean",
+					"primaryKey": false,
+					"notNull": true,
+					"default": false
+				},
+				"userId": {
+					"name": "userId",
+					"type": "uuid",
+					"primaryKey": false,
+					"notNull": false
+				}
+			},
+			"indexes": {},
+			"foreignKeys": {
+				"user_session_userId_user_id_fk": {
+					"name": "user_session_userId_user_id_fk",
+					"tableFrom": "user_session",
+					"tableTo": "user",
+					"columnsFrom": ["userId"],
+					"columnsTo": ["id"],
+					"onDelete": "no action",
+					"onUpdate": "no action"
+				}
+			},
+			"compositePrimaryKeys": {},
+			"uniqueConstraints": {}
+		}
+	},
+	"enums": {
+		"public.message_role_enum": {
+			"name": "message_role_enum",
+			"schema": "public",
+			"values": ["system", "user", "assistant", "tool"]
+		},
+		"public.toolCall_type_enum": {
+			"name": "toolCall_type_enum",
+			"schema": "public",
+			"values": ["function"]
+		}
+	},
+	"schemas": {},
+	"_meta": {
+		"columns": {},
+		"schemas": {},
+		"tables": {}
+	}
+}

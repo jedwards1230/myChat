@@ -1,16 +1,33 @@
 {
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.formatOnSave": true,
-	"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
-	"tailwindCSS.lint.cssConflict": "ignore",
+	"editor.codeActionsOnSave": {
+		"source.fixAll.eslint": "explicit"
+	},
+
+	"eslint.rules.customizations": [{ "rule": "*", "severity": "warn" }],
+	"eslint.useFlatConfig": true,
 	"eslint.workingDirectories": [
 		{ "pattern": "apps/*/" },
 		{ "pattern": "packages/*/" },
 		{ "pattern": "tooling/*/" }
 	],
-	"typescript.tsdk": "myChat/node_modules/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true,
+
+	"tailwindCSS.classAttributes": ["class", "className", "headerClassName"],
+	"tailwindCSS.lint.cssConflict": "ignore",
+	"tailwindCSS.experimental.configFile": "./tooling/tailwind/web.ts",
+	"tailwindCSS.experimental.classRegex": [
+		["cva\\(([^)]*)\\)", "[\"'`]([^\"'`]*).*?[\"'`]"],
+		["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
+	],
+
+	"typescript.tsdk": "node_modules/typescript/lib",
+	"typescript.preferences.autoImportFileExcludePatterns": [
+		"next/router.d.ts",
+		"next/dist/client/router.d.ts"
+	],
+
 	"yaml.schemas": {
-		"https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "file:///Users/justin/Projects/myChat/compose.test.yml"
+		"https://raw.githubusercontent.com/compose-spec/compose-spec/master/schema/compose-spec.json": "file:///Users/justin/Projects/myChat/docker/compose.test.yml"
 	}
 }

@@ -1,11 +1,10 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { FindOneOptions } from "typeorm";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import type { Agent } from "@mychat/db/entity/Agent";
+import type { SelectAgent } from "@mychat/db/schema";
 
-export function getAgent(relations?: FindOneOptions<Agent>["relations"]) {
+export function getAgent(relations?: FindOneOptions<SelectAgent>["relations"]) {
 	return async function getAgent(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { user } = request;

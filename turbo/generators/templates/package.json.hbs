@@ -2,6 +2,7 @@
     "name": "@mychat/{{name}}",
     "private": true,
     "version": "0.1.0",
+    "type": "module",
     "exports": {
         ".": "./src/index.ts"
     },
@@ -9,7 +10,7 @@
     "scripts": {
         "clean": "rm -rf .turbo node_modules", 
         "format": "prettier --check . --ignore-path ../../.gitignore",
-        "lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
+        "lint": "eslint",
         "typecheck": "tsc --noEmit"
     },
     "devDependencies": {

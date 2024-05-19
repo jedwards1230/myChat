@@ -11,29 +11,33 @@
 	"engines": {
 		"node": ">=21.6.1"
 	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"packageManager": "yarn@4.2.2",
+	"prettier": "@mychat/prettier-config",
 	"scripts": {
-		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
+		"build": "turbo build --cache-dir=.turbo",
+		"clean": "git clean -xdf node_modules && yarn cache clean && rm -rf ./logs",
+		"clean:workspaces": "turbo clean",
 		"compose": "docker compose -f compose.yml",
 		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
-		"typecheck": "turbo typecheck",
+		"compose:prod": "docker compose -f production.yml",
+		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev --parallel",
 		"export": "turbo export",
+		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
 		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
 		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
 		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-		"build": "turbo build --cache-dir=.turbo",
-		"migration:run": "turbo migration:run",
-		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",
+		"lint:ws": "yarn dlx sherif@latest",
+		"migrate": "turbo migrate",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
-		"compose:prod": "docker compose -f production.yml",
-		"clean": "git clean -xdf node_modules && yarn cache clean && rm -rf ./logs",
-		"clean:workspaces": "turbo clean",
-		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8"
+		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
+		"typecheck": "turbo typecheck",
+		"postinstall": "yarn lint:ws"
 	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
 	"resolutions": {
 		"markdown-it": "14.0.0"
 	},
@@ -42,7 +46,5 @@
 		"@mychat/tsconfig": "workspace:*",
 		"@turbo/gen": "^1.13.3",
 		"turbo": "^1.13.3"
-	},
-	"packageManager": "yarn@4.2.2",
-	"prettier": "@mychat/prettier-config"
+	}
 }

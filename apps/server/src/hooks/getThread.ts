@@ -1,10 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { FindOneOptions } from "typeorm";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
-import { Equal } from "typeorm";
 
-import type { Thread } from "@mychat/db/entity/Thread";
+import type { Thread } from "@mychat/db/schema/Thread";
 
 export function getThread(relations?: FindOneOptions<Thread>["relations"]) {
 	return async function getThread(request: FastifyRequest, reply: FastifyReply) {

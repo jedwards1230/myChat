@@ -1,9 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-import type { FindOneOptions } from "typeorm";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import type { Message } from "@mychat/db/entity/Message";
+import type { Message } from "@mychat/db/schema/Message";
 
 export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 	return async function getMessage(request: FastifyRequest, reply: FastifyReply) {

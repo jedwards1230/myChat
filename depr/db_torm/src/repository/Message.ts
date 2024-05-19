@@ -12,7 +12,9 @@ export const extendedMessageRepo = (ds: DataSource) => {
 				})
 			).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 			const messages = await this.injectFilesContent(messagesWithoutFiles);
-			return messages;
+			if (messages[0]?.role !== "system")
+				throw new Error("First message is not a system message");
+			return messages as [Message, ...Message[]];
 		},
 
 		async injectFileContent(message: Message) {

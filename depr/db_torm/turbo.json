@@ -1,7 +1,7 @@
 {
 	"extends": ["//"],
 	"pipeline": {
-		"migration:run": {
+		"migrate": {
 			"outputs": ["packages/db/logs/**"]
 		}
 	}

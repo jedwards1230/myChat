@@ -1,9 +1,9 @@
 import type { DataSource } from "typeorm";
 
+import type { DatabaseDocument } from "../entity/Document";
 import type { Message } from "../entity/Message";
 import type { DocumentSearchParams } from "./DocumentRepo";
 import { AgentRun } from "../entity/AgentRun";
-import { logger } from "../logger";
 import { extendedDocumentRepo } from "./DocumentRepo";
 import { extendedMessageRepo } from "./Message";
 
@@ -46,52 +46,20 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 			const { thread } = run;
 			if (!thread.activeMessage) throw new Error("No active message found");
 
-			const messages = await extendedMessageRepo(ds).getMessages(
-				thread.activeMessage,
-			);
-			const systemMessage = messages.find((m) => m.role === "system");
-			if (!systemMessage) throw new Error("No system message found");
+			const [messages, ragRes] = await Promise.all([
+				extendedMessageRepo(ds).getMessages(thread.activeMessage),
+				extendedDocumentRepo(ds).searchDocuments(
+					getActiveMessageContent(thread.activeMessage),
+					documentSearch,
+				),
+			]);
 
-			const activeMessageContent = getActiveMessageContent(thread.activeMessage);
-
-			if (!activeMessageContent)
-				throw new Error(
-					`No active message content found for thread ${thread.id}`,
-				);
-
-			// inject rag metadata and decoded params into the system message
-			const ragRes = await extendedDocumentRepo(ds).searchDocuments(
-				activeMessageContent,
-				documentSearch,
-			);
-
-			let tokens = 0;
-			const ragMessages = [];
-			for (const res of ragRes) {
-				if (tokens >= tokenLimit) break;
-				if (res.tokenCount === null)
-					throw new Error("No token count found in document");
-				tokens += res.tokenCount;
-				ragMessages.push(res);
-			}
-
-			logger.debug("Generated Rag messages", {
-				ragMessages,
-				ragRes,
-				tokenLimit,
-				tokens,
-				functionName: "AgentRepo.generateChatResponse",
-			});
+			const ragMessages = trimRagMessages(ragRes, tokenLimit);
 
 			if (ragMessages.length) {
-				logger.debug("Searched documents", {
-					ragMessages: ragMessages.map((d) => d.metadata),
-					functionName: "AgentRunQueue.processQueue",
-				});
-
 				run.files = ragMessages;
 				await run.save();
-				systemMessage.content =
+				messages[0].content =
 					`\n\nThe following are your memories, influenced by recent conversation:\n\n` +
 					JSON.stringify(ragMessages.map((d) => d.metadata));
 			}
@@ -100,6 +68,19 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 		},
 	});
 };
+
+function trimRagMessages(docs: DatabaseDocument[], tokenLimit: number) {
+	let tokens = 0;
+	const ragMessages = [];
+	for (const res of docs) {
+		if (tokens >= tokenLimit) break;
+		if (res.tokenCount === null) throw new Error("No token count found in document");
+		tokens += res.tokenCount;
+		ragMessages.push(res);
+	}
+
+	return ragMessages;
+}
 
 function getActiveMessageContent(message: Message) {
 	const content = message.content ?? "";

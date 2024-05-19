@@ -1,9 +1,11 @@
-import type { Agent } from "@mychat/db/entity/Agent";
-import type { AgentTool } from "@mychat/db/entity/AgentTool";
-import type { Message } from "@mychat/db/entity/Message";
-import type { UserSession } from "@mychat/db/entity/Session";
-import type { Thread } from "@mychat/db/entity/Thread";
-import type { User } from "@mychat/db/entity/User";
+import type {
+	Agent,
+	AgentTool,
+	Message,
+	Thread,
+	User,
+	UserSession,
+} from "@mychat/db/schema";
 
 declare module "fastify" {
 	type Session = UserSession;

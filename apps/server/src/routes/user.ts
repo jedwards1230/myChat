@@ -3,7 +3,7 @@ import { getUser } from "@/hooks/getUser";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import { UserSession } from "@mychat/db/entity/Session";
+import { UserSession } from "@mychat/db/schema/Session";
 import { UserSessionSchema } from "@mychat/shared/schemas/Session";
 import { AuthInputSchema, UserSchema } from "@mychat/shared/schemas/User";
 

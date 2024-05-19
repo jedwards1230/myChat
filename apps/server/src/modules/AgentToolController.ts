@@ -1,7 +1,7 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { pgRepo } from "@/lib/pg";
 
-import type { AgentTool } from "@mychat/db/entity/AgentTool";
+import type { AgentTool } from "@mychat/db/schema/agentTool";
 import type {
 	AgentToolCreateSchema,
 	AgentToolUpdateSchema,

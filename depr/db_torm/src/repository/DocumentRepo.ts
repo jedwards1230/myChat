@@ -30,6 +30,7 @@ export interface DocumentSearchParams {
 
 export const extendedDocumentRepo = (ds: DataSource) => {
 	const embedItemRepo = ds.getRepository(EmbedItem);
+
 	return ds.getRepository(DatabaseDocument).extend({
 		async addDocuments(...docs: DocumentInsertParams[]): Promise<DatabaseDocument[]> {
 			try {

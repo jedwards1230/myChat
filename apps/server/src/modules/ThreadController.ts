@@ -4,8 +4,8 @@ import { pgRepo } from "@/lib/pg";
 
 import type { ThreadPatchSchema } from "@mychat/shared/schemas/Thread";
 import tokenizer from "@mychat/agents/tokenizer";
-import { Message } from "@mychat/db/entity/Message";
-import { Thread } from "@mychat/db/entity/Thread";
+import { Message } from "@mychat/db/schema/message";
+import { Thread } from "@mychat/db/schema/thread";
 
 export class ThreadController {
 	/** Create a new Thread and add a system message */
