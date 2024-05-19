@@ -1,6 +1,6 @@
-export type ChatInputProps = {
+export interface ChatInputProps {
 	threadId: string | null;
 	input: string;
 	setInput: (input: string) => void;
 	handleSubmit: () => void;
-};
+}

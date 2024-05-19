@@ -1,8 +1,8 @@
 import type { FastifyInstance } from "fastify";
-
 import { getThread } from "@/hooks/getThread";
-import { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
 import { AgentRunController } from "@/modules/AgentRunController";
+
+import { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
 
 export async function setupAgentRunsRoute(app: FastifyInstance) {
 	app.addHook(
@@ -10,7 +10,7 @@ export async function setupAgentRunsRoute(app: FastifyInstance) {
 		getThread({
 			activeMessage: true,
 			messages: { files: { fileData: true } },
-		})
+		}),
 	);
 
 	// POST Create Thread and Run

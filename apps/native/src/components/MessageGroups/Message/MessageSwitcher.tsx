@@ -1,11 +1,11 @@
+import type { Message } from "@/types";
 import { Pressable, View } from "react-native";
-
+import { Icon } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
 import { useThreadPatch } from "@/hooks/fetchers/Thread/useThreadPatch";
-import type { Message } from "@/types";
-import type { ChatMessageGroup } from "../MessageGroup";
-import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
+
+import type { ChatMessageGroup } from "../MessageGroup";
 
 export function MessageSwitcher({
 	message,
@@ -39,7 +39,7 @@ export function MessageSwitcher({
 					name="chevron-left"
 					className={cn(
 						"!text-sm group-aria-disabled:opacity-30",
-						!prev && "opacity-30"
+						!prev && "opacity-30",
 					)}
 				/>
 			</Pressable>
@@ -52,7 +52,7 @@ export function MessageSwitcher({
 					name="chevron-right"
 					className={cn(
 						"!text-sm group-aria-disabled:opacity-30",
-						!next && "opacity-30"
+						!next && "opacity-30",
 					)}
 				/>
 			</Pressable>

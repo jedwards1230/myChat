@@ -1,25 +1,25 @@
-import type { MessageQueryOpts, FileInformation } from "@/hooks/useFileInformation";
+import type { FileInformation, MessageQueryOpts } from "@/hooks/useFileInformation";
 
-export type RouterData = {
+export interface RouterData {
 	files: FileInformation[];
 	query?: MessageQueryOpts;
-};
+}
 
-export type LocalFileData = {
+export interface LocalFileData {
 	file: FileInformation;
 	query?: MessageQueryOpts;
-};
+}
 
 export type FileData = LocalFileData;
 
-export type RouterChildrenProps = {
+export interface RouterChildrenProps {
 	FileButton: React.ComponentType<{ data: FileData }>;
 	FolderButton: React.ComponentType<{
 		baseDir: string;
 		data: RouterData;
 		routerComponents: RouterChildrenProps;
 	}>;
-};
+}
 
 export function FileRouter({
 	data,
@@ -77,7 +77,7 @@ export function FileRouter({
 			acc[baseDir]?.push(file);
 			return acc;
 		},
-		{} as Record<string, FileInformation[]>
+		{} as Record<string, FileInformation[]>,
 	);
 
 	return (

@@ -63,14 +63,17 @@ export async function fetcher<T = any>(
 	},
 ): Promise<T> {
 	try {
-		const res = await fetch(BASE_HOST + url, {
-			...init,
-			headers: {
-				...(!file && { "Content-Type": "application/json" }),
-				...(apiKey && { Authorization: apiKey }),
-				...(init?.headers || {}),
+		const res = await fetch(
+			BASE_HOST + (typeof url === "string" ? url : JSON.stringify(url)),
+			{
+				...init,
+				headers: {
+					...(!file && { "Content-Type": "application/json" }),
+					...(apiKey && { Authorization: apiKey }),
+					...(init.headers ?? {}),
+				},
 			},
-		});
+		);
 		if (res.ok) {
 			return stream ? res : res.json();
 		}

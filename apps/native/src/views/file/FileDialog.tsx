@@ -1,7 +1,8 @@
+import type { FileData } from "@/components/FileRouter";
+import type { FileQueryOpts } from "@/hooks/useFileInformation";
 import { Suspense, useState } from "react";
 import { View } from "react-native";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
+import { CodeBlock } from "@/components/Markdown/CodeBlock";
 import {
 	Dialog,
 	DialogClose,
@@ -11,11 +12,10 @@ import {
 	DialogTrigger,
 } from "@/components/ui/Dialog";
 import { Text } from "@/components/ui/Text";
-import { CodeBlock } from "@/components/Markdown/CodeBlock";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useFileInformation } from "@/hooks/useFileInformation";
 
 import { FileMetadata } from "./FileMetadata";
-import type { FileData } from "@/components/FileRouter";
-import { type FileQueryOpts, useFileInformation } from "@/hooks/useFileInformation";
 
 export function FileDialog({
 	children,
@@ -33,7 +33,7 @@ export function FileDialog({
 			<DialogTrigger asChild className={className}>
 				{children}
 			</DialogTrigger>
-			<DialogContent className="w-screen max-h-[90vh] max-w-[90vw] overflow-y-scroll !bg-background text-foreground">
+			<DialogContent className="max-h-[90vh] w-screen max-w-[90vw] overflow-y-scroll !bg-background text-foreground">
 				{open && (
 					<Suspense fallback={<Text>Loading File Info...</Text>}>
 						<FileView data={data} />
@@ -46,7 +46,7 @@ export function FileDialog({
 
 function FileView({ data }: { data: FileData }) {
 	const file = data.file;
-	const content = file?.parsed || "";
+	const content = file.parsed ?? "";
 
 	return (
 		<>

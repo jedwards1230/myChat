@@ -4,7 +4,7 @@ export default class MessageQueue<T = unknown> {
 
 	/** Add a message to the queue */
 	enqueue(threadId: string, message: T) {
-		const queue = this.threadMap[threadId] || [];
+		const queue = this.threadMap[threadId] ?? [];
 		this.threadMap[threadId] = [...queue, message];
 	}
 

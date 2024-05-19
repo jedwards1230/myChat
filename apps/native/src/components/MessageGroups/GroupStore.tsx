@@ -1,11 +1,11 @@
 import { createSelectors } from "@/lib/zustand";
 import { create } from "zustand";
 
-type State = {
+interface State {
 	editGroupId: string | null;
 	editMessageId: string | null;
 	loadingMessageId: string | null;
-};
+}
 
 interface Actions {
 	setEditId: (s: { editGroupId: string; editMessageId: string }) => void;
@@ -29,5 +29,5 @@ export const useGroupStore = createSelectors(
 		setLoading: (messageId) => set({ loadingMessageId: messageId }),
 		isLoading: (messageId) => get().loadingMessageId === messageId,
 		reset: () => set(initial),
-	}))
+	})),
 );

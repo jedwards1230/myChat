@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import fastifyORM from "typeorm-fastify-plugin";
 import fastifyPlugin from "fastify-plugin";
+import fastifyORM from "typeorm-fastify-plugin";
 
 import { AppDataSource, initDb, resetDatabase } from "@mychat/db/index";
 
@@ -16,5 +16,5 @@ export const setupDatabase = fastifyPlugin(
 		app.addHook("onReady", async () => {
 			// seed database
 		});
-	}
+	},
 );

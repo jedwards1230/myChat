@@ -6,7 +6,6 @@ import Animated, {
 	useDerivedValue,
 	withTiming,
 } from "react-native-reanimated";
-
 import * as SwitchPrimitives from "@/components/primitives/switch";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { cn } from "@/lib/utils";
@@ -17,10 +16,10 @@ const SwitchWeb = React.forwardRef<
 >(({ className, ...props }, ref) => (
 	<SwitchPrimitives.Root
 		className={cn(
-			"peer flex-row h-6 w-11 shrink-0 cursor-pointer items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed",
+			"peer h-6 w-11 shrink-0 cursor-pointer flex-row items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed",
 			props.checked ? "bg-primary" : "bg-input",
 			props.disabled && "opacity-50",
-			className
+			className,
 		)}
 		{...props}
 		ref={ref}
@@ -28,7 +27,7 @@ const SwitchWeb = React.forwardRef<
 		<SwitchPrimitives.Thumb
 			className={cn(
 				"pointer-events-none block h-5 w-5 rounded-full bg-background shadow-md shadow-foreground/5 ring-0 transition-transform",
-				props.checked ? "translate-x-5" : "translate-x-0"
+				props.checked ? "translate-x-5" : "translate-x-0",
 			)}
 		/>
 	</SwitchPrimitives.Root>
@@ -57,7 +56,7 @@ const SwitchNative = React.forwardRef<
 		backgroundColor: interpolateColor(
 			translateX.value,
 			[0, 18],
-			[RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary]
+			[RGB_COLORS[colorScheme].input, RGB_COLORS[colorScheme].primary],
 		),
 	}));
 	const animatedThumbStyle = useAnimatedStyle(() => ({
@@ -70,8 +69,8 @@ const SwitchNative = React.forwardRef<
 		>
 			<SwitchPrimitives.Root
 				className={cn(
-					"flex-row h-8 w-[46px] shrink-0 items-center rounded-full border-2 border-transparent",
-					className
+					"h-8 w-[46px] shrink-0 flex-row items-center rounded-full border-2 border-transparent",
+					className,
 				)}
 				{...props}
 				ref={ref}

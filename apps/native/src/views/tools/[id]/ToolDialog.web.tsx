@@ -5,6 +5,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
+
 import { ToolConfig } from "./ToolConfig";
 
 export function ToolDialog({
@@ -26,7 +27,7 @@ export function ToolDialog({
 				</DialogTrigger>
 			)}
 
-			<DialogContent className="flex flex-col min-w-[80vw] md:min-w-[70vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
+			<DialogContent className="flex max-h-[90vh] min-w-[80vw] flex-col justify-start overflow-y-scroll text-foreground md:min-w-[70vw]">
 				<DialogTitle className="text-center">Tool</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<ToolConfig />

@@ -1,12 +1,12 @@
 import type { ViewStyle } from "react-native";
 
 interface LabelRootProps {
-    children: React.ReactNode;
-    style?: ViewStyle;
+	children: React.ReactNode;
+	style?: ViewStyle;
 }
 
 interface LabelTextProps {
-    id: string;
+	id: string;
 }
 
 export type { LabelRootProps, LabelTextProps };

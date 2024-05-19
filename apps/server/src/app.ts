@@ -1,32 +1,31 @@
-import Fastify from "fastify";
+import type { ZodTypeProvider } from "fastify-type-provider-zod";
 import fastifyCors from "@fastify/cors";
 import fastifyMultipart from "@fastify/multipart";
+import fastifyRateLimit from "@fastify/rate-limit";
 import fastifyStatic from "@fastify/static";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUI from "@fastify/swagger-ui";
-import fastifyRateLimit from "@fastify/rate-limit";
+import Fastify from "fastify";
 import {
 	jsonSchemaTransform,
 	serializerCompiler,
 	validatorCompiler,
-	type ZodTypeProvider,
 } from "fastify-type-provider-zod";
 
 import { Config } from "./config";
-import { setupRoutes } from "./routes";
-
-import { setupLogger } from "./hooks/setupLogger";
 import { setupDatabase } from "./hooks/setupDatabase";
+import { setupLogger } from "./hooks/setupLogger";
+import { setupRoutes } from "./routes";
 
 export const app = Fastify({
 	logger: false,
 	...Config.sslOptions,
 });
 
-export type BuildAppParams = {
+export interface BuildAppParams {
 	resetDbOnInit: boolean;
 	staticClientFilesDir: string;
-};
+}
 
 export async function buildApp({
 	resetDbOnInit,

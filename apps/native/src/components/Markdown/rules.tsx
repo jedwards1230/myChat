@@ -1,16 +1,13 @@
+import type { ASTNode, MarkdownProps } from "react-native-markdown-display";
 import { Platform, Pressable, View } from "react-native";
+import { hasParents } from "react-native-markdown-display";
 import { Image } from "expo-image";
-import {
-	type ASTNode,
-	hasParents,
-	type MarkdownProps,
-} from "react-native-markdown-display";
+import { cn } from "@/lib/utils";
 import { cssInterop } from "nativewind";
 
-import { cn } from "@/lib/utils";
-import { Text, type TextProps } from "../ui/Text";
-
+import type { TextProps } from "../ui/Text";
 import { ExternalLink } from "../ExternalLink";
+import { Text } from "../ui/Text";
 import { CodeBlock } from "./CodeBlock";
 
 cssInterop(Image, { className: "style" });
@@ -22,7 +19,7 @@ function hasParent(parents: ASTNode[], ...filters: string[]) {
 }
 
 export const getMarkdownRules = (
-	colorScheme: "light" | "dark"
+	colorScheme: "light" | "dark",
 ): MarkdownProps["rules"] => ({
 	body: (node, children) => (
 		<View accessible={false} key={node.key} className="pl-2 md:pl-0">
@@ -40,7 +37,7 @@ export const getMarkdownRules = (
 			"heading3",
 			"heading4",
 			"heading5",
-			"heading6"
+			"heading6",
 		);
 
 		const props: TextProps = {
@@ -101,7 +98,7 @@ export const getMarkdownRules = (
 			{children}
 		</Text>
 	),
-	hr: (node) => <View className="w-full h-1 my-6 md:my-12 bg-input" key={node.key} />,
+	hr: (node) => <View className="my-6 h-1 w-full bg-input md:my-12" key={node.key} />,
 	strong: (node, children) => (
 		<Text className="font-bold" key={node.key}>
 			{children}
@@ -123,8 +120,8 @@ export const getMarkdownRules = (
 			<View
 				key={node.key}
 				className={cn(
-					"px-2 py-2 ml-2 border-l md:border-l-2 border-foreground/50",
-					!hasHeader && "mb-2"
+					"ml-2 border-l border-foreground/50 px-2 py-2 md:border-l-2",
+					!hasHeader && "mb-2",
 				)}
 			>
 				{children}
@@ -146,7 +143,7 @@ export const getMarkdownRules = (
 			return (
 				<View className="flex-row justify-start" key={node.key}>
 					<Text
-						className="ml-0 mr-2 md:-ml-2 text-foreground/70 md:text-foreground/50"
+						className="ml-0 mr-2 text-foreground/70 md:-ml-2 md:text-foreground/50"
 						accessible={false}
 					>
 						{Platform.select({
@@ -165,7 +162,7 @@ export const getMarkdownRules = (
 			const orderedList = parent[orderedListIndex];
 
 			let listItemNumber;
-			if (orderedList?.attributes && orderedList.attributes.start) {
+			if (orderedList?.attributes.start) {
 				listItemNumber = orderedList.attributes.start + node.index;
 			} else {
 				listItemNumber = node.index + 1;
@@ -173,7 +170,7 @@ export const getMarkdownRules = (
 
 			return (
 				<View className="flex-row justify-start" key={node.key}>
-					<Text className="ml-0 mr-2 md:-ml-2 text-foreground/70 md:text-foreground/50">
+					<Text className="ml-0 mr-2 text-foreground/70 md:-ml-2 md:text-foreground/50">
 						{listItemNumber}
 						{node.markup}
 					</Text>
@@ -194,10 +191,7 @@ export const getMarkdownRules = (
 		// we trim new lines off the end of code blocks because the parser sends an extra one.
 		let { content } = node;
 
-		if (
-			typeof node.content === "string" &&
-			node.content.charAt(node.content.length - 1) === "\n"
-		) {
+		if (typeof node.content === "string" && node.content.endsWith("\n")) {
 			content = node.content.substring(0, node.content.length - 1);
 		}
 
@@ -213,10 +207,7 @@ export const getMarkdownRules = (
 		const languageRaw: string | undefined = (node as any).sourceInfo;
 		const language = languageRaw?.trim();
 
-		if (
-			typeof node.content === "string" &&
-			node.content.charAt(node.content.length - 1) === "\n"
-		) {
+		if (typeof node.content === "string" && node.content.endsWith("\n")) {
 			content = node.content.substring(0, node.content.length - 1);
 		}
 
@@ -228,7 +219,7 @@ export const getMarkdownRules = (
 	},
 	table: (node, children) => (
 		<View
-			className="border border-collapse text-left rounded-md !border-foreground/30"
+			className="border-collapse rounded-md border !border-foreground/30 text-left"
 			key={node.key}
 		>
 			{children}
@@ -293,13 +284,13 @@ export const getMarkdownRules = (
 		return (
 			<ExternalLink
 				asChild
-				className="flex flex-1 w-full"
+				className="flex w-full flex-1"
 				key={node.key}
 				href={src}
 			>
 				<Pressable>
 					<Image
-						className="w-full h-96"
+						className="h-96 w-full"
 						contentFit="contain"
 						onError={(e) => console.error(e)}
 						source={src}

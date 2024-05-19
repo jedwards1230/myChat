@@ -1,10 +1,11 @@
 import type { DataSource } from "typeorm";
 
-import { AgentRun } from "../entity/AgentRun";
-import { extendedMessageRepo } from "./Message";
 import type { Message } from "../entity/Message";
+import type { DocumentSearchParams } from "./DocumentRepo";
+import { AgentRun } from "../entity/AgentRun";
 import { logger } from "../logger";
-import { extendedDocumentRepo, type DocumentSearchParams } from "./DocumentRepo";
+import { extendedDocumentRepo } from "./DocumentRepo";
+import { extendedMessageRepo } from "./Message";
 
 export const extendedAgentRunRepo = (ds: DataSource) => {
 	return ds.getRepository(AgentRun).extend({
@@ -36,9 +37,9 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 			opts?: {
 				tokenLimit?: number;
 				documentSearch?: DocumentSearchParams;
-			}
+			},
 		) {
-			const { tokenLimit = 1024, documentSearch } = opts || {};
+			const { tokenLimit = 1024, documentSearch } = opts ?? {};
 
 			const run = await this.getRunForProcessing(id);
 
@@ -46,7 +47,7 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 			if (!thread.activeMessage) throw new Error("No active message found");
 
 			const messages = await extendedMessageRepo(ds).getMessages(
-				thread.activeMessage
+				thread.activeMessage,
 			);
 			const systemMessage = messages.find((m) => m.role === "system");
 			if (!systemMessage) throw new Error("No system message found");
@@ -55,13 +56,13 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 
 			if (!activeMessageContent)
 				throw new Error(
-					`No active message content found for thread ${thread.id}`
+					`No active message content found for thread ${thread.id}`,
 				);
 
 			// inject rag metadata and decoded params into the system message
 			const ragRes = await extendedDocumentRepo(ds).searchDocuments(
 				activeMessageContent,
-				documentSearch
+				documentSearch,
 			);
 
 			let tokens = 0;
@@ -101,9 +102,9 @@ export const extendedAgentRunRepo = (ds: DataSource) => {
 };
 
 function getActiveMessageContent(message: Message) {
-	const content = message.content || "";
-	const toolCalls = message.tool_calls?.map((tc) => tc.content).join(" ") || "";
-	const files = message.files?.map((f) => f.parsedText).join(", ") || "";
+	const content = message.content ?? "";
+	const toolCalls = message.tool_calls?.map((tc) => tc.content).join(" ") ?? "";
+	const files = message.files?.map((f) => f.parsedText).join(", ") ?? "";
 	if (!content && !toolCalls && !files) throw new Error("No content found in message");
 
 	return `${content} ${toolCalls} ${files}`;

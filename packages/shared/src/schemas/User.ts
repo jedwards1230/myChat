@@ -1,7 +1,7 @@
 import z from "zod";
 
-import { ThreadSchema } from "./Thread";
 import { AgentObjectSchema } from "./Agent";
+import { ThreadSchema } from "./Thread";
 
 export const AuthInputSchema = z.object({
 	email: z.string().email(),

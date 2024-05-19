@@ -1,4 +1,5 @@
 import { Icon } from "@/components/ui/Icon";
+
 import { useConfigStore } from "../stores/configStore";
 import { useDeleteActiveThread, useDeleteAllThreads, useResetDb } from "./actions";
 
@@ -14,7 +15,7 @@ export function useActions() {
 			Icon: Icon,
 			type: "FontAwesome" as const,
 			iconName: "trash" as const,
-			onClick: () => deleteThread.action(threadId!),
+			onClick: threadId ? () => deleteThread.action(threadId) : undefined,
 			hidden: !threadId,
 		},
 		{

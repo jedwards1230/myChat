@@ -1,11 +1,11 @@
-import { useRouter } from "expo-router";
 import { useState } from "react";
-import { View, Pressable } from "react-native";
-
-import { cn } from "@/lib/utils";
+import { Pressable, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Text } from "@/components/ui/Text";
-import { RemoveFileButton } from "./DeleteButton";
+import { cn } from "@/lib/utils";
+
 import type { RouterChildrenProps, RouterData } from "../FileRouter";
+import { RemoveFileButton } from "./DeleteButton";
 
 export function FolderButton({
 	data,
@@ -29,11 +29,11 @@ export function FolderButton({
 				onPress={() => router.push(`/file/${file.name}`)}
 				onPressOut={() => setPressed(false)}
 				className={cn(
-					"transition-all rounded-lg bg-background hover:bg-foreground/20",
-					pressed && "bg-foreground/20"
+					"rounded-lg bg-background transition-all hover:bg-foreground/20",
+					pressed && "bg-foreground/20",
 				)}
 			>
-				<Text className="px-4 py-2 border-2 rounded border-border text-foreground">
+				<Text className="rounded border-2 border-border px-4 py-2 text-foreground">
 					{file.name}
 				</Text>
 			</Pressable>

@@ -1,6 +1,7 @@
+import { logger } from "@/lib/logger";
+
 import { buildApp } from "./app";
 import { Config } from "./config";
-import { logger } from "@/lib/logger";
 
 const app = await buildApp();
 

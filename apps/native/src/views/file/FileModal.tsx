@@ -1,16 +1,11 @@
+import type { FileInformation, FileQueryOpts } from "@/hooks/useFileInformation";
 import { View } from "react-native";
-
-import { useColorScheme } from "@/hooks/useColorScheme";
-
-import ModalWrapper from "@/components/ui/Modal";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
+import ModalWrapper from "@/components/ui/Modal";
+import { useColorScheme } from "@/hooks/useColorScheme";
+import { useFileInformation } from "@/hooks/useFileInformation";
 
 import { FileMetadata } from "./FileMetadata";
-import {
-	type FileInformation,
-	type FileQueryOpts,
-	useFileInformation,
-} from "@/hooks/useFileInformation";
 
 export default function FileModal({
 	file,
@@ -42,10 +37,10 @@ function FileQueryView({ file }: { file: FileQueryOpts }) {
 
 export function FileView({ file }: { file: FileInformation }) {
 	const { colorScheme } = useColorScheme();
-	const content = file?.parsed || "";
+	const content = file.parsed ?? "";
 
 	return (
-		<View className="flex flex-col w-full gap-2 px-4 mx-auto text-center">
+		<View className="mx-auto flex w-full flex-col gap-2 px-4 text-center">
 			<FileMetadata file={file} />
 			{content && (
 				<CodeBlock colorScheme={colorScheme} language={file.extension}>

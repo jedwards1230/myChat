@@ -1,15 +1,12 @@
-import {
-	ContextMenuView,
-	type OnPressMenuItemEvent,
-	type MenuConfig,
-} from "react-native-ios-context-menu";
-import { View } from "react-native";
-import { useRouter } from "expo-router";
-
 import type { Thread } from "@/types";
-import { Text } from "@/components/ui/Text";
+import type { MenuConfig, OnPressMenuItemEvent } from "react-native-ios-context-menu";
+import { View } from "react-native";
+import { ContextMenuView } from "react-native-ios-context-menu";
+import { useRouter } from "expo-router";
 import ChatHistory from "@/components/ChatHistory";
+import { Text } from "@/components/ui/Text";
 import { useDeleteActiveThread } from "@/hooks/actions";
+
 import LinkButton from "../LinkButton";
 
 const menuConfig: MenuConfig = {
@@ -31,7 +28,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 	const onPressMenuItem: OnPressMenuItemEvent = ({ nativeEvent }) => {
 		switch (nativeEvent.actionKey) {
 			case "delete":
-				deleteThread.action(thread.id);
+				void deleteThread.action(thread.id);
 				break;
 		}
 	};
@@ -46,7 +43,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 				renderPreview={() => <ThreadPreview thread={thread} />}
 			>
 				<Text className="text-foreground" numberOfLines={1} ellipsizeMode="tail">
-					{thread.title || "New chat"}
+					{thread.title ?? "New chat"}
 				</Text>
 			</ContextMenuView>
 		</LinkButton>
@@ -55,7 +52,7 @@ export function ThreadButton({ thread }: { thread: Thread }) {
 
 const ThreadPreview = ({ thread }: { thread: Thread }) => {
 	return (
-		<View className="absolute flex items-center w-[90vw] justify-start flex-1 px-2 pt-2 bg-background">
+		<View className="absolute flex w-[90vw] flex-1 items-center justify-start bg-background px-2 pt-2">
 			<Text numberOfLines={1} ellipsizeMode="tail" className="my-1 font-semibold">
 				{thread.title}
 			</Text>

@@ -1,11 +1,11 @@
+import type { IconProps } from "@/components/ui/Icon";
+import type { ToastConfig } from "react-native-toast-message";
 import * as React from "react";
 import { Pressable } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import Toast, { type ToastConfig } from "react-native-toast-message";
 import { RootSiblingParent } from "react-native-root-siblings";
-
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Toast from "react-native-toast-message";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/Alert";
-import type { IconProps } from "@/components/ui/Icon";
 
 const SuccessIconProps: IconProps = {
 	type: "AntDesign",

@@ -1,9 +1,9 @@
+import type { ColorValue } from "react-native";
+import { useEffect, useState } from "react";
+import { Platform, View } from "react-native";
+import * as Application from "expo-application";
 import * as Network from "expo-network";
 import * as SystemUI from "expo-system-ui";
-import * as Application from "expo-application";
-import { useEffect, useState } from "react";
-import { type ColorValue, Platform, View } from "react-native";
-
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { BASE_HOST } from "@/lib/fetcher";
@@ -29,7 +29,7 @@ export function DeviceConfig() {
 	}, []);
 
 	return (
-		<View className="flex flex-col w-full gap-2 web:gap-4">
+		<View className="web:gap-4 flex w-full flex-col gap-2">
 			{Platform.OS !== "web" && (
 				<Section title="App">
 					<RowItem>

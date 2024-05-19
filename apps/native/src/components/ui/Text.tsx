@@ -1,10 +1,10 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { SlottableTextProps, TextRef } from "@/components/primitives/types";
+import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Text as RNText } from "react-native";
-
 import * as Slot from "@/components/primitives/slot";
-import type { SlottableTextProps, TextRef } from "@/components/primitives/types";
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 
@@ -33,13 +33,13 @@ const Text = React.forwardRef<TextRef, TextProps>(
 				className={cn(
 					textVariants({ variant, className }),
 					!skipContext && textClass,
-					className
+					className,
 				)}
 				ref={ref}
 				{...props}
 			/>
 		);
-	}
+	},
 );
 Text.displayName = "Text";
 

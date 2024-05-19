@@ -1,3 +1,4 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
 	Column,
@@ -5,7 +6,6 @@ import {
 	Entity,
 	ManyToOne,
 	PrimaryGeneratedColumn,
-	type Relation,
 } from "typeorm";
 
 import { User } from "./User";

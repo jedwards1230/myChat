@@ -1,18 +1,18 @@
-import { FlashList } from "@shopify/flash-list";
 import { View } from "react-native";
 import { Link } from "expo-router";
-
-import HorizontalLine from "../ui/HorizontalLine";
 import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
-import { useThreadGroups, ThreadGroup } from "./ThreadGroups";
-import LinkButton from "./LinkButton";
+import { FlashList } from "@shopify/flash-list";
+
+import packageInfo from "../../../package.json";
+import HorizontalLine from "../ui/HorizontalLine";
 import { Icon } from "../ui/Icon";
 import { Text } from "../ui/Text";
-import packageInfo from "../../../package.json";
+import LinkButton from "./LinkButton";
+import { ThreadGroup, useThreadGroups } from "./ThreadGroups";
 
 export default function ThreadHistory() {
 	return (
-		<View className="flex flex-col items-center flex-1 w-full gap-4 px-2 pt-2 pb-2">
+		<View className="flex w-full flex-1 flex-col items-center gap-4 px-2 pb-2 pt-2">
 			<View className="w-full">
 				<LinkButton
 					icon={<Icon type="MaterialIcons" name="open-in-new" />}
@@ -66,7 +66,7 @@ function ThreadList() {
 	const threadGroups = useThreadGroups(data);
 
 	return (
-		<View className="flex flex-1 w-full">
+		<View className="flex w-full flex-1">
 			<FlashList
 				data={threadGroups}
 				keyExtractor={(_, i) => i.toString()}

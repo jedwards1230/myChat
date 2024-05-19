@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
@@ -8,7 +7,7 @@ export async function getUser(request: FastifyRequest, reply: FastifyReply) {
 		const token = request.headers.authorization;
 		if (!token) return reply.code(401).send({ error: "Unauthorized" });
 
-		const user = await pgRepo["User"].findOne({
+		const user = await pgRepo.User.findOne({
 			where: { apiKey: token },
 			relations: ["threads", "agents", "tools"],
 		});

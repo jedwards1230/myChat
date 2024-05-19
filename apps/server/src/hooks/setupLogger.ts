@@ -1,10 +1,13 @@
-import type { FastifyError, FastifyReply, FastifyRequest } from "fastify";
-import type { FastifyInstance } from "fastify";
-import fastifyPlugin from "fastify-plugin";
+import type {
+	FastifyError,
+	FastifyInstance,
+	FastifyReply,
+	FastifyRequest,
+} from "fastify";
 import type { ResponseValidationError } from "fastify-type-provider-zod";
 import type { ZodError } from "zod";
-
-import { logger, accessLogger as aLogger } from "@/lib/logger";
+import { accessLogger as aLogger, logger } from "@/lib/logger";
+import fastifyPlugin from "fastify-plugin";
 
 type ErrorType<T> = FastifyError & T;
 
@@ -22,7 +25,7 @@ export const setupLogger = fastifyPlugin(async (app: FastifyInstance) => {
 
 	app.setErrorHandler(
 		async (error: FastifyError, request: FastifyRequest, reply: FastifyReply) => {
-			logger.warn(`Error handler Status Code: ${error.statusCode || "undefined"}`);
+			logger.warn(`Error handler Status Code: ${error.statusCode ?? "undefined"}`);
 			if (error.statusCode === 429) {
 				error.message = "You hit the rate limit! Slow down please!";
 				return reply.code(429).send(error);
@@ -57,6 +60,6 @@ export const setupLogger = fastifyPlugin(async (app: FastifyInstance) => {
 				url: request.url,
 			});
 			return reply.status(409).send(error);
-		}
+		},
 	);
 });

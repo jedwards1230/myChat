@@ -1,11 +1,17 @@
 import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 import { chromium } from "playwright";
 
-import type { LLMTool } from "../types";
 import type { MessageObjectSchema } from "@mychat/shared/schemas/Message";
 
-type MClickProps = { ids: string[] };
-type MClickResult = { url: string; content: string };
+import type { LLMTool } from "../types";
+
+interface MClickProps {
+	ids: string[];
+}
+interface MClickResult {
+	url: string;
+	content: string;
+}
 
 interface SearchResult {
 	/** Query used with Search Engine API */
@@ -28,11 +34,10 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 		.filter(
 			(m) =>
 				m.role === "assistant" &&
-				m.tool_calls &&
-				m.tool_calls.find((tc) => tc.function?.name === "search")
+				m.tool_calls?.find((tc) => tc.function.name === "search"),
 		)
 		.pop() as MessageObjectSchema;
-	if (!asstMsg || !asstMsg.tool_calls) throw new Error("No assistant message found");
+	if (!asstMsg.tool_calls) throw new Error("No assistant message found");
 
 	// get the last search tool call
 	const toolCalls = asstMsg.tool_calls
@@ -41,13 +46,9 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 	if (!toolCalls) throw new Error("No tool calls found");
 
 	const searchResultsMsg = runner.messages.find(
-		(m) => m.role === "tool" && m.tool_call_id === toolCalls.id
+		(m) => m.role === "tool" && m.tool_call_id === toolCalls.id,
 	);
-	if (
-		!searchResultsMsg ||
-		!searchResultsMsg.content ||
-		typeof searchResultsMsg.content !== "string"
-	)
+	if (!searchResultsMsg?.content || typeof searchResultsMsg.content !== "string")
 		throw new Error("No search results found");
 
 	const searchResults: SearchResult[] = JSON.parse(searchResultsMsg.content);
@@ -67,13 +68,13 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 				elements.forEach((el) => el.remove());
 			});
 
-			const content = await page.$eval("body", (body) => body.textContent || "");
+			const content = await page.$eval("body", (body) => body.textContent ?? "");
 			await page.close();
 			return {
 				url,
 				content: content.replace(/\s+/g, " ").replace(/Header:.*?Footer:/s, ""),
 			};
-		})
+		}),
 	);
 
 	await browser.close();

@@ -9,7 +9,7 @@ export default class FileHandler {
 			}
 
 			const normalizedType = this.normalizeFileType(file.type);
-			if (/^text\//.test(normalizedType)) {
+			if (normalizedType.startsWith("text/")) {
 				this.handleTextFile(file, cb);
 			} else {
 				switch (normalizedType) {
@@ -64,11 +64,11 @@ export default class FileHandler {
 	}
 
 	static base64ToText(base64: string): string {
-		return atob(base64.split(",")[1] || "");
+		return atob(base64.split(",")[1] ?? "");
 	}
 
 	static base64ToBlob(base64: string): Blob {
-		const byteCharacters = atob(base64.split(",")[1] || "");
+		const byteCharacters = atob(base64.split(",")[1] ?? "");
 		const byteNumbers = new Array(byteCharacters.length);
 		for (let i = 0; i < byteCharacters.length; i++) {
 			byteNumbers[i] = byteCharacters.charCodeAt(i);

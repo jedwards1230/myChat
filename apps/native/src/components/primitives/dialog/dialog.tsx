@@ -1,6 +1,3 @@
-import { useControllableState } from "@/components/primitives/hooks";
-import { Portal as RNPPortal } from "@/components/primitives/portal";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	PressableRef,
 	SlottablePressableProps,
@@ -9,14 +6,13 @@ import type {
 	TextRef,
 	ViewRef,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
-import {
-	BackHandler,
-	type GestureResponderEvent,
-	Pressable,
-	Text,
-	View,
-} from "react-native";
+import { BackHandler, Pressable, Text, View } from "react-native";
+import { useControllableState } from "@/components/primitives/hooks";
+import { Portal as RNPPortal } from "@/components/primitives/portal";
+import * as Slot from "@/components/primitives/slot";
+
 import type {
 	DialogContentProps,
 	DialogOverlayProps,
@@ -26,7 +22,7 @@ import type {
 } from "./types";
 
 const DialogContext = React.createContext<(RootContext & { nativeID: string }) | null>(
-	null
+	null,
 );
 
 const Root = React.forwardRef<ViewRef, SlottableViewProps & DialogRootProps>(
@@ -38,7 +34,7 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & DialogRootProps>(
 			onOpenChange: onOpenChangeProp,
 			...viewProps
 		},
-		ref
+		ref,
 	) => {
 		const nativeID = React.useId();
 		const [open = false, onOpenChange] = useControllableState({
@@ -59,7 +55,7 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & DialogRootProps>(
 				<Component ref={ref} {...viewProps} />
 			</DialogContext.Provider>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootNativeDialog";
@@ -68,7 +64,7 @@ function useRootContext() {
 	const context = React.useContext(DialogContext);
 	if (!context) {
 		throw new Error(
-			"Dialog compound components cannot be rendered outside the Dialog component"
+			"Dialog compound components cannot be rendered outside the Dialog component",
 		);
 	}
 	return context;
@@ -96,7 +92,7 @@ const Trigger = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Trigger.displayName = "TriggerNativeDialog";
@@ -179,7 +175,7 @@ const Content = React.forwardRef<ViewRef, SlottableViewProps & DialogContentProp
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Content.displayName = "ContentNativeDialog";
@@ -205,7 +201,7 @@ const Close = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Close.displayName = "CloseNativeDialog";

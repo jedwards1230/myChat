@@ -1,15 +1,16 @@
+import type { ChatResponseEmitterEvents } from "@/lib/events";
 import type { FastifyReply, FastifyRequest } from "fastify";
 import type { ChatCompletionMessage } from "openai/resources/index.mjs";
-
-import { chatResponseEmitter, type ChatResponseEmitterEvents } from "@/lib/events";
+import { chatResponseEmitter } from "@/lib/events";
 import { logger } from "@/lib/logger";
+import { pgRepo } from "@/lib/pg";
+
+import type { ModelApi } from "@mychat/agents/models/types";
+import type { AgentRun, RunType } from "@mychat/db/entity/AgentRun";
 import type { Thread } from "@mychat/db/entity/Thread";
+import type { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
 
 import { AgentRunQueue } from "./AgentRunQueue";
-import type { AgentRun, RunType } from "@mychat/db/entity/AgentRun";
-import type { CreateRunBody } from "@mychat/shared/schemas/AgentRun";
-import type { ModelApi } from "@mychat/agents/models/types";
-import { pgRepo } from "@/lib/pg";
 
 export class AgentRunController {
 	/** Create an Agent Run and add it to the Queue */
@@ -25,8 +26,8 @@ export class AgentRunController {
 		model: ModelApi;
 	}) {
 		try {
-			if (!thread?.activeMessage) throw new Error("No active message found");
-			const run = await pgRepo["AgentRun"].save({
+			if (!thread.activeMessage) throw new Error("No active message found");
+			const run = await pgRepo.AgentRun.save({
 				thread: { id: thread.id },
 				agent: { id: thread.agent.id },
 				stream,

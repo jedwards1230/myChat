@@ -1,3 +1,4 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
 	Column,
@@ -6,14 +7,13 @@ import {
 	ManyToOne,
 	OneToMany,
 	PrimaryGeneratedColumn,
-	type Relation,
 } from "typeorm";
 
-import { Thread } from "./Thread";
 import { Agent } from "./Agent";
-import { UserSession } from "./Session";
-import { DatabaseDocument } from "./Document";
 import { AgentTool } from "./AgentTool";
+import { DatabaseDocument } from "./Document";
+import { UserSession } from "./Session";
+import { Thread } from "./Thread";
 
 @Entity("User")
 export class User extends BaseEntity {

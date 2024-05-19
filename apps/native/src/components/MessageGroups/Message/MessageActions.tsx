@@ -1,11 +1,12 @@
-import { ContextMenuView, type MenuConfig } from "react-native-ios-context-menu";
-import * as Clipboard from "expo-clipboard";
-
-import { useGroupStore } from "../GroupStore";
 import type { Message } from "@/types";
+import type { MenuConfig } from "react-native-ios-context-menu";
+import { ContextMenuView } from "react-native-ios-context-menu";
+import * as Clipboard from "expo-clipboard";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
-import { MessagePreview } from "./MessagePreview";
+
 import type { ChatMessageGroup } from "../MessageGroup";
+import { useGroupStore } from "../GroupStore";
+import { MessagePreview } from "./MessagePreview";
 import { MessageSwitcher } from "./MessageSwitcher";
 
 const menuConfig: MenuConfig = {
@@ -50,7 +51,7 @@ export function MessageActions({
 
 	const copyToClipboard = () => {
 		if (message.content) {
-			Clipboard.setStringAsync(message.content);
+			void Clipboard.setStringAsync(message.content);
 		}
 	};
 

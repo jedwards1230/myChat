@@ -1,10 +1,10 @@
 import type { ForceMountable } from "@/components/primitives/types";
 
-type AlertDialogRootProps = {
+interface AlertDialogRootProps {
 	open?: boolean;
 	onOpenChange?: (value: boolean) => void;
 	defaultOpen?: boolean;
-};
+}
 
 interface RootContext {
 	open: boolean;

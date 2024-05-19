@@ -1,15 +1,14 @@
 import type { FastifyInstance } from "fastify";
-
-import { getThread } from "@/hooks/getThread";
 import { getMessage } from "@/hooks/getMessage";
+import { getThread } from "@/hooks/getThread";
+import { MessageController } from "@/modules/MessageController";
 
 import {
+	MessageCreateSchema,
 	MessageListSchema,
 	MessageObjectSchema,
-	MessageCreateSchema,
 	MessageSchemaWithoutId,
 } from "@mychat/shared/schemas/Message";
-import { MessageController } from "@/modules/MessageController";
 
 export async function setupMessagesRoute(app: FastifyInstance) {
 	app.addHook(
@@ -17,7 +16,7 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 		getThread({
 			activeMessage: true,
 			messages: { parent: true, children: true, files: true },
-		})
+		}),
 	);
 
 	// POST Create Message in Thread
@@ -47,7 +46,7 @@ export async function setupMessagesRoute(app: FastifyInstance) {
 			getMessage({
 				parent: true,
 				children: true,
-			})
+			}),
 		);
 
 		// GET Message

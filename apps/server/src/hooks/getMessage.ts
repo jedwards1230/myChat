@@ -1,9 +1,9 @@
+import type { FastifyReply, FastifyRequest } from "fastify";
 import type { FindOneOptions } from "typeorm";
-import type { FastifyRequest, FastifyReply } from "fastify";
-
 import { logger } from "@/lib/logger";
-import type { Message } from "@mychat/db/entity/Message";
 import { pgRepo } from "@/lib/pg";
+
+import type { Message } from "@mychat/db/entity/Message";
 
 export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 	return async function getMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -13,7 +13,7 @@ export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 				messageId: string;
 			};
 
-			const message = await pgRepo["Message"].findOne({
+			const message = await pgRepo.Message.findOne({
 				where: { id: messageId, thread: { id: threadId } },
 				relations,
 			});
@@ -29,7 +29,7 @@ export function getMessage(relations?: FindOneOptions<Message>["relations"]) {
 				error,
 				functionName: "getMessage",
 			});
-			reply.status(500).send({
+			return reply.status(500).send({
 				error: "An error occurred while processing your request.",
 			});
 		}

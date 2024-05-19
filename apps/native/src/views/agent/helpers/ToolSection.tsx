@@ -1,21 +1,21 @@
+import type { Agent, AgentUpdateSchema, ToolName } from "@/types";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-
-import type { Agent, AgentUpdateSchema, ToolName } from "@/types";
-import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+import Toast from "react-native-toast-message";
+import { Checkbox } from "@/components/ui/Checkboz";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import { Checkbox } from "@/components/ui/Checkboz";
-import { ToggleToolsSwitch } from "./ToggleTools";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
-import Toast from "react-native-toast-message";
+import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+
+import { ToggleToolsSwitch } from "./ToggleTools";
 
 export function ToolSection({ agent }: { agent: Agent }) {
 	return (
 		<Section
 			title="Tools"
 			titleComponent={
-				<View className="flex flex-row items-center justify-between flex-1">
+				<View className="flex flex-1 flex-row items-center justify-between">
 					<View className="flex flex-row items-center">
 						<ToggleToolsSwitch agent={agent} />
 					</View>
@@ -39,7 +39,7 @@ export function ToolSection({ agent }: { agent: Agent }) {
 function ToolList({ agent }: { agent: Agent }) {
 	const { data } = useToolsQuery();
 
-	return data && data.length ? (
+	return data?.length ? (
 		data.map((tool) => <ToolOption key={tool} agent={agent} toolName={tool} />)
 	) : (
 		<Text className="text-red-500">No tools Found</Text>
@@ -72,7 +72,7 @@ export function ToolOption({ agent, toolName }: { agent: Agent; toolName: ToolNa
 
 	return (
 		<Pressable
-			className="px-1.5 py-1 bg-background flex flex-row items-center gap-2 rounded hover:bg-foreground/5"
+			className="flex flex-row items-center gap-2 rounded bg-background px-1.5 py-1 hover:bg-foreground/5"
 			onPress={() => setOpen(!open)}
 		>
 			<Checkbox

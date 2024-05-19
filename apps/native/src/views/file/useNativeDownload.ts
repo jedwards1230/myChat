@@ -1,6 +1,7 @@
 import * as FileSystem from "expo-file-system";
-import { useFileSystemStore } from "./store";
 import { BASE_HOST } from "@/lib/fetcher";
+
+import { useFileSystemStore } from "./store";
 
 export function useNativeDownload() {
 	const { downloadProgress, pausedDownload, setDownloadProgress, setPausedDownload } =
@@ -12,7 +13,7 @@ export function useNativeDownload() {
 		BASE_HOST,
 		FileSystem.documentDirectory + "small.mp4",
 		{},
-		setDownloadProgress
+		setDownloadProgress,
 	);
 
 	const download = async () => {
@@ -53,7 +54,7 @@ export function useNativeDownload() {
 			downloadSnapshot.fileUri,
 			downloadSnapshot.options,
 			setDownloadProgress,
-			downloadSnapshot.resumeData
+			downloadSnapshot.resumeData,
 		);
 
 		try {

@@ -1,19 +1,18 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Platform } from "react-native";
-import type { ReadableStream } from "web-streams-polyfill";
-
 import type { Message } from "@/types";
-import { fetcher } from "@/lib/fetcher";
+import type { ReadableStream } from "web-streams-polyfill";
+import { Platform } from "react-native";
 import { messagesQueryOptions } from "@/hooks/fetchers/Message/useMessagesQuery";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { emitFeedback } from "@/lib/FeedbackEmitter";
-import { getStreamProcessor } from "@/lib/StreamProcessor";
 import { useUserData } from "@/hooks/stores/useUserData";
+import { emitFeedback } from "@/lib/FeedbackEmitter";
+import { fetcher } from "@/lib/fetcher";
+import { getStreamProcessor } from "@/lib/StreamProcessor";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type PostChatMutationRequest = {
+export interface PostChatMutationRequest {
 	threadId: string;
 	signal: AbortSignal;
-};
+}
 
 export type PostChatRequest = PostChatMutationRequest & {
 	apiKey: string;
@@ -51,7 +50,7 @@ export const useRequestChatMutation = (fn: () => void) => {
 
 	const addMessage = (message: Message, opts: QueryOpts) =>
 		queryClient.setQueryData(opts.queryKey, (messages) =>
-			messages ? [...messages, message] : [message]
+			messages ? [...messages, message] : [message],
 		);
 
 	const updateMessage = (content: string, opts: QueryOpts) =>

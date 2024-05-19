@@ -1,7 +1,8 @@
 import type { PropsWithChildren } from "react";
-import Markdown, { type MarkdownProps, MarkdownIt } from "react-native-markdown-display";
-
+import type { MarkdownProps } from "react-native-markdown-display";
+import Markdown, { MarkdownIt } from "react-native-markdown-display";
 import { useColorScheme } from "@/hooks/useColorScheme";
+
 import { getMarkdownRules } from "./rules";
 
 type MarkdownComponentProps = PropsWithChildren<MarkdownProps>;
@@ -25,7 +26,7 @@ export default function MarkdownComponent(props: MarkdownComponentProps) {
 	);
 }
 
-const testStr: string = `Headings 
+const testStr = `Headings 
 # h1 Heading 8-)
 ## h2 Heading
 ### h3 Heading

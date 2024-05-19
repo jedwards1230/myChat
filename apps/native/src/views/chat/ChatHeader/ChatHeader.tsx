@@ -1,20 +1,20 @@
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
-
-import RightButton from "./RightButton";
-import LeftButton from "./LeftButton";
-import { CenterButton } from "./CenterButton";
 import { HeaderWrapper } from "@/views/HeaderWrapper";
 
+import { CenterButton } from "./CenterButton";
+import LeftButton from "./LeftButton";
+import RightButton from "./RightButton";
+
 export type ChatHeaderProps = NativeStackHeaderProps & {
-    threadId: string | null;
+	threadId: string | null;
 };
 
 export function ChatHeader({ threadId }: ChatHeaderProps) {
-    return (
-        <HeaderWrapper>
-            <LeftButton />
-            <CenterButton threadId={threadId} />
-            <RightButton />
-        </HeaderWrapper>
-    );
+	return (
+		<HeaderWrapper>
+			<LeftButton />
+			<CenterButton threadId={threadId} />
+			<RightButton />
+		</HeaderWrapper>
+	);
 }

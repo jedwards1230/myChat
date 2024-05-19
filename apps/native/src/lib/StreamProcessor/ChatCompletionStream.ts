@@ -1,20 +1,18 @@
-import type { ReadableStream } from "web-streams-polyfill";
-
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import type * as Core from "openai/core.mjs";
-import { OpenAIError, APIUserAbortError } from "openai";
+import type { ChatCompletionSnapshot } from "openai/lib/ChatCompletionStream.mjs";
 import type { Completions } from "openai/resources/chat/completions.mjs";
+import type { ReadableStream } from "web-streams-polyfill";
+import { APIUserAbortError, OpenAIError } from "openai";
 import {
 	type ChatCompletion,
 	type ChatCompletionChunk,
 	type ChatCompletionCreateParams,
 	type ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions.mjs";
-import type { ChatCompletionSnapshot } from "openai/lib/ChatCompletionStream.mjs";
 
-import {
-	AbstractChatCompletionRunner,
-	type AbstractChatCompletionRunnerEvents,
-} from "./AbstractChatCompletionRunner";
+import type { AbstractChatCompletionRunnerEvents } from "./AbstractChatCompletionRunner";
+import { AbstractChatCompletionRunner } from "./AbstractChatCompletionRunner";
 import { getChunksAsync, Stream } from "./Stream";
 
 export interface ChatCompletionStreamEvents extends AbstractChatCompletionRunnerEvents {
@@ -48,7 +46,7 @@ export class ChatCompletionStream
 	 */
 	static fromReadableStream(
 		stream: ReadableStream,
-		native?: boolean
+		native?: boolean,
 	): ChatCompletionStream {
 		const runner = new ChatCompletionStream();
 		runner._run(() => runner._fromReadableStream(stream, { native }));
@@ -58,7 +56,7 @@ export class ChatCompletionStream
 	static createChatCompletion(
 		completions: Completions,
 		params: ChatCompletionStreamParams,
-		options?: Core.RequestOptions
+		options?: Core.RequestOptions,
 	): ChatCompletionStream {
 		const runner = new ChatCompletionStream();
 		runner._run(() =>
@@ -71,8 +69,8 @@ export class ChatCompletionStream
 						...options?.headers,
 						"X-Stainless-Helper-Method": "stream",
 					},
-				}
-			)
+				},
+			),
 		);
 		return runner;
 	}
@@ -87,7 +85,7 @@ export class ChatCompletionStream
 		this._emit("chunk", chunk, completion);
 		const delta = chunk.choices[0]?.delta?.content;
 		const snapshot = completion.choices[0]?.message;
-		if (delta != null && snapshot?.role === "assistant" && snapshot?.content) {
+		if (delta != null && snapshot?.role === "assistant" && snapshot.content) {
 			this._emit("content", delta, snapshot.content);
 		}
 	}
@@ -106,7 +104,7 @@ export class ChatCompletionStream
 	protected override async _createChatCompletion(
 		completions: Completions,
 		params: ChatCompletionCreateParams,
-		options?: Core.RequestOptions
+		options?: Core.RequestOptions,
 	): Promise<ChatCompletion> {
 		const signal = options?.signal;
 		if (signal) {
@@ -116,13 +114,13 @@ export class ChatCompletionStream
 		this.#beginRequest();
 		const stream = await completions.create(
 			{ ...params, stream: true },
-			{ ...options, signal: this.controller.signal }
+			{ ...options, signal: this.controller.signal },
 		);
 		this._connected();
 		for await (const chunk of stream) {
 			this.#addChunk(chunk);
 		}
-		if (stream.controller.signal?.aborted) {
+		if (stream.controller.signal.aborted) {
 			throw new APIUserAbortError();
 		}
 		return this._addChatCompletion(this.#endRequest());
@@ -132,7 +130,7 @@ export class ChatCompletionStream
 		readableStream: ReadableStream,
 		options?: Core.RequestOptions & {
 			native?: boolean;
-		}
+		},
 	): Promise<ChatCompletion> {
 		const signal = options?.signal;
 		if (signal) {
@@ -145,7 +143,7 @@ export class ChatCompletionStream
 			? getChunksAsync(readableStream)
 			: Stream.fromReadableStream<ChatCompletionChunk>(
 					readableStream,
-					this.controller
+					this.controller,
 				);
 		let chatId;
 		for await (const chunk of stream) {
@@ -214,7 +212,7 @@ export class ChatCompletionStream
 			Object.assign(choice.message, rest);
 
 			if (content)
-				choice.message.content = (choice.message.content || "") + content;
+				choice.message.content = (choice.message.content ?? "") + content;
 			if (role) choice.message.role = role;
 			if (function_call) {
 				if (!choice.message.function_call) {
@@ -292,11 +290,11 @@ export class ChatCompletionStream
 						return { value: undefined, done: true };
 					}
 					return new Promise<ChatCompletionChunk | undefined>(
-						(resolve, reject) => readQueue.push({ resolve, reject })
+						(resolve, reject) => readQueue.push({ resolve, reject }),
 					).then((chunk) =>
 						chunk
 							? { value: chunk, done: false }
-							: { value: undefined, done: true }
+							: { value: undefined, done: true },
 					);
 				}
 				const chunk = pushQueue.shift()!;
@@ -342,11 +340,11 @@ function finalizeChatCompletion(snapshot: ChatCompletionSnapshot): ChatCompletio
 					const { arguments: args, name } = function_call;
 					if (args == null)
 						throw new OpenAIError(
-							`missing function_call.arguments for choice ${index}`
+							`missing function_call.arguments for choice ${index}`,
 						);
 					if (!name)
 						throw new OpenAIError(
-							`missing function_call.name for choice ${index}`
+							`missing function_call.name for choice ${index}`,
 						);
 					return {
 						...choiceRest,
@@ -372,30 +370,30 @@ function finalizeChatCompletion(snapshot: ChatCompletionSnapshot): ChatCompletio
 							content,
 							tool_calls: tool_calls.map((tool_call, i) => {
 								const { function: fn, type, id, ...toolRest } = tool_call;
-								const { arguments: args, name, ...fnRest } = fn || {};
+								const { arguments: args, name, ...fnRest } = fn ?? {};
 								if (id == null)
 									throw new OpenAIError(
 										`missing choices[${index}].tool_calls[${i}].id\n${str(
-											snapshot
-										)}`
+											snapshot,
+										)}`,
 									);
 								if (type == null)
 									throw new OpenAIError(
 										`missing choices[${index}].tool_calls[${i}].type\n${str(
-											snapshot
-										)}`
+											snapshot,
+										)}`,
 									);
 								if (name == null)
 									throw new OpenAIError(
 										`missing choices[${index}].tool_calls[${i}].function.name\n${str(
-											snapshot
-										)}`
+											snapshot,
+										)}`,
 									);
 								if (args == null)
 									throw new OpenAIError(
 										`missing choices[${index}].tool_calls[${i}].function.arguments\n${str(
-											snapshot
-										)}`
+											snapshot,
+										)}`,
 									);
 
 								return {
@@ -415,7 +413,7 @@ function finalizeChatCompletion(snapshot: ChatCompletionSnapshot): ChatCompletio
 					index,
 					logprobs,
 				};
-			}
+			},
 		),
 		created,
 		model,

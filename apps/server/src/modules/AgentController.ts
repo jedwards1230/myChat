@@ -1,26 +1,26 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-
-import { Tools } from "@mychat/agents/tools/index";
-import type { AgentCreateSchema, AgentUpdateSchema } from "@mychat/shared/schemas/Agent";
 import { pgRepo } from "@/lib/pg";
+
+import type { AgentCreateSchema, AgentUpdateSchema } from "@mychat/shared/schemas/Agent";
+import { Tools } from "@mychat/agents/tools/index";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {
 		const user = request.user;
 		const agent = request.body as AgentCreateSchema;
-		const savedAgent = await pgRepo["Agent"].save({
+		const savedAgent = await pgRepo.Agent.save({
 			...agent,
 			owner: { id: user.id },
 		});
-		reply.send(savedAgent);
+		return reply.send(savedAgent);
 	}
 
 	static async getAgents(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(request.user.agents);
+		return reply.send(request.user.agents);
 	}
 
 	static async getAgent(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(request.agent.toJSON());
+		return reply.send(request.agent.toJSON());
 	}
 
 	static async updateAgent(request: FastifyRequest, reply: FastifyReply) {
@@ -29,7 +29,7 @@ export class AgentController {
 
 		switch (agentUpdate.type) {
 			case "tools": {
-				const newTools = await pgRepo["AgentTool"].save(agentUpdate.value);
+				const newTools = await pgRepo.AgentTool.save(agentUpdate.value);
 
 				agent.tools = newTools;
 				break;
@@ -49,15 +49,15 @@ export class AgentController {
 			}
 		}
 		const updatedAgent = await agent.save();
-		reply.send(updatedAgent.toJSON());
+		return reply.send(updatedAgent.toJSON());
 	}
 
 	static async deleteAgent(request: FastifyRequest, reply: FastifyReply) {
-		reply.send("TODO");
+		return reply.send("TODO");
 	}
 
 	/** Return list of all tools available on the server */
 	static async getTools(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(Tools.map((tool) => tool.name));
+		return reply.send(Tools.map((tool) => tool.name));
 	}
 }

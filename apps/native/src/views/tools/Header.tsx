@@ -1,7 +1,7 @@
 import { View } from "react-native";
-
-import { Icon } from "@/components/ui/Icon";
 import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
+
 import { HeaderWrapper } from "../HeaderWrapper";
 import { ToolDialog } from "./[id]/ToolDialog.web";
 

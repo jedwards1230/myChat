@@ -1,15 +1,14 @@
 import type { FastifyInstance } from "fastify";
-
 import { getUser } from "@/hooks/getUser";
 
 import { setupAgentsRoute } from "./agents";
 import { setupMessageFilesRoute } from "./messageFiles";
+import { setupMessagesRoute } from "./messages";
 import { setupModelsRoute } from "./models";
 import { setupAgentRunsRoute } from "./runs";
 import { setupServerRoute } from "./server";
 import { setupThreadsRoute } from "./threads";
 import { setupUserRoute } from "./user";
-import { setupMessagesRoute } from "./messages";
 
 export async function setupRoutes(app: FastifyInstance) {
 	await app.register(setupServerRoute);

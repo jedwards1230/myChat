@@ -3,12 +3,15 @@ import { chromium } from "playwright";
 
 import type { LLMTool } from "../types";
 
-type SearchProps = { query: string; recency_days: number };
-type SearchResult = {
+interface SearchProps {
+	query: string;
+	recency_days: number;
+}
+interface SearchResult {
 	title?: string;
 	url: string;
 	index: number;
-};
+}
 
 const search: LLMTool<SearchProps>["tool"] = async ({ query, recency_days = 0 }) => {
 	const browser = await chromium.launch({ headless: true });
@@ -16,8 +19,8 @@ const search: LLMTool<SearchProps>["tool"] = async ({ query, recency_days = 0 })
 
 	await page.goto(
 		`https://www.google.com/search?q=${encodeURIComponent(
-			query
-		)}&tbs=qdr:${recency_days}d`
+			query,
+		)}&tbs=qdr:${recency_days}d`,
 	);
 
 	// Assuming the search results are in a div with class 'g'
@@ -31,7 +34,7 @@ const search: LLMTool<SearchProps>["tool"] = async ({ query, recency_days = 0 })
 					if (!url) return null;
 					return { title, url, index };
 				})
-				.filter((result) => result !== null) as SearchResult[]
+				.filter((result) => result !== null) as SearchResult[],
 	);
 
 	await browser.close();

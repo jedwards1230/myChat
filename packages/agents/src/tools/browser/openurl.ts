@@ -3,8 +3,14 @@ import { chromium } from "playwright";
 
 import type { LLMTool } from "../types";
 
-type OpenUrlProps = { url: string };
-type OpenUrlResult = { url: string; title: string; contentPreview: string };
+interface OpenUrlProps {
+	url: string;
+}
+interface OpenUrlResult {
+	url: string;
+	title: string;
+	contentPreview: string;
+}
 
 const openUrl: LLMTool<OpenUrlProps>["tool"] = async ({ url }) => {
 	const browser = await chromium.launch({ headless: true });

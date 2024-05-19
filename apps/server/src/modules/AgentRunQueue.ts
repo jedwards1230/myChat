@@ -1,9 +1,10 @@
 import { logger } from "@/lib/logger";
-import { LLMNexusController } from "./LLMNexusController";
+import { pgRepo } from "@/lib/pg";
+import MessageQueue from "@/lib/queue";
+
 import type { AgentRun } from "@mychat/db/entity/AgentRun";
 
-import MessageQueue from "@/lib/queue";
-import { pgRepo } from "@/lib/pg";
+import { LLMNexusController } from "./LLMNexusController";
 
 export type AddMessageQueue = MessageQueue<AgentRun>;
 
@@ -12,14 +13,14 @@ export class AgentRunQueue {
 
 	static addRunToQueue(run: AgentRun) {
 		this.queue.enqueue(run.id, run);
-		this.processQueue(run.id);
+		void this.processQueue(run.id);
 	}
 
 	// Process the queue asynchronously
 	private static async processQueue(runId: string) {
 		try {
 			while (!this.queue.isEmpty(runId)) {
-				const run = await pgRepo["AgentRun"].getRunForProcessing(runId);
+				const run = await pgRepo.AgentRun.getRunForProcessing(runId);
 				this.queue.dequeue(runId);
 
 				try {
@@ -29,7 +30,7 @@ export class AgentRunQueue {
 						error,
 						functionName: "AgentRunQueue.processQueue",
 					});
-					await pgRepo["AgentRun"].update({ id: run.id }, { status: "failed" });
+					await pgRepo.AgentRun.update({ id: run.id }, { status: "failed" });
 				}
 			}
 		} catch (error) {

@@ -1,7 +1,7 @@
 import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
+import { OpenAIEmbeddings } from "@langchain/openai";
 import { GithubRepoLoader } from "langchain/document_loaders/web/github";
 import { MemoryVectorStore } from "langchain/vectorstores/memory";
-import { OpenAIEmbeddings } from "@langchain/openai";
 
 async function processRepository({ repoUrl }: { repoUrl: string }) {
 	// Initialize GitHub document loader with specific repo information
@@ -17,7 +17,7 @@ async function processRepository({ repoUrl }: { repoUrl: string }) {
 
 	const vectorStore = await MemoryVectorStore.fromDocuments(
 		documents,
-		new OpenAIEmbeddings()
+		new OpenAIEmbeddings(),
 	);
 	const resultOne = await vectorStore.similaritySearch("hello world", 1);
 	console.log(resultOne);

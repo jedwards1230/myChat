@@ -1,26 +1,25 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import type { MultipartFile } from "@fastify/multipart";
-
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { logger } from "@/lib/logger";
-import tokenizer from "@mychat/agents/tokenizer";
 import { pgRepo } from "@/lib/pg";
 
 import type { DocumentMetaParams } from "@mychat/db/repository/DocumentRepo";
+import tokenizer from "@mychat/agents/tokenizer";
 
-export type MessageFileMetadata = {
+export interface MessageFileMetadata {
 	name: string;
 	size: number;
 	lastModified: number;
 	relativePath?: string;
-};
+}
 
-export type PreppedFile = {
+export interface PreppedFile {
 	buffer?: Buffer;
 	file: MultipartFile;
 	metadata: MessageFileMetadata;
 	text?: string;
 	tokens?: number;
-};
+}
 
 export class MessageFileController {
 	static async getMessageFile(req: FastifyRequest, reply: FastifyReply) {
@@ -40,8 +39,7 @@ export class MessageFileController {
 		}
 
 		const fileBuffer = Buffer.from(JSON.stringify(file));
-		reply.type("application/octet-stream");
-		reply.send(fileBuffer);
+		return reply.type("application/octet-stream").send(fileBuffer);
 	}
 
 	static async createMessageFile(req: FastifyRequest, res: FastifyReply) {
@@ -59,7 +57,9 @@ export class MessageFileController {
 				if (part.type === "file") {
 					filesRaw.push(part);
 				} else {
-					metadataRaw.push(JSON.parse(part.value as string));
+					metadataRaw.push(
+						JSON.parse(part.value as string) as MessageFileMetadata,
+					);
 				}
 			}
 
@@ -79,14 +79,14 @@ export class MessageFileController {
 				files.push({ ...res, file, metadata });
 			}
 
-			const newMsg = await pgRepo["MessageFile"].addFileList(files, req.message);
+			const newMsg = await pgRepo.MessageFile.addFileList(files, req.message);
 			await MessageFileController.saveToVectorStore(files, {
 				user: req.user,
 				message: newMsg,
 				thread: req.thread,
 			});
 
-			res.send(newMsg.toJSON());
+			return res.send(newMsg.toJSON());
 		} catch (error) {
 			logger.error("Error creating message file", {
 				error,
@@ -102,10 +102,10 @@ export class MessageFileController {
 
 	private static async saveToVectorStore(
 		files: PreppedFile[],
-		meta: DocumentMetaParams
+		meta: DocumentMetaParams,
 	) {
 		try {
-			pgRepo["Document"].addDocuments(
+			await pgRepo.Document.addDocuments(
 				...files.filter(this.isParsable).map((file) => ({
 					...meta,
 					decoded: file.text,
@@ -121,7 +121,7 @@ export class MessageFileController {
 							type: file.metadata.type,
 						}),
 					},
-				}))
+				})),
 			);
 		} catch (error) {
 			logger.error("Error saving files to vector store", {

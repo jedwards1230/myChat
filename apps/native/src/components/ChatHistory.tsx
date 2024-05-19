@@ -1,17 +1,12 @@
-import {
-	type NativeScrollEvent,
-	type NativeSyntheticEvent,
-	ScrollView,
-	View,
-} from "react-native";
+import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { useEffect, useRef, useState } from "react";
-
-import { Button } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
+import { ScrollView, View } from "react-native";
 import {
 	MessageGroup,
 	useGroupedMessages,
 } from "@/components/MessageGroups/MessageGroup";
+import { Button } from "@/components/ui/Button";
+import { Icon } from "@/components/ui/Icon";
 
 export default function ChatHistory({
 	isLoading,
@@ -45,7 +40,7 @@ export default function ChatHistory({
 
 	if (isError) return null;
 	return (
-		<View ref={viewRef} className="relative flex flex-1 w-full gap-4">
+		<View ref={viewRef} className="relative flex w-full flex-1 gap-4">
 			{messageGroups.length > 0 && (
 				<ScrollView
 					ref={scrollViewRef}
@@ -65,7 +60,7 @@ export default function ChatHistory({
 				</ScrollView>
 			)}
 			{showScrollButton && (
-				<View className="absolute left-0 right-0 flex items-center bottom-4">
+				<View className="absolute bottom-4 left-0 right-0 flex items-center">
 					<ScrollButton onPress={scrollToBottom} />
 				</View>
 			)}

@@ -3,11 +3,7 @@
 	"version": "1.0.0",
 	"main": "./src/index.ts",
 	"react-native": "./src/index.ts",
-	"files": [
-		"build",
-		"src"
-	],
-	"types": "./src/*.ts",
+	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
 		"./*": "./src/*.ts",
@@ -16,7 +12,8 @@
 	},
 	"scripts": {
 		"dev": "tsc --watch",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"lint": "eslint",
 		"test": "jest",
 		"typecheck": "tsc",
 		"clean": "rm -rf .turbo"
@@ -25,9 +22,11 @@
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.3.0",
+		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},
 	"dependencies": {
 		"zod": "^3.23.8"
-	}
+	},
+	"prettier": "@mychat/prettier-config"
 }

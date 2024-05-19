@@ -2,6 +2,7 @@
 	"name": "@mychat/agents",
 	"version": "1.0.0",
 	"main": "src/index.ts",
+	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
 		"./*": "./src/*.ts"
@@ -18,12 +19,15 @@
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.3.0",
+		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},
 	"scripts": {
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"lint": "eslint",
 		"test": "jest",
 		"typecheck": "tsc",
 		"clean": "rm -rf logs .turbo"
-	}
+	},
+	"prettier": "@mychat/prettier-config"
 }

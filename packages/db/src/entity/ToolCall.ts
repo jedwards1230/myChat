@@ -1,3 +1,4 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
 	Column,
@@ -6,15 +7,14 @@ import {
 	OneToOne,
 	PrimaryColumn,
 	VersionColumn,
-	type Relation,
 } from "typeorm";
 
 import { Message } from "./Message";
 
-export type FunctionCall = {
+export interface FunctionCall {
 	arguments?: string | undefined;
 	name?: string | undefined;
-};
+}
 
 @Entity("ToolCall")
 export class ToolCall extends BaseEntity {

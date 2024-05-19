@@ -1,10 +1,11 @@
+import { Button } from "@/components/ui/Button";
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import { useUserData } from "@/hooks/stores/useUserData";
-import { LogoutButton } from "../helpers";
-import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
-import { Button } from "@/components/ui/Button";
 import { useDeleteAllThreads } from "@/hooks/actions";
+import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
+import { useUserData } from "@/hooks/stores/useUserData";
+
+import { LogoutButton } from "../helpers";
 
 export function UserConfig() {
 	const user = useUserData.use.user();
@@ -37,7 +38,7 @@ export function UserConfig() {
 								<Text>{k}</Text>
 								<Text>{v.toString()}</Text>
 							</RowItem>
-						) : null
+						) : null,
 					)}
 			</Section>
 			<Section title="Session Data">

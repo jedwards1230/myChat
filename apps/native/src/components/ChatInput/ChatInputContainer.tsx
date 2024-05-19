@@ -1,84 +1,84 @@
-import { Platform, Pressable, View } from "react-native";
-import { useEffect, useState } from "react";
-
 import type { FormSubmission } from "@/hooks/useChat";
+import { useEffect, useState } from "react";
+import { Platform, Pressable, View } from "react-native";
 import { Icon } from "@/components/ui/Icon";
-import ChatInput from "./ChatInput";
+
 import { CommandTray } from "../CommandTray";
-import { FileTray, FileInputButton } from "../FileTray";
+import { FileInputButton, FileTray } from "../FileTray";
+import ChatInput from "./ChatInput";
 
 export function ChatInputContainer({
-    handleSubmit,
-    abort,
-    loading = false,
-    threadId,
+	handleSubmit,
+	abort,
+	loading = false,
+	threadId,
 }: {
-    handleSubmit: FormSubmission;
-    abort: () => void;
-    loading?: boolean;
-    threadId: string | null;
+	handleSubmit: FormSubmission;
+	abort: () => void;
+	loading?: boolean;
+	threadId: string | null;
 }) {
-    const [input, setInput] = useState("");
-    useEffect(() => setInput(""), [threadId]);
+	const [input, setInput] = useState("");
+	useEffect(() => setInput(""), [threadId]);
 
-    const handleSend = async () => {
-        try {
-            await handleSubmit(input);
-            setInput("");
-        } catch (error) {
-            alert(error);
-        }
-    };
+	const handleSend = async () => {
+		try {
+			await handleSubmit(input);
+			setInput("");
+		} catch (error) {
+			alert(error);
+		}
+	};
 
-    return (
-        <View className="w-full px-2 pt-2 web:mb-2">
-            <View className="relative flex flex-col items-center justify-between w-full px-1 mt-2 mb-2 border border-2 border-input rounded-xl web:mx-auto md:max-w-[90%] lg:max-w-[75%]">
-                <FileTray />
-                <CommandTray input={input} />
-                <View className="flex flex-row items-center justify-between w-full pl-2 pr-2 web:pr-10">
-                    <ChatInput
-                        threadId={threadId}
-                        input={input}
-                        setInput={setInput}
-                        handleSubmit={handleSend}
-                    />
-                    <FileInputButton />
-                    {loading ? (
-                        <StopButton abort={abort} />
-                    ) : (
-                        <SendButton handleSend={handleSend} />
-                    )}
-                </View>
-            </View>
-        </View>
-    );
+	return (
+		<View className="web:mb-2 w-full px-2 pt-2">
+			<View className="web:mx-auto relative mb-2 mt-2 flex w-full flex-col items-center justify-between rounded-xl border border-2 border-input px-1 md:max-w-[90%] lg:max-w-[75%]">
+				<FileTray />
+				<CommandTray input={input} />
+				<View className="web:pr-10 flex w-full flex-row items-center justify-between pl-2 pr-2">
+					<ChatInput
+						threadId={threadId}
+						input={input}
+						setInput={setInput}
+						handleSubmit={handleSend}
+					/>
+					<FileInputButton />
+					{loading ? (
+						<StopButton abort={abort} />
+					) : (
+						<SendButton handleSend={handleSend} />
+					)}
+				</View>
+			</View>
+		</View>
+	);
 }
 
 function SendButton({ handleSend }: { handleSend: () => void }) {
-    return (
-        <Pressable
-            onPress={handleSend}
-            className="absolute right-0 p-1 bg-transparent rounded-full web:right-2"
-        >
-            <Icon
-                type="MaterialIcons"
-                name={Platform.select({
-                    web: "keyboard-arrow-up",
-                    default: "chevron-right",
-                })}
-                size={22}
-            />
-        </Pressable>
-    );
+	return (
+		<Pressable
+			onPress={handleSend}
+			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
+		>
+			<Icon
+				type="MaterialIcons"
+				name={Platform.select({
+					web: "keyboard-arrow-up",
+					default: "chevron-right",
+				})}
+				size={22}
+			/>
+		</Pressable>
+	);
 }
 
 function StopButton({ abort }: { abort: () => void }) {
-    return (
-        <Pressable
-            onPress={abort}
-            className="absolute right-0 p-1 bg-transparent rounded-full web:right-2"
-        >
-            <Icon type="MaterialIcons" name="stop" size={22} />
-        </Pressable>
-    );
+	return (
+		<Pressable
+			onPress={abort}
+			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
+		>
+			<Icon type="MaterialIcons" name="stop" size={22} />
+		</Pressable>
+	);
 }

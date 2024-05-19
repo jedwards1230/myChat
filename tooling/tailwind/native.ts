@@ -1,6 +1,6 @@
 import type { Config } from "tailwindcss";
 
-import base from "../eslint/base";
+import base from "./base";
 
 export default {
 	content: base.content,

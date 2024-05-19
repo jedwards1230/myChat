@@ -11,7 +11,7 @@ export function useAugmentedRef<T>({ ref, methods, deps = [] }: AugmentRefProps<
 	React.useImperativeHandle(
 		ref,
 		() => {
-			if (typeof augmentedRef === "function" || !augmentedRef?.current) {
+			if (typeof augmentedRef === "function" || !augmentedRef.current) {
 				return {} as T;
 			}
 			return {
@@ -19,7 +19,7 @@ export function useAugmentedRef<T>({ ref, methods, deps = [] }: AugmentRefProps<
 				...methods,
 			};
 		},
-		deps
+		deps,
 	);
 	return augmentedRef;
 }

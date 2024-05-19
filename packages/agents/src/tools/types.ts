@@ -3,10 +3,10 @@ import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 
 export type Runner<T extends string | object> = RunnableToolFunction<T>;
 
-export type LLMTool<T extends string | object> = {
+export interface LLMTool<T extends string | object> {
 	tool: (props: T, runner: AbstractChatCompletionRunner) => Promise<string>;
 	runnable: Runner<T>;
-};
+}
 
 export type Runnable<T> = T extends (infer U)[]
 	? U extends { runnable: infer R }
@@ -16,10 +16,10 @@ export type Runnable<T> = T extends (infer U)[]
 		? R
 		: never;
 
-export type ToolConfig<T = LLMTool<any>[]> = {
+export interface ToolConfig<T = LLMTool<any>[]> {
 	name: string;
 	tools: T;
 	description: string;
 	systemMessage: string;
 	getTools: () => Runnable<T>[];
-};
+}

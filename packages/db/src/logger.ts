@@ -1,4 +1,4 @@
-import { getLogger, DBLogger } from "@mychat/logger";
+import { DBLogger, getLogger } from "@mychat/logger";
 
 const prefix = "db";
 

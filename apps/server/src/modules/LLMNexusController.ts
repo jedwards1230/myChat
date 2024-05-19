@@ -1,22 +1,18 @@
-import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
-import type { ChatCompletion } from "openai/resources/index.mjs";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
-
+import type { ChatCompletion } from "openai/resources/index.mjs";
 import { chatResponseEmitter } from "@/lib/events";
+import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
-import { StreamResponseController } from "./StreamResponseController";
-
+import type { ChatOptions, LLMNexus } from "@mychat/agents/LLMInterface";
 import type { AgentRun, AgentRunStatus } from "@mychat/db/entity/AgentRun";
 import type { Message } from "@mychat/db/entity/Message";
 import type { Thread } from "@mychat/db/entity/Thread";
 import type { Role } from "@mychat/shared/schemas/Message";
-import { logger } from "@/lib/logger";
-import {
-	NexusServiceRegistry,
-	type LLMNexus,
-	type ChatOptions,
-} from "@mychat/agents/LLMInterface";
+import { NexusServiceRegistry } from "@mychat/agents/LLMInterface";
+
+import { StreamResponseController } from "./StreamResponseController";
 
 export class LLMNexusController {
 	/**
@@ -25,7 +21,7 @@ export class LLMNexusController {
 	 * */
 	static processResponse = async (agentRun: AgentRun) => {
 		const update = (status: AgentRunStatus) =>
-			pgRepo["AgentRun"].update({ id: agentRun.id }, { status });
+			pgRepo.AgentRun.update({ id: agentRun.id }, { status });
 
 		await update("in_progress");
 		const llmServce = NexusServiceRegistry.getService(agentRun.model.serviceName);
@@ -66,11 +62,11 @@ export class LLMNexusController {
 
 	static async getMessages(activeMessage: Message) {
 		const messagesWithoutFiles = (
-			await pgRepo["Message"].findAncestors(activeMessage, {
+			await pgRepo.Message.findAncestors(activeMessage, {
 				relations: ["tool_calls", "tool_call_id", "files"],
 			})
 		).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
-		const messages = await pgRepo["Message"].injectFilesContent(messagesWithoutFiles);
+		const messages = await pgRepo.Message.injectFilesContent(messagesWithoutFiles);
 		return messages;
 	}
 
@@ -84,11 +80,11 @@ export class LLMNexusController {
 		llmServce: LLMNexus;
 	}) {
 		try {
-			const messages = await pgRepo["AgentRun"].generateRagContent(agentRun.id);
+			const messages = await pgRepo.AgentRun.generateRagContent(agentRun.id);
 
 			const completion = await llmServce.createChatCompletion(
 				messages.map((m) => m.toJSON()),
-				opts
+				opts,
 			);
 			return completion;
 		} catch (error) {
@@ -102,7 +98,7 @@ export class LLMNexusController {
 
 	private static async saveResponse(
 		agentRun: AgentRun,
-		response: ChatCompletionStream | ChatCompletion
+		response: ChatCompletionStream | ChatCompletion,
 	) {
 		try {
 			if (response instanceof ChatCompletionStream) {
@@ -122,7 +118,7 @@ export class LLMNexusController {
 
 	private static async saveStreamResponse(
 		agentRun: AgentRun,
-		response: ChatCompletionStream
+		response: ChatCompletionStream,
 	) {
 		try {
 			chatResponseEmitter.emit("responseStreamReady", {
@@ -140,9 +136,9 @@ export class LLMNexusController {
 				response.controller.abort();
 				response.abort();
 
-				await pgRepo["AgentRun"].update(
+				await pgRepo.AgentRun.update(
 					{ id: agentRun.id },
-					{ status: "cancelled" }
+					{ status: "cancelled" },
 				);
 			});
 
@@ -166,7 +162,7 @@ export class LLMNexusController {
 			});
 			const responseMsg = response.choices[0]?.message;
 			if (!responseMsg) throw new Error("No response message");
-			await pgRepo["Thread"].addMessage(thread, {
+			await pgRepo.Thread.addMessage(thread, {
 				role: responseMsg.role as Role,
 				content: responseMsg.content,
 				parent: thread.activeMessage,
@@ -191,7 +187,7 @@ export class LLMNexusController {
 	}) {
 		if (!thread.activeMessage) throw new Error("No active message in thread");
 		try {
-			const messages = await pgRepo["Message"].getMessages(thread.activeMessage);
+			const messages = await pgRepo.Message.getMessages(thread.activeMessage);
 
 			const SYSTEM_MESSAGE = `Generate a thread title for the provided conversation history. 
 			Only respond with the title. 
@@ -202,7 +198,7 @@ export class LLMNexusController {
 			${JSON.stringify(messages.map((m) => ({ role: m.role, content: m.content })))}`;
 
 			const msgHistory = [{ role: "system", content: SYSTEM_MESSAGE }] as any[];
-			const response = await llmServce.createTitleCompletionJSON(msgHistory, opts);
+			const response = llmServce.createTitleCompletionJSON(msgHistory, opts);
 
 			return response;
 		} catch (error) {
@@ -223,6 +219,6 @@ export class LLMNexusController {
 		if (!title) throw new Error("No title generated");
 
 		thread.title = title;
-		await pgRepo["Thread"].update(thread.id, { title });
+		await pgRepo.Thread.update(thread.id, { title });
 	}
 }

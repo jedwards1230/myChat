@@ -1,16 +1,13 @@
-import { Redirect, withLayoutContext } from "expo-router";
-import {
-	createDrawerNavigator,
-	type DrawerContentComponentProps,
-} from "@react-navigation/drawer";
-import { Platform } from "react-native";
+import type { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useEffect } from "react";
-
+import { Platform } from "react-native";
+import { Redirect, withLayoutContext } from "expo-router";
+import NativeSafeAreaView from "@/components/NativeSafeAreaView";
+import ThreadHistory from "@/components/ThreadDrawer/ThreadHistory";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
-import ThreadHistory from "@/components/ThreadDrawer/ThreadHistory";
-import NativeSafeAreaView from "@/components/NativeSafeAreaView";
 import { useColorScheme } from "@/hooks/useColorScheme";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 
 export const Drawer = withLayoutContext(createDrawerNavigator().Navigator);
 

@@ -1,13 +1,15 @@
-import * as Checkbox from "@radix-ui/react-checkbox";
-import * as React from "react";
-import { type GestureResponderEvent, Pressable, View } from "react-native";
-import { useAugmentedRef } from "@/components/primitives/hooks";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	ComponentPropsWithAsChild,
 	PressableRef,
 	SlottablePressableProps,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, View } from "react-native";
+import { useAugmentedRef } from "@/components/primitives/hooks";
+import * as Slot from "@/components/primitives/slot";
+import * as Checkbox from "@radix-ui/react-checkbox";
+
 import type { CheckboxIndicator, CheckboxRootProps } from "./types";
 
 const CheckboxContext = React.createContext<CheckboxRootProps | null>(null);
@@ -23,7 +25,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
 			role = "button",
 			...props
 		},
-		ref
+		ref,
 	) => {
 		const augmentedRef = useAugmentedRef({ ref });
 
@@ -73,7 +75,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
 				</Checkbox.Root>
 			</CheckboxContext.Provider>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootWebCheckbox";
@@ -82,7 +84,7 @@ function useCheckboxContext() {
 	const context = React.useContext(CheckboxContext);
 	if (context === null) {
 		throw new Error(
-			"Checkbox compound components cannot be rendered outside the Checkbox component"
+			"Checkbox compound components cannot be rendered outside the Checkbox component",
 		);
 	}
 	return context;

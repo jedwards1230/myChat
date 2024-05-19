@@ -1,12 +1,13 @@
-import * as React from "react";
-import { type GestureResponderEvent, Pressable, View } from "react-native";
-
-import * as Slot from "@/components/primitives/slot";
 import type {
 	ComponentPropsWithAsChild,
 	PressableRef,
 	SlottablePressableProps,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, View } from "react-native";
+import * as Slot from "@/components/primitives/slot";
+
 import type { CheckboxIndicator, CheckboxRootProps } from "./types";
 
 interface RootContext extends CheckboxRootProps {
@@ -29,7 +30,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & CheckboxRo
 				<Trigger ref={ref} {...props} />
 			</CheckboxContext.Provider>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootNativeCheckbox";
@@ -38,7 +39,7 @@ function useCheckboxContext() {
 	const context = React.useContext(CheckboxContext);
 	if (!context) {
 		throw new Error(
-			"Checkbox compound components cannot be rendered outside the Checkbox component"
+			"Checkbox compound components cannot be rendered outside the Checkbox component",
 		);
 	}
 	return context;
@@ -72,7 +73,7 @@ const Trigger = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Trigger.displayName = "TriggerNativeCheckbox";
@@ -94,7 +95,7 @@ const Indicator = React.forwardRef<
 		<Component
 			ref={ref}
 			aria-disabled={disabled}
-			aria-hidden={!(forceMount || checked)}
+			aria-hidden={!(forceMount ?? checked)}
 			role={"presentation"}
 			{...props}
 		/>

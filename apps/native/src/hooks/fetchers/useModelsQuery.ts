@@ -1,6 +1,6 @@
+import { fetcher } from "@/lib/fetcher";
 import { queryOptions, useQuery } from "@tanstack/react-query";
 
-import { fetcher } from "@/lib/fetcher";
 import type { ModelApi } from "@mychat/shared/schemas/models";
 
 export const modelQueryOptions = queryOptions({

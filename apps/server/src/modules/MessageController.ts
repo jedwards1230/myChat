@@ -1,9 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-
-import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
-
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+
+import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -11,24 +10,18 @@ export class MessageController {
 		const message = request.body as MessageCreateSchema;
 
 		try {
-			const newMsg = await pgRepo["Thread"].addMessage(thread, {
+			const newMsg = await pgRepo.Thread.addMessage(thread, {
 				role: message.role as Role,
 				content: message.content?.toString(),
 			});
-
-			if (!newMsg) {
-				return reply.status(500).send({
-					error: "Error creating message.",
-				});
-			}
 			await newMsg.reload();
-			reply.send(newMsg.toJSON?.());
+			return reply.send(newMsg.toJSON());
 		} catch (error) {
 			logger.error("Error in POST /message", {
 				error,
 				functionName: "setupmessageRoute.post(/message)",
 			});
-			reply.status(500).send(error);
+			return reply.status(500).send(error);
 		}
 	}
 
@@ -36,7 +29,7 @@ export class MessageController {
 		const { message, thread } = request;
 		const { content } = request.body as { content: string };
 
-		const updatedMessage = pgRepo["Message"].create({
+		const updatedMessage = pgRepo.Message.create({
 			thread: { id: thread.id },
 			role: message.role,
 			tool_calls: message.tool_calls,
@@ -47,18 +40,17 @@ export class MessageController {
 		});
 		logger.debug("Updating message", { msg: message, updatedMessage });
 
-		const newMsg = await pgRepo["Thread"].addMessage(
+		const newMsg = await pgRepo.Thread.addMessage(
 			thread,
 			updatedMessage,
-			message.parent?.id
+			message.parent?.id,
 		);
 
 		await newMsg.reload();
-		if (!newMsg) return reply.status(500).send({ error: "Error creating message." });
 
 		logger.debug("Updated message", { newMsg });
 
-		reply.send(newMsg.toJSON());
+		return reply.send(newMsg.toJSON());
 	}
 
 	static async deleteMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -76,12 +68,12 @@ export class MessageController {
 				message.children.map((child) => {
 					child.parent = message.parent; // Set to the parent of the message being deleted
 					return child.save();
-				})
+				}),
 			);
 		}
 
 		const msg = await message.remove();
-		reply.send(msg.toJSON());
+		return reply.send(msg.toJSON());
 	}
 
 	static async getMessageList(request: FastifyRequest, reply: FastifyReply) {
@@ -93,11 +85,11 @@ export class MessageController {
 		}
 
 		const messages = (
-			await pgRepo["Message"].findAncestors(thread.activeMessage, {
+			await pgRepo.Message.findAncestors(thread.activeMessage, {
 				relations: ["tool_calls", "tool_call_id", "files", "parent", "children"],
 			})
 		).sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
 
-		reply.send(messages.map((msg) => msg.toJSON()));
+		return reply.send(messages.map((msg) => msg.toJSON()));
 	}
 }

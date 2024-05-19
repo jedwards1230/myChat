@@ -7,11 +7,10 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { Thread } from "./Thread";
-import { Agent } from "./Agent";
-
 import type { ModelApi } from "../../../agents/src/models/index";
+import { Agent } from "./Agent";
 import { DatabaseDocument } from "./Document";
+import { Thread } from "./Thread";
 
 export type RunType = "getChat" | "getTitle";
 

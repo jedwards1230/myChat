@@ -1,15 +1,15 @@
+import type { FastifyReply, FastifyRequest } from "fastify";
 import type { FindOneOptions } from "typeorm";
-import type { FastifyRequest, FastifyReply } from "fastify";
-
 import { logger } from "@/lib/logger";
-import type { AgentTool } from "@mychat/db/entity/AgentTool";
 import { pgRepo } from "@/lib/pg";
+
+import type { AgentTool } from "@mychat/db/entity/AgentTool";
 
 export function getAgentTool(relations?: FindOneOptions<AgentTool>["relations"]) {
 	return async function getAgent(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { agentToolId } = request.params as { agentToolId: string };
-			const agentTool = await pgRepo["AgentTool"].findOne({
+			const agentTool = await pgRepo.AgentTool.findOne({
 				where: { id: agentToolId },
 				relations,
 			});
@@ -26,7 +26,7 @@ export function getAgentTool(relations?: FindOneOptions<AgentTool>["relations"])
 				error,
 				functionName: "getAgent",
 			});
-			reply.status(500).send({
+			return reply.status(500).send({
 				error: "An error occurred while processing your request.",
 			});
 		}

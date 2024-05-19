@@ -1,25 +1,25 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
-	Entity,
-	PrimaryGeneratedColumn,
 	Column,
-	ManyToOne,
-	type Relation,
-	OneToMany,
 	CreateDateColumn,
-	VersionColumn,
-	ManyToMany,
+	Entity,
 	JoinTable,
+	ManyToMany,
+	ManyToOne,
+	OneToMany,
+	PrimaryGeneratedColumn,
+	VersionColumn,
 } from "typeorm";
 
-import { User } from "./User";
-import { Thread } from "./Thread";
-import { AgentTool } from "./AgentTool";
-
+import type { ModelApi } from "@mychat/agents/models/index";
 import type { AgentObjectSchema } from "@mychat/shared/schemas/Agent";
-
-import { ChatModelMap, type ModelApi } from "@mychat/agents/models/index";
+import { ChatModelMap } from "@mychat/agents/models/index";
 import { ToolsMap } from "@mychat/agents/tools/index";
+
+import { AgentTool } from "./AgentTool";
+import { Thread } from "./Thread";
+import { User } from "./User";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",
@@ -38,7 +38,7 @@ export class Agent extends BaseEntity {
 
 	/** Agent name for frontend only */
 	@Column({ type: "text", default: defaultAgent.name })
-	name: string = "myChat Agent";
+	name = "myChat Agent";
 
 	/** Tools available to the Agent */
 	@ManyToMany(() => AgentTool, (tool) => tool.agents, { eager: true })
@@ -51,7 +51,7 @@ export class Agent extends BaseEntity {
 
 	/** Whether tools are enabled */
 	@Column({ type: "boolean", default: defaultAgent.toolsEnabled })
-	toolsEnabled: boolean = false;
+	toolsEnabled = false;
 
 	/** System message for the Agent */
 	@Column({ type: "text", default: defaultAgent.systemMessage })
@@ -81,8 +81,8 @@ export class Agent extends BaseEntity {
 			model: this.model,
 			toolsEnabled: this.toolsEnabled,
 			systemMessage: this.systemMessage,
-			threads: this.threads?.map((thread) => thread.id) ?? [],
-			owner: this.owner?.id,
+			threads: this.threads.map((thread) => thread.id) ?? [],
+			owner: this.owner.id,
 		};
 	}
 }

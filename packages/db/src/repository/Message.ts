@@ -25,11 +25,11 @@ export const extendedMessageRepo = (ds: DataSource) => {
 
 		async injectFilesContent(messages: Message[]) {
 			const parsed = messages.map(async (message) =>
-				this.injectFileContent(message)
+				this.injectFileContent(message),
 			);
 
 			return (await Promise.all(parsed)).sort(
-				(a, b) => a.createdAt.getTime() - b.createdAt.getTime()
+				(a, b) => a.createdAt.getTime() - b.createdAt.getTime(),
 			);
 		},
 	});

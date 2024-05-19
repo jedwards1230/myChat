@@ -1,15 +1,15 @@
-import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
+import type { Option } from "@/components/ui/Select";
+import type { Agent } from "@/types";
 import {
 	Select,
+	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectContent,
 	SelectValue,
-	type Option,
 } from "@/components/ui/Select";
-import type { Agent } from "@/types";
 import { Text } from "@/components/ui/Text";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
+import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
 
 export function ModelSelector({
 	container,

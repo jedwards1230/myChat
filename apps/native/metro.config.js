@@ -20,8 +20,8 @@ module.exports = withTurborepoManagedCache(
 	withMonorepoPaths(
 		withNativeWind(config, {
 			input: path.resolve(projectRoot, "src/app/global.css"),
-		})
-	)
+		}),
+	),
 );
 
 /**

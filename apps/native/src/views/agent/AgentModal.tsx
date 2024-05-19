@@ -1,9 +1,9 @@
-import Toast from "react-native-toast-message";
-
 import type { Agent } from "@/types";
+import Toast from "react-native-toast-message";
 import ModalWrapper from "@/components/ui/Modal";
-import { AgentView } from "./AgentView";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+
+import { AgentView } from "./AgentView";
 
 export default function AgentModal({ existingAgent }: { existingAgent: Agent }) {
 	const agentQuery = useAgentQuery(existingAgent.id);

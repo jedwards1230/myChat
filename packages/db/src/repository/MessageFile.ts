@@ -1,4 +1,5 @@
-import { In, type DataSource } from "typeorm";
+import type { DataSource } from "typeorm";
+import { In } from "typeorm";
 
 import { MessageFile } from "../entity/MessageFile";
 import { logger } from "../logger";
@@ -28,7 +29,7 @@ export const extendedMessageFileRepo = (ds: DataSource) => {
 				const parsableFiles: MessageFile[] = [];
 
 				const formatText = (file: MessageFile) =>
-					`// ${file.path || file.name}\n\`\`\`\n${file.parsedText}\n\`\`\``;
+					`// ${file.path ?? file.name}\n\`\`\`\n${file.parsedText}\n\`\`\``;
 
 				const parsedFiles = loadedFiles
 					.map((file) => {

@@ -1,11 +1,7 @@
-import * as React from "react";
-import {
-	useWindowDimensions,
-	type LayoutRectangle,
-	type ScaledSize,
-	type ViewStyle,
-} from "react-native";
 import type { Insets } from "@/components/primitives/types";
+import type { LayoutRectangle, ScaledSize, ViewStyle } from "react-native";
+import * as React from "react";
+import { useWindowDimensions } from "react-native";
 
 const POSITION_ABSOLUTE: ViewStyle = {
 	position: "absolute",
@@ -90,7 +86,7 @@ function getSidePosition({
 }: GetSidePositionArgs) {
 	const insetTop = insets?.top ?? 0;
 	const insetBottom = insets?.bottom ?? 0;
-	const positionTop = triggerPosition?.pageY - sideOffset - contentLayout.height;
+	const positionTop = triggerPosition.pageY - sideOffset - contentLayout.height;
 	const positionBottom = triggerPosition.pageY + triggerPosition.height + sideOffset;
 
 	if (!avoidCollisions) {
@@ -108,7 +104,7 @@ function getSidePosition({
 	return {
 		top: Math.min(
 			dimensions.height - insetBottom - contentLayout.height,
-			positionBottom
+			positionBottom,
 		),
 	};
 }
@@ -141,7 +137,7 @@ function getAlignPosition({
 		alignOffset,
 		insetLeft,
 		insetRight,
-		dimensions
+		dimensions,
 	);
 
 	if (avoidCollisions) {
@@ -158,7 +154,7 @@ function getAlignPosition({
 			} else {
 				const centeredPosition = Math.max(
 					insetLeft,
-					(dimensions.width - contentWidth - insetRight) / 2
+					(dimensions.width - contentWidth - insetRight) / 2,
 				);
 				left = centeredPosition;
 			}
@@ -176,7 +172,7 @@ function getLeftPosition(
 	alignOffset: number,
 	insetLeft: number,
 	insetRight: number,
-	dimensions: ScaledSize
+	dimensions: ScaledSize,
 ) {
 	let left = 0;
 	if (align === "start") {
@@ -190,7 +186,7 @@ function getLeftPosition(
 	}
 	return Math.max(
 		insetLeft,
-		Math.min(left + alignOffset, dimensions.width - contentWidth - insetRight)
+		Math.min(left + alignOffset, dimensions.width - contentWidth - insetRight),
 	);
 }
 
@@ -226,6 +222,6 @@ function getContentStyle({
 			alignOffset,
 			insets,
 			dimensions,
-		})
+		}),
 	);
 }

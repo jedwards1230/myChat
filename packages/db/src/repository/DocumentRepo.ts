@@ -1,31 +1,32 @@
-import { In, type DataSource } from "typeorm";
+import type { DataSource } from "typeorm";
 import pgvector from "pgvector";
+import { In } from "typeorm";
 
-import type { Message } from "../entity/Message";
-import type { User } from "../entity/User";
-import type { Thread } from "../entity/Thread";
-import { DatabaseDocument, EmbedItem } from "../entity/Document";
-
+import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
 import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
 import tokenizer from "@mychat/agents/tokenizer";
-import { logger } from "../logger";
-import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
 
-export type DocumentMetaParams = {
+import type { Message } from "../entity/Message";
+import type { Thread } from "../entity/Thread";
+import type { User } from "../entity/User";
+import { DatabaseDocument, EmbedItem } from "../entity/Document";
+import { logger } from "../logger";
+
+export interface DocumentMetaParams {
 	user?: Pick<User, "id">;
 	message?: Pick<Message, "id">;
 	thread?: Pick<Thread, "id">;
-};
+}
 
 export type DocumentInsertParams = Pick<DatabaseDocument, "decoded" | "metadata"> &
 	Partial<Pick<EmbedItem, "embedding">> &
 	DocumentMetaParams;
 
-export type DocumentSearchParams = {
+export interface DocumentSearchParams {
 	search?: { topK?: number; threshold?: number };
 	filterRelation?: DocumentMetaParams;
 	filterMetadata?: object;
-};
+}
 
 export const extendedDocumentRepo = (ds: DataSource) => {
 	const embedItemRepo = ds.getRepository(EmbedItem);
@@ -34,15 +35,15 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 			try {
 				const embeddingsBatch = await generateEmbeddings(
 					docs.map((doc) => doc.decoded),
-					EmbeddingModelMap["text-embedding-3-small"]
+					EmbeddingModelMap["text-embedding-3-small"],
 				);
 
 				const promisedEmbeddings = embeddingsBatch.map((item) =>
 					embedItemRepo.save(
 						item.map((e) =>
-							embedItemRepo.create({ embedding: pgvector.toSql(e) })
-						)
-					)
+							embedItemRepo.create({ embedding: pgvector.toSql(e) }),
+						),
+					),
 				);
 
 				const savedEmbeddings = await Promise.all(promisedEmbeddings);
@@ -53,8 +54,8 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 							...doc,
 							tokenCount: tokenizer.estimateTokenCount(doc.decoded),
 							embeddings: savedEmbeddings[i],
-						})
-					)
+						}),
+					),
 				);
 
 				return savedDocs;
@@ -69,7 +70,7 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 
 		async searchDocuments(
 			input: string,
-			opts?: DocumentSearchParams
+			opts?: DocumentSearchParams,
 		): Promise<DatabaseDocument[]> {
 			try {
 				const { topK, threshold } = {
@@ -79,9 +80,9 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 
 				const inputEmbedding = await generateEmbedding(
 					input,
-					EmbeddingModelMap["text-embedding-3-small"]
+					EmbeddingModelMap["text-embedding-3-small"],
 				);
-				const res = await ds.query(
+				const res: any[] = await ds.query(
 					`
 					SELECT *
 					FROM embed_item AS item
@@ -89,10 +90,10 @@ export const extendedDocumentRepo = (ds: DataSource) => {
 					ORDER BY embedding <=> $1 >= $2
 					LIMIT $3
 				`,
-					[pgvector.toSql(inputEmbedding), threshold, topK]
+					[pgvector.toSql(inputEmbedding), threshold, topK],
 				);
 
-				const docIds = res.map((item: any) => item.id);
+				const docIds = res.map((item: any) => item.id as string);
 				const docs = await this.find({
 					where: { embeddings: { id: In(docIds) }, ...opts?.filterRelation },
 				});

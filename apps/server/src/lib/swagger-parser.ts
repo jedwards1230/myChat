@@ -1,13 +1,12 @@
-import OpenAPIParser from "@readme/openapi-parser";
-
-import { logger } from "@/lib/logger";
 import type { OpenAPI, OpenAPIV2, OpenAPIV3, OpenAPIV3_1 } from "openapi-types";
+import { logger } from "@/lib/logger";
+import OpenAPIParser from "@readme/openapi-parser";
 
 const sample = "https://apitools.dev/swagger-parser/online/sample/swagger.yaml";
 // const sample1 = "https://raw.githubusercontent.com/openai/openai-openapi/master/openapi.yaml";
 
 function isOAI3(
-	spec: OpenAPI.Document<object>
+	spec: OpenAPI.Document<object>,
 ): spec is OpenAPIV3.Document | OpenAPIV3_1.Document {
 	return "openapi" in spec;
 }
@@ -81,4 +80,4 @@ function parseOAI2(spec: OpenAPIV2.Document) {
 	logger.debug("Found paths", pathMap);
 } */
 
-validateSpec(sample);
+void validateSpec(sample);

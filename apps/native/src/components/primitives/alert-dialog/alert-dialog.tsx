@@ -1,6 +1,3 @@
-import { useControllableState } from "@/components/primitives/hooks";
-import { Portal as RNPPortal } from "@/components/primitives/portal";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	PressableRef,
 	SlottablePressableProps,
@@ -9,14 +6,13 @@ import type {
 	TextRef,
 	ViewRef,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
-import {
-	BackHandler,
-	Pressable,
-	Text,
-	View,
-	type GestureResponderEvent,
-} from "react-native";
+import { BackHandler, Pressable, Text, View } from "react-native";
+import { useControllableState } from "@/components/primitives/hooks";
+import { Portal as RNPPortal } from "@/components/primitives/portal";
+import * as Slot from "@/components/primitives/slot";
+
 import type {
 	AlertDialogContentProps,
 	AlertDialogOverlayProps,
@@ -38,7 +34,7 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & AlertDialogRootProps
 			onOpenChange: onOpenChangeProp,
 			...viewProps
 		},
-		ref
+		ref,
 	) => {
 		const nativeID = React.useId();
 		const [open = false, onOpenChange] = useControllableState({
@@ -58,7 +54,7 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & AlertDialogRootProps
 				<Component ref={ref} {...viewProps} />
 			</AlertDialogContext.Provider>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootNativeAlertDialog";
@@ -67,7 +63,7 @@ function useRootContext() {
 	const context = React.useContext(AlertDialogContext);
 	if (!context) {
 		throw new Error(
-			"AlertDialog compound components cannot be rendered outside the AlertDialog component"
+			"AlertDialog compound components cannot be rendered outside the AlertDialog component",
 		);
 	}
 	return context;
@@ -93,7 +89,7 @@ const Trigger = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Trigger.displayName = "TriggerNativeAlertDialog";
@@ -131,7 +127,7 @@ const Overlay = React.forwardRef<ViewRef, SlottableViewProps & AlertDialogOverla
 
 		const Component = asChild ? Slot.View : View;
 		return <Component ref={ref} {...props} />;
-	}
+	},
 );
 
 Overlay.displayName = "OverlayNativeAlertDialog";
@@ -169,7 +165,7 @@ const Content = React.forwardRef<ViewRef, SlottableViewProps & AlertDialogConten
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Content.displayName = "ContentNativeAlertDialog";
@@ -195,7 +191,7 @@ const Cancel = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Cancel.displayName = "CloseNativeAlertDialog";
@@ -221,7 +217,7 @@ const Action = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Action.displayName = "ActionNativeAlertDialog";
@@ -238,7 +234,7 @@ const Title = React.forwardRef<TextRef, SlottableTextProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Title.displayName = "TitleNativeAlertDialog";
@@ -248,7 +244,7 @@ const Description = React.forwardRef<TextRef, SlottableTextProps>(
 		const { nativeID } = useRootContext();
 		const Component = asChild ? Slot.Text : Text;
 		return <Component ref={ref} nativeID={`${nativeID}_desc`} {...props} />;
-	}
+	},
 );
 
 Description.displayName = "DescriptionNativeAlertDialog";

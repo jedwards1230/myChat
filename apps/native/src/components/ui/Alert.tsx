@@ -1,12 +1,14 @@
-import { useTheme } from "@react-navigation/native";
-import { cva, type VariantProps } from "class-variance-authority";
+import type { IconProps } from "@/components/ui/Icon";
+import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Text, View } from "react-native";
+import { Icon } from "@/components/ui/Icon";
 import { cn } from "@/lib/utils";
-import { Icon, type IconProps } from "@/components/ui/Icon";
+import { useTheme } from "@react-navigation/native";
+import { cva } from "class-variance-authority";
 
 const alertVariants = cva(
-	"relative flex flex-row items-center bg-background w-full rounded-lg border border-border p-4 shadow shadow-foreground/10",
+	"relative flex w-full flex-row items-center rounded-lg border border-border bg-background p-4 shadow shadow-foreground/10",
 	{
 		variants: {
 			variant: {
@@ -18,7 +20,7 @@ const alertVariants = cva(
 		defaultVariants: {
 			variant: "default",
 		},
-	}
+	},
 );
 
 const DefaultIconProps: IconProps = {
@@ -62,8 +64,8 @@ const AlertTitle = React.forwardRef<
 	<Text
 		ref={ref}
 		className={cn(
-			"pl-2 font-medium text-base tracking-tight text-foreground",
-			className
+			"pl-2 text-base font-medium tracking-tight text-foreground",
+			className,
 		)}
 		{...props}
 	/>

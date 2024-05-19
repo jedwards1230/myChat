@@ -1,27 +1,28 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import type { Message, MessageFile } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
-import type { Message, MessageFile } from "@/types";
-import { useFileStore } from "../../stores/fileStore";
-import { messagesQueryOptions } from "./useMessagesQuery";
-import { type FileInformation, toMessageFile } from "../../useFileInformation";
-import { filesQueryOptions } from "./useFilesQuery";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type PostMessageFileOptions = {
+import type { FileInformation } from "../../useFileInformation";
+import { useFileStore } from "../../stores/fileStore";
+import { toMessageFile } from "../../useFileInformation";
+import { filesQueryOptions } from "./useFilesQuery";
+import { messagesQueryOptions } from "./useMessagesQuery";
+
+export interface PostMessageFileOptions {
 	messageId: string;
 	threadId: string;
 	fileList: FileInformation[];
-};
+}
 
 const postMessageFile = async (
 	{ messageId, threadId, fileList }: PostMessageFileOptions,
-	apiKey: string
+	apiKey: string,
 ): Promise<Message> => {
 	const formData = await buildFormData(fileList);
 	const message = await fetcher<Message>(
 		`/threads/${threadId}/messages/${messageId}/files`,
-		{ method: "POST", body: formData, file: true, apiKey }
+		{ method: "POST", body: formData, file: true, apiKey },
 	);
 	return message;
 };
@@ -44,9 +45,9 @@ export const useMessageFilePost = () => {
 				await queryClient.cancelQueries(messagesQuery);
 
 				// Add the files to the message
-				const prevMessages = cached || [];
+				const prevMessages = cached ?? [];
 				const messages = prevMessages.map((m: Message) =>
-					m.id === messageId ? { ...m, files: fileList } : m
+					m.id === messageId ? { ...m, files: fileList } : m,
 				) as Message[];
 
 				queryClient.setQueryData(messagesQuery.queryKey, messages);
@@ -59,7 +60,7 @@ export const useMessageFilePost = () => {
 				await queryClient.cancelQueries(filesQuery);
 
 				// Add the optimistic files to cache
-				const prevFiles = cached || [];
+				const prevFiles = cached ?? [];
 				const files = fileList.map((f) => toMessageFile(f));
 
 				// Merge prevFiles and files, ensuring each object is unique by id
@@ -69,7 +70,7 @@ export const useMessageFilePost = () => {
 							? unique
 							: [...unique, item];
 					},
-					[]
+					[],
 				);
 
 				queryClient.setQueryData(filesQuery.queryKey, mergedFiles);
@@ -93,10 +94,10 @@ export const useMessageFilePost = () => {
 		onSettled: async (res, err, opts) => {
 			await Promise.all([
 				queryClient.invalidateQueries(
-					messagesQueryOptions(apiKey, opts.threadId)
+					messagesQueryOptions(apiKey, opts.threadId),
 				),
 				queryClient.invalidateQueries(
-					filesQueryOptions(apiKey, opts.threadId, opts.messageId)
+					filesQueryOptions(apiKey, opts.threadId, opts.messageId),
 				),
 			]);
 		},

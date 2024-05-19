@@ -1,7 +1,7 @@
+import { useUserData } from "@/hooks/stores/useUserData";
+import { fetcher } from "@/lib/fetcher";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { fetcher } from "@/lib/fetcher";
-import { useUserData } from "@/hooks/stores/useUserData";
 import { threadListQueryOptions } from "../Thread/useThreadListQuery";
 
 const fetchTitle = (threadId: string | null, apiKey: string) =>
@@ -19,6 +19,7 @@ export const useRequestThreadTitleMutation = () => {
 		mutationKey: ["title"],
 		mutationFn: (threadId: string) => fetchTitle(threadId, apiKey),
 		onSettled: () => queryClient.invalidateQueries(threadListQueryOptions(apiKey)),
-		onError: (error) => console.error("Failed to fetch thread title: " + error),
+		onError: (error) =>
+			console.error("Failed to fetch thread title: " + error.message),
 	});
 };

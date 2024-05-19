@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-
 import { CommandDialog } from "@/components/Dialogs/Command.web";
 import { useCmdDialog } from "@/hooks/stores/cmdDialogStore";
 

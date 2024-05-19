@@ -1,5 +1,6 @@
+import type { Logform } from "winston";
 import stringify from "json-stringify-safe";
-import { format, type Logform } from "winston";
+import { format } from "winston";
 
 export const mergeWithCommonFormats = (...formats: Logform.Format[]) =>
 	format.combine(commonFormats, ...formats);
@@ -24,7 +25,7 @@ const combinedLogFormat = format.printf(
 		}
 
 		return msg;
-	}
+	},
 );
 const consoleLogFormat = format.printf(
 	({ level, prefix = "", message, functionName, error, ...metadata }) => {
@@ -43,7 +44,7 @@ const consoleLogFormat = format.printf(
 		}
 
 		return msg;
-	}
+	},
 );
 const simpleLogFormat = format.printf(
 	({ level, prefix = "", message, timestamp, functionName, error, ...metadata }) => {
@@ -61,13 +62,13 @@ const simpleLogFormat = format.printf(
 		});
 
 		return msg;
-	}
+	},
 );
 
 const commonFormats = format.combine(
 	format.errors({ stack: true }),
 	format.splat(),
-	format.simple()
+	format.simple(),
 );
 
 const fileFormats = format.combine(format.timestamp({ format: "YYYY-MM-DD HH:mm:ss" }));

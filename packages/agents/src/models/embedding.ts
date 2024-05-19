@@ -26,4 +26,4 @@ export const EmbeddingModelMap = {
 } as const;
 export type EmbeddingModelMap = typeof EmbeddingModelMap;
 
-export const modelList = Object.values(EmbeddingModelMap) as OpenAiEmbeddingParams[];
+export const modelList = Object.values(EmbeddingModelMap);

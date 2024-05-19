@@ -1,14 +1,14 @@
+import type { Agent } from "@/types";
 import { Pressable, View } from "react-native";
 import { Link } from "expo-router";
-
+import { Drawer } from "@/app/(app)/_layout";
+import { Button } from "@/components/ui/Button";
 import { Icon } from "@/components/ui/Icon";
 import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
-import type { Agent } from "@/types";
-import { Button } from "@/components/ui/Button";
 import { AgentDialog } from "@/views/agent/AgentDialog.web";
+
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
-import { Drawer } from "@/app/(app)/_layout";
 import { HeaderWrapper } from "../HeaderWrapper";
 
 export function AgentsView() {
@@ -17,11 +17,11 @@ export function AgentsView() {
 	if (!isSuccess) {
 		if (error) console.error(error);
 	}
-	const agents = data || [];
+	const agents = data ?? [];
 	return (
 		<DrawerScreenWrapper>
 			<Drawer.Screen options={{ header: () => <HeaderWrapper title="Agents" /> }} />
-			<View className="flex flex-col w-full gap-4 p-2">
+			<View className="flex w-full flex-col gap-4 p-2">
 				<View className="flex-1">
 					{agents.length > 0 ? (
 						agents.map((a, i) => <AgentButton key={a.id + i} agent={a} />)
@@ -45,7 +45,7 @@ function NewAgentButton() {
 					type="AntDesign"
 					name="plus"
 					size={18}
-					className="transition-all text-foreground/40 group-hover:text-foreground/60 group-active:text-foreground/90"
+					className="text-foreground/40 transition-all group-hover:text-foreground/60 group-active:text-foreground/90"
 				/>
 			</Button>
 		</Link>
@@ -55,7 +55,7 @@ function NewAgentButton() {
 function AgentButton({ agent }: { agent: Agent }) {
 	return (
 		<AgentDialog existingAgent={agent}>
-			<Pressable className="flex flex-row items-center justify-between w-full px-4 py-2 rounded-lg hover:bg-foreground/10">
+			<Pressable className="flex w-full flex-row items-center justify-between rounded-lg px-4 py-2 hover:bg-foreground/10">
 				<View>
 					<Text className="text-lg">{agent.name}</Text>
 					<Text>Description</Text>
@@ -65,7 +65,7 @@ function AgentButton({ agent }: { agent: Agent }) {
 						<Pressable className="group">
 							<Icon
 								type="Octicons"
-								className="group-hover:text-foreground text-foreground/60"
+								className="text-foreground/60 group-hover:text-foreground"
 								name="pencil"
 								size={18}
 							/>
@@ -76,7 +76,7 @@ function AgentButton({ agent }: { agent: Agent }) {
 						<Pressable className="group">
 							<Icon
 								type="Octicons"
-								className="group-hover:text-foreground text-foreground/60"
+								className="text-foreground/60 group-hover:text-foreground"
 								name="trash"
 								size={18}
 							/>

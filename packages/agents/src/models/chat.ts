@@ -1,6 +1,5 @@
 import type {
 	LlamaChatParams,
-	ModelApi,
 	ModelParams,
 	OpenAiChatParams,
 } from "@mychat/shared/schemas/models";
@@ -107,4 +106,4 @@ export const ChatModelMap = {
 } as const;
 export type ChatModelMap = typeof ChatModelMap;
 
-export const modelList = Object.values(ChatModelMap) as ModelApi[];
+export const modelList = Object.values(ChatModelMap);

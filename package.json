@@ -8,13 +8,19 @@
 		"tooling/*",
 		"packages/*"
 	],
+	"engines": {
+		"node": ">=21.6.1"
+	},
 	"scripts": {
 		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
 		"compose": "docker compose -f compose.yml",
 		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
-		"lint": "turbo lint",
 		"typecheck": "turbo typecheck",
 		"export": "turbo export",
+		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
+		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
+		"lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
 		"build": "turbo build --cache-dir=.turbo",
 		"migration:run": "turbo migration:run",
 		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev",

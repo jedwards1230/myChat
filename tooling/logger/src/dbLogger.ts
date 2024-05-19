@@ -6,13 +6,13 @@ export class DBLogger implements TypeORMLogger {
 
 	logQuery(query: string, parameters?: any[] | undefined) {
 		this.dbLogger.debug(
-			`Query: ${query} ${parameters ? `with parameters: ${parameters}` : ""}`
+			`Query: ${query} ${parameters ? `with parameters: ${JSON.stringify(parameters)}` : ""}`,
 		);
 	}
 
 	logQueryError(error: string, query: string, parameters?: any[] | undefined) {
 		const msg = `Query failed: ${error} with query: ${query} ${
-			parameters ? `with parameters: ${parameters}` : ""
+			parameters ? `with parameters: ${JSON.stringify(parameters)}` : ""
 		}`;
 		this.dbLogger.error(msg);
 	}
@@ -20,8 +20,8 @@ export class DBLogger implements TypeORMLogger {
 	logQuerySlow(time: number, query: string, parameters?: any[] | undefined) {
 		this.dbLogger.warn(
 			`Query is slow: ${time}ms with query: ${query} ${
-				parameters ? `with parameters: ${parameters}` : ""
-			}`
+				parameters ? `with parameters: ${JSON.stringify(parameters)}` : ""
+			}`,
 		);
 	}
 

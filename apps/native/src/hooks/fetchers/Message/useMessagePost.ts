@@ -1,17 +1,18 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import type {
-	MessageCreateSchema,
 	MessageObjectSchema as Message,
+	MessageCreateSchema,
 } from "@mychat/shared/schemas/Message";
+
 import { messagesQueryOptions } from "./useMessagesQuery";
 
-export type PostMessageOptions = {
+export interface PostMessageOptions {
 	threadId: string;
 	message: MessageCreateSchema;
-};
+}
 
 const postMessage = async ({ threadId, message }: PostMessageOptions, apiKey: string) =>
 	fetcher<Message>(`/threads/${threadId}/messages`, {
@@ -31,14 +32,14 @@ export const useMessagePost = () => {
 		onMutate: async ({ threadId, message }: PostMessageOptions) => {
 			const messagesQuery = messagesQueryOptions(apiKey, threadId);
 			const cached = queryClient.getQueryData(messagesQuery.queryKey);
-			queryClient.cancelQueries(messagesQuery);
+			await queryClient.cancelQueries(messagesQuery);
 
-			const prevMessages = cached || [];
+			const prevMessages = cached ?? [];
 			const msg = {
-				content: message.content || "",
-				role: message.role || "user",
+				content: message.content ?? "",
+				role: message.role ?? "user",
 			} as Message;
-			const messages = prevMessages ? [...prevMessages, msg] : [msg];
+			const messages = prevMessages.length ? [...prevMessages, msg] : [msg];
 
 			queryClient.setQueryData(messagesQuery.queryKey, messages as any[]);
 
@@ -48,12 +49,12 @@ export const useMessagePost = () => {
 			if (threadId && context?.prevMessages)
 				queryClient.setQueryData(
 					messagesQueryOptions(apiKey, threadId).queryKey,
-					context?.prevMessages
+					context.prevMessages,
 				);
 			console.error(error);
 		},
 		onSettled: (res, err, { threadId }) => {
-			queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
+			return queryClient.invalidateQueries(messagesQueryOptions(apiKey, threadId));
 		},
 	});
 };

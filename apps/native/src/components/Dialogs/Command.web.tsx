@@ -28,14 +28,14 @@ export function CommandDialog({
 					{items.map(({ label, Icon, type, iconName, onClick, hidden }, i) =>
 						!hidden ? (
 							<CommandItem
-								className="flex flex-row items-center gap-2 !cursor-pointer"
+								className="flex !cursor-pointer flex-row items-center gap-2"
 								onSelect={onClick}
 								key={i}
 							>
 								<Icon type={type} name={iconName} />
 								<span>{label}</span>
 							</CommandItem>
-						) : null
+						) : null,
 					)}
 				</CommandGroup>
 			</CommandList>

@@ -1,21 +1,21 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
+import type { AgentTool, AgentToolUpdateSchema } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
-import type { AgentTool, AgentToolUpdateSchema } from "@/types";
-import { agentToolQueryOptions } from "./useAgentToolQuery";
-import { agentsQueryOptions } from "../Agent/useAgentsQuery";
-import { agentQueryOptions } from "../Agent/useAgentQuery";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-export type PatchAgentToolOptions = {
+import { agentQueryOptions } from "../Agent/useAgentQuery";
+import { agentsQueryOptions } from "../Agent/useAgentsQuery";
+import { agentToolQueryOptions } from "./useAgentToolQuery";
+
+export interface PatchAgentToolOptions {
 	agentId: string;
 	toolId: string;
 	agentToolConfig: AgentToolUpdateSchema;
-};
+}
 
 const fetch = async (
 	{ agentId, toolId, agentToolConfig }: PatchAgentToolOptions,
-	apiKey: string
+	apiKey: string,
 ) =>
 	fetcher<AgentTool>(`/agents/${agentId}/tool/${toolId}`, {
 		apiKey,
@@ -57,7 +57,7 @@ export const useAgentToolPatch = () => {
 			if (agentId && context?.agentTool)
 				queryClient.setQueryData(
 					agentToolQueryOptions(apiKey, agentId, toolId).queryKey,
-					context?.agentTool
+					context.agentTool,
 				);
 			console.error(error);
 		},

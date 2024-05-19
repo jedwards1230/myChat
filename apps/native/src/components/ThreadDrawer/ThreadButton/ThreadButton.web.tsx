@@ -1,15 +1,15 @@
+import type { Thread } from "@/types";
 import { View } from "react-native";
 
-import type { Thread } from "@/types";
 import LinkButton from "../LinkButton";
 import { ThreadButtonPopover } from "./ThreadButtonPopover";
 
 export function ThreadButton({ thread }: { thread: Thread }) {
 	return (
-		<View className="relative flex flex-row items-center w-full group/thread">
+		<View className="group/thread relative flex w-full flex-row items-center">
 			<LinkButton
 				isActive={({ threadId }) => threadId === thread.id}
-				label={thread.title || "New chat"}
+				label={thread.title ?? "New chat"}
 				className="w-full pr-4 group-hover/thread:pr-8"
 				href={{ pathname: `/(app)/`, params: { c: thread.id } }}
 			/>

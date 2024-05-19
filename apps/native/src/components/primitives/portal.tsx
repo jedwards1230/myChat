@@ -9,7 +9,7 @@ type PortalHostMap = Map<string, PortalMap>;
 const usePortal = create<{ map: PortalHostMap }>(() => ({
 	map: new Map<string, PortalMap>().set(
 		DEFAULT_PORTAL_HOST,
-		new Map<string, React.ReactNode>()
+		new Map<string, React.ReactNode>(),
 	),
 }));
 

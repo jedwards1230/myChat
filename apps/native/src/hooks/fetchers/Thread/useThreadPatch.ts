@@ -1,11 +1,12 @@
+import { useUserData } from "@/hooks/stores/useUserData";
+import { fetcher } from "@/lib/fetcher";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import type {
 	ThreadSchema as Thread,
 	ThreadPatchSchema,
 } from "@mychat/shared/schemas/Thread";
-import { fetcher } from "@/lib/fetcher";
-import { useUserData } from "@/hooks/stores/useUserData";
+
 import { messagesQueryOptions } from "../Message/useMessagesQuery";
 
 type ThreadPatchOptions = {

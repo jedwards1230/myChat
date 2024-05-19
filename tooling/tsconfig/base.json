@@ -4,7 +4,11 @@
 	"display": "Default",
 	"compilerOptions": {
 		/** Base Options */
-		"lib": ["ESNext", "dom", "dom.iterable"],
+		"lib": [
+			"ESNext",
+			"dom",
+			"dom.iterable"
+		],
 		"target": "ESNext",
 		"moduleDetection": "force",
 		"jsx": "react-jsx",
@@ -23,12 +27,11 @@
 		"allowJs": true,
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-
+		
 		/** Transpile using Bundler (not tsc) */
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"noEmit": true,
-
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,

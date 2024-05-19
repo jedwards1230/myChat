@@ -1,5 +1,9 @@
-module.exports = {
-    root: true,
-    extends: ["@mychat/eslint-config"],
-    ignorePatterns: ["src/**/*.test.ts", "scripts/", "tests/**/*", "jest.config.js"],
-};
+import baseConfig from "@mychat/eslint-config/base";
+
+/** @type {import('typescript-eslint').Config} */
+export default [
+	{
+		ignores: ["dist/**", "scripts/**", "tests/**"],
+	},
+	...baseConfig,
+];

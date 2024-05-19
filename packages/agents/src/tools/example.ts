@@ -73,7 +73,7 @@ export const runnableSearch: RunnableToolFunction<{ name: string }> = {
 };
 
 async function get({ id }: { id: string }) {
-	return db.find((item) => item.id === id)!;
+	return db.find((item) => item.id === id);
 }
 
 export const runnableGet: RunnableToolFunction<{ id: string }> = {

@@ -1,10 +1,10 @@
 import { View } from "react-native";
-
-import { Text } from "@/components/ui/Text";
-import { cn } from "@/lib/utils";
-import { useUserData } from "@/hooks/stores/useUserData";
-import type { ChatMessageGroup } from "./MessageGroup";
 import { Image } from "expo-image";
+import { Text } from "@/components/ui/Text";
+import { useUserData } from "@/hooks/stores/useUserData";
+import { cn } from "@/lib/utils";
+
+import type { ChatMessageGroup } from "./MessageGroup";
 
 const blurhash =
 	"|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -14,7 +14,7 @@ export function Avatar({ group }: { group: Pick<ChatMessageGroup, "name" | "role
 	const { role, name, img } =
 		group.role === "user"
 			? {
-					name: user?.name || user?.email || "User",
+					name: user?.name ?? user?.email ?? "User",
 					role: group.role,
 					img: user?.profilePicture,
 				}
@@ -27,8 +27,8 @@ export function Avatar({ group }: { group: Pick<ChatMessageGroup, "name" | "role
 	return (
 		<View
 			className={cn(
-				"flex items-center justify-center w-6 h-6 rounded-full bg-primary",
-				role === "user" ? "bg-black" : "bg-input"
+				"flex h-6 w-6 items-center justify-center rounded-full bg-primary",
+				role === "user" ? "bg-black" : "bg-input",
 			)}
 		>
 			{img ? (
@@ -36,11 +36,11 @@ export function Avatar({ group }: { group: Pick<ChatMessageGroup, "name" | "role
 			) : (
 				<Text
 					className={cn(
-						"text-sm text-center",
-						role === "user" ? "text-primary" : "text-secondary-foreground"
+						"text-center text-sm",
+						role === "user" ? "text-primary" : "text-secondary-foreground",
 					)}
 				>
-					{name[0]?.toUpperCase() || "?"}
+					{name[0]?.toUpperCase() ?? "?"}
 				</Text>
 			)}
 		</View>

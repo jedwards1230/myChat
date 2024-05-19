@@ -1,8 +1,8 @@
-import { View } from "react-native";
-
 import type { Agent } from "@/types";
-import { Text } from "@/components/ui/Text";
+import { View } from "react-native";
 import { RowItem, Section, SectionBlock } from "@/components/ui/Section";
+import { Text } from "@/components/ui/Text";
+
 import { ModelSelector } from "./ModelSelector.web";
 
 const SecondaryInfo = ({ children }: { children: React.ReactNode }) => {
@@ -14,14 +14,14 @@ export function ModelStats({ agent }: { agent: Agent }) {
 		<Section title="Stats">
 			<RowItem>
 				<SecondaryInfo>
-					Active Threads: {agent?.threads?.length || "N/A"}
+					Active Threads: {agent.threads?.length ?? "N/A"}
 				</SecondaryInfo>
 			</RowItem>
 			<RowItem>
-				<SecondaryInfo>Owner: {agent?.owner || "N/A"}</SecondaryInfo>
+				<SecondaryInfo>Owner: {agent.owner ?? "N/A"}</SecondaryInfo>
 			</RowItem>
 			<RowItem>
-				<SecondaryInfo>ID: {agent?.id || "N/A"}</SecondaryInfo>
+				<SecondaryInfo>ID: {agent.id || "N/A"}</SecondaryInfo>
 			</RowItem>
 		</Section>
 	);
@@ -41,27 +41,23 @@ export function ModelSection({
 				<Text className="text-secondary-foreground">Model</Text>
 			</View>
 			<ModelSelector agent={agent} container={container} />
-			{model && (
-				<SectionBlock>
-					<RowItem>
-						<Text>Model: {model.name || "N/A"}</Text>
-					</RowItem>
-					<RowItem>
-						<Text>Provider: {model.api || "N/A"}</Text>
-					</RowItem>
-					<RowItem>
-						<Text>Token Limit: {model.params?.maxTokens || "N/A"}</Text>
-					</RowItem>
-					<RowItem>
-						<Text>
-							Can Stream:{" "}
-							{"canStream" in model.params
-								? model.params?.canStream
-								: "N/A"}
-						</Text>
-					</RowItem>
-				</SectionBlock>
-			)}
+			<SectionBlock>
+				<RowItem>
+					<Text>Model: {model.name}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>Provider: {model.api}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>Token Limit: {model.params.maxTokens || "N/A"}</Text>
+				</RowItem>
+				<RowItem>
+					<Text>
+						Can Stream:{" "}
+						{"canStream" in model.params ? model.params.canStream : "N/A"}
+					</Text>
+				</RowItem>
+			</SectionBlock>
 		</View>
 	);
 }

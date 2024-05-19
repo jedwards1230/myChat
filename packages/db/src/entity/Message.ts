@@ -1,31 +1,28 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
-	Entity,
-	PrimaryGeneratedColumn,
+	BeforeUpdate,
 	Column,
+	CreateDateColumn,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
 	Tree,
 	TreeChildren,
 	TreeParent,
-	ManyToOne,
-	type Relation,
-	OneToMany,
-	CreateDateColumn,
-	JoinColumn,
-	OneToOne,
-	BeforeUpdate,
 } from "typeorm";
 
-import { Thread } from "./Thread";
-import { ToolCall } from "./ToolCall";
+import type { MessageObjectSchema, Role } from "@mychat/shared/schemas/Message";
+import tokenizer from "@mychat/agents/tokenizer";
+import { roleList } from "@mychat/shared/schemas/Message";
+
 import { DatabaseDocument } from "./Document";
 import { MessageFile } from "./MessageFile";
-
-import tokenizer from "@mychat/agents/tokenizer";
-import {
-	roleList,
-	type MessageObjectSchema,
-	type Role,
-} from "@mychat/shared/schemas/Message";
+import { Thread } from "./Thread";
+import { ToolCall } from "./ToolCall";
 
 @Entity("Message")
 @Tree("closure-table")
@@ -97,16 +94,16 @@ export class Message extends BaseEntity {
 	toJSON(): MessageObjectSchema {
 		return {
 			id: this.id,
-			role: this.role as Role,
+			role: this.role,
 			createdAt: this.createdAt,
 			tokenCount: this.tokenCount,
-			name: this.name || null,
-			content: this.content || undefined,
+			name: this.name ?? null,
+			content: this.content ?? undefined,
 			tool_call_id: this.tool_call_id,
 			tool_calls: this.tool_calls,
 			files: this.files?.map((file) => file.toJSON()),
 			parent: this.parent?.id,
-			children: this.children?.map((child) => child.id),
+			children: this.children.map((child) => child.id),
 		};
 	}
 }

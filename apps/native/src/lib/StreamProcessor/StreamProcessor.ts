@@ -1,10 +1,10 @@
+import type { messagesQueryOptions } from "@/hooks/fetchers/Message/useMessagesQuery";
+import type { Message } from "@/types";
 import type { ReadableStream } from "web-streams-polyfill";
 import { Platform } from "react-native";
 
-import type { messagesQueryOptions } from "@/hooks/fetchers/Message/useMessagesQuery";
-import type { Message } from "@/types";
-import { ChatCompletionStream } from "./ChatCompletionStream";
 import { emitFeedback } from "../FeedbackEmitter";
+import { ChatCompletionStream } from "./ChatCompletionStream";
 
 type QueryOpts = ReturnType<typeof messagesQueryOptions>;
 
@@ -25,7 +25,7 @@ export const getStreamProcessor = ({
 		try {
 			const streamRunner = ChatCompletionStream.fromReadableStream(
 				stream,
-				Platform.OS !== "web"
+				Platform.OS !== "web",
 			);
 
 			streamRunner

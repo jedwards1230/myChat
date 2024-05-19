@@ -1,7 +1,11 @@
+import type { Loggers } from "./loggers";
+import { buildLoggers } from "./loggers";
 import { purgeLogFiles } from "./utils";
-import { buildLoggers, type Loggers } from "./loggers";
 
-export type BuildOpts = { type: Loggers; prefix: string };
+export interface BuildOpts {
+	type: Loggers;
+	prefix: string;
+}
 
 export function getLogger({ prefix, type }: BuildOpts) {
 	purgeLogFiles();

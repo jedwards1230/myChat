@@ -1,13 +1,15 @@
-import * as Switch from "@radix-ui/react-switch";
-import * as React from "react";
-import { Pressable, View, type GestureResponderEvent } from "react-native";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableViewProps,
 	ViewRef,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, View } from "react-native";
+import * as Slot from "@/components/primitives/slot";
+import * as Switch from "@radix-ui/react-switch";
+
 import type { SwitchRootProps } from "./types";
 
 const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRootProps>(
@@ -21,7 +23,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRoot
 			onKeyDown: onKeyDownProp,
 			...props
 		},
-		ref
+		ref,
 	) => {
 		function onPress(ev: GestureResponderEvent) {
 			onCheckedChange(!checked);
@@ -53,7 +55,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRoot
 				/>
 			</Switch.Root>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootWebSwitch";
@@ -66,7 +68,7 @@ const Thumb = React.forwardRef<ViewRef, SlottableViewProps>(
 				<Component ref={ref} {...props} />
 			</Switch.Thumb>
 		);
-	}
+	},
 );
 
 Thumb.displayName = "ThumbWebSwitch";

@@ -4,18 +4,18 @@
 
 import * as React from "react";
 
-type UseControllableStateParams<T> = {
+interface UseControllableStateParams<T> {
 	prop?: T | undefined;
 	defaultProp?: T | undefined;
 	onChange?: (state: T) => void;
-};
+}
 
 type SetStateFn<T> = (prevState?: T) => T;
 
 function useControllableState<T>({
 	prop,
 	defaultProp,
-	onChange = () => {},
+	onChange = undefined,
 }: UseControllableStateParams<T>) {
 	const [uncontrolledProp, setUncontrolledProp] = useUncontrolledState({
 		defaultProp,
@@ -37,7 +37,7 @@ function useControllableState<T>({
 					setUncontrolledProp(nextValue);
 				}
 			},
-			[isControlled, prop, setUncontrolledProp, handleChange]
+			[isControlled, prop, setUncontrolledProp, handleChange],
 		);
 
 	return [value, setValue] as const;

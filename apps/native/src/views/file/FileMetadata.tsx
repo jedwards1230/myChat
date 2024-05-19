@@ -1,7 +1,7 @@
+import type { FileInformation } from "@/hooks/useFileInformation";
 import { ExternalLink } from "@/components/ExternalLink";
 import { RowItem, Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
-import type { FileInformation } from "@/hooks/useFileInformation";
 
 export function FileMetadata({ file }: { file: FileInformation }) {
 	return (
@@ -18,7 +18,7 @@ export function FileMetadata({ file }: { file: FileInformation }) {
 			<RowItem>
 				<Text>Relative Path</Text>
 				<Text className="text-sm text-secondary-foreground">
-					{file?.relativePath}
+					{file.relativePath}
 				</Text>
 			</RowItem>
 			<RowItem>

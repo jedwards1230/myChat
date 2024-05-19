@@ -1,10 +1,10 @@
 import { View } from "react-native";
-
-import { BaseMessage } from "./Message/BaseMessage";
-import type { ChatMessageGroup } from "./MessageGroup";
-import { cn } from "@/lib/utils";
 import { Text } from "@/components/ui/Text";
+import { cn } from "@/lib/utils";
+
+import type { ChatMessageGroup } from "./MessageGroup";
 import { Avatar } from "./Avatar";
+import { BaseMessage } from "./Message/BaseMessage";
 
 export function MessageGroupBubble({
 	group,
@@ -18,8 +18,8 @@ export function MessageGroupBubble({
 	return (
 		<View
 			className={cn(
-				"border p-2 rounded",
-				editMode ? "bg-input/20 border-input" : "border-transparent"
+				"rounded border p-2",
+				editMode ? "border-input bg-input/20" : "border-transparent",
 			)}
 		>
 			<View className="flex flex-row items-center gap-2">

@@ -2,7 +2,10 @@ import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 
 import type { LLMTool } from "../types";
 
-type Props = { query: string; url: string };
+interface Props {
+	query: string;
+	url: string;
+}
 
 async function fetcherTool({ query, url }: Props) {
 	return "search query: " + JSON.stringify({ query, url }, null, 2);

@@ -1,15 +1,15 @@
 import type { ForceMountable } from "@/components/primitives/types";
 
-type RootContext = {
+interface RootContext {
 	open: boolean;
 	onOpenChange: (value: boolean) => void;
-};
+}
 
-type DialogRootProps = {
+interface DialogRootProps {
 	open?: boolean;
 	defaultOpen?: boolean;
 	onOpenChange?: (value: boolean) => void;
-};
+}
 
 interface DialogPortalProps extends ForceMountable {
 	children: React.ReactNode;

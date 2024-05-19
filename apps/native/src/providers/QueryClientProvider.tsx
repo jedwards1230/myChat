@@ -1,3 +1,13 @@
+import type { AppStateStatus } from "react-native";
+import { useEffect } from "react";
+import { AppState, Platform } from "react-native";
+import { DevToolsBubble } from "react-native-react-query-devtools";
+import Toast from "react-native-toast-message";
+import { useConfigStore } from "@/hooks/stores/configStore";
+import { isFetchError } from "@/lib/fetcher";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import NetInfo from "@react-native-community/netinfo";
+import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
 import {
 	focusManager,
 	MutationCache,
@@ -5,17 +15,7 @@ import {
 	QueryCache,
 	QueryClient,
 } from "@tanstack/react-query";
-import NetInfo from "@react-native-community/netinfo";
-import { AppState, type AppStateStatus, Platform } from "react-native";
-import { useEffect } from "react";
-import { DevToolsBubble } from "react-native-react-query-devtools";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { PersistQueryClientProvider as BaseProvider } from "@tanstack/react-query-persist-client";
-import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
-import Toast from "react-native-toast-message";
-
-import { isFetchError } from "@/lib/fetcher";
-import { useConfigStore } from "@/hooks/stores/configStore";
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -47,7 +47,7 @@ const queryClient = new QueryClient({
 					setTimeout(() => {
 						console.log(
 							"Retrying query after rate limit",
-							query.options.queryKey
+							query.options.queryKey,
 						);
 						queryClient.invalidateQueries();
 					}, 1000 * 60);
@@ -60,6 +60,7 @@ const queryClient = new QueryClient({
 					await queryClient.cancelQueries();
 					console.log("providerCache DEFAULT", { error, query });
 					console.log(`Query Error Code: ${error.status}`);
+					// eslint-disable-next-line @typescript-eslint/restrict-template-expressions
 					console.log(`Cancelled query: ${query.options.queryKey}`);
 				}
 			}

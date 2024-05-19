@@ -1,7 +1,6 @@
-import { Pressable, View } from "react-native";
-import { useState } from "react";
-
 import type { Message } from "@/types";
+import { useState } from "react";
+import { Pressable, View } from "react-native";
 import Markdown from "@/components/Markdown/Markdown";
 import { Text } from "@/components/ui/Text";
 
@@ -25,10 +24,10 @@ export const ToolCallMessage = ({ message }: { message: Message }) => {
 		<View className="pl-6">
 			<View>
 				<Pressable
-					className="p-2 border rounded-md bg-secondary"
+					className="rounded-md border bg-secondary p-2"
 					onPress={toggleVisibility}
 				>
-					<Text>{message?.name}</Text>
+					<Text>{message.name}</Text>
 				</Pressable>
 			</View>
 			{isVisible && (

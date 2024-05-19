@@ -1,11 +1,11 @@
+import type { Message } from "@/types";
 import { Pressable, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
-
-import { useGroupStore } from "../GroupStore";
 import { Icon } from "@/components/ui/Icon";
-import type { Message } from "@/types";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
+
 import type { ChatMessageGroup } from "../MessageGroup";
+import { useGroupStore } from "../GroupStore";
 import { MessageSwitcher } from "./MessageSwitcher";
 
 export function MessageActions({
@@ -32,7 +32,7 @@ export function MessageActions({
 
 	const copyToClipboard = () => {
 		if (typeof message.content === "string") {
-			Clipboard.setStringAsync(message.content);
+			void Clipboard.setStringAsync(message.content);
 		}
 	};
 
@@ -46,7 +46,7 @@ export function MessageActions({
 			iconType: "FontAwesome6",
 			icon: "clipboard",
 			onPress: copyToClipboard,
-			hidden: message.content === null,
+			hidden: message.content === undefined,
 		} as const,
 		{
 			iconType: "FontAwesome6",
@@ -59,9 +59,9 @@ export function MessageActions({
 		<>
 			{children}
 			{!editMode && (
-				<View className="flex-row items-center h-3 gap-4 pt-4 pl-6">
+				<View className="h-3 flex-row items-center gap-4 pl-6 pt-4">
 					<MessageSwitcher message={message} group={group} />
-					<View className="flex-row items-center hidden gap-4 group-hover:flex">
+					<View className="hidden flex-row items-center gap-4 group-hover:flex">
 						{actions.map(({ icon, iconType, onPress, hidden }, i) =>
 							!hidden ? (
 								<Pressable
@@ -75,7 +75,7 @@ export function MessageActions({
 										className="!text-sm text-foreground/30 hover:text-foreground/80"
 									/>
 								</Pressable>
-							) : null
+							) : null,
 						)}
 					</View>
 				</View>

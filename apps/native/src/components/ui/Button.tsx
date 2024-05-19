@@ -1,29 +1,29 @@
-import { cva, type VariantProps } from "class-variance-authority";
+import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Pressable } from "react-native";
-
 import { TextClassContext } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 
 const buttonVariants = cva(
-	"group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+	"web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 group flex items-center justify-center rounded-md",
 	{
 		variants: {
 			variant: {
-				default: "bg-primary web:hover:opacity-90 active:opacity-90",
-				destructive: "bg-destructive web:hover:opacity-90 active:opacity-90",
+				default: "web:hover:opacity-90 bg-primary active:opacity-90",
+				destructive: "web:hover:opacity-90 bg-destructive active:opacity-90",
 				outline:
-					"border border-input bg-background web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
-				secondary: "bg-secondary web:hover:opacity-80 active:opacity-80",
+					"web:hover:bg-accent web:hover:text-accent-foreground border border-input bg-background active:bg-accent",
+				secondary: "web:hover:opacity-80 bg-secondary active:opacity-80",
 				ghost: "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
 				link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
 				navItem:
-					"bg-secondary hover:bg-secondary-foreground/10 dark:hover:bg-secondary-foreground/50 active:opacity-90 w-full flex flex-row justify-between web:justify-start items-center gap-2",
+					"web:justify-start flex w-full flex-row items-center justify-between gap-2 bg-secondary hover:bg-secondary-foreground/10 active:opacity-90 dark:hover:bg-secondary-foreground/50",
 			},
 			size: {
-				default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
+				default: "native:h-12 native:px-5 native:py-3 h-10 px-4 py-2",
 				sm: "h-9 rounded-md px-3",
-				lg: "h-11 rounded-md px-8 native:h-14",
+				lg: "native:h-14 h-11 rounded-md px-8",
 				icon: "h-10 w-10",
 				navItem: "h-10 p-2",
 			},
@@ -32,21 +32,21 @@ const buttonVariants = cva(
 			variant: "default",
 			size: "default",
 		},
-	}
+	},
 );
 
 const buttonTextVariants = cva(
-	"web:whitespace-nowrap text-sm native:text-base text-foreground web:transition-colors",
+	"web:whitespace-nowrap native:text-base web:transition-colors text-sm text-foreground",
 	{
 		variants: {
 			variant: {
-				default: "text-primary-foreground font-medium",
-				destructive: "text-destructive-foreground font-medium",
-				outline: "group-active:text-accent-foreground font-medium",
+				default: "font-medium text-primary-foreground",
+				destructive: "font-medium text-destructive-foreground",
+				outline: "font-medium group-active:text-accent-foreground",
 				secondary:
-					"text-secondary-foreground group-active:text-secondary-foreground font-medium",
-				ghost: "group-active:text-accent-foreground font-medium",
-				link: "text-primary group-active:underline font-medium",
+					"font-medium text-secondary-foreground group-active:text-secondary-foreground",
+				ghost: "font-medium group-active:text-accent-foreground",
+				link: "font-medium text-primary group-active:underline",
 				navItem: "text-secondary-foreground active:bg-primary",
 			},
 			size: {
@@ -61,7 +61,7 @@ const buttonTextVariants = cva(
 			variant: "default",
 			size: "default",
 		},
-	}
+	},
 );
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
@@ -74,7 +74,7 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
 				<Pressable
 					className={cn(
 						props.disabled && "opacity-50",
-						buttonVariants({ variant, size, className })
+						buttonVariants({ variant, size, className }),
 					)}
 					ref={ref}
 					role="button"
@@ -82,7 +82,7 @@ const Button = React.forwardRef<React.ElementRef<typeof Pressable>, ButtonProps>
 				/>
 			</TextClassContext.Provider>
 		);
-	}
+	},
 );
 Button.displayName = "Button";
 

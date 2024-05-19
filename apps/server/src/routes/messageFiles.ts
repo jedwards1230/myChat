@@ -1,10 +1,9 @@
 import type { FastifyInstance } from "fastify";
-
-import { getThread } from "@/hooks/getThread";
 import { getMessage } from "@/hooks/getMessage";
+import { getThread } from "@/hooks/getThread";
+import { MessageFileController } from "@/modules/MessageFileController";
 
 import { MessageObjectSchema } from "@mychat/shared/schemas/Message";
-import { MessageFileController } from "@/modules/MessageFileController";
 
 export async function setupMessageFilesRoute(app: FastifyInstance) {
 	app.addHook(
@@ -12,7 +11,7 @@ export async function setupMessageFilesRoute(app: FastifyInstance) {
 		getThread({
 			activeMessage: true,
 			messages: { parent: true, children: true, files: true },
-		})
+		}),
 	);
 
 	await app.register(async (app) => {
@@ -38,7 +37,7 @@ export async function setupMessageFilesRoute(app: FastifyInstance) {
 				files: {
 					fileData: true,
 				},
-			})
+			}),
 		);
 
 		// GET list of files for a message

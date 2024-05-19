@@ -1,15 +1,16 @@
-import { Equal, type FindOneOptions } from "typeorm";
-import type { FastifyRequest, FastifyReply } from "fastify";
-
-import type { Thread } from "@mychat/db/entity/Thread";
+import type { FastifyReply, FastifyRequest } from "fastify";
+import type { FindOneOptions } from "typeorm";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+import { Equal } from "typeorm";
+
+import type { Thread } from "@mychat/db/entity/Thread";
 
 export function getThread(relations?: FindOneOptions<Thread>["relations"]) {
 	return async function getThread(request: FastifyRequest, reply: FastifyReply) {
 		try {
 			const { threadId } = request.params as { threadId: string };
-			const thread = await pgRepo["Thread"].findOne({
+			const thread = await pgRepo.Thread.findOne({
 				where: { id: threadId, user: Equal(request.user.id) },
 				relations,
 				order: { lastModified: "DESC" },

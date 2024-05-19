@@ -1,5 +1,3 @@
-import * as Label from "@radix-ui/react-label";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	PressableRef,
 	SlottablePressableProps,
@@ -8,6 +6,9 @@ import type {
 } from "@/components/primitives/types";
 import * as React from "react";
 import { Text as RNText } from "react-native";
+import * as Slot from "@/components/primitives/slot";
+import * as Label from "@radix-ui/react-label";
+
 import type { LabelRootProps, LabelTextProps } from "./types";
 
 const Root = React.forwardRef<
@@ -28,7 +29,7 @@ const Text = React.forwardRef<TextRef, SlottableTextProps & LabelTextProps>(
 				<Component ref={ref} {...props} />
 			</Label.Root>
 		);
-	}
+	},
 );
 
 Text.displayName = "TextWebLabel";

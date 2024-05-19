@@ -1,19 +1,19 @@
-import { View } from "react-native";
-import { useEffect, useState } from "react";
-
 import type { Message } from "@/types";
-import { useGroupStore } from "./GroupStore";
-import { MessageGroupBubble } from "./MessageGroupBubble";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
 import { useMessages } from "@/hooks/useMessages";
 
-export type ChatMessageGroup = {
+import { useGroupStore } from "./GroupStore";
+import { MessageGroupBubble } from "./MessageGroupBubble";
+
+export interface ChatMessageGroup {
 	id: string;
 	threadId: string;
 	messages: Message[];
 	name: string;
 	role: "user" | "assistant";
 	siblings?: Record<string, string[]>;
-};
+}
 
 export const MessageGroup = ({
 	item,
@@ -31,7 +31,7 @@ export const MessageGroup = ({
 	const editMode = editGroupId === item.id;
 
 	return (
-		<View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
+		<View className="web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto w-full">
 			<MessageGroupBubble
 				editMode={editMode}
 				group={item}
@@ -42,9 +42,9 @@ export const MessageGroup = ({
 };
 
 export function useGroupedMessages(threadId: string) {
-	const { data, isError, isSuccess, isFetched } = useMessages(threadId!);
+	const { data, isError, isSuccess, isFetched } = useMessages(threadId);
 	const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
-		groupMessages(threadId, data)
+		groupMessages(threadId, data),
 	);
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const groupMessages = (threadId: string, messages: Message[] | undefined) => {
 			}
 			return acc;
 		},
-		{} as Record<string, string[]>
+		{} as Record<string, string[]>,
 	);
 
 	const resetGroup = (): ChatMessageGroup => ({
@@ -102,12 +102,12 @@ const groupMessages = (threadId: string, messages: Message[] | undefined) => {
 
 		// Set the group name to the sender
 		if (message.role !== "tool") {
-			currentGroup.name = message.name || message.role;
+			currentGroup.name = message.name ?? message.role;
 			currentGroup.id = message.id;
 		}
 
 		// Add the message to the group
-		if (message.content !== null) {
+		if (message.content !== undefined) {
 			if (message.role === "system") return;
 			currentGroup.messages.push(message);
 		}

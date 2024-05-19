@@ -1,39 +1,39 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { pgRepo } from "@/lib/pg";
 
 import type { AgentTool } from "@mychat/db/entity/AgentTool";
-import { Tools } from "@mychat/agents/tools/index";
 import type {
 	AgentToolCreateSchema,
 	AgentToolUpdateSchema,
 } from "@mychat/shared/schemas/AgentTool";
-import { pgRepo } from "@/lib/pg";
+import { Tools } from "@mychat/agents/tools/index";
 
 export class AgentToolController {
 	static async createAgentTool(request: FastifyRequest, reply: FastifyReply) {
 		const { agent } = request;
 		const agentTool = request.body as AgentToolCreateSchema;
-		const savedAgent = await pgRepo["AgentTool"].save({
+		const savedAgent = await pgRepo.AgentTool.save({
 			...agentTool,
 			agent,
 		});
-		reply.send(savedAgent);
+		return reply.send(savedAgent);
 	}
 
 	static async getAgentTools(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(
+		return reply.send(
 			request.user.agents.reduce(
 				(acc, agent) => [...acc, ...agent.tools],
-				[] as AgentTool[]
-			)
+				[] as AgentTool[],
+			),
 		);
 	}
 
 	static async getAgentTool(request: FastifyRequest, reply: FastifyReply) {
 		const { agentToolId } = request.params as { agentToolId: string };
-		const agentTool = await pgRepo["AgentTool"].findOne({
+		const agentTool = await pgRepo.AgentTool.findOne({
 			where: { id: agentToolId },
 		});
-		reply.send(agentTool);
+		return reply.send(agentTool);
 	}
 
 	static async updateAgentTool(request: FastifyRequest, reply: FastifyReply) {
@@ -60,15 +60,15 @@ export class AgentToolController {
 			}
 		}
 		const updatedAgentTool = await agentTool.save();
-		reply.send(updatedAgentTool);
+		return reply.send(updatedAgentTool);
 	}
 
 	static async deleteAgentTool(request: FastifyRequest, reply: FastifyReply) {
-		reply.send("TODO");
+		return reply.send("TODO");
 	}
 
 	/** Return list of all tools available on the server */
 	static async getTools(request: FastifyRequest, reply: FastifyReply) {
-		reply.send(Tools.map((tool) => tool.name));
+		return reply.send(Tools.map((tool) => tool.name));
 	}
 }

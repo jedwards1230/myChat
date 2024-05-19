@@ -1,7 +1,6 @@
 import type { ConfigContext, ExpoConfig } from "expo/config";
 
 const OWNER = process.env.OWNER;
-const PROJECT_ID = process.env.PROJECT_ID;
 
 const IS_PROD =
 	process.env.APP_VARIANT === "production" || process.env.APP_VARIANT === "preview";

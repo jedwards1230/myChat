@@ -4,8 +4,9 @@
 	"exports": {
 		".": "./src/index.ts"
 	},
+	"type": "module",
 	"scripts": {
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.js",
+		"lint": "eslint",
 		"typecheck": "tsc"
 	},
 	"dependencies": {
