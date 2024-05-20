@@ -3,7 +3,7 @@ import { getUser } from "@/hooks/getUser";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 
-import { UserSession } from "@mychat/db/schema/Session";
+import { UserSession } from "@mychat/db/schema";
 import { UserSessionSchema } from "@mychat/shared/schemas/Session";
 import { AuthInputSchema, UserSchema } from "@mychat/shared/schemas/User";
 
@@ -149,7 +149,9 @@ export async function setupUserRoute(app: FastifyInstance) {
 		},
 		handler: async (request, reply) => {
 			const { sessionId } = request.params as { sessionId: string };
-			const session = await UserSession.findOne({ where: { id: sessionId } });
+			const session = await pgRepo.UserSession.findOne({
+				where: { id: sessionId },
+			});
 
 			if (!session) {
 				return reply.status(404).send({ error: "Session not found" });

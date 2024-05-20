@@ -1,18 +1,12 @@
 import type { Config } from "drizzle-kit";
 
-if (!process.env.DB_URL) {
-	throw new Error("Missing DB_URL");
-}
-
-const nonPoolingUrl = process.env.DB_URL.replace(":6543", ":5432");
-
-console.log("DB_URL:", nonPoolingUrl);
+import env from "./src/env";
 
 export default {
-	schema: "./src/schema/*.ts",
+	schema: "./src/db/schema/index.ts",
+	out: "./src/db/migrations",
 	dialect: "postgresql",
-	dbCredentials: { url: nonPoolingUrl },
+	dbCredentials: { url: env.DATABASE_URL },
 	verbose: true,
 	strict: true,
-	out: "./drizzle",
 } satisfies Config;

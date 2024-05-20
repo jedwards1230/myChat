@@ -1,8 +1,11 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+import { eq } from "drizzle-orm";
 
 import type { MessageCreateSchema, Role } from "@mychat/shared/schema/message";
+import { db } from "@mychat/db/client";
+import { Message, Thread } from "@mychat/db/schema";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -56,13 +59,13 @@ export class MessageController {
 	static async deleteMessage(request: FastifyRequest, reply: FastifyReply) {
 		const { message, thread } = request;
 
-		if (thread.activeMessage?.id === message.id) {
-			thread.activeMessage = message.parent;
-			await thread.save();
+		if (thread.activeMessageId === message.id) {
+			thread.activeMessageId = message.parentId;
+			await db.update(Thread).set(thread);
 		}
 
 		// Reassign children to the parent of the target message
-		if (message.parent) {
+		if (message.parentId && message.childrenIds.length > 0) {
 			// Find and update all children of the target message
 			await Promise.all(
 				message.children.map((child) => {
@@ -72,13 +75,13 @@ export class MessageController {
 			);
 		}
 
-		const msg = await message.remove();
-		return reply.send(msg.toJSON());
+		await db.delete(Message).where(eq(Message.id, message.id));
+		return reply.send({ success: true });
 	}
 
 	static async getMessageList(request: FastifyRequest, reply: FastifyReply) {
 		const thread = request.thread;
-		if (!thread.activeMessage) {
+		if (!thread.activeMessageId) {
 			return reply.status(500).send({
 				error: "No active message found.",
 			});

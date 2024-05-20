@@ -1,16 +1,18 @@
-/* import pgvector from "pgvector";
-import { In } from "typeorm"; */
+import { inArray } from "drizzle-orm";
+import pgvector from "pgvector";
+import { cosineDistance } from "pgvector/drizzle-orm";
 
-//import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
-//import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
-//import tokenizer from "../tokenizer";
+import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
+import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
 
-import type { EmbedItem } from "../schema/document";
-import type { Message } from "../schema/message";
-import type { Thread } from "../schema/thread";
-import type { User } from "../schema/user";
-import { db } from "../client";
-import { DatabaseDocument } from "../schema/document";
+import type { InsertDocument } from "../db/schema/document";
+import type { Message } from "../db/schema/message";
+import type { Thread } from "../db/schema/thread";
+import type { User } from "../db/schema/user";
+import type { Document } from "../types";
+import { db } from "../db";
+import { DatabaseDocument, EmbedItem } from "../db/schema/document";
+import tokenizer from "../tokenizer";
 
 export interface DocumentMetaParams {
 	user?: Pick<typeof User, "id">;
@@ -18,7 +20,7 @@ export interface DocumentMetaParams {
 	thread?: Pick<typeof Thread, "id">;
 }
 
-export type DocumentInsertParams = Pick<typeof DatabaseDocument, "decoded" | "metadata"> &
+export type DocumentInsertParams = Pick<InsertDocument, "decoded" | "metadata"> &
 	Partial<Pick<typeof EmbedItem, "embedding">> &
 	DocumentMetaParams;
 
@@ -29,52 +31,58 @@ export interface DocumentSearchParams {
 }
 
 export const extendedDocumentRepo = () => {
-	//const embedItemRepo = db.select().from(EmbedItem);
-	const repo = db.select().from(DatabaseDocument);
-
-	/* async function addDocuments(
-		...docs: DocumentInsertParams[]
-	): Promise<(typeof DatabaseDocument)[]> {
+	async function addDocuments(...docs: DocumentInsertParams[]): Promise<Document[]> {
 		const embeddingsBatch = await generateEmbeddings(
 			docs.map((doc) => doc.decoded),
 			EmbeddingModelMap["text-embedding-3-small"],
 		);
 
 		const promisedEmbeddings = embeddingsBatch.map((item) =>
-			embedItemRepo.save(
-				item.map((e) => embedItemRepo.create({ embedding: pgvector.toSql(e) })),
-			),
+			db
+				.insert(EmbedItem)
+				.values(item.map((e) => ({ embedding: pgvector.toSql(e) })))
+				.returning(),
 		);
 
 		const savedEmbeddings = await Promise.all(promisedEmbeddings);
 
-		const savedDocs = await repo.save(
-			docs.map((doc, i) =>
-				repo.create({
+		const savedDocs = await db
+			.insert(DatabaseDocument)
+			.values(
+				docs.map((doc, i) => ({
 					...doc,
 					tokenCount: tokenizer.estimateTokenCount(doc.decoded),
 					embeddings: savedEmbeddings[i],
-				}),
-			),
-		);
+				})),
+			)
+			.returning();
 
 		return savedDocs;
-	} */
+	}
 
-	/* async function searchDocuments(
+	async function searchDocuments(
 		input: string,
 		opts?: DocumentSearchParams,
-	): Promise<(typeof DatabaseDocument)[]> {
+	): Promise<Document[]> {
 		const { topK, threshold } = {
 			...{ topK: 5, threshold: 0 },
 			...opts?.search,
 		};
 
+		console.log("Add threshold", threshold);
+
 		const inputEmbedding = await generateEmbedding(
 			input,
 			EmbeddingModelMap["text-embedding-3-small"],
 		);
-		const res: any[] = await db.query(
+
+		const res = await db
+			.select()
+			.from(EmbedItem)
+			.orderBy(cosineDistance(EmbedItem.embedding, inputEmbedding))
+			.limit(topK);
+
+		/* const res: any[] = await db.query(
 			`
 			SELECT *
 			FROM embed_item AS item
@@ -83,19 +91,18 @@ export const extendedDocumentRepo = () => {
 			LIMIT $3
 		`,
 			[pgvector.toSql(inputEmbedding), threshold, topK],
-		);
+		); */
 
-		const docIds = res.map((item: any) => item.id as string);
-		const docs = await repo.find({
-			where: { embeddings: { id: In(docIds) }, ...opts?.filterRelation },
+		const docIds = res.map((item) => item.id);
+		const docs = await db.query.DatabaseDocument.findMany({
+			where: inArray(EmbedItem.id, docIds),
 		});
 
 		return docs;
-	} */
+	}
 
 	return {
-		...repo,
-		//addDocuments,
-		//searchDocuments,
+		addDocuments,
+		searchDocuments,
 	};
 };

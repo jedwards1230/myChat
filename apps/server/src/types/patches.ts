@@ -1,10 +1,10 @@
 import type {
-	Agent,
-	AgentTool,
-	Message,
-	Thread,
-	User,
-	UserSession,
+	SelectAgent as Agent,
+	SelectAgentTool as AgentTool,
+	SelectMessage as Message,
+	SelectThread as Thread,
+	SelectUser as User,
+	SelectUserSession as UserSession,
 } from "@mychat/db/schema";
 
 declare module "fastify" {

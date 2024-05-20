@@ -1,53 +1,73 @@
-/* import { eq } from "drizzle-orm";
-
-import type { SelectMessage } from "../schema/message";
-import type { SelectThread } from "../schema/thread"; */
-import { db } from "../client";
-import { Thread } from "../schema/thread";
+import type { SelectThread } from "../db/schema/thread";
+import type { GetMessage } from "../types";
+import { db } from "../db";
+import { Thread } from "../db/schema/thread";
+import tokenizer from "../tokenizer";
 
 export const extendedThreadRepo = () => {
-	const repo = db.select().from(Thread);
+	const select = db.select().from(Thread);
+	const insert = db.insert(Thread);
+	const update = db.update(Thread);
+	const remove = db.delete(Thread);
 
-	/* async function addMessage(
+	async function addMessage(
 		thread: SelectThread,
-		message: Partial<SelectMessage>,
+		message: GetMessage,
 		parentId?: string,
 	) {
-		const res = await db.transaction(async (manager) => {
-			if (parentId) {
-				message.parent = await manager.findOneByOrFail(Message, {
-					id: parentId,
+		const res = await db.transaction(async (tx) => {
+			console.log(tx, thread, parentId);
+			/* if (parentId) {
+				const parent = await tx.query.Message.findFirst({
+					where: eq(Message.id, parentId),
 				});
-			} else if (thread.activeMessage) {
-				message.parent = thread.activeMessage;
+
+				if (!parent) {
+					throw new Error("No parent message found");
+				}
+
+				message.parent = parent.id;
+			} else if (thread.activeMessageId) {
+				message.parentId = thread.activeMessageId;
 			}
 
-			if (!message.parent && message.role !== "system") {
+			if (!message.parentId && message.role !== "system") {
 				throw new Error("No parent message found");
-			}
+			} */
 
 			if (message.content) {
 				message.tokenCount = tokenizer.estimateTokenCount(message.content);
 			}
 
-			const newMsg = await manager
-				.create(SelectMessage, { ...message, thread })
-				.save();
-			const threadMsgs = await manager.find(SelectMessage, {
-				where: { thread: eq(Thread.id, thread.id) },
+			/* const newMsgs = await tx
+				.insert(Message)
+				.values({ ...message, threadId: thread.id })
+				.returning();
+
+			const newMsg = newMsgs[0];
+			if (!newMsg) {
+				throw new Error("No message returned");
+			}
+
+			const threadMsgs = await tx.query.Message.findMany({
+				where: inArray(Message.id, thread.messages),
 			});
 
-			thread.activeMessage = newMsg;
+			thread.activeMessageId = newMsg.id;
 			thread.messages = [...threadMsgs, newMsg];
-			await manager.save(Thread, thread);
+			await tx.update(Thread).set(thread);
 
-			return newMsg;
+			return newMsg; */
+			return message;
 		});
 		return res;
-	} */
+	}
 
 	return {
-		...repo,
-		//addMessage,
+		...select,
+		...insert,
+		...update,
+		...remove,
+		addMessage,
 	};
 };
