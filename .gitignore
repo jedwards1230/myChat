@@ -5,3 +5,7 @@ node_modules/
 .yarn/*
 !.yarn/patches/
 logs
+apps/native
+apps/web
+deprecated/
+packages/db/dist

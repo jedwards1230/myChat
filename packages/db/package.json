@@ -12,7 +12,7 @@
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"@types/node": "^20.12.12",
-		"eslint": "^9.2.0",
+		"eslint": "^9.3.0",
 		"ts-node": "10.9.2",
 		"typescript": "beta"
 	},
