@@ -9,8 +9,8 @@
 			"default": "./src/index.ts"
 		},
 		"./client": {
-			"types": "./dist/client.d.ts",
-			"default": "./src/client.ts"
+			"types": "./dist/db/index.d.ts",
+			"default": "./src/db/index.ts"
 		},
 		"./handler": {
 			"types": "./dist/handler.d.ts",
@@ -18,7 +18,7 @@
 		},
 		"./schema": {
 			"types": "./dist/index.d.ts",
-			"default": "./src/schema/index.ts"
+			"default": "./src/db/schema/index.ts"
 		}
 	},
 	"license": "MIT",
@@ -32,10 +32,12 @@
 		"migrate": "drizzle-kit migrate",
 		"push": "drizzle-kit push",
 		"studio": "drizzle-kit studio",
-		"typecheck": "tsc --noEmit --emitDeclarationOnly false"
+		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
+		"with-env": "dotenvx run -f ../../.env --"
 	},
 	"dependencies": {
 		"@mychat/logger": "workspace:*",
+		"@vercel/postgres": "^0.8.0",
 		"drizzle-orm": "^0.30.10",
 		"drizzle-zod": "^0.5.1",
 		"gpt4-tokenizer": "^1.3.0",
@@ -44,6 +46,7 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
+		"@dotenvx/dotenvx": "^0.43.0",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",

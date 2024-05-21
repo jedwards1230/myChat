@@ -1,8 +1,8 @@
 import type { AnyPgColumn } from "drizzle-orm/pg-core";
-import type { z } from "zod";
 import { relations } from "drizzle-orm";
-import { boolean, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
+import { boolean, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createSelectSchema } from "drizzle-zod";
+import { z } from "zod";
 
 import { Agent } from "./agent";
 import { AgentTool } from "./agentTool";
@@ -14,7 +14,7 @@ export const User = pgTable("user", {
 	name: text("name"),
 	email: text("email").notNull().unique(),
 	password: text("password").default("").notNull(),
-	apiKey: varchar("apiKey", { length: 255 }).notNull(),
+	apiKey: uuid("apiKey").defaultRandom().notNull(),
 	profilePicture: text("profilePicture").default("").notNull(),
 
 	defaultAgentId: uuid("defaultAgentId").references((): AnyPgColumn => Agent.id),
@@ -32,8 +32,17 @@ export const UserRelations = relations(User, ({ one, many }) => ({
 	documents: many(DatabaseDocument),
 }));
 
-export const InsertUserSchema = createInsertSchema(User);
-export type InsertUser = z.infer<typeof InsertUserSchema>;
+export const CreateUserSchema = createInsertSchema(User, {
+	name: z.string().max(256),
+	email: z.string().email(),
+	password: z.string().max(256),
+}).omit({
+	id: true,
+	apiKey: true,
+	profilePicture: true,
+	defaultAgentId: true,
+});
+export type CreateUser = z.infer<typeof CreateUserSchema>;
 
 export const SelectUserSchema = createSelectSchema(User);
 export type SelectUser = z.infer<typeof SelectUserSchema>;

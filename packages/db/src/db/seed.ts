@@ -2,7 +2,7 @@ import type { Table } from "drizzle-orm";
 import { getTableName, sql } from "drizzle-orm";
 
 import env from "../env";
-import { connection, db } from "./index";
+import { db } from "./index";
 import * as schema from "./schema";
 
 //import * as seeds from "./seeds";
@@ -43,4 +43,4 @@ await seeds.restaurant(db);
 await seeds.user(db);
 await seeds.order(db); */
 
-await connection.end();
+//await connection.end();

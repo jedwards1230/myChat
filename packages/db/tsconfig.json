@@ -1,8 +1,8 @@
 {
-	"extends": "@mychat/tsconfig/internal-package.json",
+	"extends": "@mychat/tsconfig/base.json",
 	"compilerOptions": {
 		"outDir": "dist",
-		"tsBuildInfoFile": "../../node_modules/.cache/tsbuildinfo.json"
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},
 	"include": ["src", "drizzle.config.ts"],
 	"exclude": ["node_modules", "drizzle", "dist"]

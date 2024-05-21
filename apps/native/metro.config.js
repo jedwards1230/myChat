@@ -10,7 +10,9 @@ const workspaceRoot = path.resolve(projectRoot, "../..");
 const monorepoPackages = {
 	"@mychat/shared": path.resolve(workspaceRoot, "packages/shared"),
 	"@mychat/eslint-config": path.resolve(workspaceRoot, "tooling/eslint"),
-	"@mychat/tsconfig": path.resolve(workspaceRoot, "tooling/tsconfig"),
+	"@mychat/prettier-config": path.resolve(workspaceRoot, "tooling/prettier"),
+	"@mychat/tailwind-config": path.resolve(workspaceRoot, "tooling/tailwind"),
+	"@mychat/tsconfig": path.resolve(workspaceRoot, "tooling/typescript"),
 };
 
 /** @type {import('expo/metro-config').MetroConfig} */

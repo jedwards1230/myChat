@@ -1,11 +1,9 @@
 {
 	"extends": "@mychat/tsconfig/base.json",
 	"compilerOptions": {
-		"baseUrl": ".",
-		"paths": {
-			"@/*": ["./src/*"]
-		},
+		"outDir": "dist",
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx"]
+	"include": ["src"],
+	"exclude": ["node_modules"]
 }

@@ -17,13 +17,17 @@
 	"packageManager": "yarn@4.2.2",
 	"prettier": "@mychat/prettier-config",
 	"scripts": {
-		"build": "turbo build --cache-dir=.turbo",
+		"build": "dotenvx run -- turbo build --cache-dir=.turbo",
+		"build:web": "dotenvx run -- turbo build --cache-dir=.turbo --filter=!./apps/native",
+		"build:native": "dotenvx run -- turbo build --cache-dir=.turbo --filter=!./apps/web",
 		"clean": "git clean -xdf node_modules && yarn cache clean && rm -rf ./logs",
 		"clean:workspaces": "turbo clean",
 		"compose": "docker compose -f compose.yml",
 		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
 		"compose:prod": "docker compose -f production.yml",
-		"dev": "TURBO_EXPERIMENTAL_UI=true turbo dev --parallel",
+		"dev": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel",
+		"dev:web": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/native",
+		"dev:native": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/web",
 		"export": "turbo export",
 		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
 		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
@@ -42,6 +46,7 @@
 		"markdown-it": "14.0.0"
 	},
 	"devDependencies": {
+		"@dotenvx/dotenvx": "^0.43.0",
 		"@mychat/prettier-config": "workspace:^",
 		"@mychat/tsconfig": "workspace:*",
 		"@turbo/gen": "^1.13.3",

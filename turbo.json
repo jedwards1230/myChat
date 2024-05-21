@@ -1,19 +1,21 @@
 {
 	"$schema": "https://turborepo.org/schema.json",
 	"pipeline": {
-		"test": {
-			"inputs": ["**/*.{ts,tsx,js,jsx}"]
-		},
-		"migrate": {
-			"dependsOn": ["typecheck"],
-			"outputs": []
+		"topo": {
+			"dependsOn": ["^topo"]
 		},
 		"build": {
-			"dependsOn": ["typecheck", "^build"],
+			"dependsOn": ["topo", "typecheck", "^build"],
 			"outputs": ["node_modules/.cache/metro/**"]
 		},
+		"clean": {
+			"cache": false
+		},
+		"//#clean": {
+			"cache": false
+		},
 		"dev": {
-			"dependsOn": ["^build", "migrate"],
+			"dependsOn": ["^build"],
 			"cache": false,
 			"interactive": true,
 			"persistent": true
@@ -24,25 +26,25 @@
 		},
 
 		"lint": {
-			"dependsOn": ["^build"],
+			"dependsOn": ["topo", "^build"],
 			"outputs": ["node_modules/.cache/.eslintcache"]
 		},
-
-		"typecheck": {
-			"dependsOn": ["^build", "^lint", "lint", "^typecheck"],
-			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
+		"migrate": {
+			"dependsOn": ["typecheck"],
+			"outputs": []
 		},
 		"start": {
-			"dependsOn": ["^build", "migrate"]
+			"dependsOn": ["^build"]
 		},
 		"start:prod": {
-			"dependsOn": ["^build", "migrate"]
+			"dependsOn": ["^build"]
 		},
-		"clean": {
-			"cache": false
+		"test": {
+			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
-		"//#clean": {
-			"cache": false
+		"typecheck": {
+			"dependsOn": ["topo", "^build", "lint", "^typecheck"],
+			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
 		}
 	}
 }

@@ -1,8 +1,8 @@
-import { migrate } from "drizzle-orm/postgres-js/migrator";
+import { migrate } from "drizzle-orm/vercel-postgres/migrator";
 
 import config from "../../drizzle.config";
 import env from "../env";
-import { connection, db } from "./index";
+import { db } from "./index";
 
 if (!env.DB_MIGRATING) {
 	throw new Error('You must set DB_MIGRATING to "true" when running migrations');
@@ -10,4 +10,4 @@ if (!env.DB_MIGRATING) {
 
 await migrate(db, { migrationsFolder: config.out });
 
-await connection.end();
+//await connection.end();
