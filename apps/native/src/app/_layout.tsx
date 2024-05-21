@@ -6,9 +6,10 @@ import { useFonts } from "expo-font";
 import Head from "expo-router/head";
 import { Stack } from "expo-router/stack";
 import * as SplashScreen from "expo-splash-screen";
-import { PortalHost } from "@/components/primitives/portal";
 import { Providers } from "@/providers";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
+
+import { PortalHost } from "@mychat/ui/primitives";
 
 export const unstable_settings = {
 	initialRouteName: "(app)/index",

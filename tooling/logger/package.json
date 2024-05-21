@@ -17,9 +17,11 @@
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
+		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"@types/json-stringify-safe": "^5.0.3",
 		"eslint": "^9.3.0",
 		"typescript": "beta"
-	}
+	},
+	"prettier": "@mychat/prettier-config"
 }

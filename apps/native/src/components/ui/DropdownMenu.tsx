@@ -2,9 +2,10 @@
 import type { StyleProp, ViewStyle } from "react-native";
 import * as React from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
-import * as DropdownMenuPrimitive from "@/components/primitives/dropdown-menu";
 import { TextClassContext } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
+
+import { DropdownMenuPrimitive } from "@mychat/ui/primitives";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;
 

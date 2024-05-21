@@ -2,7 +2,7 @@ import type { Agent, AgentUpdateSchema, ToolName } from "@/types";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import Toast from "react-native-toast-message";
-import { Checkbox } from "@/components/ui/Checkboz";
+import { Checkbox } from "@/components/ui/Checkbox";
 import { Section } from "@/components/ui/Section";
 import { Text } from "@/components/ui/Text";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";

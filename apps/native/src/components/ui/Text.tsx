@@ -1,10 +1,11 @@
-import type { SlottableTextProps, TextRef } from "@/components/primitives/types";
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Text as RNText } from "react-native";
-import * as Slot from "@/components/primitives/slot";
 import { cn } from "@/lib/utils";
 import { cva } from "class-variance-authority";
+
+import type { SlottableTextProps, TextRef } from "@mychat/ui/primitives";
+import { Slot } from "@mychat/ui/primitives";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 

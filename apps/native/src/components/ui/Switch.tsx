@@ -6,15 +6,16 @@ import Animated, {
 	useDerivedValue,
 	withTiming,
 } from "react-native-reanimated";
-import * as SwitchPrimitives from "@/components/primitives/switch";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { cn } from "@/lib/utils";
 
+import { SwitchPrimitive } from "@mychat/ui/primitives";
+
 const SwitchWeb = React.forwardRef<
-	React.ElementRef<typeof SwitchPrimitives.Root>,
-	React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+	React.ElementRef<typeof SwitchPrimitive.Root>,
+	React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
 >(({ className, ...props }, ref) => (
-	<SwitchPrimitives.Root
+	<SwitchPrimitive.Root
 		className={cn(
 			"peer h-6 w-11 shrink-0 cursor-pointer flex-row items-center rounded-full border-2 border-transparent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-not-allowed",
 			props.checked ? "bg-primary" : "bg-input",
@@ -24,13 +25,13 @@ const SwitchWeb = React.forwardRef<
 		{...props}
 		ref={ref}
 	>
-		<SwitchPrimitives.Thumb
+		<SwitchPrimitive.Thumb
 			className={cn(
 				"pointer-events-none block h-5 w-5 rounded-full bg-background shadow-md shadow-foreground/5 ring-0 transition-transform",
 				props.checked ? "translate-x-5" : "translate-x-0",
 			)}
 		/>
-	</SwitchPrimitives.Root>
+	</SwitchPrimitive.Root>
 ));
 
 SwitchWeb.displayName = "SwitchWeb";
@@ -47,8 +48,8 @@ const RGB_COLORS = {
 } as const;
 
 const SwitchNative = React.forwardRef<
-	React.ElementRef<typeof SwitchPrimitives.Root>,
-	React.ComponentPropsWithoutRef<typeof SwitchPrimitives.Root>
+	React.ElementRef<typeof SwitchPrimitive.Root>,
+	React.ComponentPropsWithoutRef<typeof SwitchPrimitive.Root>
 >(({ className, ...props }, ref) => {
 	const { colorScheme } = useColorScheme();
 	const translateX = useDerivedValue(() => (props.checked ? 18 : 0));
@@ -67,7 +68,7 @@ const SwitchNative = React.forwardRef<
 			style={animatedRootStyle}
 			className={cn("h-8 w-[46px] rounded-full", props.disabled && "opacity-50")}
 		>
-			<SwitchPrimitives.Root
+			<SwitchPrimitive.Root
 				className={cn(
 					"h-8 w-[46px] shrink-0 flex-row items-center rounded-full border-2 border-transparent",
 					className,
@@ -76,13 +77,13 @@ const SwitchNative = React.forwardRef<
 				ref={ref}
 			>
 				<Animated.View style={animatedThumbStyle}>
-					<SwitchPrimitives.Thumb
+					<SwitchPrimitive.Thumb
 						className={
 							"h-7 w-7 rounded-full bg-background shadow-md shadow-foreground/25 ring-0"
 						}
 					/>
 				</Animated.View>
-			</SwitchPrimitives.Root>
+			</SwitchPrimitive.Root>
 		</Animated.View>
 	);
 });

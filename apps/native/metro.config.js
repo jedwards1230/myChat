@@ -8,7 +8,10 @@ const projectRoot = __dirname;
 const workspaceRoot = path.resolve(projectRoot, "../..");
 
 const monorepoPackages = {
+	"@mychat/api": path.resolve(workspaceRoot, "packages/api"),
+	"@mychat/db": path.resolve(workspaceRoot, "packages/db"),
 	"@mychat/shared": path.resolve(workspaceRoot, "packages/shared"),
+	"@mychat/ui": path.resolve(workspaceRoot, "packages/ui"),
 	"@mychat/eslint-config": path.resolve(workspaceRoot, "tooling/eslint"),
 	"@mychat/prettier-config": path.resolve(workspaceRoot, "tooling/prettier"),
 	"@mychat/tailwind-config": path.resolve(workspaceRoot, "tooling/tailwind"),
