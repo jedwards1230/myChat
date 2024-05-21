@@ -2,7 +2,7 @@ import { z, ZodError } from "zod";
 
 const EnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
-	//POSTGRES_URL: z.string().url(),
+	DATABASE_URL: z.string().url(),
 	VERCEL_URL: z.string().optional(),
 });
 

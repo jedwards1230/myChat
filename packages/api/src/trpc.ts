@@ -53,6 +53,23 @@ export function createTRPCContextNext(opts: {
 }
 export type ContextNext = Awaited<ReturnType<typeof createTRPCContextNext>>;
 
+/* export function createTRPCContextNext(opts: {
+	headers: Headers;
+	//session: Session | null;
+}) {
+	//const session = opts.session;
+	const source = opts.headers.get("x-trpc-source") ?? "unknown";
+
+	//console.log(">>> tRPC Request from", source, "by", session?.user);
+	console.log(">>> tRPC Request from", source);
+
+	return {
+		//session,
+		db,
+	};
+}
+export type ContextNext = Awaited<ReturnType<typeof createTRPCContextNext>>; */
+
 export type Context = ContextFastify | ContextNext;
 
 /**

@@ -6,15 +6,19 @@
 	},
 	"type": "module",
 	"scripts": {
+		"clean": "rm -rf .turbo node_modules",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
-		"typecheck": "tsc"
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"json-stringify-safe": "^5.0.1",
 		"winston": "^3.13.0"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
+		"@types/json-stringify-safe": "^5.0.3",
 		"eslint": "^9.3.0",
 		"typescript": "beta"
 	}

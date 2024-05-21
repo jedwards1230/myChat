@@ -14,4 +14,3 @@ export function getLogger({ prefix, type }: BuildOpts) {
 	return prefix ? logger.child({ prefix }) : logger;
 }
 
-export * from "./dbLogger";

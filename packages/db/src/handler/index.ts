@@ -1,10 +1,10 @@
-import { db } from "../db";
-import { Agent } from "../db/schema/agent";
-import { AgentTool } from "../db/schema/agentTool";
-import { EmbedItem } from "../db/schema/document";
-import { FileData } from "../db/schema/messageFile";
-import { ToolCall } from "../db/schema/toolCall";
-import { User, UserSession } from "../db/schema/user";
+import { db } from "../client";
+import { Agent } from "../schema/agent";
+import { AgentTool } from "../schema/agentTool";
+import { EmbedItem } from "../schema/document";
+import { FileData } from "../schema/messageFile";
+import { ToolCall } from "../schema/toolCall";
+import { User, UserSession } from "../schema/user";
 import { extendedAgentRunRepo } from "./agentRun";
 import { extendedDocumentRepo } from "./document";
 import { extendedMessageRepo } from "./message";

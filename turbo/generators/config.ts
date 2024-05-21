@@ -79,7 +79,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 				 * Install deps and format everything
 				 */
 				if ("name" in answers && typeof answers.name === "string") {
-					// execSync("pnpm dlx sherif@latest --fix", {
+					// execSync("yarn dlx sherif@latest --fix", {
 					//   stdio: "inherit",
 					// });
 					execSync("yarn", { stdio: "inherit" });

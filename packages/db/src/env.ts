@@ -11,11 +11,11 @@ const stringBoolean = z.coerce
 
 const EnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
-	DB_HOST: z.string(),
+	/* DB_HOST: z.string(),
 	DB_USER: z.string(),
 	DB_PASSWORD: z.string(),
 	DB_NAME: z.string(),
-	DB_PORT: z.coerce.number(),
+	DB_PORT: z.coerce.number(), */
 	DATABASE_URL: z.string(),
 	DB_MIGRATING: stringBoolean,
 	DB_SEEDING: stringBoolean,

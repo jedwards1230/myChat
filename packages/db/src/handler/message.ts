@@ -1,8 +1,8 @@
 import { sql } from "drizzle-orm";
 
 import type { GetMessage } from "../types";
-import { db } from "../db";
-import { Message } from "../db/schema/message";
+import { db } from "../client";
+import { Message } from "../schema/message";
 import { extendedMessageFileRepo } from "./messageFile";
 
 const _getMessage = db.query.Message.findFirst({

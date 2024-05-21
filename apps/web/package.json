@@ -4,15 +4,16 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "yarn with-env next dev",
-		"build": "yarn with-env next build",
+		"dev": "dotenvx run -- next dev",
+		"build": "dotenvx run -- next build",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
-		"start": "yarn with-env next start",
-		"typecheck": "tsc --noEmit",
-		"with-env": "dotenvx run -f ../../.env --"
+		"start": "dotenvx run -- next start",
+		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@mychat/api": "workspace:*",
+		"@mychat/db": "workspace:*",
 		"@tanstack/react-query": "^5.37.1",
 		"@trpc/client": "11.0.0-rc.374",
 		"@trpc/react-query": "11.0.0-rc.374",
@@ -25,6 +26,7 @@
 		"@dotenvx/dotenvx": "^0.43.0",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
+		"@mychat/tailwind-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"@types/node": "^20.12.12",
 		"@types/react": "^18.3.2",

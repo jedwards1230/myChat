@@ -5,13 +5,13 @@ import { cosineDistance } from "pgvector/drizzle-orm";
 import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
 import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
 
-import type { InsertDocument } from "../db/schema/document";
-import type { Message } from "../db/schema/message";
-import type { Thread } from "../db/schema/thread";
-import type { User } from "../db/schema/user";
+import type { InsertDocument } from "../schema/document";
+import type { Message } from "../schema/message";
+import type { Thread } from "../schema/thread";
+import type { User } from "../schema/user";
 import type { Document } from "../types";
-import { db } from "../db";
-import { DatabaseDocument, EmbedItem } from "../db/schema/document";
+import { db } from "../client";
+import { DatabaseDocument, EmbedItem } from "../schema/document";
 import tokenizer from "../tokenizer";
 
 export interface DocumentMetaParams {

@@ -29,7 +29,7 @@
 		"dev:web": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/native",
 		"dev:native": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/web",
 		"export": "turbo export",
-		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
+		"export:docker": "dotenvx run -- sh -c 'docker build --build-arg=\"TURBO_TOKEN=$TURBO_TOKEN\" --build-arg=\"TURBO_TEAM=$TURBO_TEAM\" -f docker/Dockerfile -t mychat:local .'",
 		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
 		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
 		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",

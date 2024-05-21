@@ -2,8 +2,8 @@ import { sql } from "drizzle-orm";
 
 import type { Document, RunForProcessing } from "../types";
 import type { DocumentSearchParams } from "./document";
-import { db } from "../db";
-import { AgentRun } from "../db/schema/agentRun";
+import { db } from "../client";
+import { AgentRun } from "../schema/agentRun";
 import { RunForProcessingRelations } from "../types";
 import { extendedDocumentRepo } from "./document";
 import { extendedMessageRepo } from "./message";

@@ -4,24 +4,21 @@
 /apps/native/node_modules/
 /apps/native/ios/
 /apps/native/dist/
+
 /**/tests/
 node_modules/
 .turbo/
 .github/
 .vscode/
-docs/
+
 docker/**/*.yml
+docker/Dockerfile
+docker/funnel.json
+
+out/
+deprecated/
 
 logs
 
-secrets/
 .env
 .env.example
-
-compose.yml
-compose.prod.yml
-compose.test.yml
-docker.sh
-Dockerfile
-funnel.json
-*.code-workspace

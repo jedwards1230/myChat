@@ -4,5 +4,7 @@ node_modules/
 .turbo
 .yarn/*
 !.yarn/patches/
+
 logs
 deprecated/
+out/

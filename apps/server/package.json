@@ -33,7 +33,6 @@
 		"fastify": "^4.27.0",
 		"fastify-plugin": "^4.5.1",
 		"fastify-type-provider-zod": "^1.2.0",
-		"json-stringify-safe": "^5.0.1",
 		"typeorm": "0.3.20",
 		"typeorm-fastify-plugin": "^1.0.5",
 		"zod": "^3.23.8"
@@ -45,7 +44,6 @@
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"@types/jest": "^29.5.12",
-		"@types/json-stringify-safe": "^5.0.3",
 		"@types/morgan": "^1.9.9",
 		"@types/node": "^20.12.12",
 		"@types/supertest": "^6.0.2",

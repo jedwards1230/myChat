@@ -2,7 +2,7 @@ name: CI
 
 on:
     push:
-        branches: ["main"]
+        branches: ["main", "dev"]
 
 jobs:
     build:
@@ -31,13 +31,14 @@ jobs:
                   echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
                   echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
                   echo "REPO_URL=https://github.com/${{ github.repository }}" >> "$GITHUB_OUTPUT"
-
+                  echo "IMAGE_TAG=${{ github.ref == 'refs/heads/main' && 'latest' || format('commit-{0}', github.sha) }}" >> "$GITHUB_OUTPUT"
+            
             - name: Build and push
               uses: docker/build-push-action@v5
               with:
                   platforms: linux/arm64
                   push: true
-                  tags: ${{steps.repo_details.outputs.REPO}}:latest
+                  tags: ${{ steps.repo_details.outputs.REPO }}:${{ steps.repo_details.outputs.IMAGE_TAG }}
                   file: docker/Dockerfile
                   build-args: |
                       COMMIT_HASH=${{ steps.repo_details.outputs.COMMIT_HASH }}

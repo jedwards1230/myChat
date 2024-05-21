@@ -1,7 +1,7 @@
-import type { SelectThread } from "../db/schema/thread";
+import type { SelectThread } from "../schema/thread";
 import type { GetMessage } from "../types";
-import { db } from "../db";
-import { Thread } from "../db/schema/thread";
+import { db } from "../client";
+import { Thread } from "../schema/thread";
 import tokenizer from "../tokenizer";
 
 export const extendedThreadRepo = () => {

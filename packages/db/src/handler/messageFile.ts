@@ -1,11 +1,11 @@
 import { eq, inArray } from "drizzle-orm";
 
-import type { InsertMessage, SelectMessage } from "../db/schema";
-import type { InsertMessageFile, SelectMessageFile } from "../db/schema/messageFile";
+import type { InsertMessage, SelectMessage } from "../schema";
+import type { InsertMessageFile, SelectMessageFile } from "../schema/messageFile";
 import type { GetMessageFile } from "../types";
-import { db } from "../db";
-import { Message } from "../db/schema";
-import { FileData, MessageFile } from "../db/schema/messageFile";
+import { db } from "../client";
+import { Message } from "../schema";
+import { FileData, MessageFile } from "../schema/messageFile";
 
 export const extendedMessageFileRepo = () => {
 	const repo = db.select().from(MessageFile);
