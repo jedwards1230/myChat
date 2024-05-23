@@ -30,6 +30,7 @@
 		"lint": "eslint",
 		"generate": "drizzle-kit generate",
 		"migrate": "drizzle-kit migrate",
+		"npm-check": "npm-check",
 		"push": "drizzle-kit push",
 		"studio": "drizzle-kit studio",
 		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
@@ -52,6 +53,7 @@
 		"@mychat/tsconfig": "workspace:*",
 		"drizzle-kit": "^0.21.4",
 		"eslint": "^9.3.0",
+		"npm-check": "^6.0.1",
 		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},

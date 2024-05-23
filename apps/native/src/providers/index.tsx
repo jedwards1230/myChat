@@ -2,8 +2,9 @@ import { AuthProvider } from "@/providers/AuthProvider";
 import { QueryClientProvider } from "@/providers/QueryClientProvider";
 import { ThemeProvider } from "@/providers/ThemeProvider";
 
+import { ToastProvider } from "@mychat/ui/providers/ToastProvider";
+
 import { PlatformProviders } from "./PlatformProviders";
-import { ToastProvider } from "./ToastProvider";
 
 export const Providers = (props: { children: React.ReactNode }) => (
 	<ThemeProvider>

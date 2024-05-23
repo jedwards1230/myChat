@@ -11,17 +11,19 @@
 		"./schemas/models": "./src/schemas/models/index.ts"
 	},
 	"scripts": {
+		"clean": "rm -rf .turbo",
 		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
+		"npm-check": "npm-check",
 		"test": "jest",
-		"typecheck": "tsc",
-		"clean": "rm -rf .turbo"
+		"typecheck": "tsc"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.3.0",
+		"npm-check": "^6.0.1",
 		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},

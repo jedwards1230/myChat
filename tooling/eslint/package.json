@@ -13,6 +13,7 @@
 	"scripts": {
 		"clean": "rm -rf .turbo node_modules",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"npm-check": "npm-check",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
@@ -34,6 +35,8 @@
 		"@mychat/tsconfig": "workspace:*",
 		"@types/eslint-config-prettier": "^6.11.3",
 		"eslint": "^9.3.0",
+		"@eslint/js": "^9.3.0",
+		"npm-check": "^6.0.1",
 		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},

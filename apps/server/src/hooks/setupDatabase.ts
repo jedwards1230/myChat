@@ -1,6 +1,5 @@
 import type { FastifyInstance } from "fastify";
 import fastifyPlugin from "fastify-plugin";
-import fastifyORM from "typeorm-fastify-plugin";
 
 import { AppDataSource, initDb, resetDatabase } from "@mychat/db/index";
 

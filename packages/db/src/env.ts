@@ -1,5 +1,3 @@
-import { config } from "dotenv";
-import { expand } from "dotenv-expand";
 import { z, ZodError } from "zod";
 
 const stringBoolean = z.coerce
@@ -15,8 +13,6 @@ const EnvSchema = z.object({
 });
 
 export type EnvSchema = z.infer<typeof EnvSchema>;
-
-expand(config());
 
 try {
 	EnvSchema.parse(process.env);

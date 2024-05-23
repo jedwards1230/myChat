@@ -21,6 +21,7 @@
 		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
+		"npm-check": "npm-check",
 		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
 		"ui-add": "bunx @react-native-reusables/cli@latest add && prettier src --write --list-different"
 	},
@@ -35,13 +36,20 @@
 		"@radix-ui/react-popover": "^1.0.7",
 		"@radix-ui/react-select": "^2.0.0",
 		"@radix-ui/react-switch": "^1.0.3",
+		"@react-native-async-storage/async-storage": "1.23.1",
+		"@react-navigation/native": "^6.1.17",
 		"clsx": "^2.1.1",
 		"class-variance-authority": "^0.7.0",
+		"cmdk": "^1.0.0",
+		"nativewind": "^4.0.36",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-native": "0.74.1",
-		"tailwind-merge": "^2.3.0",
-		"tailwindcss-animate": "^1.0.7"
+		"react-native-toast-message": "^2.2.0",
+		"react-native-reanimated": "3.11.0",
+		"react-native-root-siblings": "^5.0.1",
+		"react-native-safe-area-context": "4.10.1",
+		"tailwind-merge": "^2.3.0"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
@@ -49,6 +57,7 @@
 		"@mychat/tailwind-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.3.0",
+		"npm-check": "^6.0.1",
 		"prettier": "^3.2.5",
 		"tailwindcss": "^3.4.3",
 		"typescript": "beta"

@@ -1,0 +1,8 @@
+{
+	"depcheck": {
+		"ignoreMatches": [
+			"@babel/core",
+			"@babel/preset-typescript"
+		]
+	}
+}
