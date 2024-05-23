@@ -31,7 +31,8 @@ jobs:
                   echo "REPO=${GITHUB_REPOSITORY@L}" >> "$GITHUB_OUTPUT"
                   echo "COMMIT_HASH=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
                   echo "REPO_URL=https://github.com/${{ github.repository }}" >> "$GITHUB_OUTPUT"
-                  echo "IMAGE_TAG=${{ github.ref == 'refs/heads/main' && 'latest' || github.sha }}" >> "$GITHUB_OUTPUT"
+                  BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | sed 's/\//-/g')
+                  echo "IMAGE_TAG=$( [ "${{ github.ref }}" = 'refs/heads/main' ] && echo 'latest' || echo $BRANCH_NAME )" >> "$GITHUB_OUTPUT"
 
             - name: Build and push
               uses: docker/build-push-action@v5
