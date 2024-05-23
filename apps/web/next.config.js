@@ -18,6 +18,7 @@ const nextConfig = {
 		"@mychat/tailwind-config",
 		"@mychat/eslint-config",
 		"@mychat/tsconfig",
+		"@mychat/ui",
 	],
 
 	/** We already do linting and typechecking as separate tasks in CI */

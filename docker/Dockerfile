@@ -22,22 +22,22 @@ RUN bun install
 RUN bun run build:web
 
 ## Runner
-FROM base AS runner
+FROM node:21-alpine AS runner
 WORKDIR /web/
 ENV NODE_ENV=production
-ENV CLIENT_BUILD_DIR=web
 
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs
-USER bun
+RUN adduser --system --uid 1001 --ingroup nodejs nextjs
+USER nextjs
 
 COPY --from=builder /web/apps/web/next.config.js .
 COPY --from=builder /web/apps/web/package.json .
 
 # Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
-COPY --from=builder --chown=bun:nodejs /web/apps/web/.next/standalone ./
-COPY --from=builder --chown=bun:nodejs /web/apps/web/.next/static ./apps/web/.next/static
-COPY --from=builder --chown=bun:nodejs /web/apps/web/public ./apps/web/public
+COPY --from=builder --chown=nextjs:nodejs /web/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /web/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nextjs:nodejs /web/apps/web/public ./apps/web/public
 
-CMD bun apps/web/server.js
+CMD node apps/web/server.js
