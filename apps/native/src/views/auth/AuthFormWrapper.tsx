@@ -1,7 +1,8 @@
 import type { FieldValues, UseFormSetError } from "react-hook-form";
 import { View } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { isFetchError } from "@/lib/fetcher";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import { AuthViewWrapper } from "./AuthViewWrapper";
 

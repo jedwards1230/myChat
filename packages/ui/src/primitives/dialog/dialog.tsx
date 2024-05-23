@@ -1,16 +1,6 @@
-import type {
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "@/primitives/types";
 import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useAugmentedRef, useControllableState } from "@/primitives/hooks";
-import * as Slot from "@/primitives/slot";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import type {
@@ -20,6 +10,16 @@ import type {
 	DialogRootProps,
 	RootContext,
 } from "./types";
+import type {
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "~/primitives/types";
+import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
+import * as Slot from "~/primitives/slot";
 
 const DialogContext = React.createContext<RootContext | null>(null);
 

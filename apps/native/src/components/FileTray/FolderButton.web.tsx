@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import type { RouterChildrenProps, RouterData } from "../FileRouter";
 import { FileRouter } from "../FileRouter";

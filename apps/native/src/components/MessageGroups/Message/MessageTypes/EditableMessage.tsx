@@ -1,13 +1,14 @@
 import type { Message } from "@/types";
 import { View } from "react-native";
-import { Button } from "@/components/ui/Button";
-import { Text } from "@/components/ui/Text";
-import { Textarea } from "@/components/ui/Textarea";
 import { useMessagePatch } from "@/hooks/fetchers/Message/useMessagePatch";
 import { ErrorMessage, parseError } from "@/views/auth/AuthFormWrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
+
+import { Button } from "@mychat/ui/native/Button";
+import { Text } from "@mychat/ui/native/Text";
+import { Textarea } from "@mychat/ui/native/Textarea";
 
 import { useGroupStore } from "../../GroupStore";
 

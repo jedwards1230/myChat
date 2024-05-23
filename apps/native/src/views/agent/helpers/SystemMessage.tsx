@@ -1,9 +1,10 @@
 import type { Agent } from "@/types";
 import { useState } from "react";
-import { Section } from "@/components/ui/Section";
-import { Text } from "@/components/ui/Text";
-import { Textarea } from "@/components/ui/Textarea";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
+
+import { Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
+import { Textarea } from "@mychat/ui/native/Textarea";
 
 export function SystemMessage({ agent }: { agent: Agent }) {
 	const [systemMessage, setSystemMessage] = useState(agent.systemMessage);

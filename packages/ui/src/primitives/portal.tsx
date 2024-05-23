@@ -1,5 +1,6 @@
 import * as React from "react";
-import { create } from "zustand";
+
+import { create } from "@mychat/shared/lib/zustand";
 
 const DEFAULT_PORTAL_HOST = "INTERNAL_PRIMITIVE_DEFAULT_HOST_NAME";
 

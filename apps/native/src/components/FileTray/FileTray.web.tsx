@@ -1,8 +1,9 @@
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
-import { Icon } from "@/components/ui/Icon";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { parseLocalFiles } from "@/hooks/useFileInformation";
+
+import { Icon } from "@mychat/ui/native/Icon";
 
 import { FileRouter } from "../FileRouter";
 import { FileButton } from "./FileButton";

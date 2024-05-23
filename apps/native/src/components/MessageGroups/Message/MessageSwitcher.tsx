@@ -1,9 +1,10 @@
 import type { Message } from "@/types";
 import { Pressable, View } from "react-native";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
 import { useThreadPatch } from "@/hooks/fetchers/Thread/useThreadPatch";
 import { cn } from "@/lib/utils";
+
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 import type { ChatMessageGroup } from "../MessageGroup";
 

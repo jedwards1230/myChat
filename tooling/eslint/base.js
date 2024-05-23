@@ -2,6 +2,7 @@
 
 import eslint from "@eslint/js";
 import prettierPlugin from "eslint-config-prettier";
+// @ts-ignore
 import turboPlugin from "eslint-config-turbo";
 import importPlugin from "eslint-plugin-import";
 import tseslint from "typescript-eslint";
@@ -9,7 +10,7 @@ import tseslint from "typescript-eslint";
 export default tseslint.config(
 	{
 		// Globally ignored files
-		ignores: ["**/.eslintrc.js", "**/*.config.js", "dist", "yarn.lock", ".turbo"],
+		ignores: ["**/.eslintrc.js", "**/*.config.js", "dist", "bun.lockb", ".turbo"],
 	},
 	{
 		files: ["**/*.js", "**/*.ts", "**/*.tsx"],
@@ -32,12 +33,6 @@ export default tseslint.config(
 			"@typescript-eslint/consistent-type-imports": [
 				"warn",
 				{ prefer: "type-imports", fixStyle: "separate-type-imports" },
-			],
-			"@typescript-eslint/no-unnecessary-condition": [
-				"error",
-				{
-					allowConstantLoopConditions: true,
-				},
 			],
 			"@typescript-eslint/no-unsafe-member-access": "off",
 			"@typescript-eslint/no-unsafe-assignment": "off",

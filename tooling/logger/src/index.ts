@@ -13,4 +13,3 @@ export function getLogger({ prefix, type }: BuildOpts) {
 	const logger = buildLoggers(type);
 	return prefix ? logger.child({ prefix }) : logger;
 }
-

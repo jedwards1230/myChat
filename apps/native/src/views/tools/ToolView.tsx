@@ -1,9 +1,10 @@
 import type { Agent, ToolName } from "@/types";
 import { Pressable, ScrollView, View } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { useToolsQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
 import { useUserQuery } from "@/hooks/fetchers/User/useUserQuery";
 import { cn } from "@/lib/utils";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { ToolDialog } from "./[id]/ToolDialog";

@@ -1,7 +1,8 @@
 import { View } from "react-native";
-import ModalWrapper from "@/components/ui/Modal";
-import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";
+
+import ModalWrapper from "@mychat/ui/native/Modal";
+import { Text } from "@mychat/ui/native/Text";
 
 export default function AgentListModal() {
 	const { data: agents, isSuccess } = useAgentsQuery();

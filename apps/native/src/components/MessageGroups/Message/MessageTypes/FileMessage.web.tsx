@@ -1,8 +1,9 @@
 import type { FileData } from "@/components/FileRouter";
 import { View } from "react-native";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
 import { FileDialog } from "@/views/file/FileDialog";
+
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 export const FileMessage = ({ data }: { data: FileData }) => {
 	return (

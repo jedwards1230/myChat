@@ -62,7 +62,7 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 						const pkg = JSON.parse(content) as PackageJson;
 						for (const dep of answers.deps.split(" ").filter(Boolean)) {
 							const version = await fetch(
-								`https://registry.npmjs.org/-/package/${dep}/dist-tags`
+								`https://registry.npmjs.org/-/package/${dep}/dist-tags`,
 							)
 								.then((res) => res.json())
 								.then((json) => json.latest);
@@ -79,12 +79,12 @@ export default function generator(plop: PlopTypes.NodePlopAPI): void {
 				 * Install deps and format everything
 				 */
 				if ("name" in answers && typeof answers.name === "string") {
-					// execSync("yarn dlx sherif@latest --fix", {
+					// execSync("bunx sherif@latest --fix", {
 					//   stdio: "inherit",
 					// });
-					execSync("yarn", { stdio: "inherit" });
+					execSync("bun", { stdio: "inherit" });
 					execSync(
-						`yarn dlx prettier --write packages/${answers.name}/** --list-different`
+						`bunx prettier --write packages/${answers.name}/** --list-different`,
 					);
 					return "Package scaffolded";
 				}

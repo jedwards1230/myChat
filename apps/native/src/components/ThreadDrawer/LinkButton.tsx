@@ -1,11 +1,10 @@
 import { Pressable } from "react-native";
 import { Link, usePathname, useRouter } from "expo-router";
-import { Text } from "@/components/ui/Text";
 import { useConfigStore } from "@/hooks/stores/configStore";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
 import { cn } from "@/lib/utils";
 
-import { TextClassContext } from "../ui/Text";
+import { Text, TextClassContext } from "@mychat/ui/native/Text";
 
 interface LinkButtonProps {
 	href: Parameters<typeof Link>[0]["href"];

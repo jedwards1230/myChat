@@ -1,15 +1,16 @@
-import type { Option } from "@/components/ui/Select";
 import type { Agent } from "@/types";
+import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
+import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
+
+import type { Option } from "@mychat/ui/native/Select";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/Select";
-import { Text } from "@/components/ui/Text";
-import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
-import { useModelsQuery } from "@/hooks/fetchers/useModelsQuery";
+} from "@mychat/ui/native/Select";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ModelSelector({
 	container,

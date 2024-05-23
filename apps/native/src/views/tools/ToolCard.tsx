@@ -1,10 +1,11 @@
 import type { AgentTool } from "@/types";
 import { View } from "react-native";
 import Toast from "react-native-toast-message";
-import { Switch } from "@/components/ui/Switch";
-import { Text } from "@/components/ui/Text";
 import { useAgentToolPatch } from "@/hooks/fetchers/AgentTool/useAgentToolPatch";
 import { useAgentToolQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+
+import { Switch } from "@mychat/ui/native/Switch";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ToolCard({ agentId, toolId }: { agentId: string; toolId: string }) {
 	const agentToolQuery = useAgentToolQuery(agentId, toolId);

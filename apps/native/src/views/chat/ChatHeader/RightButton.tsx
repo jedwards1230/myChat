@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import { Link } from "expo-router";
-import { Icon } from "@/components/ui/Icon";
 import { useConfigStore } from "@/hooks/stores/configStore";
+
+import { Icon } from "@mychat/ui/native/Icon";
 
 export default function RightButton() {
 	const { threadId } = useConfigStore();

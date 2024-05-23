@@ -2,36 +2,31 @@
 	"$schema": "https://json.schemastore.org/tsconfig",
 	"extends": "@tsconfig/recommended/tsconfig.json",
 	"display": "Default",
+	"exclude": ["node_modules", "build", "dist", ".next", ".expo"],
 	"compilerOptions": {
-		/** Base Options */
-		"lib": [
-			"ESNext",
-			"dom",
-			"dom.iterable"
-		],
+		"lib": ["ESNext", "dom", "dom.iterable"],
 		"target": "ESNext",
 		"moduleDetection": "force",
 		"jsx": "react-jsx",
+		"allowJs": true,
 		"noEmitOnError": true,
 		"emitDecoratorMetadata": true,
 		"esModuleInterop": true,
 		"noErrorTruncation": true,
+		"resolveJsonModule": true,
 
-		/** Keep TSC performant in monorepos */
 		"incremental": true,
-		"disableSourceOfProjectReferenceRedirect": true,
 
-		/** Strictness */
 		"skipLibCheck": true,
 		"strict": true,
-		"allowJs": true,
+		"checkJs": true,
 		"allowImportingTsExtensions": true,
 		"verbatimModuleSyntax": true,
-		
-		/** Transpile using Bundler (not tsc) */
+
 		"module": "ESNext",
 		"moduleResolution": "bundler",
 		"noEmit": true,
+
 		"noFallthroughCasesInSwitch": true,
 		"forceConsistentCasingInFileNames": true,
 		"isolatedModules": true,

@@ -2,21 +2,31 @@
 	"name": "@mychat/ui",
 	"private": true,
 	"version": "0.1.0",
+	"main": "./src/index.ts",
+	"react-native": "./src/index.ts",
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
-		"./primitives": "./src/primitives/index.ts"
+		"./*": "./src/*.{ts,tsx}",
+		"./native": "./src/native/index.ts",
+		"./native/*": "./src/native/*.{ts,tsx}",
+		"./primitives": "./src/primitives/index.ts",
+		"./primitives/*": "./src/primitives/*.ts"
 	},
 	"license": "MIT",
 	"scripts": {
-		"add": "yarn dlx @react-native-reusables/cli@latest add",
-		"clean": "rm -rf .turbo node_modules",
+		"add": "bunx @react-native-reusables/cli@latest add",
+		"build": "tsc",
+		"clean": "rm -rf .turbo node_modules dist",
+		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
 		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
-		"ui-add": "yarn dlx @react-native-reusables/cli@latest add && prettier src --write --list-different"
+		"ui-add": "bunx @react-native-reusables/cli@latest add && prettier src --write --list-different"
 	},
 	"dependencies": {
+		"@expo/vector-icons": "^14.0.2",
+		"@mychat/shared": "workspace:*",
 		"@radix-ui/react-alert-dialog": "^1.0.5",
 		"@radix-ui/react-checkbox": "^1.0.4",
 		"@radix-ui/react-dialog": "^1.0.5",
@@ -25,6 +35,8 @@
 		"@radix-ui/react-popover": "^1.0.7",
 		"@radix-ui/react-select": "^2.0.0",
 		"@radix-ui/react-switch": "^1.0.3",
+		"clsx": "^2.1.1",
+		"class-variance-authority": "^0.7.0",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-native": "0.74.1",

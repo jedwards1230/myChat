@@ -1,7 +1,8 @@
 import type { FileInformation } from "@/hooks/useFileInformation";
 import { ExternalLink } from "@/components/ExternalLink";
-import { RowItem, Section } from "@/components/ui/Section";
-import { Text } from "@/components/ui/Text";
+
+import { RowItem, Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
 export function FileMetadata({ file }: { file: FileInformation }) {
 	return (

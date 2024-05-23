@@ -1,7 +1,8 @@
 import type { Agent } from "@/types";
 import { View } from "react-native";
-import { RowItem, Section, SectionBlock } from "@/components/ui/Section";
-import { Text } from "@/components/ui/Text";
+
+import { RowItem, Section, SectionBlock } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
 import { ModelSelector } from "./ModelSelector.web";
 

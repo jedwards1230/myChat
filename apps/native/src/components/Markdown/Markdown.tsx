@@ -1,7 +1,8 @@
 import type { PropsWithChildren } from "react";
 import type { MarkdownProps } from "react-native-markdown-display";
 import Markdown, { MarkdownIt } from "react-native-markdown-display";
-import { useColorScheme } from "@/hooks/useColorScheme";
+
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 
 import { getMarkdownRules } from "./rules";
 

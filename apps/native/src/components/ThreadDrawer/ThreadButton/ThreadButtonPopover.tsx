@@ -2,12 +2,13 @@ import type { Thread } from "@/types";
 import * as React from "react";
 import { Platform } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Button } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/Popover";
-import { Text } from "@/components/ui/Text";
 import { useDeleteActiveThread } from "@/hooks/actions";
 import { useUserData } from "@/hooks/stores/useUserData";
+
+import { Button } from "@mychat/ui/native/Button";
+import { Icon } from "@mychat/ui/native/Icon";
+import { Popover, PopoverContent, PopoverTrigger } from "@mychat/ui/native/Popover";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	const session = useUserData((s) => s.session);

@@ -5,9 +5,10 @@ import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { SplashScreen } from "expo-router";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { NAV_THEME } from "@/lib/constants/ReactNavTheme";
 import { ThemeProvider as BaseProvider } from "@react-navigation/native";
+
+import { NAV_THEME } from "@mychat/ui/constants/ReactNavTheme";
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 
 const LIGHT_THEME: Theme = {
 	dark: false,

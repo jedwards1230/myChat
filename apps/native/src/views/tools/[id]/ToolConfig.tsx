@@ -1,16 +1,17 @@
 import type { ToolName } from "@/types";
 import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
+import { useToolsSuspenseQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+import { Picker } from "@react-native-picker/picker";
+
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "@/components/ui/Select";
-import { Text } from "@/components/ui/Text";
-import { useToolsSuspenseQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
-import { Picker } from "@react-native-picker/picker";
+} from "@mychat/ui/native/Select";
+import { Text } from "@mychat/ui/native/Text";
 
 import { ToolForm } from "./ToolForm";
 

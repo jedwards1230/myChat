@@ -1,6 +1,7 @@
 import { View } from "react-native";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
+
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 import { Dropdown } from "./Dropdown";
 

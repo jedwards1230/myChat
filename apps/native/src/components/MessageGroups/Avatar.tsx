@@ -1,8 +1,9 @@
 import { View } from "react-native";
 import { Image } from "expo-image";
-import { Text } from "@/components/ui/Text";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { cn } from "@/lib/utils";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import type { ChatMessageGroup } from "./MessageGroup";
 

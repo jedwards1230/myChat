@@ -3,9 +3,10 @@ import type { TextStyle } from "react-native";
 import type { SyntaxHighlighterProps as DefaultProps } from "react-syntax-highlighter";
 import * as React from "react";
 import { View } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { PrismAsync as Highlighter } from "react-syntax-highlighter";
 import { vs, vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
+
+import { Text } from "@mychat/ui/native/Text";
 
 interface Node {
 	children?: Node[];

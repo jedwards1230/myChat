@@ -1,5 +1,6 @@
 import winston, { format } from "winston";
-import { mergeWithCommonFormats, formats } from "./formats";
+
+import { formats, mergeWithCommonFormats } from "./formats";
 import { isProd, logsDir } from "./utils";
 
 export type Loggers = "common" | "stream" | "access" | "db";

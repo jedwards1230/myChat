@@ -1,7 +1,8 @@
 import type { Agent } from "@/types";
 import Toast from "react-native-toast-message";
-import { Switch } from "@/components/ui/Switch";
 import { useAgentPatch } from "@/hooks/fetchers/Agent/useAgentPatch";
+
+import { Switch } from "@mychat/ui/native/Switch";
 
 export function ToggleToolsSwitch({ agent }: { agent: Agent }) {
 	const agentEditMut = useAgentPatch();

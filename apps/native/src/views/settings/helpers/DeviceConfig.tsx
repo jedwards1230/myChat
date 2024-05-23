@@ -4,9 +4,10 @@ import { Platform, View } from "react-native";
 import * as Application from "expo-application";
 import * as Network from "expo-network";
 import * as SystemUI from "expo-system-ui";
-import { RowItem, Section } from "@/components/ui/Section";
-import { Text } from "@/components/ui/Text";
 import { BASE_HOST } from "@/lib/fetcher";
+
+import { RowItem, Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
 export function DeviceConfig() {
 	const [mounted, setMounted] = useState(false);

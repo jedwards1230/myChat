@@ -1,3 +1,8 @@
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, Text, View } from "react-native";
+
+import type { ToastRootProps } from "./types";
 import type {
 	PressableRef,
 	SlottablePressableProps,
@@ -5,13 +10,8 @@ import type {
 	SlottableViewProps,
 	TextRef,
 	ViewRef,
-} from "@/primitives/types";
-import type { GestureResponderEvent } from "react-native";
-import * as React from "react";
-import { Pressable, Text, View } from "react-native";
-import * as Slot from "@/primitives/slot";
-
-import type { ToastRootProps } from "./types";
+} from "~/primitives/types";
+import * as Slot from "~/primitives/slot";
 
 interface RootContext extends ToastRootProps {
 	nativeID: string;

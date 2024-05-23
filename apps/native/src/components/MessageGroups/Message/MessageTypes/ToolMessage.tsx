@@ -2,7 +2,8 @@ import type { Message } from "@/types";
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import Markdown from "@/components/Markdown/Markdown";
-import { Text } from "@/components/ui/Text";
+
+import { Text } from "@mychat/ui/native/Text";
 
 export const ToolCallMessage = ({ message }: { message: Message }) => {
 	const [isVisible, setIsVisible] = useState(false);

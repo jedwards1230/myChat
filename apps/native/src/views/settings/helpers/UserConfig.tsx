@@ -1,9 +1,10 @@
-import { Button } from "@/components/ui/Button";
-import { RowItem, Section } from "@/components/ui/Section";
-import { Text } from "@/components/ui/Text";
 import { useDeleteAllThreads } from "@/hooks/actions";
 import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
 import { useUserData } from "@/hooks/stores/useUserData";
+
+import { Button } from "@mychat/ui/native/Button";
+import { RowItem, Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
 import { LogoutButton } from "../helpers";
 

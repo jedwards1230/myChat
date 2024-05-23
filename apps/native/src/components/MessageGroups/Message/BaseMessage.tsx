@@ -1,6 +1,7 @@
 import type { Message } from "@/types";
 import { View } from "react-native";
-import { Text } from "@/components/ui/Text";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import type { ChatMessageGroup } from "../MessageGroup";
 import { MessageActions } from "./MessageActions";

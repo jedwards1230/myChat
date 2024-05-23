@@ -1,4 +1,11 @@
 import { useState } from "react";
+import { useDeleteActiveThread } from "@/hooks/actions";
+import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
+import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
+import { useUserQuery } from "@/hooks/fetchers/User/useUserQuery";
+import { AgentDialog } from "@/views/agent/AgentDialog.web";
+
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -6,15 +13,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
-} from "@/components/ui/DropdownMenu";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
-import { useDeleteActiveThread } from "@/hooks/actions";
-import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
-import { useThreadQuery } from "@/hooks/fetchers/Thread/useThreadQuery";
-import { useUserQuery } from "@/hooks/fetchers/User/useUserQuery";
-import { AgentDialog } from "@/views/agent/AgentDialog.web";
+} from "@mychat/ui/native/DropdownMenu";
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 export function Dropdown({
 	children,

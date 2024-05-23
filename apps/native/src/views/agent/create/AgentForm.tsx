@@ -1,11 +1,12 @@
 import type { AgentCreateSchema } from "@/types";
 import { useState } from "react";
 import { View } from "react-native";
-import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/Input";
-import { Text } from "@/components/ui/Text";
-import { Textarea } from "@/components/ui/Textarea";
 import { useAgentPost } from "@/hooks/fetchers/Agent/useAgentPost";
+
+import { Button } from "@mychat/ui/native/Button";
+import { Input } from "@mychat/ui/native/Input";
+import { Text } from "@mychat/ui/native/Text";
+import { Textarea } from "@mychat/ui/native/Textarea";
 
 const defaultAgent: AgentCreateSchema = {
 	name: "",

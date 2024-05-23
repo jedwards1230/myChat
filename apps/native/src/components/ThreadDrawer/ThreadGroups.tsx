@@ -2,7 +2,8 @@ import type { Thread } from "@/types";
 import { useMemo } from "react";
 import { View } from "react-native";
 
-import { Label } from "../ui/Label";
+import { Label } from "@mychat/ui/native/Label";
+
 import { ThreadButton } from "./ThreadButton/ThreadButton";
 
 interface ThreadGroup {

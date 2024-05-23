@@ -26,7 +26,8 @@
 		"typescript": "beta"
 	},
 	"dependencies": {
-		"zod": "^3.23.8"
+		"zod": "^3.23.8",
+		"zustand": "^4.5.2"
 	},
 	"prettier": "@mychat/prettier-config"
 }

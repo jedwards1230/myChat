@@ -1,5 +1,7 @@
 "use client";
 
+import { useActions } from "@/hooks/actions";
+
 import {
 	CommandDialog as CommandDialogComponent,
 	CommandEmpty,
@@ -7,8 +9,7 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "@/components/ui/Command";
-import { useActions } from "@/hooks/actions";
+} from "@mychat/ui/native/Command";
 
 export function CommandDialog({
 	open,

@@ -4,15 +4,15 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"start": "bun run src/index.ts",
-		"start:prod": "bun run src/index.ts",
-		"xtypecheck": "tsc --noEmit",
+		"clean": "rm -rf .turbo logs node_modules",
 		"xdev": "bun --watch run src/index.ts",
 		"dev:clean": "DEBUG_RESET_DB=true bun --watch run src/index.ts",
-		"test": "export TEST_ENV=true jest",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
-		"clean": "rm -rf .turbo logs"
+		"start": "bun run src/index.ts",
+		"start:prod": "bun run src/index.ts",
+		"test": "export TEST_ENV=true jest",
+		"xtypecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@expo/server": "^0.4.2",

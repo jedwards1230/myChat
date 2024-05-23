@@ -1,6 +1,7 @@
 import { View } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { FileDialog } from "@/views/file/FileDialog";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import type { FileData } from "../FileRouter";
 import { RemoveFileButton } from "./DeleteButton";

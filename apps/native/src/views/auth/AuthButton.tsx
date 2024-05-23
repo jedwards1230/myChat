@@ -1,7 +1,8 @@
 import { forwardRef } from "react";
 import { Pressable } from "react-native";
-import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
+
+import { Text } from "@mychat/ui/native/Text";
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable>;
 

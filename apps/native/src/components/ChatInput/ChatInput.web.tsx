@@ -1,5 +1,6 @@
+import { Textarea } from "@mychat/ui/native/Textarea";
+
 import type { ChatInputProps } from "./types";
-import { Textarea } from "../ui/Textarea";
 
 export default function ChatInput({ input, setInput, handleSubmit }: ChatInputProps) {
 	return (

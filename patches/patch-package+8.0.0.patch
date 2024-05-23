@@ -1,0 +1,35 @@
+diff --git a/node_modules/patch-package/dist/makePatch.js b/node_modules/patch-package/dist/makePatch.js
+index d8d0925..7c488cd 100644
+--- a/node_modules/patch-package/dist/makePatch.js
++++ b/node_modules/patch-package/dist/makePatch.js
+@@ -109,18 +109,18 @@ function makePatch({ packagePathSpecifier, appPath, packageManager, includePaths
+             resolutions: resolveRelativeFileDependencies_1.resolveRelativeFileDependencies(appPath, appPackageJson.resolutions || {}),
+         }));
+         const packageVersion = getPackageVersion_1.getPackageVersion(path_1.join(path_1.resolve(packageDetails.path), "package.json"));
+-        [".npmrc", ".yarnrc", ".yarn"].forEach((rcFile) => {
++        [".npmrc", ".yarnrc", ".yarn", "bunfig.toml", ".env"].forEach((rcFile) => {
+             const rcPath = path_1.join(appPath, rcFile);
+             if (fs_extra_1.existsSync(rcPath)) {
+                 fs_extra_1.copySync(rcPath, path_1.join(tmpRepo.name, rcFile), { dereference: true });
+             }
+         });
+         if (packageManager === "yarn") {
+-            console_1.default.info(chalk_1.default.grey("•"), `Installing ${packageDetails.name}@${packageVersion} with yarn`);
++            console_1.default.info(chalk_1.default.grey("•"), `Installing ${packageDetails.name}@${packageVersion} with bun`);
+             try {
+                 // try first without ignoring scripts in case they are required
+                 // this works in 99.99% of cases
+-                spawnSafe_1.spawnSafeSync(`yarn`, ["install", "--ignore-engines"], {
++                spawnSafe_1.spawnSafeSync(`bun`, ["install"], {
+                     cwd: tmpRepoNpmRoot,
+                     logStdErrOnError: false,
+                 });
+@@ -128,7 +128,7 @@ function makePatch({ packagePathSpecifier, appPath, packageManager, includePaths
+             catch (e) {
+                 // try again while ignoring scripts in case the script depends on
+                 // an implicit context which we haven't reproduced
+-                spawnSafe_1.spawnSafeSync(`yarn`, ["install", "--ignore-engines", "--ignore-scripts"], {
++                spawnSafe_1.spawnSafeSync(`bun`, ["install", "--ignore-scripts"], {
+                     cwd: tmpRepoNpmRoot,
+                 });
+             }

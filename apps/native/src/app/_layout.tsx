@@ -9,7 +9,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { Providers } from "@/providers";
 import FontAwesome from "@expo/vector-icons/FontAwesome";
 
-import { PortalHost } from "@mychat/ui/primitives";
+import { Primitives } from "@mychat/ui";
 
 export const unstable_settings = {
 	initialRouteName: "(app)/index",
@@ -57,7 +57,7 @@ function RootProviders() {
 				<Stack.Screen name="agent/create/index" />
 				<Stack.Screen name="settings" options={{ presentation: "modal" }} />
 			</Stack>
-			<PortalHost />
+			<Primitives.PortalHost />
 		</Providers>
 	);
 }

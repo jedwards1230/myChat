@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 import { useRouter } from "expo-router";
-import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import type { RouterChildrenProps, RouterData } from "../FileRouter";
 import { RemoveFileButton } from "./DeleteButton";

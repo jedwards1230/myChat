@@ -1,9 +1,10 @@
 import type { DrawerNavigationProp } from "@react-navigation/drawer";
 import type { ParamListBase } from "@react-navigation/native";
 import { Pressable, View } from "react-native";
-import { Icon } from "@/components/ui/Icon";
 import { useDrawerStatus } from "@react-navigation/drawer";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
+
+import { Icon } from "@mychat/ui/native/Icon";
 
 export function DrawerScreenWrapper({ children }: { children: React.ReactNode }) {
 	return (

@@ -1,14 +1,3 @@
-import type { LayoutPosition } from "@/primitives/hooks";
-import type {
-	ForceMountable,
-	PositionedContentProps,
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "@/primitives/types";
 import type {
 	GestureResponderEvent,
 	LayoutChangeEvent,
@@ -16,9 +5,6 @@ import type {
 } from "react-native";
 import * as React from "react";
 import { BackHandler, Pressable, Text, View } from "react-native";
-import { useControllableState, useRelativePosition } from "@/primitives/hooks";
-import { Portal as RNPPortal } from "@/primitives/portal";
-import * as Slot from "@/primitives/slot";
 
 import type {
 	RootContext,
@@ -30,6 +16,20 @@ import type {
 	SelectSeparatorProps,
 	SelectValueProps,
 } from "./types";
+import type { LayoutPosition } from "~/primitives/hooks";
+import type {
+	ForceMountable,
+	PositionedContentProps,
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "~/primitives/types";
+import { useControllableState, useRelativePosition } from "~/primitives/hooks";
+import { Portal as RNPPortal } from "~/primitives/portal";
+import * as Slot from "~/primitives/slot";
 
 interface IRootContext extends RootContext {
 	triggerPosition: LayoutPosition | null;

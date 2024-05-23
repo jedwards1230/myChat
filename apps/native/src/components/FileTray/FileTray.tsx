@@ -1,8 +1,9 @@
 import { Pressable, View } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import { Icon } from "@/components/ui/Icon";
 import { useFileStore } from "@/hooks/stores/fileStore";
 import { parseLocalFiles } from "@/hooks/useFileInformation";
+
+import { Icon } from "@mychat/ui/native/Icon";
 
 import { FileButton } from "./FileButton";
 

@@ -6,7 +6,7 @@
 			"name": "Next.js",
 			"type": "node-terminal",
 			"request": "launch",
-			"command": "yarn dev",
+			"command": "bun dev",
 			"cwd": "${workspaceFolder}/apps/web/",
 			"skipFiles": ["<node_internals>/**"]
 		},

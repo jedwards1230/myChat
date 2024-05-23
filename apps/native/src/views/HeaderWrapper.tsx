@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import NativeSafeAreaView from "@/components/NativeSafeAreaView";
-import { Text } from "@/components/ui/Text";
+
+import { Text } from "@mychat/ui/native/Text";
 
 export function HeaderWrapper({
 	title,

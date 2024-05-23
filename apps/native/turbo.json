@@ -2,16 +2,12 @@
 	"extends": ["//"],
 	"pipeline": {
 		"build:css": {
-			"dependsOn": ["lint"],
+			"dependsOn": ["typecheck"],
 			"outputs": ["node_modules/.cache/nativewind/**"]
 		},
 		"build": {
 			"dependsOn": ["build:css"],
 			"outputs": ["dist/**"]
-		},
-		"start": {
-			"dependsOn": ["^build"],
-			"outputs": ["packages/server/logs/**"]
 		}
 	}
 }

@@ -1,6 +1,7 @@
 import { View } from "react-native";
-import { Button } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
+
+import { Button } from "@mychat/ui/native/Button";
+import { Icon } from "@mychat/ui/native/Icon";
 
 import { HeaderWrapper } from "../HeaderWrapper";
 import { ToolDialog } from "./[id]/ToolDialog.web";

@@ -1,13 +1,14 @@
 import { View } from "react-native";
 import { Link } from "expo-router";
-import { Input } from "@/components/ui/Input";
-import { Label } from "@/components/ui/Label";
-import { Text } from "@/components/ui/Text";
 import { useUserPost } from "@/hooks/fetchers/User/useUserPost";
 import { useUserSessionPost } from "@/hooks/fetchers/User/useUserSessionPost";
 import { AuthInput } from "@/types/schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
+
+import { Input } from "@mychat/ui/native/Input";
+import { Label } from "@mychat/ui/native/Label";
+import { Text } from "@mychat/ui/native/Text";
 
 import { AuthButton } from "./AuthButton";
 import { AuthFormWrapper, ErrorMessage, parseError } from "./AuthFormWrapper";

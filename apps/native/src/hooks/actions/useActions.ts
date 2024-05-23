@@ -1,4 +1,4 @@
-import { Icon } from "@/components/ui/Icon";
+import { Icon } from "@mychat/ui/native/Icon";
 
 import { useConfigStore } from "../stores/configStore";
 import { useDeleteActiveThread, useDeleteAllThreads, useResetDb } from "./actions";

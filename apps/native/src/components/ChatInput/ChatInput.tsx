@@ -1,4 +1,4 @@
-import { Input } from "@/components/ui/Input";
+import { Input } from "@mychat/ui/native/Input";
 
 import type { ChatInputProps } from "./types";
 

@@ -7,8 +7,8 @@ dist/
 /logs
 _.log
 npm-debug.log_
-yarn-debug.log*
-yarn-error.log*
+bun-debug.log*
+bun-error.log*
 lerna-debug.log*
 .pnpm-debug.log*
 

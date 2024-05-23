@@ -5,8 +5,9 @@ import {
 	MessageGroup,
 	useGroupedMessages,
 } from "@/components/MessageGroups/MessageGroup";
-import { Button } from "@/components/ui/Button";
-import { Icon } from "@/components/ui/Icon";
+
+import { Button } from "@mychat/ui/native/Button";
+import { Icon } from "@mychat/ui/native/Icon";
 
 export default function ChatHistory({
 	isLoading,

@@ -1,16 +1,6 @@
-import type {
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "@/primitives/types";
 import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useAugmentedRef, useControllableState } from "@/primitives/hooks";
-import * as Slot from "@/primitives/slot";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 
 import type {
@@ -20,6 +10,16 @@ import type {
 	AlertDialogRootProps,
 	RootContext,
 } from "./types";
+import type {
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "~/primitives/types";
+import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
+import * as Slot from "~/primitives/slot";
 
 const AlertDialogContext = React.createContext<RootContext | null>(null);
 

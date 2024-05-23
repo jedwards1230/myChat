@@ -1,17 +1,5 @@
-import type {
-	ForceMountable,
-	PositionedContentProps,
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "@/primitives/types";
 import * as React from "react";
 import { Pressable, Text, View } from "react-native";
-import { useAugmentedRef, useControllableState } from "@/primitives/hooks";
-import * as Slot from "@/primitives/slot";
 import * as Select from "@radix-ui/react-select";
 
 import type {
@@ -24,6 +12,18 @@ import type {
 	SelectSeparatorProps,
 	SelectValueProps,
 } from "./types";
+import type {
+	ForceMountable,
+	PositionedContentProps,
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "~/primitives/types";
+import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
+import * as Slot from "~/primitives/slot";
 
 const SelectContext = React.createContext<RootContext | null>(null);
 

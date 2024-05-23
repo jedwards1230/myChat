@@ -42,11 +42,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 			backgroundColor: "#ffffff",
 		},
 	},
-	web: {
-		bundler: "metro",
-		output: "single",
-		favicon: "./assets/images/favicon.png",
-	},
 	plugins: [
 		"expo-font",
 		["expo-router", { asyncRoutes: false }],

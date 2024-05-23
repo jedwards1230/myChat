@@ -1,7 +1,8 @@
 import type { Agent } from "@/types";
 import Toast from "react-native-toast-message";
-import ModalWrapper from "@/components/ui/Modal";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+
+import ModalWrapper from "@mychat/ui/native/Modal";
 
 import { AgentView } from "./AgentView";
 

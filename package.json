@@ -1,55 +1,54 @@
 {
-	"name": "@mychat/monorepo",
-	"version": "1.0.0",
-	"description": "",
-	"private": true,
-	"workspaces": [
-		"apps/*",
-		"tooling/*",
-		"packages/*"
-	],
-	"engines": {
-		"node": ">=21.6.1"
-	},
-	"keywords": [],
-	"author": "",
-	"license": "MIT",
-	"packageManager": "yarn@4.2.2",
-	"prettier": "@mychat/prettier-config",
-	"scripts": {
-		"build": "dotenvx run -- turbo build --cache-dir=.turbo",
-		"build:web": "dotenvx run -- turbo build --cache-dir=.turbo --filter=!./apps/native",
-		"build:native": "dotenvx run -- turbo build --cache-dir=.turbo --filter=!./apps/web",
-		"clean": "git clean -xdf node_modules && yarn cache clean && rm -rf ./logs",
-		"clean:workspaces": "turbo clean",
-		"compose": "docker compose -f compose.yml",
-		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
-		"compose:prod": "docker compose -f production.yml",
-		"dev": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel",
-		"dev:web": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/native",
-		"dev:native": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=!./apps/web",
-		"export": "turbo export",
-		"export:docker": "dotenvx run -- sh -c 'docker build --build-arg=\"TURBO_TOKEN=$TURBO_TOKEN\" --build-arg=\"TURBO_TEAM=$TURBO_TEAM\" -f docker/Dockerfile -t mychat:local .'",
-		"format": "turbo format --continue -- --cache --cache-location node_modules/.cache/.prettiercache",
-		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
-		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
-		"lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-		"lint:ws": "yarn dlx sherif@latest",
-		"migrate": "turbo migrate",
-		"start": "turbo start",
-		"start:prod": "turbo start:prod",
-		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
-		"typecheck": "turbo typecheck",
-		"postinstall": "yarn lint:ws"
-	},
-	"resolutions": {
-		"markdown-it": "14.0.0"
-	},
-	"devDependencies": {
-		"@dotenvx/dotenvx": "^0.43.0",
-		"@mychat/prettier-config": "workspace:^",
-		"@mychat/tsconfig": "workspace:*",
-		"@turbo/gen": "^1.13.3",
-		"turbo": "^1.13.3"
-	}
+  "name": "@mychat/monorepo",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*",
+    "tooling/*"
+  ],
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "packageManager": "bun@1.1.9",
+  "prettier": "@mychat/prettier-config",
+  "scripts": {
+    "build": "dotenvx run -- turbo build --parallel --cache-dir=.turbo",
+    "build:web": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=web",
+    "build:native": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=@mychat/native",
+    "clean": "turbo clean --parallel && bun clean:root",
+    "clean:root": "git clean -xdf node_modules",
+    "clean:turbo": "turbo clean --parallel",
+    "compose": "docker compose -f compose.yml",
+    "compose:test": "docker compose -f compose.yml -f compose.test.yml",
+    "compose:prod": "docker compose -f production.yml",
+    "dev": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel",
+    "dev:web": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=@mychat/web",
+    "dev:native": "TURBO_EXPERIMENTAL_UI=true dotenvx run -- turbo dev --parallel --filter=@mychat/native",
+    "export": "turbo export",
+    "export:docker": "dotenvx run -- sh -c 'docker build --build-arg=\"TURBO_TOKEN=$TURBO_TOKEN\" --build-arg=\"TURBO_TEAM=$TURBO_TEAM\" -f docker/Dockerfile -t mychat:local .'",
+    "format": "turbo format --parallel -- --cache --cache-location node_modules/.cache/.prettiercache",
+    "format:fix": "turbo format --parallel -- --write --cache --cache-location node_modules/.cache/.prettiercache",
+    "lint": "turbo lint --parallel -- --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:fix": "turbo lint --parallel -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
+    "lint:ws": "bunx sherif@latest",
+    "migrate": "turbo migrate",
+    "start": "turbo start",
+    "start:prod": "turbo start:prod",
+    "tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
+    "typecheck": "turbo typecheck",
+    "postinstall": "bun lint:ws && patch-package"
+  },
+  "resolutions": {
+    "markdown-it": "14.0.0"
+  },
+  "devDependencies": {
+    "@dotenvx/dotenvx": "^0.43.2",
+    "@mychat/prettier-config": "workspace:^",
+    "@mychat/tsconfig": "workspace:*",
+    "@turbo/gen": "^1.13.3",
+    "patch-package": "^8.0.0",
+    "turbo": "^1.13.3"
+  }
 }

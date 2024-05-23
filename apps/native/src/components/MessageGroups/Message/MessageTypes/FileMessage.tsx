@@ -1,8 +1,9 @@
 import type { FileData } from "@/components/FileRouter";
 import { Pressable, View } from "react-native";
 import { Link } from "expo-router";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
+
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 export const FileMessage = ({ data: { file, query } }: { data: FileData }) => {
 	if ("id" in file) {

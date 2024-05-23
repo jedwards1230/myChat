@@ -1,6 +1,7 @@
 import { View } from "react-native";
 import { Link, Stack } from "expo-router";
-import { Text } from "@/components/ui/Text";
+
+import { Text } from "@mychat/ui/native/Text";
 
 export default function NotFoundScreen() {
 	return (

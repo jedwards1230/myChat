@@ -4,8 +4,9 @@
 	"private": true,
 	"type": "module",
 	"scripts": {
-		"dev": "dotenvx run -- next dev",
 		"build": "dotenvx run -- next build",
+		"clean": "rm -rf .next node_modules .turbo",
+		"dev": "dotenvx run -- next dev",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
 		"start": "dotenvx run -- next start",
@@ -23,7 +24,7 @@
 		"react-dom": "^18.3.1"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^0.43.0",
+		"@dotenvx/dotenvx": "^0.43.2",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tailwind-config": "workspace:*",

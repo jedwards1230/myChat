@@ -2,8 +2,9 @@ import { useState } from "react";
 import { View } from "react-native";
 import * as Clipboard from "expo-clipboard";
 
-import { Icon } from "../ui/Icon";
-import { Text } from "../ui/Text";
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
+
 import SyntaxHighlighter from "./SyntaxHighlighter";
 
 export function CodeBlock({

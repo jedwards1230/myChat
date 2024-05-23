@@ -1,6 +1,7 @@
 import type { Message } from "@/types";
 import { View } from "react-native";
-import { Text } from "@/components/ui/Text";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import { Avatar } from "../Avatar";
 import { MessageFilter } from "./MessageFilter";

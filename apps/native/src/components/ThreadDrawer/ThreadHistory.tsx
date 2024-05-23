@@ -3,10 +3,11 @@ import { Link } from "expo-router";
 import { useThreadListQuery } from "@/hooks/fetchers/Thread/useThreadListQuery";
 import { FlashList } from "@shopify/flash-list";
 
+import HorizontalLine from "@mychat/ui/native/HorizontalLine";
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
+
 import packageInfo from "../../../package.json";
-import HorizontalLine from "../ui/HorizontalLine";
-import { Icon } from "../ui/Icon";
-import { Text } from "../ui/Text";
 import LinkButton from "./LinkButton";
 import { ThreadGroup, useThreadGroups } from "./ThreadGroups";
 

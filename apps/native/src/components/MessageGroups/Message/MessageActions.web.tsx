@@ -1,8 +1,9 @@
 import type { Message } from "@/types";
 import { Pressable, View } from "react-native";
 import * as Clipboard from "expo-clipboard";
-import { Icon } from "@/components/ui/Icon";
 import { useMessageDelete } from "@/hooks/fetchers/Message/useMessageDelete";
+
+import { Icon } from "@mychat/ui/native/Icon";
 
 import type { ChatMessageGroup } from "../MessageGroup";
 import { useGroupStore } from "../GroupStore";

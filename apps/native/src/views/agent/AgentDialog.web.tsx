@@ -1,14 +1,15 @@
 import type { Agent } from "@/types";
 import Toast from "react-native-toast-message";
+import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { AgentView } from "@/views/agent/AgentView";
+
 import {
 	Dialog,
 	DialogContent,
 	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/ui/Dialog";
-import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import { AgentView } from "@/views/agent/AgentView";
+} from "@mychat/ui/native/Dialog";
 
 export function AgentDialog({
 	existingAgent,

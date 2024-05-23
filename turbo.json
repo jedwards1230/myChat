@@ -1,17 +1,18 @@
 {
 	"$schema": "https://turborepo.org/schema.json",
+	"globalDotEnv": [".env"],
 	"pipeline": {
 		"topo": {
 			"dependsOn": ["^topo"]
 		},
 		"build": {
-			"dependsOn": ["topo", "typecheck", "^build"],
-			"outputs": ["node_modules/.cache/metro/**"]
+			"dependsOn": ["topo", "typecheck"],
+			"outputs": ["node_modules/.cache/metro/**", "dist"]
 		},
 		"clean": {
 			"cache": false
 		},
-		"//#clean": {
+		"//#clean:mono": {
 			"cache": false
 		},
 		"dev": {
@@ -43,7 +44,7 @@
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
 		"typecheck": {
-			"dependsOn": ["topo", "^build", "lint", "^typecheck"],
+			"dependsOn": ["topo", "^build", "lint"],
 			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
 		}
 	}

@@ -3,7 +3,7 @@ import { Platform } from "react-native";
 import { Link } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 
-import { Text } from "./ui/Text";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ExternalLink({
 	children,

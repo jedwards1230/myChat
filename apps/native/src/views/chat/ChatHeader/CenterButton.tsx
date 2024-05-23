@@ -2,13 +2,14 @@ import type { MenuConfig } from "react-native-ios-context-menu";
 import { Pressable } from "react-native";
 import { ContextMenuButton } from "react-native-ios-context-menu";
 import { useRouter } from "expo-router";
-import { Icon } from "@/components/ui/Icon";
-import { Text } from "@/components/ui/Text";
 import { useDeleteActiveThread } from "@/hooks/actions";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
 import { useMessagesQuery } from "@/hooks/fetchers/Message/useMessagesQuery";
 import { useUserSuspenseQuery } from "@/hooks/fetchers/User/useUserQuery";
 import { useTokenCount } from "@/hooks/useTokenCount";
+
+import { Icon } from "@mychat/ui/native/Icon";
+import { Text } from "@mychat/ui/native/Text";
 
 export function CenterButton({ threadId }: { threadId: string | null }) {
 	const router = useRouter();

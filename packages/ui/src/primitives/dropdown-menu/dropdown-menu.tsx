@@ -1,3 +1,8 @@
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, Text, View } from "react-native";
+import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
+
 import type {
 	ForceMountable,
 	PositionedContentProps,
@@ -7,15 +12,7 @@ import type {
 	SlottableViewProps,
 	TextRef,
 	ViewRef,
-} from "@/primitives/types";
-import type { GestureResponderEvent } from "react-native";
-import * as React from "react";
-import { Pressable, Text, View } from "react-native";
-import { useAugmentedRef } from "@/primitives/hooks";
-import * as Slot from "@/primitives/slot";
-import { EmptyGestureResponderEvent } from "@/primitives/utils";
-import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-
+} from "../types";
 import type {
 	DropdownMenuCheckboxItemProps,
 	DropdownMenuItemProps,
@@ -28,6 +25,9 @@ import type {
 	DropdownMenuSubProps,
 	DropdownMenuSubTriggerProps,
 } from "./types";
+import { useAugmentedRef } from "../hooks";
+import * as Slot from "../slot";
+import { EmptyGestureResponderEvent } from "../utils";
 
 const DropdownMenuContext = React.createContext<DropdownMenuRootProps | null>(null);
 

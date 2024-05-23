@@ -5,9 +5,10 @@ import { Image } from "expo-image";
 import { cn } from "@/lib/utils";
 import { cssInterop } from "nativewind";
 
-import type { TextProps } from "../ui/Text";
+import type { TextProps } from "@mychat/ui/native/Text";
+import { Text } from "@mychat/ui/native/Text";
+
 import { ExternalLink } from "../ExternalLink";
-import { Text } from "../ui/Text";
 import { CodeBlock } from "./CodeBlock";
 
 cssInterop(Image, { className: "style" });

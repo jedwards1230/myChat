@@ -3,7 +3,11 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*", "../../packages/ui/src/*"]
+			"@/*": ["./src/*"],
+			"~/*": ["../../packages/ui/src/*"],
+			"@mychat/ui/*": ["../../packages/ui/src/*"],
+			/* https://github.com/vercel/turbo/discussions/620 */
+			"@mychat/shared/*": ["../../packages/shared/src/*"]
 		},
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},

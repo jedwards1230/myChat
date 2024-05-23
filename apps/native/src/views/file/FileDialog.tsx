@@ -3,6 +3,9 @@ import type { FileQueryOpts } from "@/hooks/useFileInformation";
 import { Suspense, useState } from "react";
 import { View } from "react-native";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
+import { useFileInformation } from "@/hooks/useFileInformation";
+
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 import {
 	Dialog,
 	DialogClose,
@@ -10,10 +13,8 @@ import {
 	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
-} from "@/components/ui/Dialog";
-import { Text } from "@/components/ui/Text";
-import { useColorScheme } from "@/hooks/useColorScheme";
-import { useFileInformation } from "@/hooks/useFileInformation";
+} from "@mychat/ui/native/Dialog";
+import { Text } from "@mychat/ui/native/Text";
 
 import { FileMetadata } from "./FileMetadata";
 

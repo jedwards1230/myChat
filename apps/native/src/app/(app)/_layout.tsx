@@ -6,8 +6,9 @@ import NativeSafeAreaView from "@/components/NativeSafeAreaView";
 import ThreadHistory from "@/components/ThreadDrawer/ThreadHistory";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 
 export const Drawer = withLayoutContext(createDrawerNavigator().Navigator);
 

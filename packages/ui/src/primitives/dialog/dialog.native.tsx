@@ -1,17 +1,6 @@
-import type {
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "@/primitives/types";
 import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
 import { BackHandler, Pressable, Text, View } from "react-native";
-import { useControllableState } from "@/primitives/hooks";
-import { Portal as RNPPortal } from "@/primitives/portal";
-import * as Slot from "@/primitives/slot";
 
 import type {
 	DialogContentProps,
@@ -20,6 +9,17 @@ import type {
 	DialogRootProps,
 	RootContext,
 } from "./types";
+import type {
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "~/primitives/types";
+import { useControllableState } from "~/primitives/hooks";
+import { Portal as RNPPortal } from "~/primitives/portal";
+import * as Slot from "~/primitives/slot";
 
 const DialogContext = React.createContext<(RootContext & { nativeID: string }) | null>(
 	null,

@@ -1,10 +1,11 @@
-import { Button } from "@/components/ui/Button";
-import { RowItem } from "@/components/ui/Section";
-import { Switch } from "@/components/ui/Switch";
-import { Text } from "@/components/ui/Text";
 import { useUserSessionDelete } from "@/hooks/fetchers/User/useUserSessionDelete";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { useColorScheme } from "@/hooks/useColorScheme";
+
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
+import { Button } from "@mychat/ui/native/Button";
+import { RowItem } from "@mychat/ui/native/Section";
+import { Switch } from "@mychat/ui/native/Switch";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ToggleThemeButton() {
 	const { colorScheme, toggleColorScheme } = useColorScheme();

@@ -4,8 +4,9 @@ import { View } from "react-native";
 import { ContextMenuView } from "react-native-ios-context-menu";
 import { useRouter } from "expo-router";
 import ChatHistory from "@/components/ChatHistory";
-import { Text } from "@/components/ui/Text";
 import { useDeleteActiveThread } from "@/hooks/actions";
+
+import { Text } from "@mychat/ui/native/Text";
 
 import LinkButton from "../LinkButton";
 

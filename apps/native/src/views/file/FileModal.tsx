@@ -1,9 +1,10 @@
 import type { FileInformation, FileQueryOpts } from "@/hooks/useFileInformation";
 import { View } from "react-native";
 import { CodeBlock } from "@/components/Markdown/CodeBlock";
-import ModalWrapper from "@/components/ui/Modal";
-import { useColorScheme } from "@/hooks/useColorScheme";
 import { useFileInformation } from "@/hooks/useFileInformation";
+
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
+import ModalWrapper from "@mychat/ui/native/Modal";
 
 import { FileMetadata } from "./FileMetadata";
 
