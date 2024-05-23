@@ -29,7 +29,7 @@
 		"@expo/metro-runtime": "^3.2.1",
 		"@expo/vector-icons": "^14.0.2",
 		"@hookform/resolvers": "^3.4.2",
-		"@lodev09/react-native-true-sheet": "^0.11.2",
+		"@lodev09/react-native-true-sheet": "^0.11.3",
 		"@mychat/api": "workspace:*",
 		"@mychat/db": "workspace:*",
 		"@mychat/shared": "workspace:*",

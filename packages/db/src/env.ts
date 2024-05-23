@@ -4,19 +4,12 @@ import { z, ZodError } from "zod";
 
 const stringBoolean = z.coerce
 	.string()
-	.transform((val) => {
-		return val === "true";
-	})
+	.transform((val) => val === "true")
 	.default("false");
 
 const EnvSchema = z.object({
 	NODE_ENV: z.string().default("development"),
-	/* DB_HOST: z.string(),
-	DB_USER: z.string(),
-	DB_PASSWORD: z.string(),
-	DB_NAME: z.string(),
-	DB_PORT: z.coerce.number(), */
-	DATABASE_URL: z.string().optional(),
+	DATABASE_URL: z.string().default("postgres://localhost:5432/mychat"),
 	DB_MIGRATING: stringBoolean,
 	DB_SEEDING: stringBoolean,
 });

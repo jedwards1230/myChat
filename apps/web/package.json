@@ -24,7 +24,7 @@
 		"react-dom": "^18.3.1"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^0.43.2",
+		"@dotenvx/dotenvx": "^0.44.0",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tailwind-config": "workspace:*",
