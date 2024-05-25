@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
-import { ToolHeader } from "@/views/tools/Header";
+
+import { ToolHeader } from "@mychat/ui/views/tools/Header";
 
 import { Drawer } from "../_layout";
 

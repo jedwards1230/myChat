@@ -18,16 +18,9 @@ import {
 } from "@tanstack/react-query";
 import { PersistQueryClientProvider as BaseProvider } from "@tanstack/react-query-persist-client";
 import { httpBatchLink, loggerLink } from "@trpc/client";
-import { createTRPCReact } from "@trpc/react-query";
 import superjson from "superjson";
 
-import type { AppRouter } from "@mychat/api";
-
-/**
- * A set of typesafe hooks for consuming your API.
- */
-export const api = createTRPCReact<AppRouter>();
-export { type RouterInputs, type RouterOutputs } from "@mychat/api";
+import { api } from "@mychat/api/client/react-query";
 
 /**
  * Extend this function when going to production by

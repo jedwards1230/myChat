@@ -49,11 +49,13 @@ export const MessageFileRelations = relations(MessageFile, ({ one, many }) => ({
 	}),
 }));
 
-export const InsertMessageFileSchema = createInsertSchema(MessageFile);
-export type InsertMessageFile = z.infer<typeof InsertMessageFileSchema>;
+export const MessageFileSchema = createSelectSchema(MessageFile);
+export type MessageFile = z.infer<typeof MessageFileSchema>;
 
-export const SelectMessageFileSchema = createSelectSchema(MessageFile);
-export type SelectMessageFile = z.infer<typeof SelectMessageFileSchema>;
+export const CreateMessageFileSchema = createInsertSchema(MessageFile).omit({
+	id: true,
+});
+export type CreateMessageFile = z.infer<typeof CreateMessageFileSchema>;
 
 const bytea = customType<{ data: Buffer; notNull: false; default: false }>({
 	dataType() {

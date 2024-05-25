@@ -2,14 +2,11 @@ import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import { Primitives } from "@mychat/ui";
-
+import { SelectPrimitive } from "~/primitives";
 import { cn } from "~/utils";
 import { Icon } from "./Icon";
 
-const SelectPrimitive = Primitives.SelectPrimitive;
-
-type Option = Primitives.SelectPrimitive.Option;
+type Option = SelectPrimitive.Option;
 
 const Select = SelectPrimitive.Root;
 

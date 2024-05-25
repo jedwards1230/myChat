@@ -1,8 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
 import { pgRepo } from "@/lib/pg";
 
-import type { AgentCreateSchema, AgentUpdateSchema } from "@mychat/shared/schema/agent";
-import { Tools } from "@mychat/agents/tools/index";
+import type { AgentCreateSchema, AgentUpdateSchema } from "@mychat/db/schema/agent";
+import { Tools } from "@mychat/db/schema/tools";
 
 export class AgentController {
 	static async createAgent(request: FastifyRequest, reply: FastifyReply) {

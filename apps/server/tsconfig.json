@@ -3,7 +3,8 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@mychat/db/*": ["../../packages/db/src/*"]
 		},
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},

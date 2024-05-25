@@ -1,10 +1,7 @@
 import * as React from "react";
 
-import { Primitives } from "@mychat/ui";
-
+import { LabelPrimitive } from "~/primitives";
 import { cn } from "~/utils";
-
-const LabelPrimitive = Primitives.LabelPrimitive;
 
 const Label = React.forwardRef<
 	React.ElementRef<typeof LabelPrimitive.Text>,

@@ -1,6 +1,6 @@
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 
-import config from "../drizzle.config";
+import config from "../drizzle.config.ts";
 import { db } from "./client";
 import env from "./env";
 

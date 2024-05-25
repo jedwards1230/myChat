@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useGlobalSearchParams } from "expo-router";
 import Head from "expo-router/head";
 import { useConfigStore } from "@/hooks/stores/configStore";
-import { ChatView } from "@/views/chat";
+
+import { ChatView } from "@mychat/ui/views/chat";
 
 export default function Chat() {
 	const { c } = useGlobalSearchParams<{ c?: string }>();

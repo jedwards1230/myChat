@@ -6,6 +6,7 @@ import { createInsertSchema, createSelectSchema } from "drizzle-zod";
 
 import { AgentRun } from "./agentRun";
 import { AgentTool } from "./agentTool";
+import { ModelApi } from "./models";
 import { Thread } from "./thread";
 import { User } from "./user";
 
@@ -14,6 +15,7 @@ export const Agent = pgTable("Agent", {
 	createdAt: timestamp("createdAt", { mode: "string" }).defaultNow().notNull(),
 	name: text("name").default("myChat Agent").notNull(),
 	model: jsonb("model")
+		.$type<ModelApi>()
 		.default({
 			api: "openai",
 			name: "gpt-4o",
@@ -36,14 +38,8 @@ export const Agent = pgTable("Agent", {
 	ownerId: uuid("ownerId").references((): AnyPgColumn => User.id),
 });
 
-export const InsertAgentSchema = createInsertSchema(Agent);
-export type InsertAgent = z.infer<typeof InsertAgentSchema>;
-
-export const SelectAgentSchema = createSelectSchema(Agent);
-export type SelectAgent = z.infer<typeof SelectAgentSchema>;
-
 export const AgentRelations = relations(Agent, ({ one, many }) => ({
-	user: one(User, {
+	owner: one(User, {
 		fields: [Agent.ownerId],
 		references: [User.id],
 	}),
@@ -52,3 +48,16 @@ export const AgentRelations = relations(Agent, ({ one, many }) => ({
 	runs: many(AgentRun),
 	tools: many(AgentTool),
 }));
+
+export const AgentSchema = createSelectSchema(Agent, {
+	model: ModelApi,
+});
+export type Agent = z.infer<typeof AgentSchema>;
+
+export const CreateAgentSchema = createInsertSchema(Agent, {
+	model: ModelApi,
+}).omit({
+	id: true,
+	createdAt: true,
+});
+export type CreateAgent = z.infer<typeof CreateAgentSchema>;

@@ -6,69 +6,12 @@
  * tl;dr - this is where all the tRPC server stuff is created and plugged in.
  * The pieces you will need to use are documented accordingly near the end
  */
-import type { CreateFastifyContextOptions } from "@trpc/server/adapters/fastify";
 import { initTRPC } from "@trpc/server";
 import superjson from "superjson";
 import { ZodError } from "zod";
 
-import { db } from "@mychat/db/client";
-
-/**
- * 1. CONTEXT
- *
- * This section defines the "contexts" that are available in the backend API.
- *
- * These allow you to access things when processing a request, like the database, the session, etc.
- *
- * This helper generates the "internals" for a tRPC context. The API handler and RSC clients each
- * wrap this and provides the required context.
- *
- * @see https://trpc.io/docs/server/context
- */
-export function createTRPCContextFastify({ req, res }: CreateFastifyContextOptions) {
-	const source = req.headers["x-trpc-source"] ?? "unknown";
-
-	//console.log(">>> tRPC Request from", source, "by", session?.user);
-	console.log(">>> tRPC Request from", source);
-
-	//const user = { name: req.headers.username ?? "anonymous" };
-	return { req, res, db };
-}
-export type ContextFastify = Awaited<ReturnType<typeof createTRPCContextFastify>>;
-
-export function createTRPCContextNext(opts: {
-	headers: Headers;
-	//session: Session | null;
-}) {
-	//const session = opts.session;
-	const source = opts.headers.get("x-trpc-source") ?? "unknown";
-
-	//console.log(">>> tRPC Request from", source, "by", session?.user);
-	console.log(">>> tRPC Request from", source);
-
-	return {
-		//session,
-		db,
-	};
-}
-export type ContextNext = Awaited<ReturnType<typeof createTRPCContextNext>>;
-
-/* export function createTRPCContextNext(opts: {
-	headers: Headers;
-	//session: Session | null;
-}) {
-	//const session = opts.session;
-	const source = opts.headers.get("x-trpc-source") ?? "unknown";
-
-	//console.log(">>> tRPC Request from", source, "by", session?.user);
-	console.log(">>> tRPC Request from", source);
-
-	return {
-		//session,
-		db,
-	};
-}
-export type ContextNext = Awaited<ReturnType<typeof createTRPCContextNext>>; */
+import type { ContextFastify } from "./client/fastify";
+import type { ContextNext } from "./client/nextjs";
 
 export type Context = ContextFastify | ContextNext;
 

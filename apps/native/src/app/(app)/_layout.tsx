@@ -1,16 +1,14 @@
 import type { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useEffect } from "react";
 import { Platform } from "react-native";
-import { Redirect, withLayoutContext } from "expo-router";
-import NativeSafeAreaView from "@/components/NativeSafeAreaView";
+import { Redirect } from "expo-router";
 import ThreadHistory from "@/components/ThreadDrawer/ThreadHistory";
-import { useUserData } from "@/hooks/stores/useUserData";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
-import { createDrawerNavigator } from "@react-navigation/drawer";
 
+import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
-
-export const Drawer = withLayoutContext(createDrawerNavigator().Navigator);
+import NativeSafeAreaView from "@mychat/ui/NativeSafeAreaView";
+import { Drawer } from "@mychat/views/navigators";
 
 export default function HomeLayout() {
 	const session = useUserData.use.session();

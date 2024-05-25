@@ -34,11 +34,14 @@ export const AgentToolRelations = relations(AgentTool, ({ one }) => ({
 	}),
 }));
 
-export const InsertAgentToolSchema = createInsertSchema(AgentTool);
-export type InsertAgentTool = z.infer<typeof InsertAgentToolSchema>;
+export const AgentToolSchema = createSelectSchema(AgentTool);
+export type AgentTool = z.infer<typeof AgentToolSchema>;
 
-export const SelectAgentToolSchema = createSelectSchema(AgentTool);
-export type SelectAgentTool = z.infer<typeof SelectAgentToolSchema>;
+export const CreateAgentToolSchema = createInsertSchema(AgentTool).omit({
+	id: true,
+	createdAt: true,
+});
+export type CreateAgentTool = z.infer<typeof CreateAgentToolSchema>;
 
 /* export const agent_tools_agent_tool = pgTable(
 	"agent_tools_agent_tool",

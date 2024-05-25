@@ -2,16 +2,15 @@ import { inArray } from "drizzle-orm";
 import pgvector from "pgvector";
 import { cosineDistance } from "pgvector/drizzle-orm";
 
-import { EmbeddingModelMap } from "@mychat/agents/models/embedding";
-import { generateEmbedding, generateEmbeddings } from "@mychat/agents/providers/openai";
-
-import type { InsertDocument } from "../schema/document";
+import type { CreateDatabaseDocument } from "../schema/document";
 import type { Message } from "../schema/message";
 import type { Thread } from "../schema/thread";
 import type { User } from "../schema/user";
 import type { Document } from "../types";
 import { db } from "../client";
 import { DatabaseDocument, EmbedItem } from "../schema/document";
+import { EmbeddingModelMap } from "../schema/models/embedding";
+import { generateEmbedding, generateEmbeddings } from "../schema/providers/openai";
 import tokenizer from "../tokenizer";
 
 export interface DocumentMetaParams {
@@ -20,7 +19,7 @@ export interface DocumentMetaParams {
 	thread?: Pick<typeof Thread, "id">;
 }
 
-export type DocumentInsertParams = Pick<InsertDocument, "decoded" | "metadata"> &
+export type DocumentInsertParams = Pick<CreateDatabaseDocument, "decoded" | "metadata"> &
 	Partial<Pick<typeof EmbedItem, "embedding">> &
 	DocumentMetaParams;
 

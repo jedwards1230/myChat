@@ -1,7 +1,6 @@
 import * as React from "react";
 
-import { AvatarPrimitive } from "@mychat/ui/primitives";
-
+import { AvatarPrimitive } from "~/primitives";
 import { cn } from "~/utils";
 
 const Avatar = React.forwardRef<

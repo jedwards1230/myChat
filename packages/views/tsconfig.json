@@ -1,0 +1,18 @@
+{
+	"extends": "@mychat/tsconfig/base.json",
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["./src/*"],
+			"~/*": ["../ui/src/*"],
+			/* https://github.com/vercel/turbo/discussions/620 */
+			"@mychat/api/*": ["../api/src/*"],
+			"@mychat/db/*": ["../db/src/*"],
+			"@mychat/shared/*": ["../shared/src/*"],
+			"@mychat/ui/*": ["../ui/src/*"]
+		},
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+	},
+	"include": ["**/*.ts", "**/*.tsx"],
+	"exclude": ["node_modules"]
+}

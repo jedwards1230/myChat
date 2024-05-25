@@ -1,7 +1,7 @@
 import z from "zod";
 
+import { ModelApi } from "../../../db/src/schema/models";
 import { AgentToolSchema } from "./AgentTool";
-import { ModelApi } from "./models";
 
 export const AgentObjectSchema = z.object({
 	id: z.string(),

@@ -16,9 +16,8 @@
 	"dependencies": {
 		"@mychat/api": "workspace:*",
 		"@mychat/db": "workspace:*",
-		"@tanstack/react-query": "^5.37.1",
+		"@tanstack/react-query": "^5.39.0",
 		"@trpc/client": "11.0.0-rc.374",
-		"@trpc/react-query": "11.0.0-rc.374",
 		"@trpc/server": "11.0.0-rc.374",
 		"next": "14.2.3",
 		"react": "^18.3.1",

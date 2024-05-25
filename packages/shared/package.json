@@ -6,7 +6,7 @@
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
-		"./*": "./src/*.ts",
+		"./*": "./src/*.{ts,tsx}",
 		"./schemas": "./src/schemas/index.ts",
 		"./schemas/models": "./src/schemas/models/index.ts"
 	},
@@ -28,6 +28,7 @@
 		"typescript": "beta"
 	},
 	"dependencies": {
+		"@react-native-async-storage/async-storage": "1.23.1",
 		"zod": "^3.23.8",
 		"zustand": "^4.5.2"
 	},

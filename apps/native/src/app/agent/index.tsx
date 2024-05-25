@@ -1,5 +1,6 @@
 import { useConfigStore } from "@/hooks/stores/configStore";
-import AgentModal from "@/views/agent/AgentModal";
+
+import AgentModal from "@mychat/ui/views/agent/AgentModal";
 
 export default function AgentPage() {
 	const defaultAgent = useConfigStore.use.defaultAgent();

@@ -37,11 +37,13 @@ export const documentRelations = relations(DatabaseDocument, ({ one, many }) => 
 	embeddings: many(EmbedItem),
 }));
 
-export const InsertDocumentSchema = createInsertSchema(DatabaseDocument);
-export type InsertDocument = z.infer<typeof InsertDocumentSchema>;
+export const CreateDatabaseDocumentSchema = createInsertSchema(DatabaseDocument).omit({
+	id: true,
+});
+export type CreateDatabaseDocument = z.infer<typeof CreateDatabaseDocumentSchema>;
 
-export const SelectDocumentSchema = createSelectSchema(DatabaseDocument);
-export type SelectDocument = z.infer<typeof SelectDocumentSchema>;
+export const DatabaseDocumentSchema = createSelectSchema(DatabaseDocument);
+export type DatabaseDocument = z.infer<typeof DatabaseDocumentSchema>;
 
 export const EmbedItem = pgTable("embed_item", {
 	id: serial("id").primaryKey().notNull(),

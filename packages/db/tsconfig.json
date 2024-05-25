@@ -2,6 +2,12 @@
 	"extends": "@mychat/tsconfig/base.json",
 	"compilerOptions": {
 		"outDir": "dist",
+		"rootDir": ".",
+		"baseUrl": ".",
+		"paths": {
+			"@/*": ["src/*"],
+			"@mychat/db/*": ["../../packages/db/src/*"]
+		},
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},
 	"include": ["src", "drizzle.config.ts"],

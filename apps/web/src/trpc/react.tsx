@@ -3,10 +3,9 @@
 import { useState } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { loggerLink, unstable_httpBatchStreamLink } from "@trpc/client";
-import { createTRPCReact } from "@trpc/react-query";
 import SuperJSON from "superjson";
 
-import type { AppRouter } from "@mychat/api";
+import { api } from "@mychat/api/client/react-query";
 
 import env from "../env";
 
@@ -31,8 +30,6 @@ const getQueryClient = () => {
 		return (clientQueryClientSingleton ??= createQueryClient());
 	}
 };
-
-export const api = createTRPCReact<AppRouter>();
 
 export function TRPCReactProvider(props: { children: React.ReactNode }) {
 	const queryClient = getQueryClient();

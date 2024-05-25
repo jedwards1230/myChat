@@ -5,9 +5,11 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"~/*": ["../../packages/ui/src/*"],
-			"@mychat/ui/*": ["../../packages/ui/src/*"],
 			/* https://github.com/vercel/turbo/discussions/620 */
-			"@mychat/shared/*": ["../../packages/shared/src/*"]
+			"@mychat/api/*": ["../../packages/api/src/*"],
+			"@mychat/shared/*": ["../../packages/shared/src/*"],
+			"@mychat/ui/*": ["../../packages/ui/src/*"],
+			"@mychat/views/*": ["../../packages/views/src/*"]
 		},
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},

@@ -2,10 +2,12 @@
 	"extends": "@mychat/tsconfig/base.json",
 	"compilerOptions": {
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
-		"rootDir": "./src",
-		"baseUrl": "./src",
+		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./*"]
+			"~/*": ["./src/*"],
+			"@mychat/api/*": ["../api/src/*"],
+			"@mychat/db/*": ["../db/src/*"],
+			"@mychat/shared/*": ["../shared/src/*"]
 		}
 	},
 	"include": ["src/**/*.ts", "src/**/*.tsx", "nativewind-env.d.ts"],

@@ -1,5 +1,5 @@
 {
-	"$schema": "https://turborepo.org/schema.json",
+	"$schema": "https://raw.githubusercontent.com/vercel/turbo/main/docs/public/schema.json",
 	"globalDotEnv": [".env"],
 	"pipeline": {
 		"topo": {
@@ -18,7 +18,6 @@
 		"dev": {
 			"dependsOn": ["^build"],
 			"cache": false,
-			"interactive": true,
 			"persistent": true
 		},
 		"format": {

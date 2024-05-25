@@ -21,11 +21,16 @@ export const Thread = pgTable("thread", {
 	userId: uuid("userId").references(() => User.id),
 });
 
-export const InsertThreadSchema = createInsertSchema(Thread);
-export type InsertThread = z.infer<typeof InsertThreadSchema>;
+export const ThreadSchema = createSelectSchema(Thread);
+export type Thread = z.infer<typeof ThreadSchema>;
 
-export const SelectThreadSchema = createSelectSchema(Thread);
-export type SelectThread = z.infer<typeof SelectThreadSchema>;
+export const CreateThreadSchema = createInsertSchema(Thread).omit({
+	id: true,
+	created: true,
+	lastModified: true,
+	activeMessageId: true,
+});
+export type CreateThread = z.infer<typeof CreateThreadSchema>;
 
 export const ThreadRelations = relations(Thread, ({ one, many }) => ({
 	activeMessage: one(Message, {

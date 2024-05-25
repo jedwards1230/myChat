@@ -2,7 +2,21 @@
 	"depcheck": {
 		"ignoreMatches": [
 			"@babel/core",
-			"@babel/preset-typescript"
+			"@babel/preset-typescript",
+			"expo-dev-client",
+			"expo-updates",
+			"react-dom",
+			"react-native-web",
+			"@types/react-dom",
+			"ajv",
+			"@lodev09/react-native-true-sheet",
+			"@react-navigation/routers",
+			"@tanstack/eslint-plugin-query",
+			"browserslist",
+			"update-browserslist-db",
+			"eslint-config-react-app",
+			"react-test-renderer",
+			"@babel/runtime"
 		]
 	}
 }

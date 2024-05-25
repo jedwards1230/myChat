@@ -1,0 +1,9 @@
+{
+	"depcheck": {
+		"ignoreMatches": [
+			"postcss",
+			"@types/node",
+			"@types/react-dom"
+		]
+	}
+}

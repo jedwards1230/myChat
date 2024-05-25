@@ -34,10 +34,10 @@ export const extendedAgentRunRepo = async () => {
 		const run = await getRunForProcessing(id);
 
 		const { thread } = run;
-		if (!thread?.activeMessage) throw new Error("No active message found");
+		if (!thread?.activeMessageId) throw new Error("No active message found");
 
 		const [messages, ragRes] = await Promise.all([
-			extendedMessageRepo().getMessages(thread.activeMessage),
+			extendedMessageRepo().getMessages(thread.activeMessageId),
 			extendedDocumentRepo().searchDocuments(
 				"", //getActiveMessageContent(thread.activeMessage),
 				documentSearch,

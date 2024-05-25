@@ -44,8 +44,8 @@ export const CreateUserSchema = createInsertSchema(User, {
 });
 export type CreateUser = z.infer<typeof CreateUserSchema>;
 
-export const SelectUserSchema = createSelectSchema(User);
-export type SelectUser = z.infer<typeof SelectUserSchema>;
+export const UserSchema = createSelectSchema(User);
+export type User = z.infer<typeof UserSchema>;
 
 export const UserSession = pgTable("user_session", {
 	id: uuid("id").defaultRandom().primaryKey().notNull(),
@@ -54,10 +54,21 @@ export const UserSession = pgTable("user_session", {
 	provider: text("provider").notNull(),
 	ip: text("ip"),
 	current: boolean("current").default(false).notNull(),
+
+	userId: uuid("userId").references((): AnyPgColumn => User.id),
 });
 
-export const InsertUserSessionSchema = createInsertSchema(UserSession);
-export type InsertUserSession = z.infer<typeof InsertUserSessionSchema>;
+export const CreateUserSessionSchema = createInsertSchema(UserSession, {
+	userId: z.string().uuid(),
+	provider: z.string().max(256),
+	ip: z.string().max(256),
+	expire: z.date(),
+}).omit({
+	id: true,
+	createdAt: true,
+	current: true,
+});
+export type CreateUserSession = z.infer<typeof CreateUserSessionSchema>;
 
-export const SelectUserSessionSchema = createSelectSchema(UserSession);
-export type SelectUserSession = z.infer<typeof SelectUserSessionSchema>;
+export const UserSessionSchema = createSelectSchema(UserSession);
+export type UserSession = z.infer<typeof UserSessionSchema>;

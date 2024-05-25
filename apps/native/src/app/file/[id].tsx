@@ -1,5 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
-import FileModal from "@/views/file/FileModal";
+
+import FileModal from "@mychat/ui/views/file/FileModal";
 
 export default function FilePage() {
 	const { id, messageId, threadId } = useLocalSearchParams<{

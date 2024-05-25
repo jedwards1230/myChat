@@ -1,7 +1,10 @@
 {
 	"depcheck": {
 		"ignoreMatches": [
-			"ts-jest", "@babel/core", "@babel/preset-typescript"
+			"ts-jest",
+			"@babel/core",
+			"@babel/preset-typescript",
+			"@types/jest"
 		]
 	}
 }

@@ -11,7 +11,6 @@ const nextConfig = {
 
 	/** Enables hot reloading for local packages without a build step */
 	transpilePackages: [
-		"@mychat/agents",
 		"@mychat/api",
 		"@mychat/shared",
 		"@mychat/db",

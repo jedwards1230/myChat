@@ -1,4 +1,3 @@
-import type { SelectThread } from "../schema/thread";
 import type { GetMessage } from "../types";
 import { db } from "../client";
 import { Thread } from "../schema/thread";
@@ -10,11 +9,7 @@ export const extendedThreadRepo = () => {
 	const update = db.update(Thread);
 	const remove = db.delete(Thread);
 
-	async function addMessage(
-		thread: SelectThread,
-		message: GetMessage,
-		parentId?: string,
-	) {
+	async function addMessage(thread: Thread, message: GetMessage, parentId?: string) {
 		const res = await db.transaction(async (tx) => {
 			console.log(tx, thread, parentId);
 			/* if (parentId) {

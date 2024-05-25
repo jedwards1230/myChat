@@ -1,4 +1,4 @@
-import { AgentsView } from "@/views/agents/AgentsView";
+import { AgentsView } from "@mychat/views/agents/AgentsView";
 
 export default function Agents() {
 	return <AgentsView />;

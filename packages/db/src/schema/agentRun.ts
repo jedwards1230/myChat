@@ -42,8 +42,11 @@ export const AgentRun = pgTable("AgentRun", {
 	filesId: integer("filesId").references(() => DatabaseDocument.id),
 });
 
-export const InsertAgentRunSchema = createInsertSchema(AgentRun);
-export type InsertAgentRun = z.infer<typeof InsertAgentRunSchema>;
+export const CreateAgentRunSchema = createInsertSchema(AgentRun).omit({
+	id: true,
+	createdAt: true,
+});
+export type CreateAgentRun = z.infer<typeof CreateAgentRunSchema>;
 
 export const SelectAgentRunSchema = createSelectSchema(AgentRun);
 export type SelectAgentRun = z.infer<typeof SelectAgentRunSchema>;

@@ -33,24 +33,35 @@ export const Message = pgTable("message", {
 	createdAt: timestamp("createdAt", { mode: "string" }).defaultNow().notNull(),
 	tokenCount: integer("tokenCount").default(0).notNull(),
 
-	toolCallIdId: text("toolCallIdId").references((): AnyPgColumn => ToolCall.id),
+	toolCallId: text("toolCallId").references((): AnyPgColumn => ToolCall.id),
+	parentId: uuid("parentId").references((): AnyPgColumn => Message.id),
+	childrenIds: uuid("childrenIds")
+		.array()
+		.references((): AnyPgColumn => Message.id),
 });
 
 export const MessageRelations = relations(Message, ({ one, many }) => ({
 	documents: many(DatabaseDocument),
 	toolCalls: many(ToolCall),
 	toolCall: one(ToolCall, {
-		fields: [Message.toolCallIdId],
+		fields: [Message.toolCallId],
 		references: [ToolCall.id],
 	}),
 	files: many(MessageFile),
+	parent: one(Message, {
+		fields: [Message.parentId],
+		references: [Message.id],
+	}),
+	children: many(Message),
 }));
 
-export const InsertMessageSchema = createInsertSchema(Message);
-export type InsertMessage = z.infer<typeof InsertMessageSchema>;
+export const MessageSchema = createSelectSchema(Message);
+export type Message = z.infer<typeof MessageSchema>;
 
-export const SelectMessageSchema = createSelectSchema(Message);
-export type SelectMessage = z.infer<typeof SelectMessageSchema>;
+export const CreateMessageSchema = createInsertSchema(Message).omit({
+	id: true,
+});
+export type CreateMessage = z.infer<typeof CreateMessageSchema>;
 
 export const MessageClosure = pgTable(
 	"message_closure",

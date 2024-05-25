@@ -17,6 +17,7 @@
 		"build": "dotenvx run -- turbo build --parallel --cache-dir=.turbo",
 		"build:web": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=web...",
 		"build:native": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=native...",
+		"check": "turbo npm-check --continue",
 		"clean": "git clean -xdf node_modules",
 		"clean:ws": "turbo clean --continue --parallel",
 		"clean:turbo": "turbo clean --parallel",
@@ -32,16 +33,15 @@
 		"format:fix": "turbo format --parallel -- --write --cache --cache-location node_modules/.cache/.prettiercache",
 		"lint": "turbo lint --parallel -- --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:fix": "turbo lint --parallel -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-		"lint:ws": "bunx sherif@latest",
+		"lint:ws": "bunx sherif@latest && bun run check",
 		"migrate": "turbo migrate",
 		"npm-check": "npm-check",
-		"check": "turbo npm-check --continue",
-		"postinstall": "bun lint:ws && patch-package",
+		"postinstall": "patch-package && bun run lint:ws",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
 		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
 		"typecheck": "turbo typecheck",
-		"update": "ncu -ws -i --root --format group,repo -p bun --cache --cacheFile=./node_modules/.cache/.ncu.json && bun lint:ws"
+		"update": "ncu -ws -i --root --format group,repo -p bun --cache --cacheFile=./node_modules/.cache/.ncu.json && bun run lint:ws"
 	},
 	"resolutions": {
 		"markdown-it": "14.0.0"

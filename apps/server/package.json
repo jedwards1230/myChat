@@ -9,7 +9,7 @@
 		"dev:clean": "DEBUG_RESET_DB=true bun --watch run src/index.ts",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
-		"npm-check": "npm-check",
+		"xnpm-check": "npm-check",
 		"start": "bun run src/index.ts",
 		"start:prod": "bun run src/index.ts",
 		"test": "export TEST_ENV=true jest",
@@ -22,7 +22,6 @@
 		"@fastify/static": "^7.0.4",
 		"@fastify/swagger": "^8.14.0",
 		"@fastify/swagger-ui": "^3.0.0",
-		"@mychat/agents": "workspace:*",
 		"@mychat/db": "workspace:*",
 		"@mychat/logger": "workspace:*",
 		"@mychat/shared": "workspace:*",
@@ -36,8 +35,8 @@
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.24.5",
-		"@babel/preset-typescript": "^7.24.1",
+		"@babel/core": "^7.24.6",
+		"@babel/preset-typescript": "^7.24.6",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",

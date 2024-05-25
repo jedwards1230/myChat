@@ -1,6 +1,7 @@
 import { useLocalSearchParams } from "expo-router";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import AgentModal from "@/views/agent/AgentModal";
+
+import AgentModal from "@mychat/ui/views/agent/AgentModal";
 
 export default function AgentPage() {
 	const { id } = useLocalSearchParams<{ id: string }>();

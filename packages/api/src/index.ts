@@ -2,12 +2,10 @@ import type { inferRouterInputs, inferRouterOutputs } from "@trpc/server";
 
 import type { AppRouter } from "./root";
 import type { Context } from "./trpc";
+import { createTRPCContextFastify } from "./client/fastify";
+import { createTRPCContextNext } from "./client/nextjs";
 import { appRouter } from "./root";
-import {
-	createCallerFactory,
-	createTRPCContextFastify,
-	createTRPCContextNext,
-} from "./trpc";
+import { createCallerFactory } from "./trpc";
 
 /**
  * Create a server-side caller for the tRPC API

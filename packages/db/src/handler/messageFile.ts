@@ -1,10 +1,9 @@
-import { eq, inArray } from "drizzle-orm";
+import { inArray } from "drizzle-orm";
 
-import type { InsertMessage, SelectMessage } from "../schema";
-import type { InsertMessageFile, SelectMessageFile } from "../schema/messageFile";
+import type { CreateMessage, Message } from "../schema";
+import type { CreateMessageFile } from "../schema/messageFile";
 import type { GetMessageFile } from "../types";
 import { db } from "../client";
-import { Message } from "../schema";
 import { FileData, MessageFile } from "../schema/messageFile";
 
 export const extendedMessageFileRepo = () => {
@@ -18,7 +17,7 @@ export const extendedMessageFileRepo = () => {
         {text}
         ```
     */
-	async function parseFiles(files: SelectMessageFile[]) {
+	async function parseFiles(files: MessageFile[]) {
 		if (!files.length) throw new Error("No files found");
 		const readyFiles = files.filter((file) => file.parsedText);
 		const nonReadyFiles = files.filter((file) => !file.parsedText);
@@ -34,9 +33,9 @@ export const extendedMessageFileRepo = () => {
 			},
 		});
 
-		const parsableFiles: SelectMessageFile[] = [];
+		const parsableFiles: MessageFile[] = [];
 
-		const formatText = (file: SelectMessageFile) =>
+		const formatText = (file: MessageFile) =>
 			`// ${file.path ?? file.name}\n\`\`\`\n${file.parsedText}\n\`\`\``;
 
 		console.log({ loadedFiles, readyFiles, parsableFiles, formatText });
@@ -62,8 +61,8 @@ export const extendedMessageFileRepo = () => {
 
 	async function addFileList(
 		fileList: any[],
-		message: InsertMessage,
-	): Promise<SelectMessage> {
+		message: CreateMessage,
+	): Promise<Message> {
 		const newMsg = await db.transaction(async (tx) => {
 			for await (const { buffer, file, metadata, text, tokens } of fileList) {
 				// Create and save FileData
@@ -88,12 +87,12 @@ export const extendedMessageFileRepo = () => {
 						parsedText: text,
 						fileData,
 						message,
-					} as InsertMessageFile)
+					} as CreateMessageFile)
 					.returning();
 			}
 
 			const updatedMessage = await tx.query.Message.findFirst({
-				where: eq(Message.id, message.id ?? ""),
+				//where: eq(Message.id, message.id ?? ""),
 				with: {
 					files: {
 						with: {

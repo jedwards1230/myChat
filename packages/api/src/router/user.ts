@@ -2,7 +2,7 @@ import type { TRPCRouterRecord } from "@trpc/server";
 import { z } from "zod";
 
 import { desc, eq } from "@mychat/db";
-import { CreateUserSchema, User } from "@mychat/db/schema";
+import { CreateUserSchema, User, UserSession } from "@mychat/db/schema";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 
@@ -27,6 +27,16 @@ export const userRouter = {
 
 	create: protectedProcedure.input(CreateUserSchema).mutation(({ ctx, input }) => {
 		return ctx.db.insert(User).values(input);
+	}),
+
+	login: publicProcedure.input(CreateUserSchema).mutation(({ ctx, input }) => {
+		return ctx.db.query.User.findFirst({
+			where: eq(User.email, input.email),
+		});
+	}),
+
+	logout: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {
+		return ctx.db.delete(UserSession).where(eq(UserSession.userId, input));
 	}),
 
 	delete: protectedProcedure.input(z.string()).mutation(({ ctx, input }) => {

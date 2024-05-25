@@ -4,6 +4,7 @@ export * from "./agentTool";
 export * from "./document";
 export * from "./message";
 export * from "./messageFile";
+export * from "./models";
 export * from "./thread";
 export * from "./toolCall";
 export * from "./user";
