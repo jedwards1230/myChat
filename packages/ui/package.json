@@ -7,11 +7,7 @@
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
-		"./*": "./src/*.{ts,tsx}",
-		"./native": "./src/native/index.ts",
-		"./native/*": "./src/native/*.{ts,tsx}",
-		"./primitives": "./src/primitives/index.ts",
-		"./primitives/*": "./src/primitives/*.ts"
+		"./*": "./src/*"
 	},
 	"license": "MIT",
 	"scripts": {
@@ -22,7 +18,7 @@
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
 		"npm-check": "npm-check",
-		"typecheck": "tsc --noEmit --emitDeclarationOnly false",
+		"tsc": "tsc --noEmit --emitDeclarationOnly false",
 		"ui-add": "bunx @react-native-reusables/cli@latest add && prettier src --write --list-different"
 	},
 	"dependencies": {

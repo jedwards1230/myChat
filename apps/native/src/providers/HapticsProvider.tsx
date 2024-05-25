@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import * as Haptics from "expo-haptics";
-import { withNativeOnly } from "@/lib/withNativeOnly";
+
+import { withNativeOnly } from "@mychat/ui/withNativeOnly";
 
 function HapticsProvider({ children }: { children: React.ReactNode }) {
 	const isDrawerOpen = false;

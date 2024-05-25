@@ -3,8 +3,8 @@ import { z } from "zod";
 
 import { desc, eq } from "@mychat/db";
 import { Agent, CreateAgentSchema } from "@mychat/db/schema";
-import { modelList } from "@mychat/db/schema/models/chat.js";
-import { Tools } from "@mychat/db/schema/tools/index.js";
+import { modelList } from "@mychat/db/schema/models/chat";
+import { Tools } from "@mychat/db/schema/tools";
 
 import { protectedProcedure, publicProcedure } from "../trpc";
 

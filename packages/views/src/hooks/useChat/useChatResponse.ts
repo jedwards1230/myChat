@@ -11,16 +11,17 @@ export const useChatResponse = () => {
 
 	const requestChat = async (threadId: string) => {
 		setLoading(true);
-		await chatMut.mutateAsync({
+		/* await chatMut.mutateAsync({
 			threadId,
 			signal: abortController.current.signal,
-		});
+		}); */
 
+		console.log("Requesting chat", threadId);
 		chatMut.reset();
-		titleMut
+		/* titleMut
 			.mutateAsync(threadId)
 			.catch(console.error)
-			.then(() => titleMut.reset());
+			.then(() => titleMut.reset()); */
 	};
 
 	const abort = () => {

@@ -1,23 +1,22 @@
 {
 	"name": "@mychat/shared",
-	"version": "1.0.0",
+	"version": "0.1.0",
 	"main": "./src/index.ts",
 	"react-native": "./src/index.ts",
 	"type": "module",
 	"exports": {
 		".": "./src/index.ts",
-		"./*": "./src/*.{ts,tsx}",
-		"./schemas": "./src/schemas/index.ts",
-		"./schemas/models": "./src/schemas/models/index.ts"
+		"./*": "./src/*.{ts,tsx}"
 	},
 	"scripts": {
+		"build": "tsc",
 		"clean": "rm -rf .turbo",
 		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
 		"npm-check": "npm-check",
 		"test": "jest",
-		"typecheck": "tsc"
+		"tsc": "tsc --noEmit --emitDeclarationOnly false"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",

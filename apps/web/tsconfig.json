@@ -16,7 +16,8 @@
 		"plugins": [{ "name": "next" }],
 		"paths": {
 			"@/*": ["./src/*"],
-			"@mychat/api/*": ["../../packages/api/src/*"]
+			"@mychat/api/*": ["../../packages/api/src/*"],
+			"@mychat/db/*": ["../../packages/db/src/*"]
 		},
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
 	},

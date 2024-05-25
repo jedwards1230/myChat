@@ -3,11 +3,10 @@ import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
 
-import type { Message } from "@mychat/db/schema";
-import type { ToolConfig } from "@mychat/db/schema/tools/types.js";
-import { OpenAIService } from "@mychat/db/schema/providers/openai.js";
-
+import type { Message } from "./schema";
 import type { ChatModel, ModelApi } from "./schema/models";
+import type { ToolConfig } from "./schema/tools";
+import { OpenAIService } from "./schema/providers/openai";
 
 export interface ChatOptions {
 	tools: ToolConfig[];

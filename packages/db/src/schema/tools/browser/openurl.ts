@@ -53,7 +53,10 @@ const runnableOpenUrl: RunnableToolFunction<OpenUrlProps> = {
 	},
 };
 
-export const OpenUrl: LLMTool<OpenUrlProps> = {
+const OpenUrl: LLMTool<OpenUrlProps> = {
 	runnable: runnableOpenUrl,
 	tool: openUrl,
 };
+
+export type { OpenUrlProps, OpenUrlResult };
+export { OpenUrl };

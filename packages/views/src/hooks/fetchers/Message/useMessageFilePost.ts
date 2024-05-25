@@ -21,7 +21,7 @@ export const useMessageFilePost = () => {
 					m.id === messageFile.messageId ? { ...m, files: fileList } : m,
 				);
 
-				client.message.all.setData(undefined, messages);
+				//client.message.all.setData(undefined, messages);
 
 				return messages;
 			};
@@ -35,13 +35,16 @@ export const useMessageFilePost = () => {
 				const files = fileList.map((f) => toMessageFile(f));
 
 				// Merge prevFiles and files, ensuring each object is unique by id
-				const mergedFiles = [...files, ...prevFiles].reduce((unique, item) => {
-					return unique.find((file) => file.id === item.id)
-						? unique
-						: [...unique, item];
-				}, []);
+				const mergedFiles = [...files, ...prevFiles].reduce(
+					(unique, item) => {
+						return unique.find((file) => file.id === item.id)
+							? unique
+							: [...unique, item];
+					},
+					[] as typeof files,
+				);
 
-				client.messageFile.all.setData(undefined, mergedFiles);
+				//client.messageFile.all.setData(undefined, mergedFiles);
 
 				return mergedFiles;
 			};

@@ -6,8 +6,6 @@ import type { Message } from "@mychat/db/schema";
 import { emitFeedback } from "../FeedbackEmitter";
 import { ChatCompletionStream } from "./ChatCompletionStream";
 
-type QueryOpts = ReturnType<typeof messagesQueryOptions>;
-
 export const getStreamProcessor = ({
 	stream,
 	addMessage,
@@ -15,10 +13,9 @@ export const getStreamProcessor = ({
 	finalMessage,
 }: {
 	stream: ReadableStream;
-	opts: QueryOpts;
-	addMessage: (message: Message, opts: QueryOpts) => void;
-	updateMessage: (content: string, opts: QueryOpts) => void;
-	finalMessage: (opts: QueryOpts) => Promise<void>;
+	addMessage: (message: Message) => void;
+	updateMessage: (content: string) => void;
+	finalMessage: () => Promise<void>;
 }) =>
 	new Promise<void>((resolve, reject) => {
 		try {
@@ -33,12 +30,12 @@ export const getStreamProcessor = ({
 				.on("abort", () => null)
 				.on("chunk", (chunk) => {
 					const delta = chunk.choices[0]?.delta as Message;
-					if (delta.role) addMessage(delta, opts);
+					if (delta.role) addMessage(delta);
 					emitFeedback();
 				})
-				.on("content", async (_, content) => updateMessage(content, opts))
+				.on("content", async (_, content) => updateMessage(content))
 				.on("finalMessage", () => {
-					finalMessage(opts);
+					finalMessage();
 					resolve();
 				});
 

@@ -14,7 +14,7 @@
 		"clean": "rm -rf .turbo node_modules",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"npm-check": "npm-check",
-		"typecheck": "tsc --noEmit"
+		"tsc": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@next/eslint-plugin-next": "^14.2.3",

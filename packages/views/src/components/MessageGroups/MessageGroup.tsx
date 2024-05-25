@@ -7,7 +7,7 @@ import type { InferResultType } from "@mychat/db/types";
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
 
-type Message = InferResultType<"Message", { children: true }>;
+type Message = InferResultType<"Message", { children: true; files: true }>;
 
 export interface ChatMessageGroup {
 	id: string;

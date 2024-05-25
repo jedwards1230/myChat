@@ -66,7 +66,10 @@ const runnableSearchWeb: RunnableToolFunction<SearchProps> = {
 	},
 };
 
-export const Search: LLMTool<SearchProps> = {
+const Search: LLMTool<SearchProps> = {
 	runnable: runnableSearchWeb,
 	tool: search,
 };
+
+export type { SearchProps, SearchResult };
+export { Search };

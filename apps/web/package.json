@@ -11,7 +11,7 @@
 		"lint": "eslint",
 		"npm-check": "npm-check",
 		"start": "dotenvx run -- next start",
-		"typecheck": "tsc --noEmit"
+		"tsc": "tsc --noEmit"
 	},
 	"dependencies": {
 		"@mychat/api": "workspace:*",

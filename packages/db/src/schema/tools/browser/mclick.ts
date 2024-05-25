@@ -102,7 +102,11 @@ const runnableMclick: RunnableToolFunction<MClickProps> = {
 	},
 };
 
-export const Mclick: LLMTool<MClickProps> = {
+const Mclick: LLMTool<MClickProps> = {
 	runnable: runnableMclick,
 	tool: mclick,
 };
+
+export type { MClickProps, MClickResult, SearchResult };
+
+export { Mclick };

@@ -14,9 +14,9 @@
 	"packageManager": "bun@1.1.9",
 	"prettier": "@mychat/prettier-config",
 	"scripts": {
-		"build": "dotenvx run -- turbo build --parallel --cache-dir=.turbo",
-		"build:web": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=web...",
-		"build:native": "dotenvx run -- turbo build --parallel --cache-dir=.turbo --filter=native...",
+		"build": "dotenvx run -- turbo build --continue --cache-dir=.turbo",
+		"build:web": "dotenvx run -- turbo build --continue --cache-dir=.turbo --filter=web...",
+		"build:native": "dotenvx run -- turbo build --continue --cache-dir=.turbo --filter=native...",
 		"check": "turbo npm-check --continue",
 		"clean": "git clean -xdf node_modules",
 		"clean:ws": "turbo clean --continue --parallel",
@@ -40,7 +40,7 @@
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
 		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
-		"typecheck": "turbo typecheck",
+		"tsc": "turbo tsc",
 		"update": "ncu -ws -i --root --format group,repo -p bun --cache --cacheFile=./node_modules/.cache/.ncu.json && bun run lint:ws"
 	},
 	"resolutions": {

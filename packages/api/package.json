@@ -10,12 +10,12 @@
 	"license": "MIT",
 	"scripts": {
 		"build": "tsc",
-		"dev": "tsc --watch",
 		"clean": "rm -rf .turbo node_modules",
+		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",
 		"npm-check": "npm-check",
-		"typecheck": "tsc --noEmit --emitDeclarationOnly false"
+		"tsc": "tsc --noEmit --emitDeclarationOnly false"
 	},
 	"dependencies": {
 		"@mychat/db": "workspace:*",

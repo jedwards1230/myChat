@@ -25,7 +25,10 @@ const runnableFetch: RunnableToolFunction<Props> = {
 	},
 };
 
-export const Fetch: LLMTool<Props> = {
+const Fetch: LLMTool<Props> = {
 	runnable: runnableFetch,
 	tool: fetcherTool,
 };
+
+export type { Props };
+export { Fetch };

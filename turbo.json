@@ -6,7 +6,7 @@
 			"dependsOn": ["^topo"]
 		},
 		"build": {
-			"dependsOn": ["topo", "typecheck"],
+			"dependsOn": ["topo", "tsc"],
 			"outputs": ["node_modules/.cache/metro/**", "dist"]
 		},
 		"clean": {
@@ -30,7 +30,7 @@
 			"outputs": ["node_modules/.cache/.eslintcache"]
 		},
 		"migrate": {
-			"dependsOn": ["typecheck"],
+			"dependsOn": ["tsc"],
 			"outputs": []
 		},
 		"npm-check": {
@@ -49,7 +49,7 @@
 		"test": {
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
-		"typecheck": {
+		"tsc": {
 			"dependsOn": ["topo", "^build", "lint"],
 			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
 		}

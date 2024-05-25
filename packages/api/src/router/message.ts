@@ -13,6 +13,7 @@ export const messageRouter = {
 			orderBy: desc(Message.id),
 			with: {
 				children: true,
+				files: true,
 			},
 			limit: 10,
 		});
