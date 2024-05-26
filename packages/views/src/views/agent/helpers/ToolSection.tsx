@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
-import Toast from "react-native-toast-message";
 
 import type { ToolName } from "@mychat/db/schema/tools/index.js";
 import type { InferResultType } from "@mychat/db/types";
@@ -8,6 +7,7 @@ import { api } from "@mychat/api/client/react-query";
 import { Checkbox } from "@mychat/ui/native/Checkbox";
 import { Section } from "@mychat/ui/native/Section";
 import { Text } from "@mychat/ui/native/Text";
+import Toast from "@mychat/ui/providers/ToastProvider";
 
 import { ToggleToolsSwitch } from "./ToggleTools";
 

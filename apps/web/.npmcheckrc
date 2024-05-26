@@ -5,6 +5,7 @@
 			"postcss",
 			"@types/node",
 			"@types/react-dom",
+			"sharp",
 			"solito"
 		]
 	}

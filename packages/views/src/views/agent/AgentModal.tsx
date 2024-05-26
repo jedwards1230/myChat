@@ -1,8 +1,7 @@
-import Toast from "react-native-toast-message";
-
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import ModalWrapper from "@mychat/ui/native/Modal";
+import Toast from "@mychat/ui/providers/ToastProvider";
 
 import { AgentView } from "./AgentView";
 

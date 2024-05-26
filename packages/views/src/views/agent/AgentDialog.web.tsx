@@ -1,5 +1,3 @@
-import Toast from "react-native-toast-message";
-
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import {
@@ -32,11 +30,11 @@ export function AgentDialog({
 	if (isPending) return null;
 	if (isError) {
 		console.error(error);
-		Toast.show({
+		/* Toast.show({
 			type: "error",
 			text1: "Error fetching agent",
 			text2: error.message,
-		});
+		}); */
 		return null;
 	}
 	if (!isSuccess || !data) return null;

@@ -57,3 +57,5 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 		</RootSiblingParent>
 	);
 }
+
+export default Toast;

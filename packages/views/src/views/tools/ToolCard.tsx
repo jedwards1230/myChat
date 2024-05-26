@@ -1,10 +1,10 @@
 import { View } from "react-native";
-import Toast from "react-native-toast-message";
 
 import type { InferResultType } from "@mychat/db/types/utils.js";
 import { api } from "@mychat/api/client/react-query";
 import { Switch } from "@mychat/ui/native/Switch";
 import { Text } from "@mychat/ui/native/Text";
+import Toast from "@mychat/ui/providers/ToastProvider";
 
 type AgentTool = InferResultType<"AgentTool">;
 

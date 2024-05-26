@@ -1,3 +1,5 @@
+"use client";
+
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import { View } from "react-native";
 

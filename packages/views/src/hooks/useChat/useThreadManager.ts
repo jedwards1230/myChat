@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "expo-router";
+import { useRouter } from "solito/navigation";
 
 import type { Message } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";

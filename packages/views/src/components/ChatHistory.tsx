@@ -1,3 +1,5 @@
+"use client";
+
 import type { NativeScrollEvent, NativeSyntheticEvent } from "react-native";
 import { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";

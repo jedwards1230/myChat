@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useRouter } from "expo-router";
+import { useRouter } from "solito/navigation";
 
 import { api } from "@mychat/api/client/react-query";
 

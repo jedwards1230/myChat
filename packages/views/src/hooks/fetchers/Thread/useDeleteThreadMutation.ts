@@ -1,4 +1,4 @@
-import { useRouter } from "solito/router";
+import { useRouter } from "solito/navigation";
 
 import { api } from "@mychat/api/client/react-query";
 import { useConfigStore } from "@mychat/ui/uiStore";

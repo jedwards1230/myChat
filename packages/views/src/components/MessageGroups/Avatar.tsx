@@ -1,5 +1,5 @@
 import { View } from "react-native";
-import { Image } from "expo-image";
+import { SolitoImage } from "solito/image";
 
 import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { Text } from "@mychat/ui/native/Text";
@@ -33,7 +33,14 @@ export function Avatar({ group }: { group: Pick<ChatMessageGroup, "name" | "role
 			)}
 		>
 			{img ? (
-				<Image source={img} placeholder={blurhash} />
+				<SolitoImage
+					src={img}
+					alt={name}
+					width={24}
+					height={24}
+					placeholder="blur"
+					blurDataURL={blurhash}
+				/>
 			) : (
 				<Text
 					className={cn(

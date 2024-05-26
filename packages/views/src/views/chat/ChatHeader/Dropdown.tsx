@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 import { api } from "@mychat/api/client/react-query";
 import {
@@ -14,6 +13,8 @@ import {
 } from "@mychat/ui/native/DropdownMenu";
 import { Text } from "@mychat/ui/native/Text";
 import { AngleRight } from "@mychat/ui/svg";
+
+import { AgentDialog } from "../../agent/AgentDialog.web";
 
 export function Dropdown({
 	children,
