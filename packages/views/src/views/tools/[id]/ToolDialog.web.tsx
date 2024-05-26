@@ -4,7 +4,8 @@ import {
 	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
-} from "~/native/Dialog";
+} from "@mychat/ui/native/Dialog";
+
 import { ToolConfig } from "./ToolConfig";
 
 export function ToolDialog({

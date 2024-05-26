@@ -3,9 +3,9 @@ import { Pressable, ScrollView, View } from "react-native";
 import type { ToolName } from "@mychat/db/schema/tools/index.js";
 import type { InferResultType } from "@mychat/db/types/utils.js";
 import { api } from "@mychat/api/client/react-query";
+import { Text } from "@mychat/ui/native/Text";
+import { cn } from "@mychat/ui/utils";
 
-import { Text } from "~/native/Text";
-import { cn } from "~/utils";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { ToolDialog } from "./[id]/ToolDialog";
 

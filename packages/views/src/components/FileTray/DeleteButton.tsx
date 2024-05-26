@@ -1,10 +1,11 @@
 import { Pressable } from "react-native";
-import { useFileStore } from "@/hooks/useChat/fileStore";
 
 import type { FileInformation } from "@mychat/ui/hooks/useFileInformation";
 import { useHoverHelper } from "@mychat/ui/hooks/useHoverHelper";
-import { Icon } from "@mychat/ui/native/Icon";
+import { Cancel } from "@mychat/ui/svg";
 import { cn } from "@mychat/ui/utils";
+
+import { useFileStore } from "../../hooks/useChat/fileStore";
 
 export function RemoveFileButton({ file }: { file: FileInformation }) {
 	const removeFile = useFileStore((state) => state.removeFile);
@@ -21,12 +22,7 @@ export function RemoveFileButton({ file }: { file: FileInformation }) {
 				!isHover ? "bg-background" : "bg-foreground/20",
 			)}
 		>
-			<Icon
-				type="MaterialIcons"
-				name="close"
-				size={16}
-				className={!isHover ? "text-foreground/60" : "text-foreground"}
-			/>
+			<Cancel />
 		</Pressable>
 	);
 }
@@ -47,12 +43,7 @@ export function RemoveFolderButton({ files }: { files: FileInformation[] }) {
 				!isHover ? "bg-background" : "bg-foreground/20",
 			)}
 		>
-			<Icon
-				type="MaterialIcons"
-				name="close"
-				size={16}
-				className={!isHover ? "text-foreground/60" : "text-foreground"}
-			/>
+			<Cancel className={!isHover ? "text-foreground/60" : "text-foreground"} />
 		</Pressable>
 	);
 }

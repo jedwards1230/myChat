@@ -2,8 +2,7 @@ import Toast from "react-native-toast-message";
 
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
-
-import { Switch } from "~/native/Switch";
+import { Switch } from "@mychat/ui/native/Switch";
 
 export function ToggleToolsSwitch({ agent }: { agent: Agent }) {
 	const agentEditMut = api.agent.edit.useMutation();

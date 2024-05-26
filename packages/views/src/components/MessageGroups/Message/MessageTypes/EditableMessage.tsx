@@ -1,5 +1,4 @@
 import { View } from "react-native";
-import { ErrorMessage, parseError } from "@/views/auth/AuthFormWrapper";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import z from "zod";
@@ -10,6 +9,7 @@ import { Button } from "@mychat/ui/native/Button";
 import { Text } from "@mychat/ui/native/Text";
 import { Textarea } from "@mychat/ui/native/Textarea";
 
+import { ErrorMessage, parseError } from "../../../../views/auth/AuthFormWrapper";
 import { useGroupStore } from "../../GroupStore";
 
 const InputEdit = z.object({

@@ -6,13 +6,9 @@ import type {
 import * as React from "react";
 import { Image as RNImage, View } from "react-native";
 
+import type { ComponentPropsWithAsChild, SlottableViewProps, ViewRef } from "../types";
 import type { AvatarImageProps, AvatarRootProps } from "./types";
-import type {
-	ComponentPropsWithAsChild,
-	SlottableViewProps,
-	ViewRef,
-} from "~/primitives/types";
-import * as Slot from "~/primitives/slot";
+import * as Slot from "../slot";
 
 type AvatarState = "loading" | "error" | "loaded";
 

@@ -1,10 +1,9 @@
 import { Pressable, View } from "react-native";
 import * as DocumentPicker from "expo-document-picker";
-import { useFileStore } from "@/hooks/useChat/fileStore";
 
 import { parseLocalFiles } from "@mychat/ui/hooks/useFileInformation";
-import { Icon } from "@mychat/ui/native/Icon";
 
+import { useFileStore } from "../../hooks/useChat/fileStore";
 import { FileButton } from "./FileButton";
 
 export function FileTray() {
@@ -36,12 +35,12 @@ export function FileInputButton() {
 			onPress={triggerFileInput}
 			className="absolute left-0 rounded-full bg-transparent p-1"
 		>
-			<Icon
+			{/* <Icon
 				type="FontAwesome"
 				name="paperclip"
 				size={22}
 				className="text-foreground"
-			/>
+			/> */}
 		</Pressable>
 	);
 }

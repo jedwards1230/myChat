@@ -6,23 +6,23 @@ import type {
 import * as React from "react";
 import { BackHandler, Pressable, View } from "react-native";
 
-import type {
-	PopoverOverlayProps,
-	PopoverPortalProps,
-	PopoverRootProps,
-	RootContext,
-} from "./types";
-import type { LayoutPosition } from "~/primitives/hooks";
+import type { LayoutPosition } from "../hooks";
 import type {
 	PositionedContentProps,
 	PressableRef,
 	SlottablePressableProps,
 	SlottableViewProps,
 	ViewRef,
-} from "~/primitives/types";
-import { useControllableState, useRelativePosition } from "~/primitives/hooks";
-import { Portal as RNPPortal } from "~/primitives/portal";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type {
+	PopoverOverlayProps,
+	PopoverPortalProps,
+	PopoverRootProps,
+	RootContext,
+} from "./types";
+import { useControllableState, useRelativePosition } from "../hooks";
+import { Portal as RNPPortal } from "../portal";
+import * as Slot from "../slot";
 
 interface IRootContext extends RootContext {
 	triggerPosition: LayoutPosition | null;

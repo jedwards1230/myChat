@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { ScrollView, View } from "react-native";
 
 import { Button } from "@mychat/ui/native/Button";
-import { Icon } from "@mychat/ui/native/Icon";
+import { AngleDown } from "@mychat/ui/svg";
 
 import { MessageGroup, useGroupedMessages } from "./MessageGroups/MessageGroup";
 
@@ -70,7 +70,7 @@ export default function ChatHistory({
 function ScrollButton({ onPress }: { onPress: () => void }) {
 	return (
 		<Button variant="outline" size="icon" onPress={onPress} className="rounded-full">
-			<Icon type="AntDesign" name="down" size={18} className="text-foreground/90" />
+			<AngleDown className="text-foreground/90" />
 		</Button>
 	);
 }

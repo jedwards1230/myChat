@@ -1,7 +1,7 @@
 import { SafeAreaView, View } from "react-native";
 import { Link, router } from "expo-router";
 
-import { Text } from "~/native/Text";
+import { Text } from "../native/Text";
 import { ScrollView } from "./ScrollView";
 
 export default function ModalWrapper({

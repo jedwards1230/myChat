@@ -3,11 +3,10 @@ import { View } from "react-native";
 
 import type { CreateAgent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
-
-import { Button } from "~/native/Button";
-import { Input } from "~/native/Input";
-import { Text } from "~/native/Text";
-import { Textarea } from "~/native/Textarea";
+import { Button } from "@mychat/ui/native/Button";
+import { Input } from "@mychat/ui/native/Input";
+import { Text } from "@mychat/ui/native/Text";
+import { Textarea } from "@mychat/ui/native/Textarea";
 
 const defaultAgent: CreateAgent = {
 	name: "",

@@ -24,21 +24,22 @@
 			"outputs": ["node_modules/.cache/.prettiercache"],
 			"outputMode": "new-only"
 		},
-
 		"lint": {
 			"dependsOn": ["topo", "^build"],
-			"outputs": ["node_modules/.cache/.eslintcache"]
+			"outputs": ["node_modules/.cache/.eslintcache"],
+			"outputMode": "new-only"
 		},
 		"migrate": {
 			"dependsOn": ["tsc"],
 			"outputs": []
 		},
 		"npm-check": {
-			"dependsOn": [],
-			"cache": false
+			"inputs": ["package.json", "**/package.json"],
+			"outputMode": "new-only"
 		},
 		"//#npm-check": {
-			"dependsOn": []
+			"inputs": ["package.json", "**/package.json"],
+			"outputMode": "new-only"
 		},
 		"start": {
 			"dependsOn": ["^build"]

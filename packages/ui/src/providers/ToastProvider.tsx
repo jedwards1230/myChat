@@ -5,47 +5,31 @@ import { RootSiblingParent } from "react-native-root-siblings";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import Toast from "react-native-toast-message";
 
-import type { IconProps } from "~/native/Icon";
-import { Alert, AlertDescription, AlertTitle } from "~/native/Alert";
-
-const SuccessIconProps: IconProps = {
-	type: "AntDesign",
-	name: "check",
-};
-
-const ErrorIconProps: IconProps = {
-	type: "AntDesign",
-	name: "closecircle",
-};
-
-const InfoIconProps: IconProps = {
-	type: "AntDesign",
-	name: "infocirlce",
-};
+import { Alert, AlertDescription, AlertTitle } from "../native/Alert";
 
 /**
  * @docs https://github.com/calintamas/react-native-toast-message
  */
 const TOAST_CONFIG: ToastConfig = {
-	success: ({ text1, text2, onPress, props: { iconProps = SuccessIconProps } }) => (
+	success: ({ text1, text2, onPress }) => (
 		<Pressable onPress={onPress} className="w-full max-w-xl px-2">
-			<Alert iconProps={iconProps} variant="success">
+			<Alert variant="success">
 				<AlertTitle>{text1}</AlertTitle>
 				<AlertDescription>{text2}</AlertDescription>
 			</Alert>
 		</Pressable>
 	),
-	error: ({ text1, text2, onPress, props: { iconProps = ErrorIconProps } }) => (
+	error: ({ text1, text2, onPress }) => (
 		<Pressable onPress={onPress} className="w-full max-w-xl px-2">
-			<Alert iconProps={iconProps} variant="destructive">
+			<Alert variant="destructive">
 				<AlertTitle>{text1}</AlertTitle>
 				<AlertDescription>{text2}</AlertDescription>
 			</Alert>
 		</Pressable>
 	),
-	base: ({ text1, text2, onPress, props: { iconProps = InfoIconProps } }) => (
+	base: ({ text1, text2, onPress }) => (
 		<Pressable onPress={onPress} className="w-full max-w-xl px-2">
-			<Alert iconProps={iconProps} variant="default">
+			<Alert variant="default">
 				<AlertTitle>{text1}</AlertTitle>
 				<AlertDescription>{text2}</AlertDescription>
 			</Alert>

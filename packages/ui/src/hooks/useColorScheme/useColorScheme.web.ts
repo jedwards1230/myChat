@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useColorScheme as useNativewindColorScheme } from "nativewind";
 
-import { themes } from "~/constants/Theme";
-import { useConfigStore } from "~/uiStore";
+import { themes } from "../../constants/Theme";
+import { useConfigStore } from "../../uiStore";
 
 export function useColorScheme() {
 	const [colorScheme, setColorSchemeState] = useState<"dark" | "light">(checkWeb());

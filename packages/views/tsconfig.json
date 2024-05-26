@@ -6,7 +6,6 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"~/*": ["../ui/src/*"],
 			/* https://github.com/vercel/turbo/discussions/620 */
 			"@mychat/api/*": ["../api/src/*"],
 			"@mychat/db/*": ["../db/src/*"],
@@ -14,6 +13,6 @@
 			"@mychat/ui/*": ["../ui/src/*"]
 		}
 	},
-	"include": ["**/*.ts", "**/*.tsx"],
+	"include": ["src", "nativewind-env.d.ts"],
 	"exclude": ["node_modules"]
 }

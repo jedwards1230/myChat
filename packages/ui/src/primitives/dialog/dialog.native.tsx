@@ -3,23 +3,23 @@ import * as React from "react";
 import { BackHandler, Pressable, Text, View } from "react-native";
 
 import type {
-	DialogContentProps,
-	DialogOverlayProps,
-	DialogPortalProps,
-	DialogRootProps,
-	RootContext,
-} from "./types";
-import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableTextProps,
 	SlottableViewProps,
 	TextRef,
 	ViewRef,
-} from "~/primitives/types";
-import { useControllableState } from "~/primitives/hooks";
-import { Portal as RNPPortal } from "~/primitives/portal";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type {
+	DialogContentProps,
+	DialogOverlayProps,
+	DialogPortalProps,
+	DialogRootProps,
+	RootContext,
+} from "./types";
+import { useControllableState } from "../hooks";
+import { Portal as RNPPortal } from "../portal";
+import * as Slot from "../slot";
 
 const DialogContext = React.createContext<(RootContext & { nativeID: string }) | null>(
 	null,

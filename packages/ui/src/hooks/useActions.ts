@@ -1,7 +1,7 @@
 import { api } from "@mychat/api/client/react-query";
 
-import { useConfigStore } from "~/uiStore";
-import { Icon } from "../native/Icon";
+import { Database, Trash } from "../svg";
+import { useConfigStore } from "../uiStore";
 
 export function useActions() {
 	const { threadId } = useConfigStore();
@@ -26,24 +26,18 @@ export function useActions() {
 	const items = [
 		{
 			label: "Delete Active Thread",
-			Icon: Icon,
-			type: "FontAwesome" as const,
-			iconName: "trash" as const,
+			Icon: Trash,
 			onClick: threadId ? () => deleteThread(threadId) : undefined,
 			hidden: !threadId,
 		},
 		{
 			label: "Delete All Threads",
-			Icon: Icon,
-			type: "FontAwesome" as const,
-			iconName: "trash" as const,
+			Icon: Trash,
 			onClick: deleteAllThreads,
 		},
 		{
 			label: "Reset DB",
-			Icon: Icon,
-			type: "FontAwesome" as const,
-			iconName: "database" as const,
+			Icon: Database,
 			onClick: resetDb.action,
 		},
 	];

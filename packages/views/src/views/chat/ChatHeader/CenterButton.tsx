@@ -5,9 +5,8 @@ import { useRouter } from "expo-router";
 
 import { api } from "@mychat/api/client/react-query";
 import { useTokenCount } from "@mychat/ui/hooks/useTokenCount";
-
-import { Icon } from "~/native/Icon";
-import { Text } from "~/native/Text";
+import { Text } from "@mychat/ui/native/Text";
+import { AngleDown } from "@mychat/ui/svg";
 
 export function CenterButton({ threadId }: { threadId: string | null }) {
 	const router = useRouter();
@@ -69,7 +68,7 @@ export function CenterButton({ threadId }: { threadId: string | null }) {
 				>
 					myChat
 				</Text>
-				<Icon type="AntDesign" name="down" size={12} />
+				<AngleDown />
 			</Pressable>
 		</ContextMenuButton>
 	);

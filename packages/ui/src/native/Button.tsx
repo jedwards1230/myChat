@@ -3,7 +3,7 @@ import * as React from "react";
 import { Pressable } from "react-native";
 import { cva } from "class-variance-authority";
 
-import { cn } from "~/utils";
+import { cn } from "../utils";
 import { TextClassContext } from "./Text";
 
 const buttonVariants = cva(

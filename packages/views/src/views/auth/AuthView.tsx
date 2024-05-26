@@ -1,7 +1,8 @@
 import { View } from "react-native";
 import { Link } from "expo-router";
 
-import { Text } from "~/native/Text";
+import { Text } from "@mychat/ui/native/Text";
+
 import { AuthButton } from "./AuthButton";
 import { AuthViewWrapper } from "./AuthViewWrapper";
 

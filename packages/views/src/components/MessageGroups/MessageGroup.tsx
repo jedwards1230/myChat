@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import { useMessages } from "@/hooks/useMessages";
 
 import type { InferResultType } from "@mychat/db/types";
 
+import { useMessages } from "../../hooks/useMessages";
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
 

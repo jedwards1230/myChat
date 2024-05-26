@@ -4,9 +4,8 @@ import { Text, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 import { cva } from "class-variance-authority";
 
-import type { IconProps } from "~/native/Icon";
-import { Icon } from "~/native/Icon";
-import { cn } from "~/utils";
+import { Info } from "../svg";
+import { cn } from "../utils";
 
 const alertVariants = cva(
 	"relative flex w-full flex-row items-center rounded-lg border border-border bg-background p-4 shadow shadow-foreground/10",
@@ -24,20 +23,10 @@ const alertVariants = cva(
 	},
 );
 
-const DefaultIconProps: IconProps = {
-	type: "Entypo",
-	name: "info",
-	size: 20,
-	className: "text-foreground/70",
-};
-
 const Alert = React.forwardRef<
 	React.ElementRef<typeof View>,
-	React.ComponentPropsWithoutRef<typeof View> &
-		VariantProps<typeof alertVariants> & {
-			iconProps?: IconProps;
-		}
->(({ className, variant, children, iconProps = DefaultIconProps, ...props }, ref) => {
+	React.ComponentPropsWithoutRef<typeof View> & VariantProps<typeof alertVariants>
+>(({ className, variant, children, ...props }, ref) => {
 	const { colors } = useTheme();
 	return (
 		<View
@@ -47,9 +36,9 @@ const Alert = React.forwardRef<
 			{...props}
 		>
 			<View className="">
-				<Icon
-					{...{ ...DefaultIconProps, ...iconProps }}
+				<Info
 					color={variant === "destructive" ? colors.notification : colors.text}
+					className="text-foreground/70"
 				/>
 			</View>
 			{children}

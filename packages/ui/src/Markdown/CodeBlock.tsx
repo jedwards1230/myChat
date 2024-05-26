@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { View } from "react-native";
-import * as Clipboard from "expo-clipboard";
+import * as ClipboardLib from "expo-clipboard";
 
-import { Icon } from "../native/Icon";
 import { Text } from "../native/Text";
+import { Clipboard } from "../svg";
 import SyntaxHighlighter from "./SyntaxHighlighter";
 
 export function CodeBlock({
@@ -33,7 +33,7 @@ function CopyButton({ content }: { content: string }) {
 
 	const copy = async () => {
 		setCopied(true);
-		await Clipboard.setStringAsync(content);
+		await ClipboardLib.setStringAsync(content);
 		setTimeout(() => setCopied(false), 1500);
 	};
 
@@ -43,7 +43,7 @@ function CopyButton({ content }: { content: string }) {
 			className="flex flex-row items-center gap-1 text-secondary-foreground/60 hover:text-secondary-foreground"
 		>
 			<>
-				<Icon type="Feather" name="clipboard" />{" "}
+				<Clipboard />{" "}
 			</>
 			<Text className="text-sm md:text-xs">{copied ? "Copied!" : "Copy"}</Text>
 		</Text>

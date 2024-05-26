@@ -2,10 +2,9 @@ import { Suspense, useState } from "react";
 import { View } from "react-native";
 
 import type { FileData } from "@mychat/ui/FileRouter";
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 import { useFileInformation } from "@mychat/ui/hooks/useFileInformation";
 import { CodeBlock } from "@mychat/ui/Markdown/CodeBlock";
-
-import { useColorScheme } from "~/hooks/useColorScheme";
 import {
 	Dialog,
 	DialogClose,
@@ -13,8 +12,9 @@ import {
 	DialogDescription,
 	DialogTitle,
 	DialogTrigger,
-} from "~/native/Dialog";
-import { Text } from "~/native/Text";
+} from "@mychat/ui/native/Dialog";
+import { Text } from "@mychat/ui/native/Text";
+
 import { FileMetadata } from "./FileMetadata";
 
 export function FileDialog({

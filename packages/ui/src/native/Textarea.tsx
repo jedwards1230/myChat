@@ -3,8 +3,8 @@ import * as React from "react";
 import { TextInput } from "react-native";
 import { cva } from "class-variance-authority";
 
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { cn } from "~/utils";
+import { useColorScheme } from "../hooks/useColorScheme";
+import { cn } from "../utils";
 
 const DEFAULT_HEIGHT = 12;
 

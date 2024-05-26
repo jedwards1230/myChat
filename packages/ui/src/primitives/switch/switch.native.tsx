@@ -2,14 +2,14 @@ import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
 import { Pressable, View } from "react-native";
 
-import type { SwitchRootProps } from "./types";
 import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableViewProps,
 	ViewRef,
-} from "~/primitives/types";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type { SwitchRootProps } from "./types";
+import * as Slot from "../slot";
 
 const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRootProps>(
 	(

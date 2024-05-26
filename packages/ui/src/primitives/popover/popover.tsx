@@ -4,20 +4,20 @@ import { Pressable, View } from "react-native";
 import * as Popover from "@radix-ui/react-popover";
 
 import type {
-	PopoverOverlayProps,
-	PopoverPortalProps,
-	PopoverRootProps,
-	RootContext,
-} from "./types";
-import type {
 	PositionedContentProps,
 	PressableRef,
 	SlottablePressableProps,
 	SlottableViewProps,
 	ViewRef,
-} from "~/primitives/types";
-import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type {
+	PopoverOverlayProps,
+	PopoverPortalProps,
+	PopoverRootProps,
+	RootContext,
+} from "./types";
+import { useAugmentedRef, useControllableState } from "../hooks";
+import * as Slot from "../slot";
 
 const RootContext = React.createContext<RootContext | null>(null);
 

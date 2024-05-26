@@ -1,11 +1,10 @@
 import { api } from "@mychat/api/client/react-query";
-
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { Button } from "~/native/Button";
-import { RowItem } from "~/native/Section";
-import { Switch } from "~/native/Switch";
-import { Text } from "~/native/Text";
-import { useConfigStore } from "~/uiStore";
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
+import { Button } from "@mychat/ui/native/Button";
+import { RowItem } from "@mychat/ui/native/Section";
+import { Switch } from "@mychat/ui/native/Switch";
+import { Text } from "@mychat/ui/native/Text";
+import { useConfigStore } from "@mychat/ui/uiStore";
 
 export function ToggleThemeButton() {
 	const { colorScheme, toggleColorScheme } = useColorScheme();

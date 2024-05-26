@@ -5,10 +5,10 @@ import Toast from "react-native-toast-message";
 import type { ToolName } from "@mychat/db/schema/tools/index.js";
 import type { InferResultType } from "@mychat/db/types";
 import { api } from "@mychat/api/client/react-query";
+import { Checkbox } from "@mychat/ui/native/Checkbox";
+import { Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
-import { Checkbox } from "~/native/Checkbox";
-import { Section } from "~/native/Section";
-import { Text } from "~/native/Text";
 import { ToggleToolsSwitch } from "./ToggleTools";
 
 type Agent = InferResultType<"Agent", { tools: true }>;

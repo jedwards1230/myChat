@@ -2,10 +2,9 @@ import { useState } from "react";
 
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
-
-import { Section } from "~/native/Section";
-import { Text } from "~/native/Text";
-import { Textarea } from "~/native/Textarea";
+import { Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
+import { Textarea } from "@mychat/ui/native/Textarea";
 
 export function SystemMessage({ agent }: { agent: Agent }) {
 	const [systemMessage, setSystemMessage] = useState(agent.systemMessage);

@@ -2,8 +2,8 @@ import type { FieldValues, UseFormSetError } from "react-hook-form";
 import { View } from "react-native";
 
 import { isFetchError } from "@mychat/api/fetcher";
+import { Text } from "@mychat/ui/native/Text";
 
-import { Text } from "~/native/Text";
 import { AuthViewWrapper } from "./AuthViewWrapper";
 
 export function AuthFormWrapper({ children }: { children: React.ReactNode }) {

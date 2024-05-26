@@ -1,15 +1,14 @@
 import type { Agent } from "@mychat/db/schema";
+import type { Option } from "@mychat/ui/native/Select";
 import { api } from "@mychat/api/client/react-query";
-
-import type { Option } from "~/native/Select";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "~/native/Select";
-import { Text } from "~/native/Text";
+} from "@mychat/ui/native/Select";
+import { Text } from "@mychat/ui/native/Text";
 
 export function ModelSelector({
 	container,

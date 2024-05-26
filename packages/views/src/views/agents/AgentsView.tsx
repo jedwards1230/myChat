@@ -3,8 +3,8 @@ import { Link } from "expo-router";
 
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
+import { Text } from "@mychat/ui/native/Text";
 
-import { Text } from "~/native/Text";
 import { Drawer } from "../../navigators";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 

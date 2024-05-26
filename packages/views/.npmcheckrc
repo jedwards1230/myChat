@@ -1,8 +1,0 @@
-{
-	"depcheck": {
-		"ignoreMatches": [
-			"solito",
-			"~"
-		]
-	}
-}

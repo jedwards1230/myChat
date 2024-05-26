@@ -3,9 +3,9 @@ import * as React from "react";
 import { Text as RNText } from "react-native";
 import { cva } from "class-variance-authority";
 
-import type { SlottableTextProps, TextRef } from "~/primitives/types";
-import { Slot } from "~/primitives";
-import { cn } from "~/utils";
+import type { SlottableTextProps, TextRef } from "../primitives/types";
+import { Slot } from "../primitives";
+import { cn } from "../utils";
 
 const TextClassContext = React.createContext<string | undefined>(undefined);
 

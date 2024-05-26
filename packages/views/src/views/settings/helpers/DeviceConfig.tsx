@@ -6,9 +6,8 @@ import * as Network from "expo-network";
 import * as SystemUI from "expo-system-ui";
 
 import { BASE_HOST } from "@mychat/api/fetcher";
-
-import { RowItem, Section } from "~/native/Section";
-import { Text } from "~/native/Text";
+import { RowItem, Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
 export function DeviceConfig() {
 	const [mounted, setMounted] = useState(false);

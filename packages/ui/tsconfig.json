@@ -5,12 +5,11 @@
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
 		"baseUrl": ".",
 		"paths": {
-			"~/*": ["./src/*"],
 			"@mychat/api/*": ["../api/src/*"],
 			"@mychat/db/*": ["../db/src/*"],
 			"@mychat/shared/*": ["../shared/src/*"]
 		}
 	},
-	"include": ["src/**/*.ts", "src/**/*.tsx", "nativewind-env.d.ts"],
+	"include": ["src", "generate", "nativewind-env.d.ts"],
 	"exclude": ["node_modules", "dist"]
 }

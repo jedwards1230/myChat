@@ -1,8 +1,8 @@
 import * as React from "react";
 
-import { CheckboxPrimitive } from "~/primitives";
-import { cn } from "~/utils";
-import { Icon } from "./Icon";
+import { CheckboxPrimitive } from "../primitives";
+import { Check } from "../svg";
+import { cn } from "../utils";
 
 const Checkbox = React.forwardRef<
 	React.ElementRef<typeof CheckboxPrimitive.Root>,
@@ -21,12 +21,7 @@ const Checkbox = React.forwardRef<
 			<CheckboxPrimitive.Indicator
 				className={cn("h-full w-full items-center justify-center")}
 			>
-				<Icon
-					type="Entypo"
-					name="check"
-					size={12}
-					className="text-primary-foreground"
-				/>
+				<Check className="text-primary-foreground" />
 			</CheckboxPrimitive.Indicator>
 		</CheckboxPrimitive.Root>
 	);

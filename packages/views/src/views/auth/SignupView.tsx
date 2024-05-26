@@ -6,10 +6,10 @@ import { Controller, useForm } from "react-hook-form";
 import type { CreateUser } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import { CreateUserSchema } from "@mychat/db/schema";
+import { Input } from "@mychat/ui/native/Input";
+import { Label } from "@mychat/ui/native/Label";
+import { Text } from "@mychat/ui/native/Text";
 
-import { Input } from "~/native/Input";
-import { Label } from "~/native/Label";
-import { Text } from "~/native/Text";
 import { AuthButton } from "./AuthButton";
 import { AuthFormWrapper, ErrorMessage, parseError } from "./AuthFormWrapper";
 

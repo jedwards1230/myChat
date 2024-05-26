@@ -1,0 +1,28 @@
+{
+	"extends": ["//"],
+	"pipeline": {
+		"clean": {
+			"dependsOn": ["clean:generated", "clean:svg"],
+			"cache": false
+		},
+		"clean:generated": {
+			"cache": false,
+			"inputs": ["src/svg/**"]
+		},
+		"clean:svg": {
+			"cache": false,
+			"inputs": ["generate/svg/**"]
+		},
+		"gen": {
+			"dependsOn": ["clean:svg"],
+			"inputs": ["generate/**", "svgr.config.cjs"],
+			"outputs": ["src/svg/**"],
+			"outputMode": "new-only"
+		},
+		"lint": {
+			"dependsOn": ["topo", "^build", "gen"],
+			"outputs": ["node_modules/.cache/.eslintcache"],
+			"outputMode": "new-only"
+		}
+	}
+}

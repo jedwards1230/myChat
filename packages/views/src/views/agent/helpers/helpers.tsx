@@ -2,9 +2,9 @@ import { View } from "react-native";
 
 import type { Agent } from "@mychat/db/schema";
 import type { InferResultType } from "@mychat/db/types";
+import { RowItem, Section, SectionBlock } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
 
-import { RowItem, Section, SectionBlock } from "~/native/Section";
-import { Text } from "~/native/Text";
 import { ModelSelector } from "./ModelSelector.web";
 
 const SecondaryInfo = ({ children }: { children: React.ReactNode }) => {

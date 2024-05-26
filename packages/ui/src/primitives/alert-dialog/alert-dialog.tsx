@@ -4,22 +4,22 @@ import { Pressable, Text, View } from "react-native";
 import * as AlertDialog from "@radix-ui/react-alert-dialog";
 
 import type {
-	AlertDialogContentProps,
-	AlertDialogOverlayProps,
-	AlertDialogPortalProps,
-	AlertDialogRootProps,
-	RootContext,
-} from "./types";
-import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableTextProps,
 	SlottableViewProps,
 	TextRef,
 	ViewRef,
-} from "~/primitives/types";
-import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type {
+	AlertDialogContentProps,
+	AlertDialogOverlayProps,
+	AlertDialogPortalProps,
+	AlertDialogRootProps,
+	RootContext,
+} from "./types";
+import { useAugmentedRef, useControllableState } from "../hooks";
+import * as Slot from "../slot";
 
 const AlertDialogContext = React.createContext<RootContext | null>(null);
 

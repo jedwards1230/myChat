@@ -1,10 +1,9 @@
 import { Pressable, View } from "react-native";
 import { Link } from "expo-router";
 
-import { Icon } from "@mychat/ui/native/Icon";
+import type { FileData } from "@mychat/ui/FileRouter";
 import { Text } from "@mychat/ui/native/Text";
-
-import type { FileData } from "~/FileRouter";
+import { Paperclip } from "@mychat/ui/svg";
 
 export const FileMessage = ({ data: { file, query } }: { data: FileData }) => {
 	if ("id" in file) {
@@ -22,7 +21,7 @@ export const FileMessage = ({ data: { file, query } }: { data: FileData }) => {
 					}}
 				>
 					<Pressable className="flex items-center gap-1 rounded-md border bg-secondary p-2">
-						<Icon type="Ionicons" name="attach" />
+						<Paperclip />
 						<Text>{file.name}</Text>
 					</Pressable>
 				</Link>

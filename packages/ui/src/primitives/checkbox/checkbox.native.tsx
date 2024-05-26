@@ -2,13 +2,13 @@ import type { GestureResponderEvent } from "react-native";
 import * as React from "react";
 import { Pressable, View } from "react-native";
 
-import type { CheckboxIndicator, CheckboxRootProps } from "./types";
 import type {
 	ComponentPropsWithAsChild,
 	PressableRef,
 	SlottablePressableProps,
-} from "~/primitives/types";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type { CheckboxIndicator, CheckboxRootProps } from "./types";
+import * as Slot from "../slot";
 
 interface RootContext extends CheckboxRootProps {
 	nativeID?: string;

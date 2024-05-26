@@ -2,10 +2,10 @@ import { useState } from "react";
 import { Pressable, View } from "react-native";
 
 import { useHoverHelper } from "@mychat/ui/hooks/useHoverHelper";
+import { Section } from "@mychat/ui/native/Section";
+import { Text } from "@mychat/ui/native/Text";
+import { cn } from "@mychat/ui/utils";
 
-import { Section } from "~/native/Section";
-import { Text } from "~/native/Text";
-import { cn } from "~/utils";
 import { Drawer } from "../../navigators";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { HeaderWrapper } from "../HeaderWrapper";

@@ -3,8 +3,8 @@ import * as React from "react";
 import { TextInput } from "react-native";
 import { cva } from "class-variance-authority";
 
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { cn } from "~/utils";
+import { useColorScheme } from "../hooks/useColorScheme";
+import { cn } from "../utils";
 
 const inputVariants = cva(
 	"web:flex web:w-full native:text-lg native:leading-[1.25] web:ring-offset-background web:focus-visible:outline-none border-input bg-background text-base text-foreground file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground lg:text-sm",

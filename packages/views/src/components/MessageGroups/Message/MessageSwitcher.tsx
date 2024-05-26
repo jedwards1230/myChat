@@ -2,8 +2,8 @@ import { Pressable, View } from "react-native";
 
 import type { Message } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
-import { Icon } from "@mychat/ui/native/Icon";
 import { Text } from "@mychat/ui/native/Text";
+import { AngleLeft, AngleRight } from "@mychat/ui/svg";
 import { cn } from "@mychat/ui/utils";
 
 import type { ChatMessageGroup } from "../MessageGroup";
@@ -37,9 +37,7 @@ export function MessageSwitcher({
 				onPress={() => switchMessage(prev)}
 				disabled={!prev}
 			>
-				<Icon
-					type="FontAwesome5"
-					name="chevron-left"
+				<AngleLeft
 					className={cn(
 						"!text-sm group-aria-disabled:opacity-30",
 						!prev && "opacity-30",
@@ -50,9 +48,7 @@ export function MessageSwitcher({
 				{siblings.indexOf(message.id) + 1} / {siblings.length}
 			</Text>
 			<Pressable onPress={() => switchMessage(next)} disabled={!next}>
-				<Icon
-					type="FontAwesome5"
-					name="chevron-right"
+				<AngleRight
 					className={cn(
 						"!text-sm group-aria-disabled:opacity-30",
 						!next && "opacity-30",

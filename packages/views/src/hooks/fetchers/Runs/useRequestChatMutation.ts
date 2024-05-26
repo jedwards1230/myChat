@@ -1,8 +1,8 @@
-import { emitFeedback } from "@/lib/FeedbackEmitter";
-import { getStreamProcessor } from "@/lib/StreamProcessor";
-
 import type { Message } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
+
+import { emitFeedback } from "../../../lib/FeedbackEmitter";
+import { getStreamProcessor } from "../../../lib/StreamProcessor";
 
 export const useRequestChatMutation = (fn: () => void) => {
 	const client = api.useUtils();

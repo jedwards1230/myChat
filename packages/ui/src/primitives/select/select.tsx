@@ -3,6 +3,16 @@ import { Pressable, Text, View } from "react-native";
 import * as Select from "@radix-ui/react-select";
 
 import type {
+	ForceMountable,
+	PositionedContentProps,
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "../types";
+import type {
 	RootContext,
 	SelectContentProps,
 	SelectItemProps,
@@ -12,18 +22,8 @@ import type {
 	SelectSeparatorProps,
 	SelectValueProps,
 } from "./types";
-import type {
-	ForceMountable,
-	PositionedContentProps,
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "~/primitives/types";
-import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
-import * as Slot from "~/primitives/slot";
+import { useAugmentedRef, useControllableState } from "../hooks";
+import * as Slot from "../slot";
 
 const SelectContext = React.createContext<RootContext | null>(null);
 

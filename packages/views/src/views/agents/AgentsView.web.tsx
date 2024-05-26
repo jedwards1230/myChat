@@ -4,10 +4,10 @@ import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
+import { Button } from "@mychat/ui/native/Button";
+import { Text } from "@mychat/ui/native/Text";
+import { Pencil, Plus, Trash } from "@mychat/ui/svg";
 
-import { Button } from "~/native/Button";
-import { Icon } from "~/native/Icon";
-import { Text } from "~/native/Text";
 import { Drawer } from "../../navigators";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { HeaderWrapper } from "../HeaderWrapper";
@@ -42,12 +42,7 @@ function NewAgentButton() {
 	return (
 		<Link asChild href="/agent/create/">
 			<Button size="icon" variant="outline">
-				<Icon
-					type="AntDesign"
-					name="plus"
-					size={18}
-					className="text-foreground/40 transition-all group-hover:text-foreground/60 group-active:text-foreground/90"
-				/>
+				<Plus className="text-foreground/40 transition-all group-hover:text-foreground/60 group-active:text-foreground/90" />
 			</Button>
 		</Link>
 	);
@@ -64,23 +59,13 @@ function AgentButton({ agent }: { agent: Agent }) {
 				<View className="flex flex-row gap-4">
 					<Link asChild href="/agent/create/">
 						<Pressable className="group">
-							<Icon
-								type="Octicons"
-								className="text-foreground/60 group-hover:text-foreground"
-								name="pencil"
-								size={18}
-							/>
+							<Pencil className="text-foreground/60 group-hover:text-foreground" />
 						</Pressable>
 					</Link>
 
 					<Link asChild href="/agent/create/">
 						<Pressable className="group">
-							<Icon
-								type="Octicons"
-								className="text-foreground/60 group-hover:text-foreground"
-								name="trash"
-								size={18}
-							/>
+							<Trash className="text-foreground/60 group-hover:text-foreground" />
 						</Pressable>
 					</Link>
 				</View>

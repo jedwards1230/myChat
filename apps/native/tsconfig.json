@@ -4,7 +4,6 @@
 		"baseUrl": ".",
 		"paths": {
 			"@/*": ["./src/*"],
-			"~/*": ["../../packages/ui/src/*"],
 			/* https://github.com/vercel/turbo/discussions/620 */
 			"@mychat/api/*": ["../../packages/api/src/*"],
 			"@mychat/shared/*": ["../../packages/shared/src/*"],

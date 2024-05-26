@@ -5,9 +5,9 @@ import type { Thread } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { Button } from "@mychat/ui/native/Button";
-import { Icon } from "@mychat/ui/native/Icon";
 import { Popover, PopoverContent, PopoverTrigger } from "@mychat/ui/native/Popover";
 import { Text } from "@mychat/ui/native/Text";
+import { Ellipsis, Trash } from "@mychat/ui/svg";
 
 export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	const session = useUserData((s) => s.session);
@@ -23,7 +23,7 @@ export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 
 	const items1 = [
 		{
-			icon: <Icon type="FontAwesome" name="trash" size={18} />,
+			icon: <Trash />,
 			label: "Delete Thread",
 			onClick: async () => {
 				if (!thread.id || !session) return console.error("No threadId or userId");
@@ -35,12 +35,7 @@ export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	return (
 		<Popover className="hidden group-hover/thread:flex">
 			<PopoverTrigger className="group absolute bottom-0 right-1 top-0 self-center">
-				<Icon
-					type="AntDesign"
-					name="ellipsis1"
-					size={20}
-					className="z-10 text-secondary-foreground/70 group-hover:text-secondary-foreground group-aria-selected:text-background"
-				/>
+				<Ellipsis className="z-10 text-secondary-foreground/70 group-hover:text-secondary-foreground group-aria-selected:text-background" />
 			</PopoverTrigger>
 			<PopoverContent
 				side={Platform.OS === "web" ? "bottom" : "top"}

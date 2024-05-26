@@ -1,9 +1,11 @@
 {
 	"depcheck": {
 		"ignoreMatches": [
+			"file-loader",
 			"postcss",
 			"@types/node",
-			"@types/react-dom"
+			"@types/react-dom",
+			"solito"
 		]
 	}
 }

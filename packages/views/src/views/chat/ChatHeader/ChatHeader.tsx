@@ -1,6 +1,6 @@
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
-import { HeaderWrapper } from "@/views/HeaderWrapper";
 
+import { HeaderWrapper } from "../../HeaderWrapper";
 import { CenterButton } from "./CenterButton";
 import LeftButton from "./LeftButton";
 import RightButton from "./RightButton";

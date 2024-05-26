@@ -1,14 +1,14 @@
 import * as React from "react";
 import { Pressable, Text as RNText } from "react-native";
 
-import type { LabelRootProps, LabelTextProps } from "./types";
 import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableTextProps,
 	TextRef,
-} from "~/primitives/types";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type { LabelRootProps, LabelTextProps } from "./types";
+import * as Slot from "../slot";
 
 const Root = React.forwardRef<
 	PressableRef,

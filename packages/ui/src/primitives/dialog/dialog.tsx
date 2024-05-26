@@ -4,22 +4,22 @@ import { Pressable, Text, View } from "react-native";
 import * as Dialog from "@radix-ui/react-dialog";
 
 import type {
-	DialogContentProps,
-	DialogOverlayProps,
-	DialogPortalProps,
-	DialogRootProps,
-	RootContext,
-} from "./types";
-import type {
 	PressableRef,
 	SlottablePressableProps,
 	SlottableTextProps,
 	SlottableViewProps,
 	TextRef,
 	ViewRef,
-} from "~/primitives/types";
-import { useAugmentedRef, useControllableState } from "~/primitives/hooks";
-import * as Slot from "~/primitives/slot";
+} from "../types";
+import type {
+	DialogContentProps,
+	DialogOverlayProps,
+	DialogPortalProps,
+	DialogRootProps,
+	RootContext,
+} from "./types";
+import { useAugmentedRef, useControllableState } from "../hooks";
+import * as Slot from "../slot";
 
 const DialogContext = React.createContext<RootContext | null>(null);
 

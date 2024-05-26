@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import { Text } from "~/native/Text";
+import { Text } from "../native/Text";
 
 export function Section(props: {
 	title: string;

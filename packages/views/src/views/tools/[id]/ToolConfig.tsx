@@ -4,15 +4,15 @@ import { Picker } from "@react-native-picker/picker";
 
 import type { ToolName } from "@mychat/db/schema/tools/index.js";
 import { api } from "@mychat/api/client/react-query";
-
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "~/native/Select";
-import { Text } from "~/native/Text";
+} from "@mychat/ui/native/Select";
+import { Text } from "@mychat/ui/native/Text";
+
 import { ToolForm } from "./ToolForm";
 
 interface SelectOption {

@@ -1,5 +1,6 @@
-import ModalWrapper from "~/native/Modal";
-import { Section } from "~/native/Section";
+import ModalWrapper from "@mychat/ui/native/Modal";
+import { Section } from "@mychat/ui/native/Section";
+
 import { ResetDefaultsButton, StreamToggle, ToggleThemeButton } from "./helpers";
 import { DeviceConfig } from "./helpers/DeviceConfig";
 import { UserConfig } from "./helpers/UserConfig";

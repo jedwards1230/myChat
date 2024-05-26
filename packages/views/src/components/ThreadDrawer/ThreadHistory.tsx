@@ -3,10 +3,10 @@ import { Link } from "expo-router";
 import { FlashList } from "@shopify/flash-list";
 
 import { api } from "@mychat/api/client/react-query";
+import HorizontalLine from "@mychat/ui/native/HorizontalLine";
+import { Text } from "@mychat/ui/native/Text";
+import { AppGrid, OpenInNew, Settings, Wrench } from "@mychat/ui/svg";
 
-import HorizontalLine from "~/native/HorizontalLine";
-import { Icon } from "~/native/Icon";
-import { Text } from "~/native/Text";
 import packageInfo from "../../../../../package.json";
 import LinkButton from "./LinkButton";
 import { ThreadGroup, useThreadGroups } from "./ThreadGroups";
@@ -16,18 +16,18 @@ export default function ThreadHistory() {
 		<View className="flex w-full flex-1 flex-col items-center gap-4 px-2 pb-2 pt-2">
 			<View className="w-full">
 				<LinkButton
-					icon={<Icon type="MaterialIcons" name="open-in-new" />}
+					icon={<OpenInNew />}
 					label="New Chat"
 					href={{ pathname: "/(app)/" }}
 				/>
 				<LinkButton
-					icon={<Icon type="Ionicons" name="grid-outline" />}
+					icon={<AppGrid />}
 					isActive={({ path }) => path === "/agents"}
 					label="Agents"
 					href={{ pathname: "/(app)/agents" }}
 				/>
 				<LinkButton
-					icon={<Icon type="Feather" name="tool" />}
+					icon={<Wrench />}
 					isActive={({ path }) => path === "/tools"}
 					label="Tools"
 					href={{ pathname: "/(app)/tools" }}
@@ -38,7 +38,7 @@ export default function ThreadHistory() {
 			<HorizontalLine />
 			<View className="w-full">
 				<LinkButton
-					icon={<Icon type="MaterialIcons" name="settings" />}
+					icon={<Settings />}
 					isActive={({ path }) => path === "/settings"}
 					label="Settings"
 					href={{ pathname: "/(app)/settings" }}

@@ -1,11 +1,11 @@
 import { View } from "react-native";
 
 import type { FileInformation } from "@mychat/ui/hooks/useFileInformation";
+import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 import { useFileInformation } from "@mychat/ui/hooks/useFileInformation";
 import { CodeBlock } from "@mychat/ui/Markdown/CodeBlock";
+import ModalWrapper from "@mychat/ui/native/Modal";
 
-import { useColorScheme } from "~/hooks/useColorScheme";
-import ModalWrapper from "~/native/Modal";
 import { FileMetadata } from "./FileMetadata";
 
 export default function FileModal({

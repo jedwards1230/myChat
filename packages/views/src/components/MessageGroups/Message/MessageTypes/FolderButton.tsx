@@ -1,11 +1,10 @@
 import { useState } from "react";
 import { Pressable, View } from "react-native";
 
+import type { RouterChildrenProps, RouterData } from "@mychat/ui/FileRouter";
+import { FileRouter } from "@mychat/ui/FileRouter";
 import { Text } from "@mychat/ui/native/Text";
 import { cn } from "@mychat/ui/utils";
-
-import type { RouterChildrenProps, RouterData } from "~/FileRouter";
-import { FileRouter } from "~/FileRouter";
 
 export function FolderButton({
 	baseDir,

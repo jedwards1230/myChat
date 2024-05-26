@@ -10,7 +10,7 @@
 	},
 	"scripts": {
 		"build": "tsc",
-		"clean": "rm -rf .turbo",
+		"clean": "rm -rf .turbo node_modules dist",
 		"dev": "tsc --watch",
 		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "eslint",

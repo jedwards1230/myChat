@@ -1,6 +1,6 @@
 "use client";
 
-import { useActions } from "~/hooks/useActions";
+import { useActions } from "@mychat/ui/hooks/useActions";
 import {
 	CommandDialog as CommandDialogComponent,
 	CommandEmpty,
@@ -8,7 +8,8 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-} from "~/native/Command";
+} from "@mychat/ui/native/Command";
+import { AngleRight } from "@mychat/ui/svg";
 
 export function CommandDialog({
 	open,
@@ -25,14 +26,14 @@ export function CommandDialog({
 			<CommandList>
 				<CommandEmpty>No results found.</CommandEmpty>
 				<CommandGroup heading="Actions">
-					{items.map(({ label, Icon, type, iconName, onClick, hidden }, i) =>
+					{items.map(({ label, onClick, hidden }, i) =>
 						!hidden ? (
 							<CommandItem
 								className="flex !cursor-pointer flex-row items-center gap-2"
 								onSelect={() => onClick?.()}
 								key={i}
 							>
-								<Icon type={type} name={iconName} />
+								<AngleRight />
 								<span>{label}</span>
 							</CommandItem>
 						) : null,

@@ -1,9 +1,8 @@
 import { View } from "react-native";
 
 import { api } from "@mychat/api/client/react-query";
-
-import ModalWrapper from "~/native/Modal";
-import { Text } from "~/native/Text";
+import ModalWrapper from "@mychat/ui/native/Modal";
+import { Text } from "@mychat/ui/native/Text";
 
 export default function AgentListModal() {
 	const { data: agents, isSuccess } = api.agent.all.useQuery();

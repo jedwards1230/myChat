@@ -1,8 +1,9 @@
+"use client";
+
 import { useState } from "react";
 import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 import { api } from "@mychat/api/client/react-query";
-
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -10,9 +11,9 @@ import {
 	DropdownMenuItem,
 	DropdownMenuShortcut,
 	DropdownMenuTrigger,
-} from "~/native/DropdownMenu";
-import { Icon } from "~/native/Icon";
-import { Text } from "~/native/Text";
+} from "@mychat/ui/native/DropdownMenu";
+import { Text } from "@mychat/ui/native/Text";
+import { AngleRight } from "@mychat/ui/svg";
 
 export function Dropdown({
 	children,
@@ -54,8 +55,7 @@ export function Dropdown({
 		{
 			label: "View Agent",
 			onPress: openAgentMenu,
-			icon: "Entypo",
-			iconLabel: "chevron-right",
+			Icon: AngleRight,
 		} as const,
 		{
 			label: "Delete Thread",
@@ -85,12 +85,9 @@ export function Dropdown({
 									onPress={() => action.onPress?.()}
 								>
 									<Text className="w-full">{action.label}</Text>
-									{action.icon && (
+									{action.Icon && (
 										<DropdownMenuShortcut>
-											<Icon
-												type={action.icon}
-												name={action.iconLabel}
-											/>
+											<action.Icon />
 										</DropdownMenuShortcut>
 									)}
 								</DropdownMenuItem>

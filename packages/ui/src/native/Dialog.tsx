@@ -3,10 +3,10 @@ import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { DialogPrimitive } from "~/primitives";
-import { ToastPortal } from "~/providers/ToastProvider";
-import { cn } from "~/utils";
+import { useColorScheme } from "../hooks/useColorScheme";
+import { DialogPrimitive } from "../primitives";
+import { ToastPortal } from "../providers/ToastProvider";
+import { cn } from "../utils";
 
 const Dialog = DialogPrimitive.Root;
 

@@ -4,7 +4,7 @@ import { useFileStore } from "@/hooks/useChat/fileStore";
 
 import { FileRouter } from "@mychat/ui/FileRouter";
 import { parseLocalFiles } from "@mychat/ui/hooks/useFileInformation";
-import { Icon } from "@mychat/ui/native/Icon";
+import { Folder, Paperclip } from "@mychat/ui/svg";
 
 import { FileButton } from "./FileButton";
 import { FolderButton } from "./FolderButton";
@@ -72,24 +72,14 @@ export function FileInputButton() {
 				onPress={() => fileInputRef.current?.click()}
 				className="absolute left-0 rounded-full bg-transparent p-1 md:left-2"
 			>
-				<Icon
-					type="FontAwesome"
-					name="paperclip"
-					size={22}
-					className="text-foreground"
-				/>
+				<Paperclip />
 			</Pressable>
 
 			<Pressable
 				onPress={() => directoryInputRef.current?.click()}
 				className="absolute left-6 rounded-full bg-transparent p-1 md:left-8"
 			>
-				<Icon
-					type="Feather"
-					name="folder"
-					size={22}
-					className="text-foreground"
-				/>
+				<Folder />
 			</Pressable>
 		</>
 	);

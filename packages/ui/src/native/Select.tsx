@@ -2,9 +2,9 @@ import * as React from "react";
 import { Platform, StyleSheet, View } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import { SelectPrimitive } from "~/primitives";
-import { cn } from "~/utils";
-import { Icon } from "./Icon";
+import { SelectPrimitive } from "../primitives";
+import { AngleDown, AngleUp, CircleCheck } from "../svg";
+import { cn } from "../utils";
 
 type Option = SelectPrimitive.Option;
 
@@ -28,13 +28,7 @@ const SelectTrigger = React.forwardRef<
 		{...props}
 	>
 		<>{children}</>
-		<Icon
-			type="AntDesign"
-			name="down"
-			aria-hidden={true}
-			size={16}
-			className="opacity-50"
-		/>
+		<AngleDown aria-hidden={true} className="opacity-50" />
 	</SelectPrimitive.Trigger>
 ));
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
@@ -57,7 +51,7 @@ const SelectScrollUpButton = ({
 			)}
 			{...props}
 		>
-			<Icon type="AntDesign" name="up" size={14} />
+			<AngleUp />
 		</SelectPrimitive.ScrollUpButton>
 	);
 };
@@ -80,7 +74,7 @@ const SelectScrollDownButton = ({
 			)}
 			{...props}
 		>
-			<Icon type="AntDesign" name="down" size={14} />
+			<AngleDown />
 		</SelectPrimitive.ScrollDownButton>
 	);
 };
@@ -162,12 +156,7 @@ const SelectItem = React.forwardRef<
 	>
 		<View className="native:left-3.5 native:pt-px absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
 			<SelectPrimitive.ItemIndicator>
-				<Icon
-					type="AntDesign"
-					name="checkcircleo"
-					size={16}
-					className="text-popover-foreground"
-				/>
+				<CircleCheck className="text-popover-foreground" />
 			</SelectPrimitive.ItemIndicator>
 		</View>
 

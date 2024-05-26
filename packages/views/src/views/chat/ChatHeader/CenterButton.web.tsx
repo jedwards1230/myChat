@@ -1,7 +1,8 @@
 import { View } from "react-native";
 
-import { Icon } from "~/native/Icon";
-import { Text } from "~/native/Text";
+import { Text } from "@mychat/ui/native/Text";
+import { AngleDown } from "@mychat/ui/svg";
+
 import { Dropdown } from "./Dropdown";
 
 export function CenterButton({ threadId }: { threadId: string | null }) {
@@ -18,12 +19,7 @@ export function CenterButton({ threadId }: { threadId: string | null }) {
 				>
 					myChat
 				</Text>
-				<Icon
-					type="AntDesign"
-					name="down"
-					size={12}
-					className="text-secondary-foreground"
-				/>
+				<AngleDown />
 			</Dropdown>
 		</View>
 	);

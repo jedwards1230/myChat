@@ -1,9 +1,9 @@
-import type { FormSubmission } from "@/hooks/useChat";
 import { useEffect, useState } from "react";
-import { Platform, Pressable, View } from "react-native";
+import { Pressable, View } from "react-native";
 
-import { Icon } from "@mychat/ui/native/Icon";
+import { AngleUp, StopCircle } from "@mychat/ui/svg";
 
+import type { FormSubmission } from "../../hooks/useChat";
 import { CommandTray } from "../CommandTray";
 import { FileInputButton, FileTray } from "../FileTray";
 import ChatInput from "./ChatInput";
@@ -61,14 +61,7 @@ function SendButton({ handleSend }: { handleSend: () => void }) {
 			onPress={handleSend}
 			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
 		>
-			<Icon
-				type="MaterialIcons"
-				name={Platform.select({
-					web: "keyboard-arrow-up",
-					default: "chevron-right",
-				})}
-				size={22}
-			/>
+			<AngleUp />
 		</Pressable>
 	);
 }
@@ -79,7 +72,7 @@ function StopButton({ abort }: { abort: () => void }) {
 			onPress={abort}
 			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
 		>
-			<Icon type="MaterialIcons" name="stop" size={22} />
+			<StopCircle />
 		</Pressable>
 	);
 }

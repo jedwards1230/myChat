@@ -7,9 +7,9 @@ import Animated, {
 	withTiming,
 } from "react-native-reanimated";
 
-import { useColorScheme } from "~/hooks/useColorScheme";
-import { SwitchPrimitive } from "~/primitives";
-import { cn } from "~/utils";
+import { useColorScheme } from "../hooks/useColorScheme";
+import { SwitchPrimitive } from "../primitives";
+import { cn } from "../utils";
 
 const SwitchWeb = React.forwardRef<
 	React.ElementRef<typeof SwitchPrimitive.Root>,

@@ -3,9 +3,8 @@ import Toast from "react-native-toast-message";
 
 import type { InferResultType } from "@mychat/db/types/utils.js";
 import { api } from "@mychat/api/client/react-query";
-
-import { Switch } from "~/native/Switch";
-import { Text } from "~/native/Text";
+import { Switch } from "@mychat/ui/native/Switch";
+import { Text } from "@mychat/ui/native/Text";
 
 type AgentTool = InferResultType<"AgentTool">;
 

@@ -3,7 +3,7 @@ import { Keyboard, Pressable } from "react-native";
 import { type DrawerNavigationProp } from "@react-navigation/drawer";
 import { DrawerActions, useNavigation } from "@react-navigation/native";
 
-import { Icon } from "~/native/Icon";
+import { Bars } from "@mychat/ui/svg";
 
 export default function LeftButton() {
 	const navigation = useNavigation<DrawerNavigationProp<ParamListBase>>();
@@ -16,7 +16,7 @@ export default function LeftButton() {
 				Keyboard.dismiss();
 			}}
 		>
-			<Icon type="Ionicons" name="menu-outline" size={24} />
+			<Bars />
 		</Pressable>
 	);
 }

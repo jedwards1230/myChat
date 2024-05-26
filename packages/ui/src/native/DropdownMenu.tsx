@@ -3,8 +3,8 @@ import type { StyleProp, ViewStyle } from "react-native";
 import * as React from "react";
 import { Platform, StyleSheet, Text, View } from "react-native";
 
-import { DropdownMenuPrimitive } from "~/primitives";
-import { cn } from "~/utils";
+import { DropdownMenuPrimitive } from "../primitives";
+import { cn } from "../utils";
 import { TextClassContext } from "./Text";
 
 const DropdownMenu = DropdownMenuPrimitive.Root;

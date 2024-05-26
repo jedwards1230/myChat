@@ -2,8 +2,8 @@ import * as React from "react";
 import { Platform, StyleSheet } from "react-native";
 import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
-import { PopoverPrimitive } from "~/primitives";
-import { cn } from "~/utils";
+import { PopoverPrimitive } from "../primitives";
+import { cn } from "../utils";
 import { TextClassContext } from "./Text";
 
 const Popover = PopoverPrimitive.Root;

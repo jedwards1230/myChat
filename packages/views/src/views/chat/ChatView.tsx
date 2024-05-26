@@ -1,10 +1,10 @@
 import type { NativeStackHeaderProps } from "@react-navigation/native-stack";
 import { View } from "react-native";
-import ChatHistory from "@/components/ChatHistory";
-import { ChatInputContainer } from "@/components/ChatInput";
-import { useChat } from "@/hooks/useChat";
-import { Drawer } from "@/navigators";
 
+import ChatHistory from "../../components/ChatHistory";
+import { ChatInputContainer } from "../../components/ChatInput";
+import { useChat } from "../../hooks/useChat";
+import { Drawer } from "../../navigators";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { ChatHeader } from "./ChatHeader";
 

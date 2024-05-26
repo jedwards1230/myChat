@@ -6,6 +6,17 @@ import type {
 import * as React from "react";
 import { BackHandler, Pressable, Text, View } from "react-native";
 
+import type { LayoutPosition } from "../hooks";
+import type {
+	ForceMountable,
+	PositionedContentProps,
+	PressableRef,
+	SlottablePressableProps,
+	SlottableTextProps,
+	SlottableViewProps,
+	TextRef,
+	ViewRef,
+} from "../types";
 import type {
 	DropdownMenuCheckboxItemProps,
 	DropdownMenuItemProps,
@@ -18,20 +29,9 @@ import type {
 	DropdownMenuSubProps,
 	DropdownMenuSubTriggerProps,
 } from "./types";
-import type { LayoutPosition } from "~/primitives/hooks";
-import type {
-	ForceMountable,
-	PositionedContentProps,
-	PressableRef,
-	SlottablePressableProps,
-	SlottableTextProps,
-	SlottableViewProps,
-	TextRef,
-	ViewRef,
-} from "~/primitives/types";
-import { useRelativePosition } from "~/primitives/hooks";
-import { Portal as RNPPortal } from "~/primitives/portal";
-import * as Slot from "~/primitives/slot";
+import { useRelativePosition } from "../hooks";
+import { Portal as RNPPortal } from "../portal";
+import * as Slot from "../slot";
 
 interface IRootContext extends DropdownMenuRootProps {
 	triggerPosition: LayoutPosition | null;
