@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { View } from "react-native";
-import * as ClipboardLib from "expo-clipboard";
+
+import ClipboardLib from "@mychat/shared/lib/clipboard";
 
 import { Text } from "../native/Text";
 import { Clipboard } from "../svg";

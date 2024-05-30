@@ -34,7 +34,7 @@ export const MessageGroup = ({
 	const editMode = editGroupId === item.id;
 
 	return (
-		<View className="web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto w-full">
+		<View className="mx-auto w-full web:md:max-w-[90%] web:lg:max-w-[75%]">
 			<MessageGroupBubble
 				editMode={editMode}
 				group={item}

@@ -1,6 +1,5 @@
 import { Pressable, View } from "react-native";
 import { Link } from "expo-router";
-import { AgentDialog } from "@/views/agent/AgentDialog.web";
 
 import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
@@ -8,7 +7,8 @@ import { Button } from "@mychat/ui/native/Button";
 import { Text } from "@mychat/ui/native/Text";
 import { Pencil, Plus, Trash } from "@mychat/ui/svg";
 
-import { Drawer } from "../../navigators";
+import { Drawer } from "../../components/Drawer";
+import { AgentDialog } from "../agent/AgentDialog.web";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { HeaderWrapper } from "../HeaderWrapper";
 

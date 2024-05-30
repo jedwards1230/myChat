@@ -5,8 +5,8 @@ import { View } from "react-native";
 
 import ChatHistory from "../../components/ChatHistory";
 import { ChatInputContainer } from "../../components/ChatInput";
+import { Drawer } from "../../components/Drawer";
 import { useChat } from "../../hooks/useChat";
-import { Drawer } from "../../navigators";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { ChatHeader } from "./ChatHeader";
 

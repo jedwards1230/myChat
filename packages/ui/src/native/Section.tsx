@@ -20,7 +20,7 @@ export function Section(props: {
 
 export function SectionBlock(props: { children: React.ReactNode }) {
 	return (
-		<View className="web:border web:border-border flex w-full items-stretch gap-2 rounded-lg bg-input p-2 md:bg-background md:p-4">
+		<View className="flex w-full items-stretch gap-2 rounded-lg bg-input p-2 web:border web:border-border md:bg-background md:p-4">
 			{props.children}
 		</View>
 	);

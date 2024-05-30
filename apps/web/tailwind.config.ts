@@ -4,8 +4,10 @@ import { fontFamily } from "tailwindcss/defaultTheme";
 import baseConfig from "@mychat/tailwind-config/web";
 
 const config: Config = {
-	content: [...baseConfig.content, "../../packages/ui/**/*.{ts,tsx}"],
+	content: [...baseConfig.content, "../../packages/**/*.{js,jsx,ts,tsx}"],
 	presets: [baseConfig],
+	plugins: [],
+	important: "html",
 	theme: {
 		extend: {
 			fontFamily: {
@@ -19,6 +21,5 @@ const config: Config = {
 			},
 		},
 	},
-	plugins: [],
 };
 export default config;

@@ -7,19 +7,19 @@ import { cn } from "../utils";
 import { TextClassContext } from "./Text";
 
 const buttonVariants = cva(
-	"web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 group flex items-center justify-center rounded-md",
+	"group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
 	{
 		variants: {
 			variant: {
-				default: "web:hover:opacity-90 bg-primary active:opacity-90",
-				destructive: "web:hover:opacity-90 bg-destructive active:opacity-90",
+				default: "bg-primary active:opacity-90 web:hover:opacity-90",
+				destructive: "bg-destructive active:opacity-90 web:hover:opacity-90",
 				outline:
-					"web:hover:bg-accent web:hover:text-accent-foreground border border-input bg-background active:bg-accent",
-				secondary: "web:hover:opacity-80 bg-secondary active:opacity-80",
-				ghost: "web:hover:bg-accent web:hover:text-accent-foreground active:bg-accent",
+					"border border-input bg-background active:bg-accent web:hover:bg-accent web:hover:text-accent-foreground",
+				secondary: "bg-secondary active:opacity-80 web:hover:opacity-80",
+				ghost: "active:bg-accent web:hover:bg-accent web:hover:text-accent-foreground",
 				link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
 				navItem:
-					"web:justify-start flex w-full flex-row items-center justify-between gap-2 bg-secondary hover:bg-secondary-foreground/10 active:opacity-90 dark:hover:bg-secondary-foreground/50",
+					"flex w-full flex-row items-center justify-between gap-2 bg-secondary hover:bg-secondary-foreground/10 active:opacity-90 web:justify-start dark:hover:bg-secondary-foreground/50",
 			},
 			size: {
 				default: "native:h-12 native:px-5 native:py-3 h-10 px-4 py-2",
@@ -37,7 +37,7 @@ const buttonVariants = cva(
 );
 
 const buttonTextVariants = cva(
-	"web:whitespace-nowrap native:text-base web:transition-colors text-sm text-foreground",
+	"native:text-base text-sm text-foreground web:whitespace-nowrap web:transition-colors",
 	{
 		variants: {
 			variant: {

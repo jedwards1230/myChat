@@ -1,8 +1,8 @@
-import { useFileStore } from "@/hooks/useChat/fileStore";
-
 import type { FileInformation } from "@mychat/ui/hooks/useFileInformation";
 import { api } from "@mychat/api/client/react-query";
 import { toMessageFile } from "@mychat/ui/hooks/useFileInformation";
+
+import { useFileStore } from "../../useChat/fileStore";
 
 /** Post a message file to the server */
 export const useMessageFilePost = () => {

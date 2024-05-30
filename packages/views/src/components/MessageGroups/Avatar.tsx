@@ -1,11 +1,11 @@
 import { View } from "react-native";
 import { SolitoImage } from "solito/image";
 
-import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { Text } from "@mychat/ui/native/Text";
 import { cn } from "@mychat/ui/utils";
 
 import type { ChatMessageGroup } from "./MessageGroup";
+import { useUserData } from "../../hooks/useUserData";
 
 const blurhash =
 	"|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj[";
@@ -34,10 +34,13 @@ export function Avatar({ group }: { group: Pick<ChatMessageGroup, "name" | "role
 		>
 			{img ? (
 				<SolitoImage
-					src={img}
+					src={img as any}
 					alt={name}
 					width={24}
 					height={24}
+					contentFit="contain"
+					resizeMode={"contain"}
+					onLayout={() => console.log("onLayout - Avatar")}
 					placeholder="blur"
 					blurDataURL={blurhash}
 				/>

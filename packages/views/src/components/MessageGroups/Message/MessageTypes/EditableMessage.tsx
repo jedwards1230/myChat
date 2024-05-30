@@ -60,7 +60,7 @@ export function EditableMessage({ message }: { message: Message }) {
 					<Textarea
 						onBlur={onBlur}
 						onChangeText={onChange}
-						className="web:focus-visible:!ring-offset-0 web:focus-visible:ring-0 h-full !border-0 !border-transparent bg-transparent px-2 py-0 focus-visible:!border-transparent"
+						className="h-full !border-0 !border-transparent bg-transparent px-2 py-0 focus-visible:!border-transparent web:focus-visible:ring-0 web:focus-visible:!ring-offset-0"
 						value={value}
 					/>
 				)}

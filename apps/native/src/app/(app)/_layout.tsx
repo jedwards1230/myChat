@@ -2,13 +2,13 @@ import type { DrawerContentComponentProps } from "@react-navigation/drawer";
 import { useEffect } from "react";
 import { Platform } from "react-native";
 import { Redirect } from "expo-router";
-import ThreadHistory from "@/components/ThreadDrawer/ThreadHistory";
 import { useBreakpoints } from "@/hooks/useBreakpoints";
 
-import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
 import NativeSafeAreaView from "@mychat/ui/NativeSafeAreaView";
-import { Drawer } from "@mychat/views/navigators";
+import { Drawer } from "@mychat/views/components/Drawer";
+import ThreadHistory from "@mychat/views/components/ThreadDrawer/ThreadHistory";
+import { useUserData } from "@mychat/views/hooks/useUserData";
 
 export default function HomeLayout() {
 	const session = useUserData.use.session();

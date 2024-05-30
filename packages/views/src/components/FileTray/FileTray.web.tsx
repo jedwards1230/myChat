@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { Pressable, View } from "react-native";
-import { useFileStore } from "@/hooks/useChat/fileStore";
 
 import { FileRouter } from "@mychat/ui/FileRouter";
 import { parseLocalFiles } from "@mychat/ui/hooks/useFileInformation";
 import { Folder, Paperclip } from "@mychat/ui/svg";
 
+import { useFileStore } from "../../hooks/useChat/fileStore";
 import { FileButton } from "./FileButton";
 import { FolderButton } from "./FolderButton";
 

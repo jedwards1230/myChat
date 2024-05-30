@@ -5,7 +5,6 @@
 		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
 		"baseUrl": ".",
 		"paths": {
-			"@/*": ["./src/*"],
 			/* https://github.com/vercel/turbo/discussions/620 */
 			"@mychat/api/*": ["../api/src/*"],
 			"@mychat/db/*": ["../db/src/*"],

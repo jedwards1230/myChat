@@ -30,7 +30,7 @@ export function DeviceConfig() {
 	}, []);
 
 	return (
-		<View className="web:gap-4 flex w-full flex-col gap-2">
+		<View className="flex w-full flex-col gap-2 web:gap-4">
 			{Platform.OS !== "web" && (
 				<Section title="App">
 					<RowItem>

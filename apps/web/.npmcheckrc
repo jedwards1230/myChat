@@ -1,12 +1,10 @@
 {
 	"depcheck": {
 		"ignoreMatches": [
-			"file-loader",
-			"postcss",
 			"@types/node",
 			"@types/react-dom",
-			"sharp",
-			"solito"
+			"autoprefixer",
+			"sharp"
 		]
 	}
 }

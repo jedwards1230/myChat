@@ -1,5 +1,6 @@
 import { api } from "@mychat/api/client/react-query";
-import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
+
+import { useUserData } from "../../../hooks/useUserData";
 
 export function useUserSessionPost() {
 	const session = useUserData.use.session();

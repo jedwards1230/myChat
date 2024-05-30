@@ -1,3 +1,5 @@
+"use client";
+
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Text as RNText } from "react-native";

@@ -6,7 +6,7 @@ import { Section } from "@mychat/ui/native/Section";
 import { Text } from "@mychat/ui/native/Text";
 import { cn } from "@mychat/ui/utils";
 
-import { Drawer } from "../../navigators";
+import { Drawer } from "../../components/Drawer";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 import { HeaderWrapper } from "../HeaderWrapper";
 import {

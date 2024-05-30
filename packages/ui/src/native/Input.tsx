@@ -7,13 +7,13 @@ import { useColorScheme } from "../hooks/useColorScheme";
 import { cn } from "../utils";
 
 const inputVariants = cva(
-	"web:flex web:w-full native:text-lg native:leading-[1.25] web:ring-offset-background web:focus-visible:outline-none border-input bg-background text-base text-foreground file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground lg:text-sm",
+	"native:text-lg native:leading-[1.25] border-input bg-background text-base text-foreground file:border-0 file:bg-transparent file:font-medium placeholder:text-muted-foreground web:flex web:w-full web:ring-offset-background web:focus-visible:outline-none lg:text-sm",
 	{
 		variants: {
 			variant: {
 				default:
-					"web:py-2 web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 rounded-md border px-3 opacity-50",
-				chat: "web:pr-8 pr-6 pt-3",
+					"rounded-md border px-3 opacity-50 web:py-2 web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+				chat: "pr-6 pt-3 web:pr-8",
 			},
 			size: {
 				default: "native:h-12 h-10",

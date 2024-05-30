@@ -1,9 +1,9 @@
 import { api } from "@mychat/api/client/react-query";
-import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { Button } from "@mychat/ui/native/Button";
 import { RowItem, Section } from "@mychat/ui/native/Section";
 import { Text } from "@mychat/ui/native/Text";
 
+import { useUserData } from "../../../hooks/useUserData";
 import { LogoutButton } from "../helpers";
 
 export function UserConfig() {
@@ -30,7 +30,7 @@ export function UserConfig() {
 						threads: undefined,
 						agents: undefined,
 						tools: undefined,
-						defaultAgent: user.defaultAgent.id,
+						defaultAgent: user.defaultAgentId,
 					}).map(([k, v], i) =>
 						v ? (
 							<RowItem key={i}>
@@ -45,7 +45,7 @@ export function UserConfig() {
 					Object.entries(session).map(([k, v], i) => (
 						<RowItem key={i}>
 							<Text>{k}</Text>
-							<Text>{v.toString()}</Text>
+							<Text>{v?.toString()}</Text>
 						</RowItem>
 					))}
 				<LogoutButton />

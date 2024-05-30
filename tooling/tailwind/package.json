@@ -16,7 +16,7 @@
 		"tsc": "tsc --noEmit"
 	},
 	"dependencies": {
-		"postcss": "^8.4.38",
+		"nativewind": "^4.0.36",
 		"tailwindcss": "^3.4.3",
 		"tailwindcss-animate": "^1.0.7"
 	},

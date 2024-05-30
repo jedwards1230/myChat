@@ -40,7 +40,7 @@ export default function LinkButton({
 					role="tab"
 					aria-selected={isActive?.({ threadId, path })}
 					className={cn(
-						"web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2 web:justify-start group flex w-full flex-row items-center justify-between gap-2 rounded p-2 transition-colors active:opacity-90 aria-selected:bg-foreground/10",
+						"group flex w-full flex-row items-center justify-between gap-2 rounded p-2 transition-colors active:opacity-90 aria-selected:bg-foreground/10 web:justify-start web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
 						isHover
 							? "bg-secondary-foreground/10 dark:bg-secondary-foreground/50"
 							: "bg-secondary",

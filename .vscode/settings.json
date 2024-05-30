@@ -21,6 +21,8 @@
 		["cx\\(([^)]*)\\)", "(?:'|\"|`)([^']*)(?:'|\"|`)"]
 	],
 
+	"turbo.useLocalTurbo": true,
+
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"typescript.preferences.autoImportFileExcludePatterns": [
 		"next/router.d.ts",

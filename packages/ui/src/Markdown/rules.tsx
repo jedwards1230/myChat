@@ -1,8 +1,8 @@
-import type { ASTNode, MarkdownProps } from "react-native-markdown-display";
 import { Platform, Pressable, View } from "react-native";
-import { hasParents } from "react-native-markdown-display";
-import { Image } from "expo-image";
-import { cssInterop } from "nativewind";
+import { SolitoImage } from "solito/image";
+
+import type { ASTNode, Rules } from "@mychat/shared/lib/markdown-display";
+import { hasParents } from "@mychat/shared/lib/markdown-display";
 
 import type { TextProps } from "../native/Text";
 import { ExternalLink } from "../ExternalLink";
@@ -10,17 +10,13 @@ import { Text } from "../native/Text";
 import { cn } from "../utils";
 import { CodeBlock } from "./CodeBlock";
 
-cssInterop(Image, { className: "style" });
-
 // This is a hack to check if a node has a parent of a certain type
 // This is useful for the Text element and handling style inheritance for React Native
 function hasParent(parents: ASTNode[], ...filters: string[]) {
 	return parents.some((parent) => filters.includes(parent.type));
 }
 
-export const getMarkdownRules = (
-	colorScheme: "light" | "dark",
-): MarkdownProps["rules"] => ({
+export const getMarkdownRules = (colorScheme: "light" | "dark"): Rules => ({
 	body: (node, children) => (
 		<View accessible={false} key={node.key} className="pl-2 md:pl-0">
 			{children}
@@ -282,18 +278,16 @@ export const getMarkdownRules = (
 
 		if (show === false) return null;
 		return (
-			<ExternalLink
-				asChild
-				className="flex w-full flex-1"
-				key={node.key}
-				href={src}
-			>
+			<ExternalLink className="flex w-full flex-1" key={node.key} href={src}>
 				<Pressable>
-					<Image
+					<SolitoImage
+						src={src}
+						placeholder="blur"
+						blurDataURL={
+							"|rF?hV%2WCj[ayj[a|j[az_NaeWBj@ayfRayfQfQM{M|azj[azf6fQfQfQIpWXofj[ayj[j[fQayWCoeoeaya}j[ayfQa{oLj?j[WVj[ayayj[fQoff7azayj[ayj[j[ayofayayayj[fQj[ayayj[ayfjj[j[ayjuayj["
+						}
 						className="h-96 w-full"
 						contentFit="contain"
-						onError={(e) => console.error(e)}
-						source={src}
 						{...(alt && {
 							accessibilityLabel: alt,
 							...(Platform.OS !== "web" && { accessible: true }),

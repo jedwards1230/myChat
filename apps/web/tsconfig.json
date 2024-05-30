@@ -1,6 +1,7 @@
 {
 	"extends": ["@mychat/tsconfig/base.json"],
 	"compilerOptions": {
+		"jsxImportSource": "nativewind",
 		"plugins": [{ "name": "next" }],
 		"paths": {
 			"@/*": ["./src/*"],
@@ -10,8 +11,15 @@
 			"@mychat/ui/*": ["../../packages/ui/src/*"],
 			"@mychat/views/*": ["../../packages/views/src/*"]
 		},
-		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json"
+		"tsBuildInfoFile": "node_modules/.cache/tsbuildinfo.json",
+		"jsx": "preserve"
 	},
-	"include": ["next-env.d.ts", "app-env.d.ts", "**/*.ts", "src", ".next/types/**/*.ts"],
+	"include": [
+		"next-env.d.ts",
+		"app-env.d.ts",
+		"tailwind.config.ts",
+		"src",
+		".next/types/**/*.ts"
+	],
 	"exclude": ["node_modules", ".next"]
 }

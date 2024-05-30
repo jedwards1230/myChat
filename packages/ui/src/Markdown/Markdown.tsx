@@ -1,13 +1,8 @@
-import type { PropsWithChildren } from "react";
-import type { MarkdownProps } from "react-native-markdown-display";
-import Markdown, { MarkdownIt } from "react-native-markdown-display";
+import type { MarkdownComponentProps } from "@mychat/shared/lib/markdown-display";
+import { Markdown } from "@mychat/shared/lib/markdown-display";
 
 import { useColorScheme } from "../hooks/useColorScheme";
 import { getMarkdownRules } from "./rules";
-
-type MarkdownComponentProps = PropsWithChildren<MarkdownProps>;
-
-const markdownItInstance = MarkdownIt({ typographer: true, linkify: true });
 
 const debug = false;
 
@@ -18,7 +13,6 @@ export default function MarkdownComponent(props: MarkdownComponentProps) {
 	return (
 		<Markdown
 			mergeStyle={false}
-			markdownit={markdownItInstance}
 			rules={markdownRules}
 			{...props}
 			{...(debug ? { children: testStr } : {})}

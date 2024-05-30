@@ -34,11 +34,11 @@
 			"outputs": []
 		},
 		"npm-check": {
-			"inputs": ["package.json", "**/package.json"],
+			"inputs": ["package.json"],
 			"outputMode": "new-only"
 		},
 		"//#npm-check": {
-			"inputs": ["package.json", "**/package.json"],
+			"inputs": ["package.json"],
 			"outputMode": "new-only"
 		},
 		"start": {
@@ -52,7 +52,7 @@
 		},
 		"tsc": {
 			"dependsOn": ["topo", "^build", "lint"],
-			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
+			"outputs": ["node_modules/.cache/tsbuildinfo.json", "dist"]
 		}
 	}
 }

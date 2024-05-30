@@ -33,7 +33,7 @@
 		"format:fix": "turbo format --parallel -- --write --cache --cache-location node_modules/.cache/.prettiercache",
 		"lint": "turbo lint --parallel -- --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:fix": "turbo lint --parallel -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-		"lint:ws": "bunx sherif@latest && bun run check",
+		"lint:ws": "bunx sherif@latest",
 		"migrate": "turbo migrate",
 		"npm-check": "npm-check",
 		"postinstall": "patch-package && bun run lint:ws",
@@ -47,7 +47,7 @@
 		"markdown-it": "14.0.0"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^0.44.0",
+		"@dotenvx/dotenvx": "^0.44.1",
 		"@mychat/prettier-config": "workspace:^",
 		"@mychat/tsconfig": "workspace:*",
 		"@turbo/gen": "^1.13.3",

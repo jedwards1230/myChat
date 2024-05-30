@@ -1,8 +1,8 @@
 import { Pressable, View } from "react-native";
-import * as ClipboardLib from "expo-clipboard";
 
 import type { Message } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
+import ClipboardLib from "@mychat/shared/lib/clipboard";
 import { Clipboard, Pencil, Trash } from "@mychat/ui/svg";
 
 import type { ChatMessageGroup } from "../MessageGroup";

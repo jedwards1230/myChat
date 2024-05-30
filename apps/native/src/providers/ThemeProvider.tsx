@@ -4,11 +4,11 @@ import type { Theme } from "@react-navigation/native";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { SplashScreen } from "expo-router";
-import { useConfigStore } from "@/hooks/stores/configStore";
 import { ThemeProvider as BaseProvider } from "@react-navigation/native";
 
 import { NAV_THEME } from "@mychat/ui/constants/ReactNavTheme";
 import { useColorScheme } from "@mychat/ui/hooks/useColorScheme";
+import { useConfigStore } from "@mychat/ui/uiStore";
 
 const LIGHT_THEME: Theme = {
 	dark: false,

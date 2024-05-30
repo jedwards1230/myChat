@@ -24,20 +24,20 @@
 		"with-env": "dotenvx run -f ../../.env --"
 	},
 	"dependencies": {
-		"@langchain/openai": "^0.0.33",
+		"@langchain/openai": "^0.0.34",
 		"@mychat/logger": "workspace:*",
 		"drizzle-orm": "^0.30.10",
 		"drizzle-zod": "^0.5.1",
 		"gpt4-tokenizer": "^1.3.0",
-		"langchain": "^0.2.2",
-		"openai": "^4.47.1",
+		"langchain": "^0.2.3",
+		"openai": "^4.47.2",
 		"pgvector": "^0.1.8",
 		"playwright": "^1.44.1",
 		"postgres": "^3.4.4",
 		"zod": "^3.23.8"
 	},
 	"devDependencies": {
-		"@dotenvx/dotenvx": "^0.44.0",
+		"@dotenvx/dotenvx": "^0.44.1",
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",

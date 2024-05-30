@@ -34,11 +34,11 @@ export function ChatInputContainer({
 	};
 
 	return (
-		<View className="web:mb-2 w-full px-2 pt-2">
-			<View className="web:mx-auto relative mb-2 mt-2 flex w-full flex-col items-center justify-between rounded-xl border border-2 border-input px-1 md:max-w-[90%] lg:max-w-[75%]">
+		<View className="w-full px-2 pt-2 web:mb-2">
+			<View className="relative mb-2 mt-2 flex w-full flex-col items-center justify-between rounded-xl border border-2 border-input px-1 web:mx-auto md:max-w-[90%] lg:max-w-[75%]">
 				<FileTray />
 				<CommandTray input={input} />
-				<View className="web:pr-10 flex w-full flex-row items-center justify-between pl-2 pr-2">
+				<View className="flex w-full flex-row items-center justify-between pl-2 pr-2 web:pr-10">
 					<ChatInput
 						threadId={threadId}
 						input={input}
@@ -61,7 +61,7 @@ function SendButton({ handleSend }: { handleSend: () => void }) {
 	return (
 		<Pressable
 			onPress={handleSend}
-			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
+			className="absolute right-0 rounded-full bg-transparent p-1 web:right-2"
 		>
 			<AngleUp />
 		</Pressable>
@@ -72,7 +72,7 @@ function StopButton({ abort }: { abort: () => void }) {
 	return (
 		<Pressable
 			onPress={abort}
-			className="web:right-2 absolute right-0 rounded-full bg-transparent p-1"
+			className="absolute right-0 rounded-full bg-transparent p-1 web:right-2"
 		>
 			<StopCircle />
 		</Pressable>

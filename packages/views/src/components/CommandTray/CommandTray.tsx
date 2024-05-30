@@ -6,7 +6,7 @@ import { Text } from "@mychat/ui/native/Text";
 export function CommandTray({ input }: { input: string }) {
 	if (!input.startsWith("/")) return null;
 	return (
-		<View className="web:pr-10 flex w-full flex-row items-center justify-between py-2 pl-2 pr-2">
+		<View className="flex w-full flex-row items-center justify-between py-2 pl-2 pr-2 web:pr-10">
 			<CommandList input={input} />
 		</View>
 	);

@@ -1,21 +1,35 @@
-import { useEffect, useMemo, useState } from "react";
-import { useColorScheme as useNativewindColorScheme } from "nativewind";
+import { useEffect, useState } from "react";
 
 import { themes } from "../../constants/Theme";
 import { useConfigStore } from "../../uiStore";
 
-export function useColorScheme() {
-	const [colorScheme, setColorSchemeState] = useState<"dark" | "light">(checkWeb());
-	const themeStyles = useMemo(() => themes.default[colorScheme], [colorScheme]);
+type Theme = "light" | "dark";
 
-	const setTheme = useConfigStore((state) => state.setTheme);
+export function useColorScheme() {
+	const [colorScheme, setColorSchemeState] = useState<Theme>(checkWeb());
+	const themeStyles = themes.default[colorScheme];
+
+	const setTheme = useConfigStore.use.setTheme();
 	useEffect(() => setTheme(colorScheme ?? "dark"), [colorScheme]);
 
-	const { setColorScheme, toggleColorScheme } = useNativewindColorScheme();
+	const setColorScheme = (scheme: Theme) => {
+		setColorSchemeState(scheme);
+
+		if (typeof window !== "undefined") {
+			window.localStorage.setItem("colorScheme", scheme);
+
+			// Set the color scheme for the entire document
+			document.documentElement.setAttribute("data-theme", scheme);
+		}
+	};
+
+	const toggleColorScheme = () =>
+		setColorScheme(colorScheme === "dark" ? "light" : "dark");
+
 	useEffect(() => {
 		const mediaQueryList = window.matchMedia("(prefers-color-scheme: dark)");
 		const listener = (event: MediaQueryListEvent) =>
-			setColorSchemeState(event.matches ? "dark" : "light");
+			setColorScheme(event.matches ? "dark" : "light");
 
 		mediaQueryList.addEventListener("change", listener);
 		return () => mediaQueryList.removeEventListener("change", listener);

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRouter } from "solito/navigation";
+import { createParam } from "solito";
 
 import type { Message } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
@@ -14,8 +14,14 @@ type FormSubmission = (
 	threadId: string;
 }>;
 
+type Params = {
+	c?: string;
+} & Record<string, unknown>;
+
+const { useParams } = createParam<Params>();
+
 export const useThreadManager = (initialThreadId: string | null) => {
-	const router = useRouter();
+	const { setParams } = useParams();
 	const [error, setError] = useState<string | null>(null);
 	const [activeThreadId, setActiveThreadId] = useState<string | null>(initialThreadId);
 
@@ -59,7 +65,7 @@ export const useThreadManager = (initialThreadId: string | null) => {
 			const newThread = res[0];
 			if (!newThread) throw new Error("No thread data");
 			if (newThread.id !== threadId) {
-				router.setParams({ c: newThread.id });
+				setParams({ c: newThread.id });
 				setActiveThreadId(newThread.id);
 			}
 

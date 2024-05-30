@@ -3,11 +3,12 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 import type { Thread } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
-import { useUserData } from "@mychat/shared/hooks/stores/useUserData";
 import { Button } from "@mychat/ui/native/Button";
 import { Popover, PopoverContent, PopoverTrigger } from "@mychat/ui/native/Popover";
 import { Text } from "@mychat/ui/native/Text";
 import { Ellipsis, Trash } from "@mychat/ui/svg";
+
+import { useUserData } from "../../../hooks/useUserData";
 
 export function ThreadButtonPopover({ thread }: { thread: Thread }) {
 	const session = useUserData((s) => s.session);

@@ -37,7 +37,7 @@ const DropdownMenuSubTrigger = React.forwardRef<
 			<DropdownMenuPrimitive.SubTrigger
 				ref={ref}
 				className={cn(
-					"web:cursor-default web:select-none web:focus:bg-accent web:hover:bg-accent native:py-2 web:outline-none flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent",
+					"native:py-2 flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-default web:select-none web:outline-none web:hover:bg-accent web:focus:bg-accent",
 					open && "bg-accent",
 					inset && "pl-8",
 					className,
@@ -101,7 +101,7 @@ const DropdownMenuContent = React.forwardRef<
 				<DropdownMenuPrimitive.Content
 					ref={ref}
 					className={cn(
-						"web:data-[side=bottom]:slide-in-from-top-2 web:data-[side=left]:slide-in-from-right-2 web:data-[side=right]:slide-in-from-left-2 web:data-[side=top]:slide-in-from-bottom-2 z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 shadow-md shadow-foreground/5",
+						"z-50 min-w-[8rem] overflow-hidden rounded-md border border-border bg-popover p-1 shadow-md shadow-foreground/5 web:data-[side=bottom]:slide-in-from-top-2 web:data-[side=left]:slide-in-from-right-2 web:data-[side=right]:slide-in-from-left-2 web:data-[side=top]:slide-in-from-bottom-2",
 						open
 							? "web:animate-in web:fade-in-0 web:zoom-in-95"
 							: "web:animate-out web:fade-out-0 web:zoom-out-95",
@@ -125,10 +125,10 @@ const DropdownMenuItem = React.forwardRef<
 		<DropdownMenuPrimitive.Item
 			ref={ref}
 			className={cn(
-				"web:cursor-pointer native:py-2 web:outline-none web:focus:bg-accent web:hover:bg-accent group relative flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent",
+				"native:py-2 group relative flex flex-row items-center gap-2 rounded-sm px-2 py-1.5 active:bg-accent web:cursor-pointer web:outline-none web:hover:bg-accent web:focus:bg-accent",
 				inset && "pl-8",
 				props.disabled &&
-					"web:pointer-events-none web:cursor-not-allowed opacity-50",
+					"opacity-50 web:pointer-events-none web:cursor-not-allowed",
 				className,
 			)}
 			{...props}
@@ -144,8 +144,8 @@ const DropdownMenuCheckboxItem = React.forwardRef<
 	<DropdownMenuPrimitive.CheckboxItem
 		ref={ref}
 		className={cn(
-			"web:cursor-default web:group native:py-2 web:outline-none web:focus:bg-accent relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent",
-			props.disabled && "web:pointer-events-none opacity-50",
+			"web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent",
+			props.disabled && "opacity-50 web:pointer-events-none",
 			className,
 		)}
 		checked={checked}
@@ -168,8 +168,8 @@ const DropdownMenuRadioItem = React.forwardRef<
 	<DropdownMenuPrimitive.RadioItem
 		ref={ref}
 		className={cn(
-			"web:cursor-default web:group native:py-2 web:outline-none web:focus:bg-accent relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent",
-			props.disabled && "web:pointer-events-none opacity-50",
+			"web:group native:py-2 relative flex flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:outline-none web:focus:bg-accent",
+			props.disabled && "opacity-50 web:pointer-events-none",
 			className,
 		)}
 		{...props}
@@ -193,7 +193,7 @@ const DropdownMenuLabel = React.forwardRef<
 	<DropdownMenuPrimitive.Label
 		ref={ref}
 		className={cn(
-			"native:text-base web:cursor-default px-2 py-1.5 text-sm font-semibold text-foreground",
+			"native:text-base px-2 py-1.5 text-sm font-semibold text-foreground web:cursor-default",
 			inset && "pl-8",
 			className,
 		)}

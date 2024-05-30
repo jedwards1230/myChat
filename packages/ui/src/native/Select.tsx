@@ -21,8 +21,8 @@ const SelectTrigger = React.forwardRef<
 	<SelectPrimitive.Trigger
 		ref={ref}
 		className={cn(
-			"native:h-12 web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground [&>span]:line-clamp-1",
-			props.disabled && "web:cursor-not-allowed opacity-50",
+			"native:h-12 flex h-10 flex-row items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm text-muted-foreground web:ring-offset-background web:focus:outline-none web:focus:ring-2 web:focus:ring-ring web:focus:ring-offset-2 [&>span]:line-clamp-1",
+			props.disabled && "opacity-50 web:cursor-not-allowed",
 			className,
 		)}
 		{...props}
@@ -46,7 +46,7 @@ const SelectScrollUpButton = ({
 	return (
 		<SelectPrimitive.ScrollUpButton
 			className={cn(
-				"web:cursor-default flex items-center justify-center py-1",
+				"flex items-center justify-center py-1 web:cursor-default",
 				className,
 			)}
 			{...props}
@@ -69,7 +69,7 @@ const SelectScrollDownButton = ({
 	return (
 		<SelectPrimitive.ScrollDownButton
 			className={cn(
-				"web:cursor-default flex items-center justify-center py-1",
+				"flex items-center justify-center py-1 web:cursor-default",
 				className,
 			)}
 			{...props}
@@ -100,8 +100,8 @@ const SelectContent = React.forwardRef<
 							position === "popper" &&
 								"data-[side=bottom]:translate-y-1 data-[side=left]:-translate-x-1 data-[side=right]:translate-x-1 data-[side=top]:-translate-y-1",
 							open
-								? "web:zoom-in-95 web:animate-in web:fade-in-0"
-								: "web:zoom-out-95 web:animate-out web:fade-out-0",
+								? "web:animate-in web:fade-in-0 web:zoom-in-95"
+								: "web:animate-out web:fade-out-0 web:zoom-out-95",
 							className,
 						)}
 						position={position}
@@ -148,8 +148,8 @@ const SelectItem = React.forwardRef<
 	<SelectPrimitive.Item
 		ref={ref}
 		className={cn(
-			"web:group web:cursor-default web:select-none native:py-2 native:pl-10 web:outline-none web:focus:bg-accent relative flex w-full flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent",
-			props.disabled && "web:pointer-events-none opacity-50",
+			"web:group native:py-2 native:pl-10 relative flex w-full flex-row items-center rounded-sm py-1.5 pl-8 pr-2 active:bg-accent web:cursor-default web:select-none web:outline-none web:focus:bg-accent",
+			props.disabled && "opacity-50 web:pointer-events-none",
 			className,
 		)}
 		{...props}
@@ -160,7 +160,7 @@ const SelectItem = React.forwardRef<
 			</SelectPrimitive.ItemIndicator>
 		</View>
 
-		<SelectPrimitive.ItemText className="native:text-lg native:text-base web:group-focus:text-accent-foreground text-sm text-popover-foreground" />
+		<SelectPrimitive.ItemText className="native:text-lg native:text-base text-sm text-popover-foreground web:group-focus:text-accent-foreground" />
 	</SelectPrimitive.Item>
 ));
 SelectItem.displayName = SelectPrimitive.Item.displayName;

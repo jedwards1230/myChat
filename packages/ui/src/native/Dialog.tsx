@@ -5,7 +5,6 @@ import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import { useColorScheme } from "../hooks/useColorScheme";
 import { DialogPrimitive } from "../primitives";
-import { ToastPortal } from "../providers/ToastProvider";
 import { cn } from "../utils";
 
 const Dialog = DialogPrimitive.Root;
@@ -81,7 +80,7 @@ const DialogContent = React.forwardRef<
 					ref={ref}
 					style={themeStyles}
 					className={cn(
-						"web:cursor-default web:duration-200 z-50 flex max-h-[90vh] min-w-[60vw] max-w-lg flex-col justify-start gap-4 overflow-y-scroll rounded-lg border border-border bg-background p-6 shadow-lg",
+						"z-50 flex max-h-[90vh] min-w-[60vw] max-w-lg flex-col justify-start gap-4 overflow-y-scroll rounded-lg border border-border bg-background p-6 shadow-lg web:cursor-default web:duration-200",
 						open
 							? "web:animate-in web:fade-in-0 web:zoom-in-95"
 							: "web:animate-out web:fade-out-0 web:zoom-out-95",
@@ -90,7 +89,6 @@ const DialogContent = React.forwardRef<
 					{...props}
 				>
 					{children}
-					<ToastPortal />
 				</DialogPrimitive.Content>
 			</DialogOverlay>
 		</DialogPortal>

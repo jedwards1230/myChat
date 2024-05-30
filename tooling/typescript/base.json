@@ -8,6 +8,7 @@
 		"target": "ESNext",
 		"moduleDetection": "force",
 		"jsx": "react-jsx",
+		"jsxImportSource": "nativewind",
 		"allowJs": true,
 		"noEmitOnError": true,
 		"emitDecoratorMetadata": true,

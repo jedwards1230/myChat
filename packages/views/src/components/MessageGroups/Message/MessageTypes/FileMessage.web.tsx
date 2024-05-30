@@ -1,9 +1,10 @@
 import { View } from "react-native";
-import { FileDialog } from "@/views/file/FileDialog";
 
 import type { FileData } from "@mychat/ui/FileRouter";
 import { Text } from "@mychat/ui/native/Text";
 import { Paperclip } from "@mychat/ui/svg";
+
+import { FileDialog } from "../../../../views/file/FileDialog";
 
 export const FileMessage = ({ data }: { data: FileData }) => {
 	return (

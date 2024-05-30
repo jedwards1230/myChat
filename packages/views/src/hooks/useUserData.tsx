@@ -1,20 +1,22 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { create } from "zustand";
-import { createJSONStorage, persist } from "zustand/middleware";
 
-import type { UserSessionSchema } from "../../schemas/Session";
-import type { UserSchema } from "../../schemas/User";
-import { createSelectors } from "../../lib/zustand";
+import type { User, UserSession } from "@mychat/db/schema";
+import {
+	create,
+	createJSONStorage,
+	createSelectors,
+	persist,
+} from "@mychat/shared/lib/zustand";
 
 interface State {
-	user: UserSchema | null;
-	session: UserSessionSchema | null;
+	user: User | null;
+	session: UserSession | null;
 	apiKey: string;
 }
 
 interface Actions {
-	setUser: (user: UserSchema | null) => void;
-	setSession: (session: UserSessionSchema | null) => void;
+	setUser: (user: User | null) => void;
+	setSession: (session: UserSession | null) => void;
 }
 
 const initial: State = {

@@ -5,7 +5,7 @@ import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import { Text } from "@mychat/ui/native/Text";
 
-import { Drawer } from "../../navigators";
+import { Drawer } from "../../components/Drawer";
 import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
 
 export function AgentsView() {
