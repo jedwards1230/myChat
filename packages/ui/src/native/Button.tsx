@@ -17,7 +17,7 @@ const buttonVariants = cva(
 					"border border-input bg-background active:bg-accent web:hover:bg-accent web:hover:text-accent-foreground",
 				secondary: "bg-secondary active:opacity-80 web:hover:opacity-80",
 				ghost: "active:bg-accent web:hover:bg-accent web:hover:text-accent-foreground",
-				link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
+				link: "web:underline-offset-4 web:hover:underline web:focus:underline",
 				navItem:
 					"flex w-full flex-row items-center justify-between gap-2 bg-secondary hover:bg-secondary-foreground/10 active:opacity-90 web:justify-start dark:hover:bg-secondary-foreground/50",
 			},

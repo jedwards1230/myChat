@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
-import { CommandDialog } from "@/components/Dialogs/Command.web";
-import { useCmdDialog } from "@/hooks/stores/cmdDialogStore";
+
+import { useCmdDialog } from "@mychat/shared/hooks/stores/cmdDialogStore";
+import { CommandDialog } from "@mychat/ui/native/Command";
 
 export function HotkeyProvider({ children }: { children: React.ReactNode }) {
-	const { isOpen, setOpen, toggleDialog } = useCmdDialog();
+	const { isOpen, toggleDialog } = useCmdDialog();
 
 	useEffect(() => {
 		const handleKeyDown = (e: KeyboardEvent) => {
@@ -19,7 +20,10 @@ export function HotkeyProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<>
-			<CommandDialog open={isOpen} setOpen={setOpen} />
+			<CommandDialog
+				open={isOpen}
+				//setOpen={setOpen}
+			/>
 			{children}
 		</>
 	);

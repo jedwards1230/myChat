@@ -1,6 +1,6 @@
 import { Stack, useLocalSearchParams } from "expo-router";
 
-import { ToolConfig } from "@mychat/ui/views/tools/[id]/ToolConfig";
+import { ToolConfig } from "@mychat/views/pages/tools/[id]/ToolConfig";
 
 export default function Tool() {
 	const { id } = useLocalSearchParams<{ id: string }>();

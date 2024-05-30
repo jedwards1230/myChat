@@ -9,7 +9,7 @@ import { Button } from "@mychat/ui/native/Button";
 import { Text } from "@mychat/ui/native/Text";
 import { Textarea } from "@mychat/ui/native/Textarea";
 
-import { ErrorMessage, parseError } from "../../../../views/auth/AuthFormWrapper";
+import { ErrorMessage, parseError } from "../../../../pages/auth/AuthFormWrapper";
 import { useGroupStore } from "../../GroupStore";
 
 const InputEdit = z.object({

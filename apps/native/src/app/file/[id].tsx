@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
 
-import FileModal from "@mychat/ui/views/file/FileModal";
+import FileModal from "@mychat/views/pages/file/FileModal";
 
 export default function FilePage() {
 	const { id, messageId, threadId } = useLocalSearchParams<{
@@ -13,7 +13,7 @@ export default function FilePage() {
 	if (!messageId) throw new Error("Message ID is required");
 	if (!threadId) throw new Error("Thread ID is required");
 
-	return <FileModal fileMeta={{ fileId: id, messageId, threadId }} />;
+	return <FileModal fileMeta={{ fileId: id }} />;
 }
 
 export { ErrorBoundary } from "expo-router";

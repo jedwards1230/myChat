@@ -1,4 +1,4 @@
-import { AuthView } from "@mychat/ui/views/auth/AuthView";
+import { AuthView } from "@mychat/views/pages/auth/AuthView";
 
 export default function Chat() {
 	return <AuthView />;

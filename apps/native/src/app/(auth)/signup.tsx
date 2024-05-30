@@ -1,4 +1,4 @@
-import { SignUpView } from "@mychat/ui/views/auth/SignupView";
+import { SignUpView } from "@mychat/views/pages/auth/SignupView";
 
 export default function Chat() {
 	return <SignUpView />;

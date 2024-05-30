@@ -6,6 +6,7 @@
 			"@/*": ["./src/*"],
 			/* https://github.com/vercel/turbo/discussions/620 */
 			"@mychat/api/*": ["../../packages/api/src/*"],
+			"@mychat/db/*": ["../../packages/db/src/*"],
 			"@mychat/shared/*": ["../../packages/shared/src/*"],
 			"@mychat/ui/*": ["../../packages/ui/src/*"],
 			"@mychat/views/*": ["../../packages/views/src/*"]

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { View } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 
-import type { ToolName } from "@mychat/db/schema/tools/index.js";
+import type { ToolName } from "@mychat/db/schema/tools";
 import { api } from "@mychat/api/client/react-query";
 import {
 	Select,

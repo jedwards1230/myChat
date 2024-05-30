@@ -1,12 +1,11 @@
-import type { Agent } from "@mychat/db/schema";
 import { api } from "@mychat/api/client/react-query";
 import ModalWrapper from "@mychat/ui/native/Modal";
 import Toast from "@mychat/ui/providers/ToastProvider";
 
 import { AgentView } from "./AgentView";
 
-export default function AgentModal({ existingAgent }: { existingAgent: Agent }) {
-	const agentQuery = api.agent.byId.useQuery({ id: existingAgent.id });
+export default function AgentModal({ agentId }: { agentId: string }) {
+	const agentQuery = api.agent.byId.useQuery({ id: agentId });
 
 	if (agentQuery.isPending) return null;
 	if (agentQuery.isError) {

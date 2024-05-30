@@ -1,5 +1,6 @@
 import { Redirect, Stack } from "expo-router";
-import { useUserData } from "@/hooks/stores/useUserData";
+
+import { useUserData } from "@mychat/views/hooks/useUserData";
 
 export default function AuthLayout() {
 	const session = useUserData.use.session();

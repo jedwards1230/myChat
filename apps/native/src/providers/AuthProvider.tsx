@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import Toast from "react-native-toast-message";
-import { useUserQuery, useUserSessionQuery } from "@/hooks/fetchers/User/useUserQuery";
-import { useUserData } from "@/hooks/stores/useUserData";
-import { isFetchError } from "@/lib/fetcher";
 import { useIsRestoring } from "@tanstack/react-query";
+
+import { api } from "@mychat/api/client/react-query";
+import { isFetchError } from "@mychat/api/fetcher";
+import { useUserData } from "@mychat/views/hooks/useUserData";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const { session, setSession, setUser } = useUserData();
 	const isRestoring = useIsRestoring();
-	const userQuery = useUserQuery();
-	const userSessionQuery = useUserSessionQuery();
+	const userQuery = api.user.byId.useQuery({ id: "me" });
+	const userSessionQuery = api.user.byId.useQuery({ id: "me" });
 
 	const waitingForUser = !userQuery.isError && !userQuery.data;
 	const waitingForSession = !userSessionQuery.isError && !userSessionQuery.data;
@@ -34,7 +35,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 	};
 
 	useEffect(() => {
-		if (session && session.expire < new Date()) {
+		if (session && new Date(session.expire) < new Date()) {
 			setSession(null);
 			Toast.show({
 				type: "error",
@@ -46,14 +47,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	useEffect(() => {
 		if (userQuery.isPending) return;
-		if (userQuery.isError) return handleError(userQuery.error);
+		if (userQuery.isError) return handleError(userQuery.error as any as Error);
 		if (userQuery.data) setUser(userQuery.data);
 	}, [userQuery.status]);
 
 	useEffect(() => {
 		if (userSessionQuery.isPending) return;
-		if (userSessionQuery.isError) return handleError(userSessionQuery.error);
-		if (userSessionQuery.data) setSession(userSessionQuery.data);
+		if (userSessionQuery.isError)
+			return handleError(userSessionQuery.error as any as Error);
+		if (userSessionQuery.data) setSession(userSessionQuery.data as any);
 	}, [userSessionQuery.status]);
 
 	if (loading) return null;

@@ -1,10 +1,9 @@
-import { useConfigStore } from "@/hooks/stores/configStore";
-
-import AgentModal from "@mychat/ui/views/agent/AgentModal";
+import { useUserData } from "@mychat/views/hooks/useUserData";
+import AgentModal from "@mychat/views/pages/agent/AgentModal";
 
 export default function AgentPage() {
-	const defaultAgent = useConfigStore.use.defaultAgent();
-	return <AgentModal existingAgent={defaultAgent} />;
+	const user = useUserData.use.user();
+	return <AgentModal agentId={user?.defaultAgentId ?? ""} />;
 }
 
 export { ErrorBoundary } from "expo-router";

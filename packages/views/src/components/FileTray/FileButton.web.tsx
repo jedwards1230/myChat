@@ -3,7 +3,7 @@ import { View } from "react-native";
 import type { FileData } from "@mychat/ui/FileRouter";
 import { Text } from "@mychat/ui/native/Text";
 
-import { FileDialog } from "../../views/file/FileDialog";
+import { FileDialog } from "../../pages/file/FileDialog";
 import { RemoveFileButton } from "./DeleteButton";
 
 export function FileButton({ data }: { data: FileData }) {

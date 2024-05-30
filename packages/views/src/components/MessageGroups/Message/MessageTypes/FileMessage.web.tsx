@@ -4,7 +4,7 @@ import type { FileData } from "@mychat/ui/FileRouter";
 import { Text } from "@mychat/ui/native/Text";
 import { Paperclip } from "@mychat/ui/svg";
 
-import { FileDialog } from "../../../../views/file/FileDialog";
+import { FileDialog } from "../../../../pages/file/FileDialog";
 
 export const FileMessage = ({ data }: { data: FileData }) => {
 	return (

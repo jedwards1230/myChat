@@ -4,8 +4,6 @@ import { AppState, Platform } from "react-native";
 import { DevToolsBubble } from "react-native-react-query-devtools";
 import Toast from "react-native-toast-message";
 import Constants from "expo-constants";
-import { useConfigStore } from "@/hooks/stores/configStore";
-import { isFetchError } from "@/lib/fetcher";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import NetInfo from "@react-native-community/netinfo";
 import { createAsyncStoragePersister } from "@tanstack/query-async-storage-persister";
@@ -21,6 +19,8 @@ import { httpBatchLink, loggerLink } from "@trpc/client";
 import superjson from "superjson";
 
 import { api } from "@mychat/api/client/react-query";
+import { isFetchError } from "@mychat/api/fetcher";
+import { useConfigStore } from "@mychat/ui/uiStore";
 
 /**
  * Extend this function when going to production by

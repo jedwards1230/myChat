@@ -1,6 +1,6 @@
 import { View } from "react-native";
 
-import type { ToolName } from "@mychat/db/schema/tools/index.js";
+import type { ToolName } from "@mychat/db/schema/tools";
 import { Text } from "@mychat/ui/native/Text";
 
 export function ToolForm({ tool }: { tool: ToolName }) {

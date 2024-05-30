@@ -1,15 +1,16 @@
 import { useLocalSearchParams } from "expo-router";
-import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
+import { skipToken } from "@tanstack/react-query";
 
-import AgentModal from "@mychat/ui/views/agent/AgentModal";
+import { api } from "@mychat/api/client/react-query";
+import AgentModal from "@mychat/views/pages/agent/AgentModal";
 
 export default function AgentPage() {
 	const { id } = useLocalSearchParams<{ id: string }>();
-	const query = useAgentQuery(id ?? "");
+	const query = api.agent.byId.useQuery(id ? { id } : skipToken);
 	if (id === undefined || query.isError) {
 		console.error(query.error);
 		return null;
 	}
 	if (!query.isSuccess) return null;
-	return <AgentModal existingAgent={query.data} />;
+	return <AgentModal agentId={query.data?.id ?? ""} />;
 }

@@ -1,4 +1,4 @@
-import { SettingsView } from "@mychat/ui/views/settings/SettingsView";
+import { SettingsView } from "@mychat/views/pages/settings/SettingsView";
 
 export default function SettingsPage() {
 	return <SettingsView />;

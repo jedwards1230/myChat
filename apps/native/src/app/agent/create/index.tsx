@@ -1,4 +1,4 @@
-import { AgentForm } from "@mychat/ui/views/agent/create/AgentForm";
+import { AgentForm } from "@mychat/views/pages/agent/create/AgentForm";
 
 export default function NewAgentPage() {
 	return <AgentForm />;

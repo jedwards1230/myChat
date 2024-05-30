@@ -16,6 +16,7 @@ const monorepoPackages = {
 	"@mychat/tailwind-config": path.resolve(workspaceRoot, "tooling/tailwind"),
 	"@mychat/tsconfig": path.resolve(workspaceRoot, "tooling/typescript"),
 	"@mychat/ui": path.resolve(workspaceRoot, "packages/ui"),
+	"@mychat/views": path.resolve(workspaceRoot, "packages/views"),
 };
 
 /** @type {import('expo/metro-config').MetroConfig} */

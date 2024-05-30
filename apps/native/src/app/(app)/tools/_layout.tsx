@@ -1,8 +1,7 @@
 import { Stack } from "expo-router";
 
-import { ToolHeader } from "@mychat/ui/views/tools/Header";
-
-import { Drawer } from "../_layout";
+import { Drawer } from "@mychat/views/components/Drawer";
+import { ToolHeader } from "@mychat/views/pages/tools/Header";
 
 export default function HomeLayout() {
 	return (

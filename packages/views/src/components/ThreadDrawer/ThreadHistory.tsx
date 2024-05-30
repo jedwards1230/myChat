@@ -7,9 +7,10 @@ import HorizontalLine from "@mychat/ui/native/HorizontalLine";
 import { Text } from "@mychat/ui/native/Text";
 import { AppGrid, OpenInNew, Settings, Wrench } from "@mychat/ui/svg";
 
-import packageInfo from "../../../../../package.json";
 import LinkButton from "./LinkButton";
 import { ThreadGroup, useThreadGroups } from "./ThreadGroups";
+
+const VERSION = "0.0.1";
 
 export default function ThreadHistory() {
 	return (
@@ -48,13 +49,11 @@ export default function ThreadHistory() {
 						href={process.env.EXPO_PUBLIC_GITHUB_REPO_URL}
 						className="pl-1 text-xs leading-3 text-foreground/40 hover:text-foreground"
 					>
-						Version: {packageInfo.version}-
-						{process.env.EXPO_PUBLIC_COMMIT_HASH}
+						Version: {VERSION}-{process.env.EXPO_PUBLIC_COMMIT_HASH}
 					</Link>
 				) : (
 					<Text className="text-xs text-foreground/40">
-						Version: {packageInfo.version}-
-						{process.env.EXPO_PUBLIC_COMMIT_HASH}
+						Version: {VERSION}-{process.env.EXPO_PUBLIC_COMMIT_HASH}
 					</Text>
 				)}
 			</View>

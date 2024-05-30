@@ -1,4 +1,4 @@
-import { ToolView } from "@mychat/ui/views/tools/ToolView";
+import { ToolView } from "@mychat/views/pages/tools/ToolView";
 
 export default function Tools() {
 	return <ToolView />;
