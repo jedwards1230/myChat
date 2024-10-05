@@ -3306,9 +3306,64 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@mychat/client@workspace:apps/client":
+"@mychat/db@workspace:*, @mychat/db@workspace:packages/db":
   version: 0.0.0-use.local
-  resolution: "@mychat/client@workspace:apps/client"
+  resolution: "@mychat/db@workspace:packages/db"
+  dependencies:
+    "@mychat/agents": "workspace:^"
+    "@mychat/eslint-config": "workspace:*"
+    "@mychat/logger": "workspace:^"
+    "@mychat/shared": "workspace:*"
+    "@mychat/tsconfig": "workspace:*"
+    "@types/node": "npm:^20.12.12"
+    eslint: "npm:^9.2.0"
+    openai: "npm:^4.47.1"
+    pg: "npm:^8.11.5"
+    pgvector: "npm:^0.1.8"
+    reflect-metadata: "npm:^0.2.2"
+    ts-node: "npm:10.9.2"
+    typeorm: "npm:0.3.20"
+    typescript: "npm:beta"
+  languageName: unknown
+  linkType: soft
+
+"@mychat/eslint-config@workspace:*, @mychat/eslint-config@workspace:tooling/eslint":
+  version: 0.0.0-use.local
+  resolution: "@mychat/eslint-config@workspace:tooling/eslint"
+  dependencies:
+    "@mychat/tsconfig": "workspace:*"
+    "@typescript-eslint/eslint-plugin": "npm:8.0.0-alpha.13"
+    "@typescript-eslint/parser": "npm:8.0.0-alpha.13"
+    eslint: "npm:9.2.0"
+    eslint-config-prettier: "npm:^9.1.0"
+    eslint-config-turbo: "npm:^1.13.3"
+    eslint-config-universe: "npm:^12.1.0"
+    eslint-plugin-import: "npm:^2.29.1"
+    prettier: "npm:^3.2.5"
+    typescript: "npm:beta"
+  languageName: unknown
+  linkType: soft
+
+"@mychat/logger@workspace:*, @mychat/logger@workspace:^, @mychat/logger@workspace:tooling/logger":
+  version: 0.0.0-use.local
+  resolution: "@mychat/logger@workspace:tooling/logger"
+  dependencies:
+    winston: "npm:^3.13.0"
+  languageName: unknown
+  linkType: soft
+
+"@mychat/monorepo@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "@mychat/monorepo@workspace:."
+  dependencies:
+    "@mychat/tsconfig": "workspace:*"
+    turbo: "npm:^1.13.3"
+  languageName: unknown
+  linkType: soft
+
+"@mychat/native@workspace:apps/native":
+  version: 0.0.0-use.local
+  resolution: "@mychat/native@workspace:apps/native"
   dependencies:
     "@babel/core": "npm:^7.24.5"
     "@babel/plugin-proposal-export-default-from": "npm:^7.24.1"
@@ -3412,61 +3467,6 @@ __metadata:
     web-streams-polyfill: "npm:^4.0.0"
     zod: "npm:^3.23.8"
     zustand: "npm:^4.5.2"
-  languageName: unknown
-  linkType: soft
-
-"@mychat/db@workspace:*, @mychat/db@workspace:packages/db":
-  version: 0.0.0-use.local
-  resolution: "@mychat/db@workspace:packages/db"
-  dependencies:
-    "@mychat/agents": "workspace:^"
-    "@mychat/eslint-config": "workspace:*"
-    "@mychat/logger": "workspace:^"
-    "@mychat/shared": "workspace:*"
-    "@mychat/tsconfig": "workspace:*"
-    "@types/node": "npm:^20.12.12"
-    eslint: "npm:^9.2.0"
-    openai: "npm:^4.47.1"
-    pg: "npm:^8.11.5"
-    pgvector: "npm:^0.1.8"
-    reflect-metadata: "npm:^0.2.2"
-    ts-node: "npm:10.9.2"
-    typeorm: "npm:0.3.20"
-    typescript: "npm:beta"
-  languageName: unknown
-  linkType: soft
-
-"@mychat/eslint-config@workspace:*, @mychat/eslint-config@workspace:tooling/eslint":
-  version: 0.0.0-use.local
-  resolution: "@mychat/eslint-config@workspace:tooling/eslint"
-  dependencies:
-    "@mychat/tsconfig": "workspace:*"
-    "@typescript-eslint/eslint-plugin": "npm:8.0.0-alpha.13"
-    "@typescript-eslint/parser": "npm:8.0.0-alpha.13"
-    eslint: "npm:9.2.0"
-    eslint-config-prettier: "npm:^9.1.0"
-    eslint-config-turbo: "npm:^1.13.3"
-    eslint-config-universe: "npm:^12.1.0"
-    eslint-plugin-import: "npm:^2.29.1"
-    prettier: "npm:^3.2.5"
-    typescript: "npm:beta"
-  languageName: unknown
-  linkType: soft
-
-"@mychat/logger@workspace:*, @mychat/logger@workspace:^, @mychat/logger@workspace:tooling/logger":
-  version: 0.0.0-use.local
-  resolution: "@mychat/logger@workspace:tooling/logger"
-  dependencies:
-    winston: "npm:^3.13.0"
-  languageName: unknown
-  linkType: soft
-
-"@mychat/monorepo@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "@mychat/monorepo@workspace:."
-  dependencies:
-    "@mychat/tsconfig": "workspace:*"
-    turbo: "npm:^1.13.3"
   languageName: unknown
   linkType: soft
 

@@ -10,7 +10,7 @@
 	],
 	"scripts": {
 		"export:docker": "docker build -f docker/Dockerfile -t mychat:local .",
-		"compose": "docker compose -f compose.yml",
+		"compose": "docker compose -f docker/compose.yml",
 		"compose:test": "docker compose -f compose.yml -f compose.test.yml",
 		"lint": "turbo lint",
 		"tsc": "turbo tsc",

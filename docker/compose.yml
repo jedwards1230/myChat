@@ -1,33 +1,35 @@
 services:
-    postgres:
-        container_name: postgres-mychat
-        image: pgvector/pgvector:pg16
-        ports:
-            - 5432:5432
-        volumes:
-            - pg:/var/lib/postgresql/data
-        env_file:
-            - ../.env
-        deploy:
-            restart_policy:
-                condition: on-failure
-                delay: 3s
-                max_attempts: 3
+  postgres:
+    container_name: postgres-mychat
+    image: pgvector/pgvector:pg16
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg:/var/lib/postgresql/data
+    env_file:
+      - ../.env
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
-    mindsdb:
-        image: mindsdb/mindsdb
-        container_name: mindsdb
-        ports:
-            - 47334:47334
-            - 47335:47335
-        volumes:
-            - mindsdb:/root
-        deploy:
-            restart_policy:
-                condition: on-failure
-                delay: 3s
-                max_attempts: 3
+  mindsdb:
+    image: mindsdb/mindsdb
+    container_name: mindsdb
+    ports:
+      - '47334:47334'
+      - '47335:47335'
+    volumes:
+      - mindsdb:/root
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 3s
+        max_attempts: 3
 
 volumes:
-    pg:
-    mindsdb:
+  pg:
+    name: mychat_pg
+  mindsdb:
+    name: mychat_mindsdb

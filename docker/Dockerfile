@@ -53,7 +53,7 @@ RUN apt-get update && apt-get install -y curl \
 
 COPY docker/entrypoint.sh /web/entrypoint.sh
 COPY --from=builder /web/ .
-COPY --from=builder /web/apps/client/dist/ ./apps/server/web/
+COPY --from=builder /web/apps/native/dist/ ./apps/server/web/
 
 RUN corepack enable && yarn
 
