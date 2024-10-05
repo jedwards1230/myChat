@@ -1,6 +1,6 @@
 {
 	"extends": ["//"],
-	"pipeline": {
+	"tasks": {
 		"start": {
 			"dependsOn": ["@mychat/db#migration:run", "@mychat/native#build"],
 			"outputs": ["apps/server/logs/**"]

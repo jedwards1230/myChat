@@ -15,7 +15,7 @@ export function MessageSwitcher({
 	group: ChatMessageGroup;
 }) {
 	const { mutate } = useThreadPatch();
-	const siblings = message.parent ? group.siblings?.[message.parent] ?? [] : [];
+	const siblings = message.parent ? (group.siblings?.[message.parent] ?? []) : [];
 	const prev = siblings[siblings.indexOf(message.id) - 1];
 	const next = siblings[siblings.indexOf(message.id) + 1];
 

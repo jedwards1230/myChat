@@ -37,7 +37,7 @@ const Root = React.forwardRef<PressableRef, SlottablePressableProps & SwitchRoot
 				aria-disabled={disabled}
 				role="switch"
 				aria-checked={checked}
-				aria-valuetext={ariaValueText ?? checked ? "on" : "off"}
+				aria-valuetext={(ariaValueText ?? checked) ? "on" : "off"}
 				onPress={onPress}
 				accessibilityState={{
 					checked,

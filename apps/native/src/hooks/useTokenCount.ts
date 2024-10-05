@@ -6,7 +6,6 @@ let tokenizer: GPT4Tokenizer;
 // Lazy load for TextEncoder polyfill
 function getTokenizer() {
 	if (!tokenizer) {
-		// eslint-disable-next-line @typescript-eslint/no-var-requires
 		const GPT4Tokenizer = require("gpt4-tokenizer").default;
 		tokenizer = new GPT4Tokenizer({ type: "gpt3" });
 	}

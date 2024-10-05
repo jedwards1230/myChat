@@ -2,6 +2,7 @@
 	"name": "@mychat/server",
 	"version": "1.0.0",
 	"private": true,
+	"license": "MIT",
 	"scripts": {
 		"clean": "rm -rf .turbo logs",
 		"dev": "bun --watch run src/index.ts",
@@ -15,7 +16,7 @@
 		"tsc": "tsc --noEmit"
 	},
 	"dependencies": {
-		"@expo/server": "^0.4.2",
+		"@expo/server": "^0.4.4",
 		"@fastify/cors": "^9.0.1",
 		"@fastify/multipart": "^8.2.0",
 		"@fastify/rate-limit": "^9.1.0",

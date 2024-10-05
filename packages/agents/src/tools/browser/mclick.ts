@@ -27,10 +27,10 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 	// get tool_calls from last asst message
 	const asstMsg = runner.messages
 		.filter(
-			(m) =>
+			(m: any) =>
 				m.role === "assistant" &&
 				m.tool_calls &&
-				m.tool_calls.find((tc) => tc.function?.name === "search"),
+				m.tool_calls.find((tc: any) => tc.function?.name === "search"),
 		)
 		.pop() as MessageObjectSchema;
 	if (!asstMsg || !asstMsg.tool_calls) throw new Error("No assistant message found");
@@ -42,7 +42,7 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 	if (!toolCalls) throw new Error("No tool calls found");
 
 	const searchResultsMsg = runner.messages.find(
-		(m) => m.role === "tool" && m.tool_call_id === toolCalls.id,
+		(m: any) => m.role === "tool" && m.tool_call_id === toolCalls.id,
 	);
 	if (
 		!searchResultsMsg ||

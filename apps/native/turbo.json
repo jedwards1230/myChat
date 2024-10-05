@@ -1,6 +1,6 @@
 {
 	"extends": ["//"],
-	"pipeline": {
+	"tasks": {
 		"build:css": {
 			"dependsOn": ["lint"],
 			"outputs": ["node_modules/.cache/nativewind/**"]

@@ -1,55 +1,92 @@
 {
-	"$schema": "https://turborepo.org/schema.json",
-	"pipeline": {
-		"build": {
-			"dependsOn": ["tsc", "^build"],
-			"outputs": ["node_modules/.cache/metro/**"]
-		},
-		"clean": {
-			"cache": false
-		},
-		"//#clean": {
-			"cache": false
-		},
-		"dev": {
-			"dependsOn": ["^build", "migrate"],
-			"cache": false,
-			"interactive": true,
-			"persistent": true
-		},
-		"format": {
-			"outputs": ["node_modules/.cache/.prettiercache"],
-			"outputMode": "new-only"
-		},
-		"lint": {
-			"dependsOn": ["^build"],
-			"outputs": ["node_modules/.cache/.eslintcache"]
-		},
-		"migrate": {
-			"dependsOn": ["tsc"],
-			"outputs": []
-		},
-		"npm-check": {
-			"inputs": ["package.json"],
-			"outputMode": "new-only"
-		},
-		"//#npm-check": {
-			"inputs": ["package.json"],
-			"outputMode": "new-only"
-		},
-		"tsc": {
-			"dependsOn": ["^build", "^lint", "lint", "^tsc"],
-			"inputs": ["**/*.{ts,tsx}"],
-			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
-		},
-		"test": {
-			"inputs": ["**/*.{ts,tsx,js,jsx}"]
-		},
-		"start": {
-			"dependsOn": ["^build", "migrate"]
-		},
-		"start:prod": {
-			"dependsOn": ["^build", "migrate"]
-		}
-	}
+  "$schema": "https://turborepo.org/schema.json",
+  "tasks": {
+    "build": {
+      "dependsOn": [
+        "tsc",
+        "^build"
+      ],
+      "outputs": [
+        "node_modules/.cache/metro/**"
+      ]
+    },
+    "clean": {
+      "cache": false
+    },
+    "//#clean": {
+      "cache": false
+    },
+    "dev": {
+      "dependsOn": [
+        "^build",
+        "migrate"
+      ],
+      "cache": false,
+      "interactive": true,
+      "persistent": true
+    },
+    "format": {
+      "outputs": [
+        "node_modules/.cache/.prettiercache"
+      ],
+      "outputLogs": "new-only"
+    },
+    "lint": {
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "node_modules/.cache/.eslintcache"
+      ]
+    },
+    "migrate": {
+      "dependsOn": [
+        "tsc"
+      ],
+      "outputs": []
+    },
+    "npm-check": {
+      "inputs": [
+        "package.json"
+      ],
+      "outputLogs": "new-only"
+    },
+    "//#npm-check": {
+      "inputs": [
+        "package.json"
+      ],
+      "outputLogs": "new-only"
+    },
+    "tsc": {
+      "dependsOn": [
+        "^build",
+        "^lint",
+        "lint",
+        "^tsc"
+      ],
+      "inputs": [
+        "**/*.{ts,tsx}"
+      ],
+      "outputs": [
+        "node_modules/.cache/tsbuildinfo.json"
+      ]
+    },
+    "test": {
+      "inputs": [
+        "**/*.{ts,tsx,js,jsx}"
+      ]
+    },
+    "start": {
+      "dependsOn": [
+        "^build",
+        "migrate"
+      ]
+    },
+    "start:prod": {
+      "dependsOn": [
+        "^build",
+        "migrate"
+      ]
+    }
+  }
 }

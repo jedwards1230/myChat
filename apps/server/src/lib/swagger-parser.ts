@@ -17,7 +17,7 @@ async function validateSpec(url: string) {
 		if (isOAI3(res)) {
 			parseOAI3(res);
 		} else {
-			res;
+			//res;
 			parseOAI2(res);
 		}
 	} catch (e: any) {

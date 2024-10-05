@@ -1,10 +1,10 @@
-import type { AbstractChatCompletionRunner } from "openai/lib/AbstractChatCompletionRunner.mjs";
+//import type { AbstractChatCompletionRunner } from "openai/lib/AbstractChatCompletionRunner.mjs";
 import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 
 export type Runner<T extends string | object> = RunnableToolFunction<T>;
 
 export type LLMTool<T extends string | object> = {
-	tool: (props: T, runner: AbstractChatCompletionRunner) => Promise<string>;
+	tool: (props: T, runner: any) => Promise<string>;
 	runnable: Runner<T>;
 };
 
