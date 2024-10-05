@@ -1,10 +1,11 @@
-import { Pressable, View } from "react-native";
-
-import { Text } from "@/components/ui/Text";
-import { RemoveFolderButton } from "./DeleteButton";
 import { useState } from "react";
+import { Pressable, View } from "react-native";
+import { Text } from "@/components/ui/Text";
 import { cn } from "@/lib/utils";
-import { FileRouter, type RouterChildrenProps, type RouterData } from "../FileRouter";
+
+import type { RouterChildrenProps, RouterData } from "../FileRouter";
+import { FileRouter } from "../FileRouter";
+import { RemoveFolderButton } from "./DeleteButton";
 
 export function FolderButton({
 	baseDir,
@@ -25,8 +26,8 @@ export function FolderButton({
 		<View
 			aria-selected={open}
 			className={cn(
-				"flex flex-row aria-selected:p-1 rounded-lg flex-wrap items-start justify-start flex-shrink gap-2",
-				open ? colorMap[levels]?.[0] : ""
+				"flex flex-shrink flex-row flex-wrap items-start justify-start gap-2 rounded-lg aria-selected:p-1",
+				open ? colorMap[levels]?.[0] : "",
 			)}
 		>
 			<View className="relative">
@@ -34,8 +35,8 @@ export function FolderButton({
 					aria-selected={open}
 					onPress={() => setOpen(!open)}
 					className={cn(
-						"border-2 rounded border-border",
-						colorMap[levels]?.[1]
+						"rounded border-2 border-border",
+						colorMap[levels]?.[1],
 					)}
 				>
 					<Text className="px-4 py-2 text-foreground">{baseDir}</Text>

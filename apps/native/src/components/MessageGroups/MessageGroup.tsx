@@ -1,10 +1,10 @@
-import { View } from "react-native";
-import { useEffect, useState } from "react";
-
 import type { Message } from "@/types";
+import { useEffect, useState } from "react";
+import { View } from "react-native";
+import { useMessages } from "@/hooks/useMessages";
+
 import { useGroupStore } from "./GroupStore";
 import { MessageGroupBubble } from "./MessageGroupBubble";
-import { useMessages } from "@/hooks/useMessages";
 
 export type ChatMessageGroup = {
 	id: string;
@@ -31,7 +31,7 @@ export const MessageGroup = ({
 	const editMode = editGroupId === item.id;
 
 	return (
-		<View className="w-full web:md:max-w-[90%] web:lg:max-w-[75%] mx-auto">
+		<View className="mx-auto w-full web:md:max-w-[90%] web:lg:max-w-[75%]">
 			<MessageGroupBubble
 				editMode={editMode}
 				group={item}
@@ -44,7 +44,7 @@ export const MessageGroup = ({
 export function useGroupedMessages(threadId: string) {
 	const { data, isError, isSuccess, isFetched } = useMessages(threadId!);
 	const [messageGroups, setMessageGroups] = useState<ChatMessageGroup[]>(
-		groupMessages(threadId, data)
+		groupMessages(threadId, data),
 	);
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const groupMessages = (threadId: string, messages: Message[] | undefined) => {
 			}
 			return acc;
 		},
-		{} as Record<string, string[]>
+		{} as Record<string, string[]>,
 	);
 
 	const resetGroup = (): ChatMessageGroup => ({

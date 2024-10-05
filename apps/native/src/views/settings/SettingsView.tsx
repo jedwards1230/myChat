@@ -1,21 +1,21 @@
-import { Pressable, View } from "react-native";
 import { useState } from "react";
-
-import { Text } from "@/components/ui/Text";
+import { Pressable, View } from "react-native";
+import { Drawer } from "@/app/(app)/_layout";
 import { Section } from "@/components/ui/Section";
+import { Text } from "@/components/ui/Text";
 import { useHoverHelper } from "@/hooks/useHoverHelper";
 import { cn } from "@/lib/utils";
+
+import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
+import { HeaderWrapper } from "../HeaderWrapper";
 import {
-	ToggleThemeButton,
-	StreamToggle,
-	ResetDefaultsButton,
 	DebugQueryToggle,
+	ResetDefaultsButton,
+	StreamToggle,
+	ToggleThemeButton,
 } from "./helpers";
 import { DeviceConfig } from "./helpers/DeviceConfig";
 import { UserConfig } from "./helpers/UserConfig";
-import { DrawerScreenWrapper } from "../DrawerScreenWrapper";
-import { Drawer } from "@/app/(app)/_layout";
-import { HeaderWrapper } from "../HeaderWrapper";
 
 enum SideMenu {
 	General = "General",
@@ -49,11 +49,11 @@ export function SettingsView() {
 				options={{ header: () => <HeaderWrapper title="Settings" /> }}
 			/>
 
-			<View className="flex flex-row flex-1 w-full gap-4 px-2 py-4">
-				<View className="flex flex-col gap-1 basis-1/5">
+			<View className="flex w-full flex-1 flex-row gap-4 px-2 py-4">
+				<View className="flex basis-1/5 flex-col gap-1">
 					{renderNavButtons()}
 				</View>
-				<View className="flex flex-col flex-1 gap-4">
+				<View className="flex flex-1 flex-col gap-4">
 					{configView[activeTab]}
 				</View>
 			</View>
@@ -76,14 +76,14 @@ function NavButton({
 			{...helpers}
 			onPress={onPress}
 			className={cn(
-				"py-1.5 w-full px-2 rounded-lg",
+				"w-full rounded-lg px-2 py-1.5",
 				isHover
 					? active
 						? "bg-foreground/10"
 						: "bg-foreground/5"
 					: active
 						? "bg-foreground/10"
-						: "bg-transparent"
+						: "bg-transparent",
 			)}
 		>
 			<Text>{children}</Text>

@@ -1,27 +1,27 @@
 {
-    "cli": {
-        "version": ">= 7.3.0",
-        "promptToConfigurePushNotifications": false
-    },
-    "build": {
-        "development": {
-            "extends": "preview",
-            "developmentClient": true,
-            "channel": "development",
-            "env": { "APP_VARIANT": "development" }
-        },
-        "preview": {
-            "extends": "production",
-            "channel": "preview",
-            "distribution": "internal",
-            "env": { "APP_ENV": "preview" }
-        },
-        "production": {
-            "android": { "image": "latest" },
-            "ios": { "image": "latest" },
-            "channel": "production",
-            "env": { "APP_ENV": "production" }
-        }
-    },
-    "submit": { "production": {} }
+	"cli": {
+		"version": ">= 7.3.0",
+		"promptToConfigurePushNotifications": false
+	},
+	"build": {
+		"development": {
+			"extends": "preview",
+			"developmentClient": true,
+			"channel": "development",
+			"env": { "APP_VARIANT": "development" }
+		},
+		"preview": {
+			"extends": "production",
+			"channel": "preview",
+			"distribution": "internal",
+			"env": { "APP_ENV": "preview" }
+		},
+		"production": {
+			"android": { "image": "latest" },
+			"ios": { "image": "latest" },
+			"channel": "production",
+			"env": { "APP_ENV": "production" }
+		}
+	},
+	"submit": { "production": {} }
 }

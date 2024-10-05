@@ -1,5 +1,5 @@
-import { remapProps } from "nativewind";
 import { ScrollView } from "react-native";
+import { remapProps } from "nativewind";
 
 remapProps(ScrollView, {
 	className: "style",

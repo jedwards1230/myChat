@@ -1,9 +1,8 @@
-import { create } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 import type { Agent } from "@/types";
 import { createSelectors } from "@/lib/zustand";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { create } from "zustand";
+import { createJSONStorage, persist } from "zustand/middleware";
 
 type State = {
 	threadId: string | null;
@@ -47,7 +46,7 @@ export const useConfigStore = createSelectors(
 			{
 				name,
 				storage: createJSONStorage(() => AsyncStorage),
-			}
-		)
-	)
+			},
+		),
+	),
 );

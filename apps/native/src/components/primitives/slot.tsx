@@ -1,18 +1,18 @@
-import * as React from "react";
-import {
-	StyleSheet,
-	type Image as RNImage,
-	type Pressable as RNPressable,
-	type Text as RNText,
-	type View as RNView,
-	type PressableStateCallbackType,
-	type ImageProps as RNImageProps,
-	type ImageStyle as RNImageStyle,
-	type PressableProps as RNPressableprops,
-	type TextProps as RNTextProps,
-	type ViewProps as RNViewProps,
-	type StyleProp,
+import type {
+	PressableStateCallbackType,
+	Image as RNImage,
+	ImageProps as RNImageProps,
+	ImageStyle as RNImageStyle,
+	Pressable as RNPressable,
+	PressableProps as RNPressableprops,
+	Text as RNText,
+	TextProps as RNTextProps,
+	View as RNView,
+	ViewProps as RNViewProps,
+	StyleProp,
 } from "react-native";
+import * as React from "react";
+import { StyleSheet } from "react-native";
 
 const Pressable = React.forwardRef<
 	React.ElementRef<typeof RNPressable>,
@@ -56,7 +56,7 @@ const View = React.forwardRef<React.ElementRef<typeof RNView>, RNViewProps>(
 				? composeRefs(forwardedRef, (children as any).ref)
 				: (children as any).ref,
 		});
-	}
+	},
 );
 
 View.displayName = "SlotView";
@@ -79,7 +79,7 @@ const Text = React.forwardRef<React.ElementRef<typeof RNText>, RNTextProps>(
 				? composeRefs(forwardedRef, (children as any).ref)
 				: (children as any).ref,
 		});
-	}
+	},
 );
 
 Text.displayName = "SlotText";
@@ -106,7 +106,7 @@ const Image = React.forwardRef<React.ElementRef<typeof RNImage>, ImageSlotProps>
 				? composeRefs(forwardedRef, (children as any).ref)
 				: (children as any).ref,
 		});
-	}
+	},
 );
 
 Image.displayName = "SlotImage";
@@ -194,7 +194,7 @@ function combineStyles(slotStyle?: Style, childValue?: Style) {
 }
 
 export function isTextChildren(
-	children: React.ReactNode | ((state: PressableStateCallbackType) => React.ReactNode)
+	children: React.ReactNode | ((state: PressableStateCallbackType) => React.ReactNode),
 ) {
 	return Array.isArray(children)
 		? children.every((child) => typeof child === "string")

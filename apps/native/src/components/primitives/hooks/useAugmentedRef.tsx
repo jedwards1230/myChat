@@ -19,7 +19,7 @@ export function useAugmentedRef<T>({ ref, methods, deps = [] }: AugmentRefProps<
 				...methods,
 			};
 		},
-		deps
+		deps,
 	);
 	return augmentedRef;
 }

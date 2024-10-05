@@ -1,4 +1,4 @@
-import type { MessageQueryOpts, FileInformation } from "@/hooks/useFileInformation";
+import type { FileInformation, MessageQueryOpts } from "@/hooks/useFileInformation";
 
 export type RouterData = {
 	files: FileInformation[];
@@ -77,7 +77,7 @@ export function FileRouter({
 			acc[baseDir]?.push(file);
 			return acc;
 		},
-		{} as Record<string, FileInformation[]>
+		{} as Record<string, FileInformation[]>,
 	);
 
 	return (

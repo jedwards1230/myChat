@@ -1,7 +1,6 @@
-import { View } from "react-native";
+import type { ToolName } from "@/types";
 import { useEffect, useRef, useState } from "react";
-import { Picker } from "@react-native-picker/picker";
-
+import { View } from "react-native";
 import {
 	Select,
 	SelectContent,
@@ -11,8 +10,9 @@ import {
 } from "@/components/ui/Select";
 import { Text } from "@/components/ui/Text";
 import { useToolsSuspenseQuery } from "@/hooks/fetchers/AgentTool/useAgentToolQuery";
+import { Picker } from "@react-native-picker/picker";
+
 import { ToolForm } from "./ToolForm";
-import type { ToolName } from "@/types";
 
 type SelectOption = {
 	label: string;

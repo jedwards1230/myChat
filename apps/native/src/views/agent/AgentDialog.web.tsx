@@ -1,5 +1,5 @@
 import type { Agent } from "@/types";
-
+import Toast from "react-native-toast-message";
 import {
 	Dialog,
 	DialogContent,
@@ -7,9 +7,8 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from "@/components/ui/Dialog";
-import { AgentView } from "@/views/agent/AgentView";
 import { useAgentQuery } from "@/hooks/fetchers/Agent/useAgentQuery";
-import Toast from "react-native-toast-message";
+import { AgentView } from "@/views/agent/AgentView";
 
 export function AgentDialog({
 	existingAgent,
@@ -44,7 +43,7 @@ export function AgentDialog({
 				</DialogTrigger>
 			)}
 
-			<DialogContent className="flex flex-col min-w-[80vw] md:min-w-[60vw] max-h-[90vh] overflow-y-scroll justify-start text-foreground">
+			<DialogContent className="flex max-h-[90vh] min-w-[80vw] flex-col justify-start overflow-y-scroll text-foreground md:min-w-[60vw]">
 				<DialogTitle className="text-center">Agent</DialogTitle>
 				<DialogDescription className="flex flex-col gap-4">
 					<AgentView agent={agentQuery.data} />

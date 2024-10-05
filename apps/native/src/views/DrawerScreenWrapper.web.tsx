@@ -1,19 +1,15 @@
-import { Pressable, View } from "react-native";
-import { useDrawerStatus } from "@react-navigation/drawer";
 import type { DrawerNavigationProp } from "@react-navigation/drawer";
-import {
-	DrawerActions,
-	type ParamListBase,
-	useNavigation,
-} from "@react-navigation/native";
-
+import type { ParamListBase } from "@react-navigation/native";
+import { Pressable, View } from "react-native";
 import { Icon } from "@/components/ui/Icon";
+import { useDrawerStatus } from "@react-navigation/drawer";
+import { DrawerActions, useNavigation } from "@react-navigation/native";
 
 export function DrawerScreenWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<View className="flex flex-row flex-1 w-full bg-background">
+		<View className="flex w-full flex-1 flex-row bg-background">
 			<CollapseDrawer />
-			<View className="flex flex-col items-center justify-between w-full">
+			<View className="flex w-full flex-col items-center justify-between">
 				{children}
 			</View>
 		</View>
@@ -25,14 +21,14 @@ function CollapseDrawer() {
 	const isDrawerOpen = useDrawerStatus() === "open";
 
 	return (
-		<View className="absolute left-0 z-10 flex-row items-center justify-center hidden h-full md:flex">
+		<View className="absolute left-0 z-10 hidden h-full flex-row items-center justify-center md:flex">
 			<Pressable
-				className="rounded-r-lg group"
+				className="group rounded-r-lg"
 				onPress={() => navigation.dispatch(DrawerActions.toggleDrawer())}
 			>
 				<Icon
 					type="Entypo"
-					className="py-1 pr-1 transition-colors scale-95 text-foreground/40 group-hover:text-foreground group-hover:scale-110"
+					className="scale-95 py-1 pr-1 text-foreground/40 transition-colors group-hover:scale-110 group-hover:text-foreground"
 					name={isDrawerOpen ? "chevron-left" : "chevron-small-right"}
 					size={20}
 				/>

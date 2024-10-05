@@ -1,9 +1,9 @@
-import * as IconProviders from "@expo/vector-icons";
 import type { IconProps as baseProps } from "@expo/vector-icons/build/createIconSet";
 import { useContext } from "react";
+import { cn } from "@/lib/utils";
+import * as IconProviders from "@expo/vector-icons";
 
 import { TextClassContext } from "./Text";
-import { cn } from "@/lib/utils";
 
 type IconProviders = typeof IconProviders;
 type IconType = keyof IconProviders;
@@ -28,7 +28,7 @@ export function Icon({ type, name, className, size = 20, ...props }: IconProps) 
 		<IconProvider
 			name={name}
 			size={size}
-			className={cn("transition-colors text-foreground", textClass, className)}
+			className={cn("text-foreground transition-colors", textClass, className)}
 			{...props}
 		/>
 	);

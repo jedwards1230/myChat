@@ -16,6 +16,7 @@
 		"analyze:web": "source-map-explorer 'dist/_expo/static/js/web/*.js' 'dist/_expo/static/js/web/*.js.map'",
 		"analyze:ios": "source-map-explorer 'dist/_expo/static/js/ios/*.js' 'dist/_expo/static/js/ios/*.js.map'",
 		"tsc": "tsc",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
 		"clean": "rm -rf .turbo dist node_modules"
 	},
@@ -115,6 +116,7 @@
 		"@babel/plugin-transform-runtime": "^7.24.3",
 		"@babel/runtime": "^7.24.5",
 		"@mychat/eslint-config": "workspace:*",
+		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"@tanstack/eslint-plugin-query": "^5.35.6",
 		"@types/babel__plugin-transform-runtime": "^7.9.5",
@@ -123,10 +125,12 @@
 		"@types/react-syntax-highlighter": "^15.5.13",
 		"@types/text-encoding": "^0.0.39",
 		"ajv": "^8.13.0",
-		"eslint": "9.2.0",
+		"eslint": "^9.2.0",
 		"eslint-config-react-app": "^7.0.1",
 		"jest": "^29.7.0",
 		"jest-expo": "~51.0.2",
+		"npm-check": "^6.0.1",
+		"prettier": "^3.2.5",
 		"react-test-renderer": "18.3.1",
 		"source-map-explorer": "^2.5.3",
 		"typescript": "beta",
@@ -137,5 +141,6 @@
 		"react-native": "^0.74.0",
 		"react-native-svg": "^15.2.0"
 	},
-	"private": true
+	"private": true,
+	"prettier": "@mychat/prettier-config"
 }

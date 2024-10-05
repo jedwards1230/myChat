@@ -1,5 +1,4 @@
 import { View } from "react-native";
-
 import ModalWrapper from "@/components/ui/Modal";
 import { Text } from "@/components/ui/Text";
 import { useAgentsQuery } from "@/hooks/fetchers/Agent/useAgentsQuery";

@@ -1,11 +1,11 @@
-import { View } from "react-native";
-
 import type { Message } from "@/types";
+import { View } from "react-native";
 import Markdown from "@/components/Markdown/Markdown";
+
 import { useGroupStore } from "../GroupStore";
-import { ToolCallMessage } from "./MessageTypes/ToolMessage";
 import { FileMessageGroup } from "./FileMessageGroup";
 import { EditableMessage } from "./MessageTypes/EditableMessage";
+import { ToolCallMessage } from "./MessageTypes/ToolMessage";
 
 export function MessageFilter({
 	message,

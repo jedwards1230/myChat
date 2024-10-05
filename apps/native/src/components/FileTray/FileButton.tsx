@@ -1,11 +1,11 @@
-import { useRouter } from "expo-router";
 import React, { useState } from "react";
-import { View, Pressable } from "react-native";
-
-import { cn } from "@/lib/utils";
+import { Pressable, View } from "react-native";
+import { useRouter } from "expo-router";
 import { Text } from "@/components/ui/Text";
-import { RemoveFileButton } from "./DeleteButton";
+import { cn } from "@/lib/utils";
+
 import type { FileData } from "../FileRouter";
+import { RemoveFileButton } from "./DeleteButton";
 
 export function FileButton({ data: { file } }: { data: FileData }) {
 	const [pressed, setPressed] = useState(false);
@@ -18,11 +18,11 @@ export function FileButton({ data: { file } }: { data: FileData }) {
 				onPress={() => router.push(`/file/${file.name}`)}
 				onPressOut={() => setPressed(false)}
 				className={cn(
-					"transition-all rounded-lg bg-background hover:bg-foreground/20",
-					pressed && "bg-foreground/20"
+					"rounded-lg bg-background transition-all hover:bg-foreground/20",
+					pressed && "bg-foreground/20",
 				)}
 			>
-				<Text className="px-4 py-2 border-2 rounded border-border text-foreground">
+				<Text className="rounded border-2 border-border px-4 py-2 text-foreground">
 					{file.name}
 				</Text>
 			</Pressable>

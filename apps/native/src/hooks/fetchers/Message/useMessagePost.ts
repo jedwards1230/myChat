@@ -1,11 +1,12 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 import type {
-	MessageCreateSchema,
 	MessageObjectSchema as Message,
+	MessageCreateSchema,
 } from "@mychat/shared/schemas/Message";
+
 import { messagesQueryOptions } from "./useMessagesQuery";
 
 export type PostMessageOptions = {
@@ -48,7 +49,7 @@ export const useMessagePost = () => {
 			if (threadId && context?.prevMessages)
 				queryClient.setQueryData(
 					messagesQueryOptions(apiKey, threadId).queryKey,
-					context?.prevMessages
+					context?.prevMessages,
 				);
 			console.error(error);
 		},

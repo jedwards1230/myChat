@@ -1,37 +1,47 @@
 {
 	"$schema": "https://turborepo.org/schema.json",
 	"pipeline": {
-		"lint": {
-			"outputs": []
-		},
-		"tsc": {
-			"dependsOn": ["^lint", "lint", "^tsc"],
-			"inputs": ["**/*.{ts,tsx}"],
-			"outputs": []
-		},
 		"test": {
 			"inputs": ["**/*.{ts,tsx,js,jsx}"]
 		},
-		"migration:run": {
+		"migrate": {
 			"dependsOn": ["tsc"],
 			"outputs": []
 		},
 		"build": {
-			"dependsOn": ["^tsc", "tsc", "^build"],
+			"dependsOn": ["tsc", "^build"],
 			"outputs": ["node_modules/.cache/metro/**"]
 		},
 		"dev": {
-			"dependsOn": ["^build", "migration:run"],
+			"dependsOn": ["^build", "migrate"],
 			"cache": false,
 			"interactive": true,
 			"persistent": true
 		},
+		"format": {
+			"outputs": ["node_modules/.cache/.prettiercache"],
+			"outputMode": "new-only"
+		},
+		"lint": {
+			"dependsOn": ["^build"],
+			"outputs": ["node_modules/.cache/.eslintcache"]
+		},
+		"tsc": {
+			"dependsOn": ["^build", "^lint", "lint", "^tsc"],
+			"inputs": ["**/*.{ts,tsx}"],
+			"outputs": ["node_modules/.cache/tsbuildinfo.json"]
+		},
 		"start": {
-			"dependsOn": ["^build", "migration:run"]
+			"dependsOn": ["^build", "migrate"]
 		},
 		"start:prod": {
-			"dependsOn": ["^build", "migration:run"]
+			"dependsOn": ["^build", "migrate"]
 		},
-		"clean": {}
+		"clean": {
+			"cache": false
+		},
+		"//#clean": {
+			"cache": false
+		}
 	}
 }

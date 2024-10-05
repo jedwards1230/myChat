@@ -1,13 +1,13 @@
 "use client";
 
-import { ThemeProvider as BaseProvider, type Theme } from "@react-navigation/native";
+import type { Theme } from "@react-navigation/native";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { Platform, View } from "react-native";
 import { SplashScreen } from "expo-router";
-
+import { useConfigStore } from "@/hooks/stores/configStore";
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { NAV_THEME } from "@/lib/constants/ReactNavTheme";
-import { useConfigStore } from "@/hooks/stores/configStore";
+import { ThemeProvider as BaseProvider } from "@react-navigation/native";
 
 const LIGHT_THEME: Theme = {
 	dark: false,
@@ -76,7 +76,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
 			<BaseProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
 				<View
 					style={themeStyles}
-					className="flex-1 text-base bg-background text-foreground"
+					className="flex-1 bg-background text-base text-foreground"
 				>
 					{children}
 				</View>

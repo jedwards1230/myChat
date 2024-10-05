@@ -1,5 +1,5 @@
-import AgentModal from "@/views/agent/AgentModal";
 import { useConfigStore } from "@/hooks/stores/configStore";
+import AgentModal from "@/views/agent/AgentModal";
 
 export default function AgentPage() {
 	const defaultAgent = useConfigStore.use.defaultAgent();

@@ -1,6 +1,3 @@
-import * as React from "react";
-import { Pressable, Text, View, type GestureResponderEvent } from "react-native";
-import * as Slot from "@/components/primitives/slot";
 import type {
 	PressableRef,
 	SlottablePressableProps,
@@ -9,6 +6,11 @@ import type {
 	TextRef,
 	ViewRef,
 } from "@/components/primitives/types";
+import type { GestureResponderEvent } from "react-native";
+import * as React from "react";
+import { Pressable, Text, View } from "react-native";
+import * as Slot from "@/components/primitives/slot";
+
 import type { ToastRootProps } from "./types";
 
 interface RootContext extends ToastRootProps {
@@ -42,7 +44,7 @@ const Root = React.forwardRef<ViewRef, SlottableViewProps & ToastRootProps>(
 				/>
 			</ToastContext.Provider>
 		);
-	}
+	},
 );
 
 Root.displayName = "RootToast";
@@ -51,7 +53,7 @@ function useToastContext() {
 	const context = React.useContext(ToastContext);
 	if (!context) {
 		throw new Error(
-			"Toast compound components cannot be rendered outside the Toast component"
+			"Toast compound components cannot be rendered outside the Toast component",
 		);
 	}
 	return context;
@@ -78,7 +80,7 @@ const Close = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Close.displayName = "CloseToast";
@@ -104,7 +106,7 @@ const Action = React.forwardRef<PressableRef, SlottablePressableProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Action.displayName = "ActionToast";
@@ -122,7 +124,7 @@ const Title = React.forwardRef<TextRef, SlottableTextProps>(
 				{...props}
 			/>
 		);
-	}
+	},
 );
 
 Title.displayName = "TitleToast";
@@ -133,7 +135,7 @@ const Description = React.forwardRef<TextRef, SlottableTextProps>(
 
 		const Component = asChild ? Slot.Text : Text;
 		return <Component ref={ref} nativeID={`${nativeID}_desc`} {...props} />;
-	}
+	},
 );
 
 Description.displayName = "DescriptionToast";

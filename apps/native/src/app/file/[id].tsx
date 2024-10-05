@@ -1,5 +1,4 @@
 import { useLocalSearchParams } from "expo-router";
-
 import FileModal from "@/views/file/FileModal";
 
 export default function FilePage() {

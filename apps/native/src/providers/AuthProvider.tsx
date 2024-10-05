@@ -1,10 +1,9 @@
-import Toast from "react-native-toast-message";
-import { useIsRestoring } from "@tanstack/react-query";
 import { useEffect } from "react";
-
-import { isFetchError } from "@/lib/fetcher";
+import Toast from "react-native-toast-message";
 import { useUserQuery, useUserSessionQuery } from "@/hooks/fetchers/User/useUserQuery";
 import { useUserData } from "@/hooks/stores/useUserData";
+import { isFetchError } from "@/lib/fetcher";
+import { useIsRestoring } from "@tanstack/react-query";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const { session, setSession, setUser } = useUserData();

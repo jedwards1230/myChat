@@ -5,7 +5,7 @@ export type AuthParams = [url: string, userId: string];
 class FetchError extends Error {
 	constructor(
 		public res: Response | XMLHttpRequest | Error,
-		message?: string
+		message?: string,
 	) {
 		super(message);
 		this.name = "FetchError";
@@ -60,7 +60,7 @@ export async function fetcher<T = any>(
 	{ stream, file, apiKey, ...init }: FetcherRequestInit = {
 		stream: false,
 		file: false,
-	}
+	},
 ): Promise<T> {
 	try {
 		const res = await fetch(BASE_HOST + url, {

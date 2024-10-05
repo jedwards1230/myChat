@@ -29,5 +29,5 @@ export const useGroupStore = createSelectors(
 		setLoading: (messageId) => set({ loadingMessageId: messageId }),
 		isLoading: (messageId) => get().loadingMessageId === messageId,
 		reset: () => set(initial),
-	}))
+	})),
 );

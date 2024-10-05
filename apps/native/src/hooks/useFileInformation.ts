@@ -1,8 +1,8 @@
-import { useEffect, useMemo, useState } from "react";
-
 import type { MessageFile } from "@/types";
-import { useFileSuspenseQuery } from "@/hooks/fetchers/Message/useFileQuery";
 import type { DocumentPickerAsset } from "expo-document-picker";
+import { useEffect, useMemo, useState } from "react";
+import { useFileSuspenseQuery } from "@/hooks/fetchers/Message/useFileQuery";
+
 import { useFilesSuspenseQuery } from "./fetchers/Message/useFilesQuery";
 
 export function useFilesInformation({ threadId, messageId }: MessageQueryOpts) {
@@ -12,7 +12,7 @@ export function useFilesInformation({ threadId, messageId }: MessageQueryOpts) {
 			filesData && filesData.length
 				? filesData.map((file) => toFileInformation(file))
 				: [],
-		[filesData]
+		[filesData],
 	);
 }
 
@@ -46,7 +46,7 @@ export function useFileInformation({ threadId, messageId, fileId }: FileQueryOpt
 
 export function toFileInformation<T extends MessageFile | DocumentPickerAsset>(
 	file: T,
-	id?: number
+	id?: number,
 ): FileInformation {
 	if (isLocalFile(file)) {
 		const extension = file.name.split(".").pop();
@@ -115,7 +115,7 @@ async function parseLocalFile(asset: DocumentPickerAsset, id: number) {
 }
 
 async function getMessageFileBuffer(
-	data: MessageFile
+	data: MessageFile,
 ): Promise<ArrayBufferLike | undefined> {
 	if (data && data.fileData && data.fileData.blob && "data" in data.fileData.blob) {
 		return new Uint8Array((data.fileData.blob as any).data).buffer;
@@ -123,7 +123,7 @@ async function getMessageFileBuffer(
 }
 
 async function getCacheFileBuffer(
-	file: DocumentPickerAsset
+	file: DocumentPickerAsset,
 ): Promise<ArrayBufferLike | undefined> {
 	if (file.file && file.file.arrayBuffer) {
 		const buffer = await file.file.arrayBuffer();
@@ -132,7 +132,7 @@ async function getCacheFileBuffer(
 }
 
 function isLocalFile(
-	file: DocumentPickerAsset | MessageFile
+	file: DocumentPickerAsset | MessageFile,
 ): file is DocumentPickerAsset {
 	return "uri" in file;
 }

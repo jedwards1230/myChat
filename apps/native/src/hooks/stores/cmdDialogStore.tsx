@@ -1,5 +1,5 @@
-import { create } from "zustand";
 import { createSelectors } from "@/lib/zustand";
+import { create } from "zustand";
 
 type State = { isOpen: boolean };
 
@@ -14,5 +14,5 @@ export const useCmdDialog = createSelectors(
 		...initialState,
 		toggleDialog: () => set((s) => ({ isOpen: !s.isOpen })),
 		setOpen: (isOpen) => set({ isOpen }),
-	}))
+	})),
 );

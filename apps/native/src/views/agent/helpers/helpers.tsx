@@ -1,8 +1,8 @@
-import { View } from "react-native";
-
 import type { Agent } from "@/types";
-import { Text } from "@/components/ui/Text";
+import { View } from "react-native";
 import { RowItem, Section, SectionBlock } from "@/components/ui/Section";
+import { Text } from "@/components/ui/Text";
+
 import { ModelSelector } from "./ModelSelector.web";
 
 const SecondaryInfo = ({ children }: { children: React.ReactNode }) => {

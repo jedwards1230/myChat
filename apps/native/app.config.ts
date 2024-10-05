@@ -4,13 +4,10 @@ const OWNER = process.env.OWNER;
 const PROJECT_ID = process.env.PROJECT_ID;
 
 const IS_PROD =
-	process.env.APP_VARIANT === "production" ||
-	process.env.APP_VARIANT === "preview";
+	process.env.APP_VARIANT === "production" || process.env.APP_VARIANT === "preview";
 
 const PACKAGE_NAME = IS_PROD ? "myChat" : "myChat-dev";
-const PACKAGE_BUNDLE = IS_PROD
-	? "com.project.myChat"
-	: "com.project.myChat.dev";
+const PACKAGE_BUNDLE = IS_PROD ? "com.project.myChat" : "com.project.myChat.dev";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
 	...config,
@@ -33,8 +30,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
 		privacyManifests: {
 			NSPrivacyAccessedAPITypes: [
 				{
-					NSPrivacyAccessedAPIType:
-						"NSPrivacyAccessedAPICategoryUserDefaults",
+					NSPrivacyAccessedAPIType: "NSPrivacyAccessedAPICategoryUserDefaults",
 					NSPrivacyAccessedAPITypeReasons: ["CA92.1"],
 				},
 			],

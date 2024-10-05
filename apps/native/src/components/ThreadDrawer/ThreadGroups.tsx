@@ -1,9 +1,9 @@
-import { View } from "react-native";
-
-import { ThreadButton } from "./ThreadButton/ThreadButton";
 import type { Thread } from "@/types";
 import { useMemo } from "react";
+import { View } from "react-native";
+
 import { Label } from "../ui/Label";
+import { ThreadButton } from "./ThreadButton/ThreadButton";
 
 type ThreadGroup = {
 	label: string;
@@ -13,7 +13,7 @@ type ThreadGroup = {
 export const ThreadGroup = ({ group: { label, threads } }: { group: ThreadGroup }) => (
 	<View>
 		<Label
-			className="pl-1 mb-1 mt-2 !text-xs text-foreground/75"
+			className="mb-1 mt-2 pl-1 !text-xs text-foreground/75"
 			id={"group-label-" + label}
 		>
 			{label}
@@ -43,7 +43,7 @@ export function useThreadGroups(threads: Thread[] = []): ThreadGroup[] {
 		const now = Date.now();
 		for (const thread of threads) {
 			const diffInDays = Math.floor(
-				(now - new Date(thread.lastModified).getTime()) / (1000 * 60 * 60 * 24)
+				(now - new Date(thread.lastModified).getTime()) / (1000 * 60 * 60 * 24),
 			);
 
 			for (let i = 0; i < labels.length; i++) {

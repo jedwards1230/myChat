@@ -1,13 +1,11 @@
-import * as React from "react";
 import type { ComponentType } from "react";
-import { type TextStyle, View } from "react-native";
-import { vscDarkPlus, vs } from "react-syntax-highlighter/dist/esm/styles/prism";
-import {
-	PrismAsync as Highlighter,
-	type SyntaxHighlighterProps as DefaultProps,
-} from "react-syntax-highlighter";
-
+import type { TextStyle } from "react-native";
+import type { SyntaxHighlighterProps as DefaultProps } from "react-syntax-highlighter";
+import * as React from "react";
+import { View } from "react-native";
 import { Text } from "@/components/ui/Text";
+import { PrismAsync as Highlighter } from "react-syntax-highlighter";
+import { vs, vscDarkPlus } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 type Node = {
 	children?: Node[];
@@ -28,11 +26,11 @@ type RendererParams = {
 type SyntaxHighlighterProps = DefaultProps & { colorScheme: "light" | "dark" };
 
 export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> = (
-	props
+	props,
 ) => {
 	const colorScheme = props.colorScheme;
 	const theme = Object.entries(
-		(colorScheme === "light" ? vs : vscDarkPlus) as StyleSheet
+		(colorScheme === "light" ? vs : vscDarkPlus) as StyleSheet,
 	);
 
 	const cleanStyle = (style: TextStyle): TextStyle => ({
@@ -41,7 +39,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 	});
 
 	const stylesheet: StyleSheet = Object.fromEntries(
-		theme.map(([className, style]) => [className, cleanStyle(style)])
+		theme.map(([className, style]) => [className, cleanStyle(style)]),
 	);
 
 	const renderNode = (nodes: Node[], key = "0") =>
@@ -56,13 +54,13 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 							style={properties.map((c) => stylesheet[c])}
 						>
 							{renderNode(node.children, `${key}.${index}`)}
-						</Text>
+						</Text>,
 					);
 				} else {
 					acc.push(
 						<Text className="h-6" key={`${key}.${index}`}>
 							{renderNode(node.children, `${key}.${index}`)}
-						</Text>
+						</Text>,
 					);
 				}
 			}
@@ -73,7 +71,7 @@ export const SyntaxHighlighter: React.FunctionComponent<SyntaxHighlighterProps> 
 		}, []);
 
 	const nativeRenderer = ({ rows }: RendererParams) => (
-		<View className="!p-4 flex-shrink rounded-b-md min-w-full !bg-accent overflow-x-auto">
+		<View className="min-w-full flex-shrink overflow-x-auto rounded-b-md !bg-accent !p-4">
 			{renderNode(rows)}
 		</View>
 	);

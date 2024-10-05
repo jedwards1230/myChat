@@ -1,14 +1,13 @@
-import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-
-import { useUserData } from "@/hooks/stores/useUserData";
 import type { AgentTool, ToolName } from "@/types";
+import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 /** Fetch agent by ID */
 export const agentToolQueryOptions = (
 	apiKey: string,
 	agentId: string,
-	toolId: string
+	toolId: string,
 ) => {
 	return queryOptions({
 		queryKey: ["agentTool", agentId, toolId, apiKey],

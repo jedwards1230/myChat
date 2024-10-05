@@ -1,8 +1,7 @@
-import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
-
 import type { User, UserSession } from "@/types";
 import { useUserData } from "@/hooks/stores/useUserData";
 import { fetcher } from "@/lib/fetcher";
+import { queryOptions, useQuery, useSuspenseQuery } from "@tanstack/react-query";
 
 export const userQueryOptions = (apiKey: string) => {
 	return queryOptions({
