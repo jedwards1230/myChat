@@ -1,8 +1,9 @@
 import type { RunnableToolFunction } from "openai/lib/RunnableFunction.mjs";
 import { chromium } from "playwright";
 
-import type { LLMTool } from "../types";
 import type { MessageObjectSchema } from "@mychat/shared/schemas/Message";
+
+import type { LLMTool } from "../types";
 
 type MClickProps = { ids: string[] };
 type MClickResult = { url: string; content: string };
@@ -29,7 +30,7 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 			(m) =>
 				m.role === "assistant" &&
 				m.tool_calls &&
-				m.tool_calls.find((tc) => tc.function?.name === "search")
+				m.tool_calls.find((tc) => tc.function?.name === "search"),
 		)
 		.pop() as MessageObjectSchema;
 	if (!asstMsg || !asstMsg.tool_calls) throw new Error("No assistant message found");
@@ -41,7 +42,7 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 	if (!toolCalls) throw new Error("No tool calls found");
 
 	const searchResultsMsg = runner.messages.find(
-		(m) => m.role === "tool" && m.tool_call_id === toolCalls.id
+		(m) => m.role === "tool" && m.tool_call_id === toolCalls.id,
 	);
 	if (
 		!searchResultsMsg ||
@@ -73,7 +74,7 @@ const mclick: LLMTool<MClickProps>["tool"] = async ({ ids }, runner) => {
 				url,
 				content: content.replace(/\s+/g, " ").replace(/Header:.*?Footer:/s, ""),
 			};
-		})
+		}),
 	);
 
 	await browser.close();

@@ -1,3 +1,4 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
 	Column,
@@ -6,7 +7,6 @@ import {
 	OneToOne,
 	PrimaryColumn,
 	VersionColumn,
-	type Relation,
 } from "typeorm";
 
 import { Message } from "./Message";

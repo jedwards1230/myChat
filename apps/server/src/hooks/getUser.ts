@@ -1,5 +1,4 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
 

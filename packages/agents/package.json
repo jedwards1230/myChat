@@ -6,6 +6,14 @@
 		".": "./src/index.ts",
 		"./*": "./src/*.ts"
 	},
+	"scripts": {
+		"clean": "rm -rf logs .turbo",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"npm-check": "npm-check",
+		"test": "jest",
+		"tsc": "tsc"
+	},
 	"dependencies": {
 		"@mychat/logger": "workspace:*",
 		"@mychat/shared": "workspace:*",
@@ -18,12 +26,8 @@
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.2.0",
+		"npm-check": "^6.0.1",
+		"prettier": "^3.2.5",
 		"typescript": "beta"
-	},
-	"scripts": {
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
-		"test": "jest",
-		"tsc": "tsc",
-		"clean": "rm -rf logs .turbo"
 	}
 }

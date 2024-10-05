@@ -15,16 +15,20 @@
 		"./schemas/models": "./src/schemas/models/index.ts"
 	},
 	"scripts": {
+		"clean": "rm -rf .turbo",
 		"dev": "tsc --watch",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
 		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"npm-check": "npm-check",
 		"test": "jest",
-		"tsc": "tsc",
-		"clean": "rm -rf .turbo"
+		"tsc": "tsc"
 	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
 		"eslint": "^9.2.0",
+		"npm-check": "^6.0.1",
+		"prettier": "^3.2.5",
 		"typescript": "beta"
 	},
 	"dependencies": {

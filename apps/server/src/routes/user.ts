@@ -1,11 +1,11 @@
 import type { FastifyInstance } from "fastify";
-
-import { logger } from "@/lib/logger";
 import { getUser } from "@/hooks/getUser";
-import { AuthInputSchema, UserSchema } from "@mychat/shared/schemas/User";
-import { UserSessionSchema } from "@mychat/shared/schemas/Session";
-import { UserSession } from "@mychat/db/entity/Session";
+import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+
+import { UserSession } from "@mychat/db/entity/Session";
+import { UserSessionSchema } from "@mychat/shared/schemas/Session";
+import { AuthInputSchema, UserSchema } from "@mychat/shared/schemas/User";
 
 export async function setupUserRoute(app: FastifyInstance) {
 	app.post("/user", {

@@ -1,15 +1,15 @@
 import type { FastifyInstance } from "fastify";
+import { getAgent } from "@/hooks/getAgent";
+import { AgentController } from "@/modules/AgentController";
+import { AgentToolController } from "@/modules/AgentToolController";
 
 import {
 	AgentCreateSchema,
-	AgentObjectSchema,
 	AgentObjectListSchema,
+	AgentObjectSchema,
 	AgentUpdateSchema,
 } from "@mychat/shared/schemas/Agent";
 import { AgentToolSchema } from "@mychat/shared/schemas/AgentTool";
-import { AgentController } from "@/modules/AgentController";
-import { getAgent } from "@/hooks/getAgent";
-import { AgentToolController } from "@/modules/AgentToolController";
 
 export async function setupAgentsRoute(app: FastifyInstance) {
 	// POST Create a new agent
@@ -41,7 +41,7 @@ export async function setupAgentsRoute(app: FastifyInstance) {
 					messages: { parent: true, children: true },
 				},
 				owner: true,
-			})
+			}),
 		);
 
 		// GET Agent by ID

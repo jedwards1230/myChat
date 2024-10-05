@@ -1,4 +1,5 @@
-import { In, type DataSource } from "typeorm";
+import type { DataSource } from "typeorm";
+import { In } from "typeorm";
 
 import { MessageFile } from "../entity/MessageFile";
 import { logger } from "../logger";

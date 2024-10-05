@@ -1,6 +1,7 @@
+import type { ToolConfig } from "./types";
 import { Browser } from "./browser";
 import { Fetcher } from "./fetcher";
-import type { ToolConfig } from "./types";
+
 export * from "./types";
 
 export const Tools = [Browser, Fetcher] as const satisfies ToolConfig[];

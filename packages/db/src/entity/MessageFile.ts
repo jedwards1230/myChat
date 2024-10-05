@@ -1,3 +1,4 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
 	Column,
@@ -7,12 +8,11 @@ import {
 	ManyToOne,
 	OneToOne,
 	PrimaryGeneratedColumn,
-	type Relation,
 } from "typeorm";
 
-import { Message } from "./Message";
-
 import type { MessageFileObjectSchema } from "@mychat/shared/schemas/MessageFile";
+
+import { Message } from "./Message";
 
 @Entity("FileData")
 export class FileData extends BaseEntity {

@@ -1,23 +1,20 @@
+import type { PreppedFile } from "@/modules/MessageFileController";
+import { logger } from "@/lib/logger";
 import { Equal } from "typeorm";
 
 import tokenizer from "@mychat/agents/tokenizer";
-import { logger } from "@/lib/logger";
-
-import type { PreppedFile } from "@/modules/MessageFileController";
-
-import { AppDataSource } from "@mychat/db/index";
-import { User } from "@mychat/db/entity/User";
 import { Agent } from "@mychat/db/entity/Agent";
-import { Thread } from "@mychat/db/entity/Thread";
-import { Message } from "@mychat/db/entity/Message";
-import { EmbedItem } from "@mychat/db/entity/Document";
-import { FileData, MessageFile } from "@mychat/db/entity/MessageFile";
-import { ToolCall } from "@mychat/db/entity/ToolCall";
-import { UserSession } from "@mychat/db/entity/Session";
 import { AgentTool } from "@mychat/db/entity/AgentTool";
-
-import { extendedDocumentRepo } from "@mychat/db/repository/DocumentRepo";
+import { EmbedItem } from "@mychat/db/entity/Document";
+import { Message } from "@mychat/db/entity/Message";
+import { FileData, MessageFile } from "@mychat/db/entity/MessageFile";
+import { UserSession } from "@mychat/db/entity/Session";
+import { Thread } from "@mychat/db/entity/Thread";
+import { ToolCall } from "@mychat/db/entity/ToolCall";
+import { User } from "@mychat/db/entity/User";
+import { AppDataSource } from "@mychat/db/index";
 import { extendedAgentRunRepo } from "@mychat/db/repository/AgentRun";
+import { extendedDocumentRepo } from "@mychat/db/repository/DocumentRepo";
 import { extendedMessageRepo } from "@mychat/db/repository/Message";
 import { extendedMessageFileRepo } from "@mychat/db/repository/MessageFile";
 
@@ -43,7 +40,7 @@ export const pgRepo = {
 
 					if (message.content) {
 						message.tokenCount = tokenizer.estimateTokenCount(
-							message.content
+							message.content,
 						);
 					}
 
@@ -110,7 +107,7 @@ export const pgRepo = {
 						});
 
 						return updatedMessage ?? message;
-					}
+					},
 				);
 				return newMsg;
 			} catch (error) {

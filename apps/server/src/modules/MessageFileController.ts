@@ -1,11 +1,10 @@
-import type { FastifyReply, FastifyRequest } from "fastify";
 import type { MultipartFile } from "@fastify/multipart";
-
+import type { FastifyReply, FastifyRequest } from "fastify";
 import { logger } from "@/lib/logger";
-import tokenizer from "@mychat/agents/tokenizer";
 import { pgRepo } from "@/lib/pg";
 
 import type { DocumentMetaParams } from "@mychat/db/repository/DocumentRepo";
+import tokenizer from "@mychat/agents/tokenizer";
 
 export type MessageFileMetadata = {
 	name: string;
@@ -102,7 +101,7 @@ export class MessageFileController {
 
 	private static async saveToVectorStore(
 		files: PreppedFile[],
-		meta: DocumentMetaParams
+		meta: DocumentMetaParams,
 	) {
 		try {
 			pgRepo["Document"].addDocuments(
@@ -121,7 +120,7 @@ export class MessageFileController {
 							type: file.metadata.type,
 						}),
 					},
-				}))
+				})),
 			);
 		} catch (error) {
 			logger.error("Error saving files to vector store", {

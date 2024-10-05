@@ -1,25 +1,25 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
-	Entity,
-	PrimaryGeneratedColumn,
 	Column,
-	ManyToOne,
-	type Relation,
-	OneToMany,
 	CreateDateColumn,
-	VersionColumn,
-	ManyToMany,
+	Entity,
 	JoinTable,
+	ManyToMany,
+	ManyToOne,
+	OneToMany,
+	PrimaryGeneratedColumn,
+	VersionColumn,
 } from "typeorm";
 
-import { User } from "./User";
-import { Thread } from "./Thread";
-import { AgentTool } from "./AgentTool";
-
+import type { ModelApi } from "@mychat/agents/models/index";
 import type { AgentObjectSchema } from "@mychat/shared/schemas/Agent";
-
-import { ChatModelMap, type ModelApi } from "@mychat/agents/models/index";
+import { ChatModelMap } from "@mychat/agents/models/index";
 import { ToolsMap } from "@mychat/agents/tools/index";
+
+import { AgentTool } from "./AgentTool";
+import { Thread } from "./Thread";
+import { User } from "./User";
 
 const defaultAgent: Partial<Agent> = {
 	name: "myChat Agent",

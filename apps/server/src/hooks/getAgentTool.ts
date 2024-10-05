@@ -1,9 +1,9 @@
+import type { FastifyReply, FastifyRequest } from "fastify";
 import type { FindOneOptions } from "typeorm";
-import type { FastifyRequest, FastifyReply } from "fastify";
-
 import { logger } from "@/lib/logger";
-import type { AgentTool } from "@mychat/db/entity/AgentTool";
 import { pgRepo } from "@/lib/pg";
+
+import type { AgentTool } from "@mychat/db/entity/AgentTool";
 
 export function getAgentTool(relations?: FindOneOptions<AgentTool>["relations"]) {
 	return async function getAgent(request: FastifyRequest, reply: FastifyReply) {

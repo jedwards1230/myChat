@@ -1,9 +1,10 @@
 import { logger } from "@/lib/logger";
-import { LLMNexusController } from "./LLMNexusController";
+import { pgRepo } from "@/lib/pg";
+import MessageQueue from "@/lib/queue";
+
 import type { AgentRun } from "@mychat/db/entity/AgentRun";
 
-import MessageQueue from "@/lib/queue";
-import { pgRepo } from "@/lib/pg";
+import { LLMNexusController } from "./LLMNexusController";
 
 export type AddMessageQueue = MessageQueue<AgentRun>;
 

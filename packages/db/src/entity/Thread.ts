@@ -1,24 +1,24 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
-	Entity,
-	PrimaryGeneratedColumn,
 	Column,
-	ManyToOne,
-	JoinColumn,
-	OneToOne,
-	OneToMany,
-	type Relation,
 	CreateDateColumn,
+	Entity,
+	JoinColumn,
+	ManyToOne,
+	OneToMany,
+	OneToOne,
+	PrimaryGeneratedColumn,
 	UpdateDateColumn,
 	VersionColumn,
 } from "typeorm";
 
-import { User } from "./User";
-import { Agent } from "./Agent";
-import { Message } from "./Message";
-import { DatabaseDocument } from "./Document";
-
 import type { ThreadSchema } from "@mychat/shared/schemas/Thread";
+
+import { Agent } from "./Agent";
+import { DatabaseDocument } from "./Document";
+import { Message } from "./Message";
+import { User } from "./User";
 
 @Entity("Thread")
 export class Thread extends BaseEntity {

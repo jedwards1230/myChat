@@ -1,22 +1,18 @@
-import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
-import type { ChatCompletion } from "openai/resources/index.mjs";
 import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
-
+import type { ChatCompletion } from "openai/resources/index.mjs";
 import { chatResponseEmitter } from "@/lib/events";
+import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+import { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 
-import { StreamResponseController } from "./StreamResponseController";
-
+import type { ChatOptions, LLMNexus } from "@mychat/agents/LLMInterface";
 import type { AgentRun, AgentRunStatus } from "@mychat/db/entity/AgentRun";
 import type { Message } from "@mychat/db/entity/Message";
 import type { Thread } from "@mychat/db/entity/Thread";
 import type { Role } from "@mychat/shared/schemas/Message";
-import { logger } from "@/lib/logger";
-import {
-	NexusServiceRegistry,
-	type LLMNexus,
-	type ChatOptions,
-} from "@mychat/agents/LLMInterface";
+import { NexusServiceRegistry } from "@mychat/agents/LLMInterface";
+
+import { StreamResponseController } from "./StreamResponseController";
 
 export class LLMNexusController {
 	/**
@@ -88,7 +84,7 @@ export class LLMNexusController {
 
 			const completion = await llmServce.createChatCompletion(
 				messages.map((m) => m.toJSON()),
-				opts
+				opts,
 			);
 			return completion;
 		} catch (error) {
@@ -102,7 +98,7 @@ export class LLMNexusController {
 
 	private static async saveResponse(
 		agentRun: AgentRun,
-		response: ChatCompletionStream | ChatCompletion
+		response: ChatCompletionStream | ChatCompletion,
 	) {
 		try {
 			if (response instanceof ChatCompletionStream) {
@@ -122,7 +118,7 @@ export class LLMNexusController {
 
 	private static async saveStreamResponse(
 		agentRun: AgentRun,
-		response: ChatCompletionStream
+		response: ChatCompletionStream,
 	) {
 		try {
 			chatResponseEmitter.emit("responseStreamReady", {
@@ -142,7 +138,7 @@ export class LLMNexusController {
 
 				await pgRepo["AgentRun"].update(
 					{ id: agentRun.id },
-					{ status: "cancelled" }
+					{ status: "cancelled" },
 				);
 			});
 

@@ -8,6 +8,20 @@
 		"./*": "./src/*.ts",
 		"./entity/*": "./src/entity/*.ts"
 	},
+	"scripts": {
+		"clean": "rm -rf logs .turbo",
+		"format": "prettier --check . --ignore-path ../../.gitignore",
+		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
+		"migration:generate": "yarn typeorm migration:generate ./src/migration/$NAME",
+		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$NAME",
+		"migration:show": "yarn typeorm migration:show",
+		"migration:run": "yarn typeorm migration:run",
+		"npm-check": "npm-check",
+		"start": "node --loader ts-node/esm src/index.ts",
+		"test": "jest",
+		"tsc": "tsc",
+		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts"
+	},
 	"devDependencies": {
 		"@mychat/eslint-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
@@ -20,22 +34,12 @@
 		"@mychat/agents": "workspace:^",
 		"@mychat/logger": "workspace:^",
 		"@mychat/shared": "workspace:*",
+		"npm-check": "^6.0.1",
 		"openai": "^4.47.1",
 		"pg": "^8.11.5",
 		"pgvector": "^0.1.8",
+		"prettier": "^3.2.5",
 		"reflect-metadata": "^0.2.2",
 		"typeorm": "0.3.20"
-	},
-	"scripts": {
-		"start": "node --loader ts-node/esm src/index.ts",
-		"migration:generate": "yarn typeorm migration:generate ./src/migration/$NAME",
-		"migration:create": "typeorm-ts-node-commonjs migration:create ./src/migration/$NAME",
-		"migration:show": "yarn typeorm migration:show",
-		"migration:run": "yarn typeorm migration:run",
-		"typeorm": "typeorm-ts-node-commonjs -d src/data-source.ts",
-		"lint": "ESLINT_USE_FLAT_CONFIG=false eslint . -c eslint.config.cjs",
-		"test": "jest",
-		"tsc": "tsc",
-		"clean": "rm -rf logs .turbo"
 	}
 }

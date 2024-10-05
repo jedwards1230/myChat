@@ -1,14 +1,13 @@
+import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
+import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
 import type { ChatCompletionStreamingRunner } from "openai/lib/ChatCompletionStreamingRunner.mjs";
 import type { ChatCompletion } from "openai/resources/index.mjs";
-import type { ChatCompletionStream } from "openai/lib/ChatCompletionStream.mjs";
-import type { ChatCompletionRunner } from "openai/lib/ChatCompletionRunner.mjs";
 
+import type { ModelApi } from "@mychat/agents/models/types";
+import type { ToolConfig } from "@mychat/agents/tools/types";
 import type { MessageObjectSchema as Message } from "@mychat/shared/schemas/Message";
 import type { ChatModel } from "@mychat/shared/schemas/models";
-
 import { OpenAIService } from "@mychat/agents/providers/openai";
-import type { ToolConfig } from "@mychat/agents/tools/types";
-import type { ModelApi } from "@mychat/agents/models/types";
 
 export type ChatOptions = {
 	tools: ToolConfig[];
@@ -19,19 +18,19 @@ export type ChatOptions = {
 export interface LLMNexus {
 	createChatCompletion(
 		threadMessages: Message[],
-		opts: ChatOptions
+		opts: ChatOptions,
 	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream | ChatCompletion>;
 	createChatCompletionStream(
 		threadMessages: Message[],
-		opts: ChatOptions
+		opts: ChatOptions,
 	): Promise<ChatCompletionStreamingRunner | ChatCompletionStream>;
 	createChatCompletionJSON(
 		threadMessages: Message[],
-		opts: ChatOptions
+		opts: ChatOptions,
 	): Promise<ChatCompletion>;
 	createTitleCompletionJSON(
 		messages: Message[],
-		opts: ChatOptions
+		opts: ChatOptions,
 	): Promise<ChatCompletionRunner>;
 }
 

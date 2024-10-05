@@ -1,5 +1,4 @@
 import type { RunnableToolFunctionWithParse } from "openai/lib/RunnableFunction.mjs";
-
 import type { ChatCompletionNamedToolChoice } from "openai/resources/index.mjs";
 
 async function saveTitle({ title }: { title: string }) {

@@ -1,12 +1,12 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
+import { pgRepo } from "@/lib/pg";
 
 import type { AgentTool } from "@mychat/db/entity/AgentTool";
-import { Tools } from "@mychat/agents/tools/index";
 import type {
 	AgentToolCreateSchema,
 	AgentToolUpdateSchema,
 } from "@mychat/shared/schemas/AgentTool";
-import { pgRepo } from "@/lib/pg";
+import { Tools } from "@mychat/agents/tools/index";
 
 export class AgentToolController {
 	static async createAgentTool(request: FastifyRequest, reply: FastifyReply) {
@@ -23,8 +23,8 @@ export class AgentToolController {
 		reply.send(
 			request.user.agents.reduce(
 				(acc, agent) => [...acc, ...agent.tools],
-				[] as AgentTool[]
-			)
+				[] as AgentTool[],
+			),
 		);
 	}
 

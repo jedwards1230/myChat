@@ -8,10 +8,11 @@ import {
 	PrimaryGeneratedColumn,
 } from "typeorm";
 
-import { User } from "./User";
+import tokenizer from "@mychat/agents/tokenizer";
+
 import { Message } from "./Message";
 import { Thread } from "./Thread";
-import tokenizer from "@mychat/agents/tokenizer";
+import { User } from "./User";
 
 @Entity("embed_item")
 export class EmbedItem extends BaseEntity {

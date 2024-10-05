@@ -1,8 +1,8 @@
 import type { FastifyInstance } from "fastify";
+import { getUser } from "@/hooks/getUser";
 import { z } from "zod";
 
 import { resetDatabase } from "@mychat/db/index";
-import { getUser } from "@/hooks/getUser";
 
 export async function setupServerRoute(app: FastifyInstance) {
 	app.get("/ping", {
@@ -23,7 +23,7 @@ export async function setupServerRoute(app: FastifyInstance) {
 			async (_, res) => {
 				await resetDatabase();
 				return res.send({ ok: true });
-			}
+			},
 		);
 	});
 }

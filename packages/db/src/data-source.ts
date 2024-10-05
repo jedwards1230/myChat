@@ -1,18 +1,18 @@
 import "reflect-metadata";
+
 import { DataSource } from "typeorm";
 
-import { typeormLogger } from "./logger";
-
-import { User } from "./entity/User";
 import { Agent } from "./entity/Agent";
 import { AgentRun } from "./entity/AgentRun";
 import { AgentTool } from "./entity/AgentTool";
-import { EmbedItem, DatabaseDocument } from "./entity/Document";
+import { DatabaseDocument, EmbedItem } from "./entity/Document";
 import { Message } from "./entity/Message";
 import { FileData, MessageFile } from "./entity/MessageFile";
 import { UserSession } from "./entity/Session";
 import { Thread } from "./entity/Thread";
 import { ToolCall } from "./entity/ToolCall";
+import { User } from "./entity/User";
+import { typeormLogger } from "./logger";
 
 export const AppDataSource = new DataSource({
 	type: "postgres",

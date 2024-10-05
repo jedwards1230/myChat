@@ -1,19 +1,19 @@
+import type { Relation } from "typeorm";
 import {
 	BaseEntity,
-	PrimaryGeneratedColumn,
-	CreateDateColumn,
 	Column,
-	VersionColumn,
-	ManyToOne,
-	type Relation,
+	CreateDateColumn,
 	Entity,
 	ManyToMany,
+	ManyToOne,
+	PrimaryGeneratedColumn,
+	VersionColumn,
 } from "typeorm";
+
+import type { ToolConfigUnion, ToolName } from "@mychat/agents/tools/index";
 
 import { Agent } from "./Agent";
 import { User } from "./User";
-
-import type { ToolConfigUnion, ToolName } from "@mychat/agents/tools/index";
 
 @Entity("AgentTool")
 export class AgentTool extends BaseEntity {

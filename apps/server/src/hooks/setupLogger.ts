@@ -1,10 +1,13 @@
-import type { FastifyError, FastifyReply, FastifyRequest } from "fastify";
-import type { FastifyInstance } from "fastify";
-import fastifyPlugin from "fastify-plugin";
+import type {
+	FastifyError,
+	FastifyInstance,
+	FastifyReply,
+	FastifyRequest,
+} from "fastify";
 import type { ResponseValidationError } from "fastify-type-provider-zod";
 import type { ZodError } from "zod";
-
-import { logger, accessLogger as aLogger } from "@/lib/logger";
+import { accessLogger as aLogger, logger } from "@/lib/logger";
+import fastifyPlugin from "fastify-plugin";
 
 type ErrorType<T> = FastifyError & T;
 
@@ -57,6 +60,6 @@ export const setupLogger = fastifyPlugin(async (app: FastifyInstance) => {
 				url: request.url,
 			});
 			return reply.status(409).send(error);
-		}
+		},
 	);
 });

@@ -1,12 +1,12 @@
 import type { FastifyInstance } from "fastify";
-
 import { getThread } from "@/hooks/getThread";
+import { ThreadController } from "@/modules/ThreadController";
+
 import {
-	ThreadSchema,
 	ThreadListSchema,
 	ThreadPatchSchema,
+	ThreadSchema,
 } from "@mychat/shared/schemas/Thread";
-import { ThreadController } from "@/modules/ThreadController";
 
 export async function setupThreadsRoute(app: FastifyInstance) {
 	app.get("/", {
@@ -39,7 +39,7 @@ export async function setupThreadsRoute(app: FastifyInstance) {
 			getThread({
 				activeMessage: true,
 				messages: { parent: true, children: true },
-			})
+			}),
 		);
 
 		app.get("/:threadId", {

@@ -1,9 +1,8 @@
 import type { FastifyReply, FastifyRequest } from "fastify";
-
-import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
-
 import { logger } from "@/lib/logger";
 import { pgRepo } from "@/lib/pg";
+
+import type { MessageCreateSchema, Role } from "@mychat/shared/schemas/Message";
 
 export class MessageController {
 	static async createMessage(request: FastifyRequest, reply: FastifyReply) {
@@ -50,7 +49,7 @@ export class MessageController {
 		const newMsg = await pgRepo["Thread"].addMessage(
 			thread,
 			updatedMessage,
-			message.parent?.id
+			message.parent?.id,
 		);
 
 		await newMsg.reload();
@@ -76,7 +75,7 @@ export class MessageController {
 				message.children.map((child) => {
 					child.parent = message.parent; // Set to the parent of the message being deleted
 					return child.save();
-				})
+				}),
 			);
 		}
 
