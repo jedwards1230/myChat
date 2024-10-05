@@ -6,6 +6,6 @@
 		"*.json"
 	],
 	"devDependencies": {
-		"@tsconfig/recommended": "^1.0.6"
+		"@tsconfig/recommended": "^1.0.7"
 	}
 }

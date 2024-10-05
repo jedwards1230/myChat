@@ -11,7 +11,6 @@
 	"keywords": [],
 	"author": "",
 	"license": "MIT",
-	"packageManager": "yarn@4.2.2",
 	"prettier": "@mychat/prettier-config",
 	"scripts": {
 		"build": "turbo build --cache-dir=.turbo",
@@ -27,10 +26,10 @@
 		"format:fix": "turbo format --continue -- --write --cache --cache-location node_modules/.cache/.prettiercache",
 		"lint": "turbo lint --continue -- --cache --cache-location node_modules/.cache/.eslintcache",
 		"lint:fix": "turbo lint --continue -- --fix --cache --cache-location node_modules/.cache/.eslintcache",
-		"lint:ws": "yarn dlx sherif@latest",
+		"lint:ws": "bunx sherif@latest",
 		"migrate": "turbo migration:run",
 		"npm-check": "npm-check",
-		"postinstall": "yarn lint:ws",
+		"postinstall": "patch-package && bun run lint:ws",
 		"start": "turbo start",
 		"start:prod": "turbo start:prod",
 		"tree": "tree -L 4 . --gitignore --dirsfirst --noreport --charset utf-8",
@@ -43,9 +42,11 @@
 	"devDependencies": {
 		"@mychat/prettier-config": "workspace:*",
 		"@mychat/tsconfig": "workspace:*",
-		"@turbo/gen": "^1.13.3",
+		"@turbo/gen": "^2.1.3",
 		"npm-check": "^6.0.1",
-		"npm-check-updates": "^16.14.20",
-		"turbo": "^1.13.3"
-	}
+		"npm-check-updates": "^17.1.3",
+		"patch-package": "^8.0.0",
+		"turbo": "^2.1.3"
+	},
+	"packageManager": "yarn@1.22.19+sha1.4ba7fc5c6e704fce2066ecbfb0b0d8976fe62447"
 }
